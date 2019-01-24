@@ -1,10 +1,13 @@
 function Install-DX {
     param(
-        $binPath, 
+        [parameter(Mandatory)]
+        [string]$binPath, 
         [parameter(Mandatory)]
         [string[]]$dxSources ,
         [parameter(Mandatory)]
         [string]$sourcePath ,
+        [parameter(Mandatory)]
+        [string]$dxVersion ,
         [string]$packagesFolder = "$binPath\TempDXNupkg"
     )
     $ErrorActionPreference = "Stop"
@@ -14,7 +17,7 @@ function Install-DX {
         Foreach -parallel ($nuget in $psObj.Nugets) { 
             InlineScript {
                 Write-Output "Installing $($Using:nuget.Name) nuget"
-                & nuget Install $Using:nuget.Name -source "$($Using:psObj.Source);https://xpandnugetserver.azurewebsites.net/nuget" -OutputDirectory $Using:psObj.OutputDirectory
+                & nuget Install $Using:nuget.Name -source "$($Using:psObj.Source);https://xpandnugetserver.azurewebsites.net/nuget" -OutputDirectory $Using:psObj.OutputDirectory -Version $Using:psObj.Version
             } 
             $Workflow:complete = $Workflow:complete + 1 
             [int]$percentComplete = ($Workflow:complete * 100) / $Workflow:psObj.Nugets.Count
@@ -30,6 +33,7 @@ function Install-DX {
         OutputDirectory = $(Get-Item $packagesFolder).FullName
         Source          = $dxSources -join ";"
         Nugets          = $nugets
+        Version =$dxVersion
     }
     if ($nugets.Count -eq 0) {
         throw "No nugets found??"
