@@ -10,13 +10,7 @@ queue:
 steps:
 - powershell: |
    Write-output "Importing $(System.DefaultWorkingDirectory)\XpandPosh\XpandPosh.psd1"
-   Get-ChildItem *.psm1 -Recurse|foreach{
-      $_.FullName
-      Import-Module $_.FullName -verbose -Scope CurrentUser
-      Write-Output "Checking import"
-      Get-Module XpandPosh -ListAvailable -verbose 
-      #Publish-Module -Name XpandPosh -NugetApiKey $(PSNugetApiKey)
-   }
+   Publish-Module -Path $(System.DefaultWorkingDirectory)\XpandPosh -verbose -NugetApiKey $(PSNugetApiKey) 
    
   displayName: 'Build'
   failOnStderr: true
