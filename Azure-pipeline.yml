@@ -1,7 +1,4 @@
 # https://aka.ms/yaml
-resources:
-- repo: self
-trigger: none
 queue:
   name: Hosted VS2017
   demands: 
@@ -9,15 +6,7 @@ queue:
   - visualstudio
 steps:
 - powershell: |
-   Write-output "Importing $(System.DefaultWorkingDirectory)\XpandPosh\XpandPosh.psm1"
-   Get-ChildItem *.psm1 -Recurse|foreach{
-      $_.FullName
-      Import-Module $_.FullName
-      Write-Output "Checking import"
-      Get-Module XpandPosh -ListAvailable
-      Publish-Module -Name XpandPosh -NugetApiKey $(PSNugetApiKey)
-   }
-   
-  displayName: 'Build'
+   Publish-Module -Path $(System.DefaultWorkingDirectory)\XpandPosh -verbose -NugetApiKey $(PSNugetApiKey) -ErrorAction Stop
+  displayName: 'Publish'
   failOnStderr: true
 
