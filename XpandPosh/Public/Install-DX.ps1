@@ -60,7 +60,7 @@ function CollectNuget($assemblyName){
         elseif ($assemblyName -like "*XtraChart*") {
             if ($assemblyName -like "*Wizard*" -or $assemblyName -like "*Extenions*" -or $assemblyName -like "*UI*") {
                 [PSCustomObject]@{
-                    Name = "DevExpress.Win.Charts"
+                    Name = "DevExpress.Win"
                     Version=$dxVersion
                 }
             }
@@ -240,7 +240,11 @@ function Get-DXNugets {
                 $assemblyName = $assemblyName.Substring(0, $commaIndex)
             }
             write-output "Matching $assemblyName.."
-            CollectNuget $assemblyName
+            if ($assemblyName -like "*Charts*"){
+                $_
+            }
+            $o=CollectNuget $assemblyName
+            $o
         }
     }| Group-Object 'Name', 'Version' | ForEach-Object { $_.Group | Select-Object 'Name', 'Version' -First 1} | Sort-Object 'Name', 'Version'
 }
