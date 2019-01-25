@@ -17,7 +17,9 @@ function Install-DX {
         Foreach -parallel ($nuget in $psObj.Nugets) { 
             InlineScript {
                 Write-Output "Installing $($Using:nuget.Name) nuget"
-                & nuget Install $Using:nuget.Name -source "$($Using:psObj.Source);https://xpandnugetserver.azurewebsites.net/nuget" -OutputDirectory $Using:psObj.OutputDirectory -Version $Using:psObj.Version
+                Invoke-Retry {
+                    & nuget Install $Using:nuget.Name -source "$($Using:psObj.Source);https://xpandnugetserver.azurewebsites.net/nuget" -OutputDirectory $Using:psObj.OutputDirectory -Version $Using:psObj.Version
+                }
             } 
             $Workflow:complete = $Workflow:complete + 1 
             [int]$percentComplete = ($Workflow:complete * 100) / $Workflow:psObj.Nugets.Count

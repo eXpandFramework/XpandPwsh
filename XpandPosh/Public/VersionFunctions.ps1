@@ -19,7 +19,7 @@ function Get-VersionFromFile([parameter(mandatory)][string]$assemblyInfo){
     }
 }
 
-function Get-DXVersion($version,$build){
+function Get-DXVersion([string]$version,[switch]$build){
     $v=New-Object System.Version $version
     if (!$build){
         "$($v.Major).$($v.Minor)"
