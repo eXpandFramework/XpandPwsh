@@ -1,9 +1,9 @@
-Function Start-UnZip {
+Function Expand-Files {
     [cmdletbinding()]
     Param (
         [parameter(ValueFromPipeline = $True, mandatory = $True)]
-        [string]$fileName,
-        [string]$dir
+        [string]$DestinationPath,
+        [string]$Path
     )
     Begin {
         Write-Verbose "Initialize stuff in Begin block"
@@ -11,12 +11,12 @@ Function Start-UnZip {
 
     Process {
         Add-Type -Assembly System.IO.Compression.FileSystem
-        $targetDir = $dir
-        if ($dir -eq "") {
-            $targetDir = Split-Path $fileName
+        $targetDir = $Path
+        if ($Path -eq "") {
+            $targetDir = Split-Path $DestinationPath
         }
-        Write-Verbose "Unzipping $fileName into $targetDir"
-        [System.IO.Compression.ZipFile]::ExtractToDirectory($fileName, $targetDir)
+        Write-Verbose "Unzipping $DestinationPath into $targetDir"
+        [System.IO.Compression.ZipFile]::ExtractToDirectory($DestinationPath, $targetDir)
     }
 
     End {
@@ -24,14 +24,14 @@ Function Start-UnZip {
     }
 }
 
-Function Start-Zip {
+Function Compress-Files {
     [cmdletbinding()]
     Param (
         [parameter(ValueFromPipeline = $True, mandatory = $True)]
-        [string]$fileName,
-        [string]$dir,
+        [string]$DestinationPath,
+        [string]$Path,
         [System.IO.Compression.CompressionLevel]$compressionLevel = [System.IO.Compression.CompressionLevel]::Optimal,
-        [bool]$deleteAfterArchiving
+        [switch]$deleteAfterArchiving
     )
     Begin {
         Write-Verbose "Initialize stuff in Begin block"
@@ -40,18 +40,18 @@ Function Start-Zip {
     Process {
         Add-Type -Assembly System.IO.Compression.FileSystem
         $tempDir = [System.IO.Path]::GetTempPath()
-        $targetDir = $dir
-        if ($dir -eq "") {
-            $targetDir = Split-Path $fileName
+        $targetDir = $Path
+        if ($Path -eq "") {
+            $targetDir = Split-Path $DestinationPath
         }
-        $fileNameWithoutPath = [io.path]::GetFileName($fileName)
-        $tempFileName = [io.path]::Combine($tempDir, $fileNameWithoutPath)
-        Write-Verbose "Zipping $fileName into $tempDir"
+        $DestinationPathWithoutPath = [io.path]::GetFileName($DestinationPath)
+        $tempFileName = [io.path]::Combine($tempDir, $DestinationPathWithoutPath)
+        Write-Verbose "Zipping $DestinationPath into $tempDir"
         [System.IO.Compression.ZipFile]::CreateFromDirectory($targetDir, $tempFilename, $compressionLevel, $false)
-        Copy-Item -Force -Path $tempFileName -Destination $fileName
+        Copy-Item -Force -Path $tempFileName -Destination $DestinationPath
         Remove-Item -Force -Path $tempFileName
         if ($deleteAfterArchiving) {
-            Get-ChildItem -Path $targetDir -Exclude $fileNameWithoutPath -Recurse | Select-Object -ExpandProperty FullName | Remove-Item -Force -Recurse
+            Get-ChildItem -Path $targetDir -Exclude $DestinationPathWithoutPath -Recurse | Select-Object -ExpandProperty FullName | Remove-Item -Force -Recurse
         }
     }
 
@@ -60,12 +60,12 @@ Function Start-Zip {
     }
 }
 
-function Start-ZipProject() {
+function Compress-Project() {
     Get-ChildItem -Recurse | 
         Where-Object { $_.PSIsContainer } | 
         Where-Object { $_.Name -eq 'bin' -or $_.Name -eq 'packages' -or $_.Name -eq 'obj' -or $_.Name -eq '.vs' -or $_.Name.StartsWith('_ReSharper')} | 
         Remove-Item -Force -Recurse 
     
     $zipFileName = [System.IO.Path]::Combine($currentLocation, $zipFileName)
-    Start-Zip -fileName $zipFileName 
+    Compress-Files -DestinationPath $zipFileName -Path .
 }

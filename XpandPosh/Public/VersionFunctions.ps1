@@ -19,7 +19,7 @@ function Get-VersionFromFile([parameter(mandatory)][string]$assemblyInfo){
     }
 }
 
-function Get-DXVersion($version,$build){
+function Get-DXVersion([string]$version,[switch]$build){
     $v=New-Object System.Version $version
     if (!$build){
         "$($v.Major).$($v.Minor)"
@@ -31,7 +31,7 @@ function Get-DXVersion($version,$build){
 
 function Update-AssemblyInfoBuild($path){
     if (!$path){
-        $path= "."
+        $path= get-location
     }
     Get-ChildItem -path $path -filter "*AssemblyInfo.cs" -Recurse|ForEach-Object{
         $c=Get-Content $_.FullName
@@ -39,6 +39,7 @@ function Update-AssemblyInfoBuild($path){
         $version=New-Object System.Version ($value)
         $newBuild=$version.Build+1
         $newVersion=new-object System.Version ($version.Major,$version.Minor,$newBuild,0)
+        "$_ new version is $newVersion "
         $result = $c -creplace 'Version\("([^"]*)', "Version(""$newVersion"
         Set-Content $_.FullName $result
     }

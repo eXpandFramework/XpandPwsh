@@ -17,7 +17,9 @@ function Install-DX {
         Foreach -parallel ($nuget in $psObj.Nugets) { 
             InlineScript {
                 Write-Output "Installing $($Using:nuget.Name) nuget"
-                & nuget Install $Using:nuget.Name -source "$($Using:psObj.Source);https://xpandnugetserver.azurewebsites.net/nuget" -OutputDirectory $Using:psObj.OutputDirectory -Version $Using:psObj.Version
+                Invoke-Retry {
+                    & nuget Install $Using:nuget.Name -source "$($Using:psObj.Source);https://xpandnugetserver.azurewebsites.net/nuget" -OutputDirectory $Using:psObj.OutputDirectory -Version $Using:psObj.Version
+                }
             } 
             $Workflow:complete = $Workflow:complete + 1 
             [int]$percentComplete = ($Workflow:complete * 100) / $Workflow:psObj.Nugets.Count
@@ -40,8 +42,8 @@ function Install-DX {
     }
 
     Install-AllDXNugets -psObj $psObj
-    "Flattening nugets..."
-    Get-ChildItem -Path "$tempPath" -Include "*.dll" -Recurse  |Where-Object {
+    "Flattening nugets..." -f "Blue"
+    Get-ChildItem -Path "$packagesFolder" -Include "*.dll" -Recurse  |Where-Object {
         $item = Get-Item $_
         $item.GetType().Name -eq "FileInfo" -and $item.DirectoryName -like "*net452"
     }|Copy-Item -Destination $binPath -Force 
