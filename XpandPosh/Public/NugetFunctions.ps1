@@ -87,34 +87,43 @@ function Install-NugetCommandLine{
 }
 
 function Get-NugetPackageAssembly {
-    param(
-        [parameter(Mandatory)]
-        [string]$sourcePath,
-        [parameter(Mandatory)]
+    [CmdletBinding()]
+    param (
+        [parameter(ValueFromPipeline,Mandatory)]
         [string]$nupkgPath 
     )
-
-    $flattenPath="$env:TEMP\$([System.Guid]::NewGuid())"
-    New-Item $flattenPath -ItemType Directory -Force|Out-Null
-    Get-ChildItem $nupkgPath *.nupkg |ForEach-Object{
-        Copy-Item $_.FullName -Destination $flattenPath -Force
-        Rename-Item -path "$flattenPath\$($_.Name)" -NewName  $([System.IO.Path]::ChangeExtension($_.Name, ".zip"))
+    
+    begin {
     }
     
-    Get-ChildItem $flattenPath *.zip|ForEach-Object{
-        Expand-Archive -DestinationPath "$($_.DirectoryName)\$($_.BaseName)" -Path $_.FullName -Force 
-        Remove-Item $_.FullName -Force
-    }
-    Get-ChildItem $flattenPath|ForEach-Object{
-        $version = [System.Text.RegularExpressions.Regex]::Match($_.BaseName, "[\d]{1,2}\.[\d]{1}\.[\d]*").Value
-        $packageName = $_.BaseName.Replace($version, "").Trim(".")
-        Get-ChildItem $_.FullName *.dll -Recurse|Select-Object -ExpandProperty BaseName|ForEach-Object{
-            [PSCustomObject]@{
-                Package = $packageName
-                Version  = $version
-                Assembly = $_
+    process {
+        $flattenPath="$env:TEMP\$([System.Guid]::NewGuid())"
+    
+        New-Item $flattenPath -ItemType Directory -Force|Out-Null
+        Get-ChildItem $nupkgPath *.nupkg |ForEach-Object{
+            Copy-Item $_.FullName -Destination $flattenPath -Force
+            Rename-Item -path "$flattenPath\$($_.Name)" -NewName  $([System.IO.Path]::ChangeExtension($_.Name, ".zip"))
+        }
+        
+        Get-ChildItem $flattenPath *.zip|ForEach-Object{
+            Expand-Archive -DestinationPath "$($_.DirectoryName)\$($_.BaseName)" -Path $_.FullName -Force 
+            Remove-Item $_.FullName -Force
+        }
+        Get-ChildItem $flattenPath|ForEach-Object{
+            $version = [System.Text.RegularExpressions.Regex]::Match($_.BaseName, "[\d]{1,2}\.[\d]{1}\.[\d]*").Value
+            $packageName = $_.BaseName.Replace($version, "").Trim(".")
+            Get-ChildItem $_.FullName *.dll -Recurse|Select-Object -ExpandProperty BaseName|ForEach-Object{
+                [PSCustomObject]@{
+                    Package = $packageName
+                    Version  = $version
+                    Assembly = $_
+                }
             }
         }
+        [System.IO.Directory]::Delete($flattenPath,$true)|Out-Null        
     }
-    [System.IO.Directory]::Delete($flattenPath,$true)|Out-Null
+    
+    end {
+    }
 }
+

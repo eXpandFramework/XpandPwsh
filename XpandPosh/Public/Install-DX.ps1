@@ -16,28 +16,31 @@ function Install-DX {
         $complete = 0
         Foreach -parallel ($nuget in $psObj.Nugets) { 
             InlineScript {
-                Write-Output "Installing $($Using:nuget.Name)..."
-                & nuget Install $Using:nuget.Name -source "$($Using:psObj.Source);https://xpandnugetserver.azurewebsites.net/nuget" -OutputDirectory $Using:psObj.OutputDirectory -Version $Using:psObj.Version
+                Write-Output "Installing $($Using:nuget)..."
                 Invoke-Retry {
-                    
+                    & nuget Install $Using:nuget -source "$($Using:psObj.Source);https://xpandnugetserver.azurewebsites.net/nuget" -OutputDirectory $Using:psObj.OutputDirectory -Version $Using:psObj.Version    
                 }
             } 
             $Workflow:complete = $Workflow:complete + 1 
             [int]$percentComplete = ($Workflow:complete * 100) / $Workflow:psObj.Nugets.Count
-            Write-Progress -Id 1 -Activity "Installing Nugets" -PercentComplete $percentComplete -Status "$percentComplete% :$($nuget.Name)"
+            Write-Progress -Id 1 -Activity "Installing DX Nugets" -PercentComplete $percentComplete -Status "$percentComplete% :$($nuget.Package)"
         }
-        Write-Progress -Id 1 -Status "Ready" -Activity "Installing Nugets" -Completed
+        Write-Progress -Id 1 -Status "Ready" -Activity "Installing DX Nugets" -Completed
     }
 
     "Installing DX assemblies from $dxSources"
-    $csv=(new-object System.Net.WebClient).DownloadString("https://raw.githubusercontent.com/eXpandFramework/DevExpress.PackageContent/master/Contents/$dxVersion.csv")
-
-    $resourcessDir="$PSScriptRoot\Reources"
-    New-Item $resourcessDir -ItemType Directory -Force|out-null
-    $csvPath="$resourcessDir\$dxVersion.csv"
-    Set-content $csvPath $csv
-    $nugets=Import-Csv $csvPath
-    # $nugets = Get-DXNugets -path $sourcePath|Where-Object {$_.Name -notlike "DevExpress.DXCore.*"}
+    $allNugets=(new-object System.Net.WebClient).DownloadString("https://raw.githubusercontent.com/eXpandFramework/DevExpress.PackageContent/master/Contents/$dxVersion.csv")|ConvertFrom-Csv
+    $nugets=Get-ChildItem $sourcePath *.csproj -Recurse|ForEach-Object{
+        [xml]$csproj = Get-Content $_.FullName
+        $csproj.Project.ItemGroup.Reference.Include|Where-Object {$_ -like "DevExpress*" -and $_ -notlike "DevExpress.DXCore*" }|ForEach-Object {
+            $assemblyName = [System.Text.RegularExpressions.Regex]::Match($_,"([^,]*)").Groups[1].Value
+            $item=$allNugets|Where{$_.Assembly -eq $assemblyName}|Select-Object -First 1
+            if (!$item){
+                throw "project:$($_.FullName) assembly:$assemblyName"
+            }
+            $item.Package
+        }
+    }|Select-Object -Unique
     New-Item $packagesFolder -ItemType Directory -Force|out-null
     $psObj = [PSCustomObject]@{
         OutputDirectory = $(Get-Item $packagesFolder).FullName
