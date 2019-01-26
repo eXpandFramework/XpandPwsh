@@ -1,28 +1,3 @@
-Function Expand-Files {
-    [cmdletbinding()]
-    Param (
-        [parameter(ValueFromPipeline = $True, mandatory = $True)]
-        [string]$DestinationPath,
-        [string]$Path
-    )
-    Begin {
-        Write-Verbose "Initialize stuff in Begin block"
-    }
-
-    Process {
-        Add-Type -Assembly System.IO.Compression.FileSystem
-        $targetDir = $Path
-        if ($Path -eq "") {
-            $targetDir = Split-Path $DestinationPath
-        }
-        Write-Verbose "Unzipping $DestinationPath into $targetDir"
-        [System.IO.Compression.ZipFile]::ExtractToDirectory($DestinationPath, $targetDir)
-    }
-
-    End {
-        Write-Verbose "Final work in End block"
-    }
-}
 
 Function Compress-Files {
     [cmdletbinding()]
