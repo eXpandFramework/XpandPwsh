@@ -107,16 +107,18 @@ function Get-NugetPackageAssembly {
         $flattenPath="$env:TEMP\$([System.Guid]::NewGuid())"
     
         New-Item $flattenPath -ItemType Directory -Force|Out-Null
+        Write-Host "Move packages to $flattenPath and rename to zip"
         Get-ChildItem $nupkgPath *.nupkg |ForEach-Object{
             Copy-Item $_.FullName -Destination $flattenPath -Force
             Rename-Item -path "$flattenPath\$($_.Name)" -NewName  $([System.IO.Path]::ChangeExtension($_.Name, ".zip"))
         }
-        
+        Write-Host "Expand archives from $flattenPath"
         Get-ChildItem $flattenPath *.zip|ForEach-Object{
             Expand-Archive -DestinationPath "$($_.DirectoryName)\$($_.BaseName)" -Path $_.FullName -Force 
             Remove-Item $_.FullName -Force
         }
-        Get-ChildItem $flattenPath|ForEach-Object{
+        Write-Host "Creating Objects "
+        $packages=Get-ChildItem $flattenPath|ForEach-Object{
             $version = [System.Text.RegularExpressions.Regex]::Match($_.BaseName, "[\d]{1,2}\.[\d]{1}\.[\d]*").Value
             $packageName = $_.BaseName.Replace($version, "").Trim(".")
             Get-ChildItem $_.FullName *.dll -Recurse|Select-Object -ExpandProperty BaseName|ForEach-Object{
@@ -126,8 +128,9 @@ function Get-NugetPackageAssembly {
                     Assembly = $_
                 }
             }
-        }
+        }|Sort-Object $_.Package|Get-Unique -AsString|Sort-Object $_.Package
         [System.IO.Directory]::Delete($flattenPath,$true)|Out-Null        
+        return $packages
     }
     
     end {
