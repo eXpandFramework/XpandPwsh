@@ -1,3 +1,10 @@
+function Get-DxNugets{
+    param(
+        [parameter(Mandatory)]
+        [string]$version
+    )
+    (new-object System.Net.WebClient).DownloadString("https://raw.githubusercontent.com/eXpandFramework/DevExpress.PackageContent/master/Contents/$version.csv")|ConvertFrom-csv
+}
 function Update-NugetPackages{
     param(
         [string]$sourcePath,
@@ -15,7 +22,7 @@ function Update-NugetPackages{
                 $xml.Project.ItemGroup.Reference|Where-Object {$_.Include -like $filter}|ForEach-Object {
                     $reference=$_.Include
                     $configPackage=$packageConfig.packages.package|Where-Object{$_.id -eq $reference}
-                    $package=$packages |where {$_.Name -eq $reference}
+                    $package=$packages |Where-Object {$_.Name -eq $reference}
                     if ($package.Version -ne $configPackage.version){
                         & Nuget Update $packageConfigPath -id $package.Name -source $sources -RepositoryPath $repositoryPath -safe -Version $package.Version
                     }
