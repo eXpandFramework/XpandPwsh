@@ -88,7 +88,9 @@ param(
     [switch] $serverIsRaw,
        
     ## Verify the filenames in the tree in the local repository
-    [switch] $verifyLocalRepo
+    [switch] $verifyLocalRepo,
+
+    [string]$filter="*.pdb"
 )
        
 
@@ -226,7 +228,7 @@ function WriteStreamSources {
         
     Write-Verbose "Preparing stream source files section..."
 
-    $sources = & ($dbgToolsPath + 'srctool.exe') -r $pdbPath 2>$null
+    $sources = & ($dbgToolsPath + 'srctool.exe') -r $pdbPath 2>$null|where{$_ -notlike "$pdbPath*"}
     if ($sources -eq $null) {
         write-warning "No steppable code in pdb file $pdbPath, skipping";
         "failed";
@@ -257,7 +259,6 @@ function WriteStreamSources {
         Write-Warning $warning
     }
     $sourcesRoot = CorrectPathBackslash $sourcesRoot
-    $outputFileName = [System.IO.Path]::GetFileNameWithoutExtension($sourceArchivePath)
   
     #if we're verifying the local repo then get the tree list from the branch/commit
     $lstree = ""
@@ -354,7 +355,7 @@ else {
 # Check the debugging tools path
 $dbgToolsPath = CheckDebuggingToolsPath $dbgToolsPath
 
-$pdbs = Get-ChildItem $symbolsFolder -Filter *.pdb -Recurse
+$pdbs = Get-ChildItem $symbolsFolder -Filter $filter -Recurse
 foreach ($pdb in $pdbs) {
     Write-Verbose "Indexing $($pdb.FullName) ..."
 
