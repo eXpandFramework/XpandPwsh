@@ -29,12 +29,12 @@ function Install-DX {
     }
 
     "Installing DX assemblies from $dxSources"
-    $allNugets=(new-object System.Net.WebClient).DownloadString("https://raw.githubusercontent.com/eXpandFramework/DevExpress.PackageContent/master/Contents/$dxVersion.csv")|ConvertFrom-Csv
+    $allNugets=Get-XDxNugets $dxVersion
     $nugets=Get-ChildItem $sourcePath *.csproj -Recurse|ForEach-Object{
         [xml]$csproj = Get-Content $_.FullName
         $csproj.Project.ItemGroup.Reference.Include|Where-Object {$_ -like "DevExpress*" -and $_ -notlike "DevExpress.DXCore*" }|ForEach-Object {
             $assemblyName = [System.Text.RegularExpressions.Regex]::Match($_,"([^,]*)").Groups[1].Value
-            $item=$allNugets|Where{$_.Assembly -eq $assemblyName}|Select-Object -First 1
+            $item=$allNugets|Where-Object{$_.Assembly -eq $assemblyName}|Select-Object -First 1
             if (!$item){
                 throw "project:$($_.FullName) assembly:$assemblyName"
             }

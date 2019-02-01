@@ -1,3 +1,7 @@
+using namespace System
+using namespace System.Reflection
+using namespace System.Text.RegularExpressions
+using namespace System.IO
 function Get-DxNugets{
     param(
         [parameter(Mandatory)]
@@ -41,17 +45,18 @@ function Get-NugetPackages {
         [string]$sources,
         [switch]$latest)
 
-    Install-NugetCommandLine
+    Install-NugetCommandLine|Out-null
     $packageSource=$sources
     if (!$packageSource){
         $packageSource=Get-PackageSourceLocations
     }
-    $packages=nuget list $filter -source $packageSource |foreach{Format-Nuget $_}|Group-Object Name|ForEach-Object{
+    $packages=nuget list $filter -source $packageSource |ForEach-Object{Format-Nuget $_}|Group-Object Name|ForEach-Object{
         $_.Group|Sort-Object|Select-Object -First 1 -ExpandProperty Name
-    }
+    }|Where-Object{$_ -like $filter}
     $packages|Sort-Object -Descending|ForEach-Object{
         $package=$_
-        $allVersions=& nuget list $_ -source $packageSource|foreach{Format-Nuget $_}
+        Write-Host "Listing all version for $_ "
+        $allVersions=& nuget list $_ -source $packageSource -AllVersion|ForEach-Object{Format-Nuget $_}
         if ($latest){
             $allVersions|Group-Object Name|ForEach-Object{
                 $version=$_.Group|Sort-Object -Descending|Select-Object -First 1 -ExpandProperty Version
@@ -77,15 +82,12 @@ function Format-Nuget(
     }
 }
 
-function Remove-Nuget($id) {
-    Get-ChildItem -Recurse -Filter '*.csproj' | ForEach-Object { $_.FullName } | False-XpandSpecificVersions
-    CleanProjectCore
-    Get-ChildItem -Recurse -Filter 'packages.config' | ForEach-Object { $_.FullName } | Write-XmlComment -xPath "//package[contains(@id,'$id')]"
 
-    Get-ChildItem -Recurse | Where-Object { $_.PSIsContainer } | Where-Object { $_.Name -eq 'packages' } | ForEach-Object {
-  		    Push-Location $_
-  		    Get-ChildItem -Recurse | Where-Object { $_.PSIsContainer } |  Where-Object { $_.Name -like "$id*" } | Remove-Item -Recurse
-    }        
+function Remove-Nuget([parameter(Mandatory)][string]$id,$path=(Get-Location)) {
+    Get-ChildItem $path *.csproj -Recurse | ForEach-Object { $_.FullName } | Update-SpecificVersions -filter $id
+    push-location $path
+    Clear-ProjectDirectories 
+    pop-location
 }
 
 function Install-NugetCommandLine{
@@ -94,6 +96,81 @@ function Install-NugetCommandLine{
 }
 
 function Get-NugetPackageAssembly {
+    [CmdletBinding(DefaultParameterSetName="nupkgPath")]
+    param (
+        [parameter(Mandatory,ParameterSetName="nupkgPath")]
+        [string]$nupkgPath,
+        [parameter(ParameterSetName="nupkgPath")]
+        [string]$flattenPath="$env:TEMP\$([System.Guid]::NewGuid())",
+        [parameter(ParameterSetName="nupkgPath")]
+        [switch]$keepFlatten,
+        [parameter(ValueFromPipeline,Mandatory,ParameterSetName="package")]
+        [string]$package
+    )
+    begin{
+        if ($PSCmdlet.ParameterSetName -eq "package"){
+            $source=Get-PackageSource|Where-object{$_.Location -eq "https://api.nuget.org/v3/index.json"}
+            if (!$source){
+                throw "add https://api.nuget.org/v3/index.json"
+            }
+        }
+    }
+    process {
+        if ($PSCmdlet.ParameterSetName -eq "package"){
+            $p=Get-Package $package -ErrorAction SilentlyContinue -ProviderName Nuget 
+            if (!$p){
+                Write-Verbose "Installing $_"
+                Install-Package $package -ProviderName Nuget -Scope CurrentUser -Force -SkipDependencies -Source $source.Name |Write-Verbose
+                $p=Get-Package $package -ProviderName Nuget
+            }
+            $nupkg=get-item $p.Source
+            Get-NugetPackageAssembly -nupkgPath $nupkg.DirectoryName -flattenPath "$($nupkg.DirectoryName)\$($p.Name)" -keepFlatten 
+        }
+        else{
+            if ($flattenPath -eq $nupkgPath){
+                throw "same paths"
+            }
+            New-Item $flattenPath -ItemType Directory -Force|Out-Null
+            Write-Verbose "Move packages to $flattenPath and rename to zip"
+            Get-ChildItem $nupkgPath *.nupkg |ForEach-Object{
+                $newName=([Path]::ChangeExtension($_.Name, ".zip"))
+                if (!(Test-path "$flattenPath\$newName")){
+                    Copy-Item $_.FullName -Destination $flattenPath -Force
+                    Rename-Item -path "$flattenPath\$($_.Name)" -NewName  $newName -Force
+                }
+            }
+            Write-Verbose "Expand archives from $flattenPath"
+            Get-ChildItem $flattenPath *.zip|ForEach-Object{
+                Expand-Archive -DestinationPath "$($_.DirectoryName)\$($_.BaseName)" -Path $_.FullName -Force 
+                if (!$keepFlatten){
+                    Remove-Item $_.FullName -Force
+                }
+            }
+            Write-Verbose "Creating Objects "
+            $packages=Get-ChildItem $flattenPath|ForEach-Object{
+                $version = [Regex]::Match($_.BaseName, "[\d]*\.[\d]*\.[\d]*(\.[\d]*)?$").Value.Trim(".")
+                $packageName = $_.BaseName.Replace($version, "").Trim(".").Trim(".v")
+                Get-ChildItem $_.FullName *.dll -Recurse|ForEach-Object{
+                    [PSCustomObject]@{
+                        Package = $packageName
+                        Version  = $version
+                        Assembly = $_
+                        Framework = $_.Directory.Name
+                    }
+                }
+            }|Sort-Object $_.Package
+            if (!$keepFlatten){
+                [Directory]::Delete($flattenPath,$true)|Out-Null        
+            }
+            $packages
+        }
+        
+    }
+    
+    end {
+    }
+}
+
 function New-Assembly {
     [CmdletBinding()]
     param (
@@ -134,34 +211,58 @@ function New-Assembly {
         "$path\$AssemblyName.dll"
     }
     
-        New-Item $flattenPath -ItemType Directory -Force|Out-Null
-        Write-Host "Move packages to $flattenPath and rename to zip"
-        Get-ChildItem $nupkgPath *.nupkg |ForEach-Object{
-            Copy-Item $_.FullName -Destination $flattenPath -Force
-            Rename-Item -path "$flattenPath\$($_.Name)" -NewName  $([System.IO.Path]::ChangeExtension($_.Name, ".zip"))
+    end {
+    }
+}
+function Install-NugetSearch{
+    if (!(Get-Module NugetSearch -ListAvailable)){
+        $code=Get-Content "$PSScriptRoot\NugetSearch.cs" -Raw
+        $assembly=New-Assembly -AssemblyName NugetSearch -Code $code -Packages @("NuGet.Protocol.Core.v3","PowerShellStandard.Library") -path "$env:TEMP\$([Guid]::NewGuid())"
+        $installationPath="$($env:PSModulePath -split ";"|where-object{$_ -like "$env:USERPROFILE*"}|Select-Object -Unique)\NugetSearch"
+        New-Item $installationPath -ItemType Directory -Force
+        Get-ChildItem (get-item $assembly).DirectoryName -Recurse|ForEach-Object{
+            Copy-Item $_.FullName $installationPath
         }
-        Write-Host "Expand archives from $flattenPath"
-        Get-ChildItem $flattenPath *.zip|ForEach-Object{
-            Expand-Archive -DestinationPath "$($_.DirectoryName)\$($_.BaseName)" -Path $_.FullName -Force 
-            Remove-Item $_.FullName -Force
+    }
+}
+function Get-NugetPackageVersions {
+    [CmdletBinding()]
+    param (
+        [parameter(ValueFromPipeline,Mandatory)]
+        $packageName
+    )
+    
+    begin {
+        Install-NugetSearch
+    }
+    
+    process {
+        Get-NugetPackageSearchMetadata -Name $packageName|ForEach-Object{
+            $_.Version.ToString()
         }
-        Write-Host "Creating Objects "
-        $packages=Get-ChildItem $flattenPath|ForEach-Object{
-            $version = [System.Text.RegularExpressions.Regex]::Match($_.BaseName, "[\d]{1,2}\.[\d]{1}\.[\d]*").Value
-            $packageName = $_.BaseName.Replace($version, "").Trim(".")
-            Get-ChildItem $_.FullName *.dll -Recurse|Select-Object -ExpandProperty BaseName|ForEach-Object{
-                [PSCustomObject]@{
-                    Package = $packageName
-                    Version  = $version
-                    Assembly = $_
-                }
-            }
-        }|Sort-Object $_.Package|Get-Unique -AsString|Sort-Object $_.Package
-        [System.IO.Directory]::Delete($flattenPath,$true)|Out-Null        
-        return $packages
     }
     
     end {
     }
 }
 
+function Use-NugetAssembly {
+    [CmdletBinding()]
+    param (
+        [parameter(ValueFromPipeline,Mandatory)]
+        [string]$packageName,
+        [string]$framework="*"
+    )
+    
+    begin {
+    }
+    
+    process {
+        Get-NugetPackageAssembly -package $packageName |where-object{$_.Framework -like $framework}|ForEach-Object{
+            [Assembly]::LoadFile($_.Assembly.FullName)
+        }
+    }
+    
+    end {
+    }
+}
