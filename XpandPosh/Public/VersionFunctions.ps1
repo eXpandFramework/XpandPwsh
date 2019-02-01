@@ -45,7 +45,7 @@ function Update-AssemblyInfoBuild($path){
     }
 }
 function Update-AssemblyInfoVersion([parameter(mandatory)]$version,$path){
-    if ($path -eq $null){
+    if (!$path){
         $path= "."
     }
     Get-ChildItem -path $path -filter "*AssemblyInfo.cs" -Recurse|ForEach-Object{
@@ -53,4 +53,58 @@ function Update-AssemblyInfoVersion([parameter(mandatory)]$version,$path){
         $result = $c -creplace 'Version\("([^"]*)', "Version(""$version"
         Set-Content $_.FullName $result
     }
+}
+
+Function Update-SpecificVersions {
+    [cmdletbinding()]
+    Param (
+        [parameter(ValueFromPipeline, Mandatory)]
+        [string]$fiLeName,
+        [parameter(Mandatory)]
+        [string]$filter,
+        [parameter()]
+        [string]$binPath
+    )
+
+    Process {
+        $project = [xml](Get-Content $fiLeName)
+        $ns = New-Object System.Xml.XmlNamespaceManager($project.NameTable)
+        $ns.AddNamespace("ns", $project.DocumentElement.NamespaceURI)
+        $xPath = "//ns:Reference[contains(@Include,$filter)]"
+        $references = $project.SelectNodes($xPath, $ns)
+        $references | ForEach-Object {
+            $assemblyName = $_.Include
+            if ($_.Include.IndexOf(",") -gt 0) {
+                $assemblyName = $_.Include.Substring(0, $_.Include.IndexOf(","))
+                if ($_.Include -imatch '.*Version=([^,]*),.*') {
+                    $version = $Matches[1]
+                    $_.Include = $_.Include.Replace($version, $(Get-XpandVersion))
+                }
+            }
+            $n = $_.SelectSingleNode("ns:SpecificVersion", $ns)
+            if (!$n) {
+                $n = $project.CreateElement("SpecificVersion", $project.DocumentElement.NamespaceURI)
+                $_.AppendChild($n)
+            }
+            $n.InnerText = "False"
+
+            $n = $_.SelectSingleNode("ns:HintPath", $ns)
+            if (Test-Path $binpath){
+                if (!$n) {
+                    $n = $project.CreateElement("HintPath", $project.DocumentElement.NamespaceURI)
+                    $_.AppendChild($n)
+                }
+            
+                $n.InnerText = "$binPath\$assemblyName.dll"
+            }
+            else{
+                if ($n){
+                    $n.ParentNode.RemoveChild($n)
+                }
+            }
+        }
+        
+        $project.Save($fiLeName)
+    }
+}
 }
