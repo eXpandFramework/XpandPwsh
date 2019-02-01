@@ -3,7 +3,8 @@ function Update-HintPath{
         [parameter(Mandatory)]
         [string]$SourcesPath,
         [parameter(Mandatory)]
-        [string]$OutputPath
+        [string]$OutputPath,
+        [string]$filter="DevExpress*"
 
     )
     Get-ChildItem $sourcesPath "*.csproj" -Recurse|ForEach-Object {
@@ -11,7 +12,7 @@ function Update-HintPath{
         Write-Host "Checking DX references $projectPath"
         $projectDir = (Get-Item $projectPath).DirectoryName
         [xml]$csproj = Get-Content $projectPath
-        $csproj.Project.ItemGroup.Reference|Where-Object {"$($_.Include)".StartsWith("DevExpress")}|
+        $csproj.Project.ItemGroup.Reference|Where-Object {$_.Include -like $filter}|
             Where-Object {!"$($_.Include)".Contains(".DXCore.")}|ForEach-Object {
             $reference = $_
             if (!$reference.Hintpath) {

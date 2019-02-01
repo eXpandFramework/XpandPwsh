@@ -107,4 +107,13 @@ Function Update-SpecificVersions {
         $project.Save($fiLeName)
     }
 }
+
+function Get-XpandPath() {
+    $dllPath = (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Wow6432node\Microsoft\.NETFramework\AssemblyFolders\Xpand').'(default)'
+    $item = (Get-Item $dllPath)
+    $dllPath = $item.Parent.FullName
+    if ($dllPath -eq $null) {
+        throw "Invalid Xpand path"
+    }
+    return $dllPath
 }
