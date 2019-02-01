@@ -94,17 +94,45 @@ function Install-NugetCommandLine{
 }
 
 function Get-NugetPackageAssembly {
+function New-Assembly {
     [CmdletBinding()]
     param (
         [parameter(ValueFromPipeline,Mandatory)]
-        [string]$nupkgPath 
+        $AssemblyName,
+        [parameter(Mandatory)]
+        $Code,
+        [parameter()]
+        $Packages=@(),
+        [parameter()]
+        $path="$PSScriptRoot\$assemblyName"
     )
     
     begin {
     }
     
     process {
-        $flattenPath="$env:TEMP\$([System.Guid]::NewGuid())"
+        push-location $env:TEMP
+        & {
+            if (Test-Path "$env:TEMP\$assemblyName"){
+                get-childitem "$env:TEMP\$assemblyName" -Recurse|Remove-Item -ErrorAction Continue -Force -Recurse
+            }
+            dotnet new classlib --name $assemblyName --force
+            Push-Location $AssemblyName
+            $packages |ForEach-Object{
+                dotnet add package $_
+            }
+            Remove-Item ".\Class1.cs"
+            $code|Out-file ".\$assemblyName.cs" -encoding UTF8
+            dotnet publish
+            new-item $path -ItemType Directory -Force
+            get-childitem ".\bin\Debug\netstandard2.0\publish"|ForEach-Object{
+                Copy-Item $_.FullName -Destination $path -force
+            }
+            Pop-Location
+            Pop-Location
+        }|Write-Verbose
+        "$path\$AssemblyName.dll"
+    }
     
         New-Item $flattenPath -ItemType Directory -Force|Out-Null
         Write-Host "Move packages to $flattenPath and rename to zip"
