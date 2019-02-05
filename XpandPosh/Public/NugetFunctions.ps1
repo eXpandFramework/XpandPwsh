@@ -2,6 +2,9 @@ using namespace System
 using namespace System.Reflection
 using namespace System.Text.RegularExpressions
 using namespace System.IO
+using namespace System.Collections.Generic
+Install-NugetCommandLine
+Install-NugetSearch
 function Get-DxNugets{
     param(
         [parameter(Mandatory)]
@@ -10,68 +13,38 @@ function Get-DxNugets{
     (new-object System.Net.WebClient).DownloadString("https://raw.githubusercontent.com/eXpandFramework/DevExpress.PackageContent/master/Contents/$version.csv")|ConvertFrom-csv
 }
 function Update-NugetPackages{
+    [cmdletbinding()]
     param(
+        [parameter(Mandatory,ValueFromPipeline)]
         [string]$sourcePath,
+        [parameter(Mandatory)]
         [string]$filter,
         [string]$repositoryPath
     )
-    $sources=Get-PackageSourceLocations
-    $packages=Get-NugetPackages -filter $filter -latest -sources $sources
-    Get-ChildItem $sourcePath *.csproj -Recurse|ForEach-Object {
-        [xml]$xml = Get-Content $_.FullName
-        $packageConfigPath = "$($_.DirectoryName)\packages.config"
-        if (Test-path $packageConfigPath) {
-            [xml]$packageConfig = Get-Content $packageConfigPath
-            if ($packageConfig.packages) {
-                $xml.Project.ItemGroup.Reference|Where-Object {$_.Include -like $filter}|ForEach-Object {
-                    $reference=$_.Include
-                    $configPackage=$packageConfig.packages.package|Where-Object{$_.id -eq $reference}
-                    $package=$packages |Where-Object {$_.Name -eq $reference}
-                    if ($package.Version -ne $configPackage.version){
-                        & Nuget Update $packageConfigPath -id $package.Name -source $sources -RepositoryPath $repositoryPath -safe -Version $package.Version
-                    }
-                }
+    $sources=Get-PackageSourceLocations Nuget
+    $packages=New-Object "System.Collections.Generic.Dictionary[System.String,System.String]"
+    Get-ChildItem $sourcePath packages.config -Recurse|ForEach-Object {
+        $packageConfigPath=$_.FullName
+        [xml]$packageConfig = Get-Content $packageConfigPath
+        $packageConfig.packages.package|Where-Object{$_.id -like $filter}|ForEach-Object{
+            $packageId=$_.Id
+            if (!$packages.ContainsKey($packageId)){
+                $metadata=Get-NugetPackageSearchMetadata -Name $packageId -Sources $sources
+                $packages.Add($packageId,$metadata.Version.ToString())
+            }
+            $version=$packages[$packageId]
+            if ($_.Version -ne $version){
+                Write-host "Updating $packageId in $packageConfigPath" -f "Blue"
+                & Nuget Update $packageConfigPath -id $packageId -source $($sources -join ";") -RepositoryPath $repositoryPath  -Version $version -verbosity detailed
             }
         }
     }
 }
-function Get-PackageSourceLocations{
-    $(Get-PackageSource|Select-Object -ExpandProperty Location -Unique) -join ";"
+function Get-PackageSourceLocations($providerName){
+    $(Get-PackageSource|Where-object{
+        !$providerName -bor ($_.ProviderName -eq $providerName) 
+    }|Select-Object -ExpandProperty Location -Unique|Where-Object{$_ -like "http*" -bor (Test-Path $_)})
 }
-function Get-NugetPackages {
-    param (
-        [parameter(Mandatory)]
-        [string]$filter,
-        [string]$sources,
-        [switch]$latest)
-
-    Install-NugetCommandLine|Out-null
-    $packageSource=$sources
-    if (!$packageSource){
-        $packageSource=Get-PackageSourceLocations
-    }
-    $packages=nuget list $filter -source $packageSource |ForEach-Object{Format-Nuget $_}|Group-Object Name|ForEach-Object{
-        $_.Group|Sort-Object|Select-Object -First 1 -ExpandProperty Name
-    }|Where-Object{$_ -like $filter}
-    $packages|Sort-Object -Descending|ForEach-Object{
-        $package=$_
-        Write-Host "Listing all version for $_ "
-        $allVersions=& nuget list $_ -source $packageSource -AllVersion|ForEach-Object{Format-Nuget $_}
-        if ($latest){
-            $allVersions|Group-Object Name|ForEach-Object{
-                $version=$_.Group|Sort-Object -Descending|Select-Object -First 1 -ExpandProperty Version
-                [PSCustomObject]@{
-                    Name = $package
-                    Version = $version
-                }
-            }
-        }
-        else{
-            $allVersions
-        }   
-    }
-}
-
 function Format-Nuget(
     [string]$item) {
 
@@ -171,80 +144,18 @@ function Get-NugetPackageAssembly {
     }
 }
 
-function New-Assembly {
-    [CmdletBinding()]
-    param (
-        [parameter(ValueFromPipeline,Mandatory)]
-        $AssemblyName,
-        [parameter(Mandatory)]
-        $Code,
-        [parameter()]
-        $Packages=@(),
-        [parameter()]
-        $path="$PSScriptRoot\$assemblyName"
-    )
-    
-    begin {
-    }
-    
-    process {
-        push-location $env:TEMP
-        & {
-            if (Test-Path "$env:TEMP\$assemblyName"){
-                get-childitem "$env:TEMP\$assemblyName" -Recurse|Remove-Item -ErrorAction Continue -Force -Recurse
-            }
-            dotnet new classlib --name $assemblyName --force
-            Push-Location $AssemblyName
-            $packages |ForEach-Object{
-                dotnet add package $_
-            }
-            Remove-Item ".\Class1.cs"
-            $code|Out-file ".\$assemblyName.cs" -encoding UTF8
-            dotnet publish
-            new-item $path -ItemType Directory -Force
-            get-childitem ".\bin\Debug\netstandard2.0\publish"|ForEach-Object{
-                Copy-Item $_.FullName -Destination $path -force
-            }
-            Pop-Location
-            Pop-Location
-        }|Write-Verbose
-        "$path\$AssemblyName.dll"
-    }
-    
-    end {
-    }
-}
 function Install-NugetSearch{
-    if (!(Get-Module NugetSearch -ListAvailable)){
-        $code=Get-Content "$PSScriptRoot\NugetSearch.cs" -Raw
-        $assembly=New-Assembly -AssemblyName NugetSearch -Code $code -Packages @("NuGet.Protocol.Core.v3","PowerShellStandard.Library") -path "$env:TEMP\$([Guid]::NewGuid())"
+    $nugetSearch=Get-Module NugetSearch -ListAvailable
+    if (!$nugetSearch){
+        Write-Host "Installing Nuget-Search"
         $installationPath="$($env:PSModulePath -split ";"|where-object{$_ -like "$env:USERPROFILE*"}|Select-Object -Unique)\NugetSearch"
+        # $installationPath="$PSScriptRoot\NugetSearch"
         New-Item $installationPath -ItemType Directory -Force
-        Get-ChildItem (get-item $assembly).DirectoryName -Recurse|ForEach-Object{
-            Copy-Item $_.FullName $installationPath
-        }
+        $code=Get-Content "$PSScriptRoot\NugetSearch.cs" -Raw
+        New-Assembly -AssemblyName NugetSearch -Code $code -Packages @("NuGet.Protocol.Core.v3","PowerShellStandard.Library") -path $installationPath
     }
 }
-function Get-NugetPackageVersions {
-    [CmdletBinding()]
-    param (
-        [parameter(ValueFromPipeline,Mandatory)]
-        $packageName
-    )
-    
-    begin {
-        Install-NugetSearch
-    }
-    
-    process {
-        Get-NugetPackageSearchMetadata -Name $packageName|ForEach-Object{
-            $_.Version.ToString()
-        }
-    }
-    
-    end {
-    }
-}
+
 
 function Use-NugetAssembly {
     [CmdletBinding()]
