@@ -1,3 +1,4 @@
+using namespace System.Text.RegularExpressions
 function Get-XpandVersion ($XpandPath) { 
     $assemblyInfo="$XpandPath\Xpand\Xpand.Utils\Properties\XpandAssemblyInfo.cs"
     $matches = Get-Content $assemblyInfo -ErrorAction Stop | Select-String 'public const string Version = \"([^\"]*)'
@@ -109,11 +110,34 @@ Function Update-SpecificVersions {
 }
 
 function Get-XpandPath() {
-    $dllPath = (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Wow6432node\Microsoft\.NETFramework\AssemblyFolders\Xpand').'(default)'
-    $item = (Get-Item $dllPath)
-    $dllPath = $item.Parent.FullName
-    if ($dllPath -eq $null) {
-        throw "Invalid Xpand path"
+    $dllPath = (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Wow6432node\Microsoft\.NETFramework\AssemblyFoldersEx\Xpand').'(default)'
+}
+
+function Get-DotNetCoreVersion{
+    param(
+        [validateset("Runtime","SDK")]
+        [string]$Type
+    )
+    if ($type -eq "Runtime"){
+        dotnet --list-runtimes|ForEach-Object{
+            $r=new-object Regex ("(?<Name>[^ ]*) (?<Version>[^ ]*) \[(?<Path>[^\]]*)")
+            $m=$r.Match($_)
+            [PSCustomObject]@{
+                Name = $m.Groups["Name"].Value
+                Version = $m.Groups["Version"].Value
+                Path = $m.Groups["Path"].Value
+            }
+        }
     }
-    return $dllPath
+    else{
+        dotnet --list-sdks|ForEach-Object{
+            $r=new-object Regex ("(?<Name>[^ ]*) \[(?<Path>[^\]]*)")
+            $m=$r.Match($_)
+            [PSCustomObject]@{
+                Name = $m.Groups["Name"].Value
+                Version = $m.Groups["Name"].Value
+                Path = $m.Groups["Path"].Value
+            }
+        }
+    }
 }
