@@ -2,9 +2,9 @@ using namespace System
 using namespace System.Reflection
 using namespace System.Text.RegularExpressions
 using namespace System.IO
+using namespace System.Collections
 using namespace System.Collections.Generic
-Install-NugetCommandLine
-Install-NugetSearch
+
 function Get-DxNugets{
     param(
         [parameter(Mandatory)]
@@ -12,34 +12,114 @@ function Get-DxNugets{
     )
     (new-object System.Net.WebClient).DownloadString("https://raw.githubusercontent.com/eXpandFramework/DevExpress.PackageContent/master/Contents/$version.csv")|ConvertFrom-csv
 }
-function Update-NugetPackages{
+function Update-NugetPackage{
     [cmdletbinding()]
     param(
-        [parameter(Mandatory,ValueFromPipeline)]
-        [string]$sourcePath,
-        [parameter(Mandatory)]
-        [string]$filter,
-        [string]$repositoryPath
+        [parameter(ValueFromPipeline)]
+        [string]$SourcePath=".",
+        [parameter()]
+        [string]$Filter="*"
     )
-    $sources=Get-PackageSourceLocations Nuget
-    $packages=New-Object "System.Collections.Generic.Dictionary[System.String,System.String]"
-    Get-ChildItem $sourcePath packages.config -Recurse|ForEach-Object {
-        $packageConfigPath=$_.FullName
-        [xml]$packageConfig = Get-Content $packageConfigPath
-        $packageConfig.packages.package|Where-Object{$_.id -like $filter}|ForEach-Object{
-            $packageId=$_.Id
-            if (!$packages.ContainsKey($packageId)){
-                $metadata=Get-NugetPackageSearchMetadata -Name $packageId -Sources $sources
-                $packages.Add($packageId,$metadata.Version.ToString())
-            }
-            $version=$packages[$packageId]
-            if ($_.Version -ne $version){
-                Write-host "Updating $packageId in $packageConfigPath" -f "Blue"
-                & Nuget Update $packageConfigPath -id $packageId -source $($sources -join ";") -RepositoryPath $repositoryPath  -Version $version -verbosity detailed
-            }
+    $configs=Get-ChildItem $sourcePath packages.config -Recurse|ForEach-Object{
+        [PSCustomObject]@{
+            Content = [xml]$(Get-Content $_.FullName)
+            Config = $_
         }
     }
+    $sources=Get-PackageSourceLocations Nuget
+    $ids=$configs|ForEach-Object{$_.Content.packages.package.id}|Select-Object -Unique 
+    $metadatas= $ids|Invoke-Parallel -activityName "Getting latest versions from sources" {(Get-NugetPackageSearchMetadata -Name $_ -Sources $Using:sources)}
+    $packages=$configs|ForEach-Object{
+        $config=$_.Config
+        $_.Content.packages.package|Where-Object{$_.id -like $filter}|ForEach-Object{
+            $packageId=$_.Id
+            $metadata=$metadatas|Where-object{$_.Metadata.Identity.id -eq $packageId}
+            if ($metadata){
+                [PSCustomObject]@{
+                    Id = $packageId
+                    NewVersion = (Get-MetadataVersion $metadata.Metadata).Version
+                    Config =$config.FullName
+                    Metadata=$metadata
+                }
+            }
+        }
+    }|Where-Object{$_.NewVersion -and ($_.Metadata.Version -ne $_.NewVersion)}
+    $sortedPackages=$packages|Group-Object Config|ForEach-Object{
+        $p=[PSCustomObject]@{
+            Packages = ($_.Group|Sort-PackageByDependencies)
+        }
+        $p
+    } 
+    
+    
+    $sortedPackages|Invoke-Parallel -activityName "Update all packages" {
+        ($_.Packages|ForEach-Object{
+            Write-host "Updating $($_.Id) in $($_.Config) to version $($_.NewVersion) from $($_.Metadata.Source)"
+            (& Nuget Update $_.Config -Id $_.Id -Version $($_.NewVersion) -Source "$($_.Metadata.Source)")
+        })
+    }
 }
+
+function Sort-PackageByDependencies {
+    [CmdletBinding()]
+    param (
+        [parameter(ValueFromPipeline,Mandatory)]
+        $psObj
+    )
+    begin {
+        $all=New-Object System.Collections.ArrayList
+    }
+    
+    process {
+        $all.Add($psObj)|Out-Null
+    }
+    
+    end {
+        $list=New-Object System.Collections.ArrayList
+        
+        while ($all.Count) {
+            $all|ForEach-Object{
+                $obj=$_
+                $deps=$obj.Metadata.Metadata.DependencySets.Packages|select -ExpandProperty Id
+                $exist=$all|select -ExpandProperty Id|where{$deps -contains $_}
+                if (!$exist){
+                    $list.Add($obj)|out-null
+                }
+            }
+            $list|ForEach-Object{
+                $all.Remove($_)|out-null
+            }
+        }
+        $list|ForEach-Object{$_}
+    }
+}
+
+function Get-MetadataVersion {
+    [CmdletBinding()]
+    param (
+        [parameter(Mandatory,ValueFromPipeline)]
+        [NuGet.Protocol.Core.Types.IPackageSearchMetadata]$metadata
+    )
+    
+    begin {
+    }
+    
+    process {
+        $typeName=$metadata.GetType().Name
+        $version=$metadata.Version
+        if ($typeName -eq "LocalPackageSearchMetadata"){
+            $version=$metadata.Identity.Version
+        }
+        [PSCustomObject]@{
+            Name = $metadata.Identity.Id
+            Version = $version.ToString()
+        }
+    }
+    
+    end {
+    }
+}
+
 function Get-PackageSourceLocations($providerName){
     $(Get-PackageSource|Where-object{
         !$providerName -bor ($_.ProviderName -eq $providerName) 
@@ -61,11 +141,6 @@ function Remove-Nuget([parameter(Mandatory)][string]$id,$path=(Get-Location)) {
     push-location $path
     Clear-ProjectDirectories 
     pop-location
-}
-
-function Install-NugetCommandLine{
-    Install-Chocolatey
-    cinst NuGet.CommandLine
 }
 
 function Get-NugetPackageAssembly {
@@ -177,3 +252,6 @@ function Use-NugetAssembly {
     end {
     }
 }
+
+Install-NugetCommandLine
+Install-NugetSearch

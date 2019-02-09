@@ -12,3 +12,34 @@ function Install-Chocolatey {
         "chocolatey is already installed"
     }   
 }
+
+function Get-ChocoPackage {
+    [CmdletBinding()]
+    param (
+        [parameter(ValueFromPipeline,Mandatory)]
+        $filter
+    )
+    
+    begin {
+    }
+    
+    process {
+        choco list $filter --lo|Where{$_ -like "$filter *"}|ForEach-Object{
+            $strings=$_.split(";")
+            [PSCustomObject]@{
+                Name = $strings[0]
+                Version =$strings[1]
+            }
+        }
+    }
+    
+    end {
+    }
+}
+
+function Install-NugetCommandLine{
+    Install-Chocolatey
+    if (!(Get-ChocoPackage Nuget.CommandLine)){
+        cinst NuGet.CommandLine
+    }
+}

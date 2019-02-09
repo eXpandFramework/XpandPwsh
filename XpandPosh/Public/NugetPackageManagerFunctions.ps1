@@ -1,10 +1,37 @@
-function Update-PackageInProjects($projectWildCard, $packageId, $version) {
-    Get-Project $projectWildCard | ForEach-Object {Update-Package  -Id $packageId -ProjectName $_.ProjectName -Version $version}
+function Update-ProjectPackage {
+    [CmdletBinding()]
+    param(
+        [parameter(ValueFromPipeline,Mandatory,ParameterSetName="VSPkgManager")]
+        [System.__ComObject]$Project, 
+        [parameter(ValueFromPipeline,Mandatory,ParameterSetName="Path")]
+        [string]$Path,
+        [string]$Filter, 
+        [string]$Version
+    )
+    
+    begin {
+        if ($PSCmdlet.ParameterSetName -eq "VSPkgManager"){
+            $Path=(Get-Item $Project).DirectoryName
+        }
+    }
+    
+    process {
+        Get-ChildItem $Path packages.config -Recurse|ForEach-Object{
+            $packageItem=$_
+            [xml]$config=Get-Content $packageItem.FullName
+            Write-Verbose "Checking $($packageItem.FullName)"
+            $config.packages.package|where{!$filter -bor $_.Id -like "*$filter*"}|ForEach-Object{
+                Write-Verbose "Updating $($_.Id)"
+                Update-NugetPackages -sourcePath ($packageItem.DirectoryName) -filter $_.Id 
+            }
+        }
+    }
+    
+    end {
+    }
 }
 
-function Install-AllProjects($packageName) {
-    Get-Project -All | Install-Package $packageName
-}
+
 
 function Uninstall-ProjectAllPackages($packageFilter) {
     
@@ -18,5 +45,5 @@ function Uninstall-ProjectAllPackages($packageFilter) {
     
 }
 function Uninstall-ProjectXAFPackages {
-    Uninstall-ProjectAllPackages DevExpress.XAF.
+    Uninstall-ProjectAllPackages Xpand.XAF.
 }

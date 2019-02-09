@@ -7,9 +7,25 @@
  using NuGet.Configuration;
  using NuGet.Protocol;
  using NuGet.Protocol.Core.Types;
+ using NuGet.Versioning;
+
  namespace NugetSearch{
+     public interface IPackageSourceSearchMetadata{
+         string Source{ get; }
+         IPackageSearchMetadata Metadata{ get; }
+     }
+
+     class PackageSourceSearchMetadata:IPackageSourceSearchMetadata{
+         public PackageSourceSearchMetadata(string source, IPackageSearchMetadata metadata){
+             Source = source;
+             Metadata = metadata;
+         }
+
+         public string Source{ get;  }
+         public IPackageSearchMetadata Metadata{ get;  }
+     }
      [Cmdlet(VerbsCommon.Get, "NugetPackageSearchMetadata")]
-     [OutputType(typeof(IPackageSearchMetadata))]
+     [OutputType(typeof(IPackageSourceSearchMetadata))]
      [CmdletBinding]
      public class GetNugetPackageSearchMetadata : PSCmdlet{
          [Parameter(Mandatory = true, ValueFromPipeline = true)]
@@ -24,13 +40,13 @@
          [Parameter]
          public SwitchParameter AllVersions{ get; set; } = new SwitchParameter(false);
 
-         class MetadataEqualityComparer:IEqualityComparer<PackageSearchMetadata>{
-             public bool Equals(PackageSearchMetadata x, PackageSearchMetadata y){
-                 return x?.Identity.Id == y?.Identity.Id && x?.Version == y?.Version;
+         class MetadataEqualityComparer:IEqualityComparer<IPackageSourceSearchMetadata>{
+             public bool Equals(IPackageSourceSearchMetadata x, IPackageSourceSearchMetadata y){
+                 return x?.Metadata.Identity.Id == y?.Metadata.Identity.Id && GetNuGetVersion(x)?.Version == GetNuGetVersion(y)?.Version;
              }
 
-             public int GetHashCode(PackageSearchMetadata obj){
-                 return $"{obj.Identity.Id}{obj.Version.Version}".GetHashCode();
+             public int GetHashCode(IPackageSourceSearchMetadata obj){
+                 return $"{obj.Metadata.Identity.Id}{GetNuGetVersion(obj).Version}".GetHashCode();
              }
          }
          protected override void ProcessRecord(){
@@ -42,11 +58,11 @@
                      var packageSource = new PackageSource(source);
                      var sourceRepository = new SourceRepository(packageSource, providers);
                      var packageMetadataResource = sourceRepository.GetResourceAsync<PackageMetadataResource>().Result;
-                     return packageMetadataResource.GetMetadataAsync(Name, IncludePrerelease, IncludeUnlisted, NullLogger.Instance, CancellationToken.None).Result;
+                     return packageMetadataResource.GetMetadataAsync(Name, IncludePrerelease, IncludeUnlisted, NullLogger.Instance, CancellationToken.None).Result
+                         .Select(metadata => new PackageSourceSearchMetadata(source, metadata));
                  })
-                .Cast<PackageSearchMetadata>()
                 .Distinct(new MetadataEqualityComparer())
-                .OrderByDescending(metadata => metadata.Version.Version)
+                .OrderByDescending(metadata => GetNuGetVersion(metadata).Version)
                 .ToArray();
                  if (!AllVersions){
                      metadatas = metadatas.Take(1).ToArray();
@@ -72,6 +88,13 @@
              }
          }
 
+         private static NuGetVersion GetNuGetVersion(IPackageSourceSearchMetadata metadata){
+             if (metadata.Metadata is PackageSearchMetadata searchMetadata)
+                 return searchMetadata.Version;
+             if (metadata.Metadata is LocalPackageSearchMetadata  localPackageSearchMetadata)
+                 return localPackageSearchMetadata.Identity.Version;
+             return ((PackageSearchMetadataV2Feed) metadata.Metadata).Version;
+         }
      }
 
  }
