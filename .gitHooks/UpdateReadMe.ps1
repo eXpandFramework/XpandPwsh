@@ -12,3 +12,8 @@ New-PSMDDocument -Name ReadMe -OutputPath "$PSScriptRoot\.." -Content {
     CodeBlock -Lang ps1 -Code "Get-Command -Module XpandPosh"
     CodeBlock -Lang txt -Code "$($(Get-Command -Module XpandPosh) -join "`r`n")"
 }
+
+if (git diff --name-only |Where-Object{$_ -like "*ReadMe.md"}){
+    Write-Error "ReadMe changed" -ErrorAction Continue
+    exit 1
+}
