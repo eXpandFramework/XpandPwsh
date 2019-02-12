@@ -8,7 +8,7 @@ queue:
   - visualstudio
 steps:
 - powershell: |
-   $file = "$PSScriptRoot\..\XpandPosh\XpandPosh.psd1"
+   $file = "$(System.DefaultWorkingDirectory\XpandPosh\XpandPosh.psd1"
    $data = Get-Content $file -Raw
    $manifest = Invoke-Expression $data
    $onlineVersion = (Find-Module XpandPosh -Repository PSGallery).Version.ToString()
