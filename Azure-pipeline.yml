@@ -8,7 +8,13 @@ queue:
   - visualstudio
 steps:
 - powershell: |
-   Publish-Module -Path $(System.DefaultWorkingDirectory)\XpandPosh -verbose -NugetApiKey $(PSNugetApiKey) -ErrorAction Stop
+   $file = "$PSScriptRoot\..\XpandPosh\XpandPosh.psd1"
+   $data = Get-Content $file -Raw
+   $manifest = Invoke-Expression $data
+   $onlineVersion = (Find-Module XpandPosh -Repository PSGallery).Version.ToString()
+   if ($manifest.ModuleVersion -ne $onlineVersion){
+      Publish-Module -Path $(System.DefaultWorkingDirectory)\XpandPosh -verbose -NugetApiKey $(PSNugetApiKey) -ErrorAction Stop    
+   }
   displayName: 'Publish'
   failOnStderr: true
 
