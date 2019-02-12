@@ -27,7 +27,7 @@ function Update-NugetPackage{
         }
     }
     $sources=Get-PackageSourceLocations Nuget
-    $ids=$configs|ForEach-Object{$_.Content.packages.package.id}|Select-Object -Unique 
+    $ids=$configs|ForEach-Object{$_.Content.packages.package.id}|Where-Object{$_ -like $Filter}|Select-Object -Unique 
     $metadatas= $ids|Invoke-Parallel -activityName "Getting latest versions from sources" {(Get-NugetPackageSearchMetadata -Name $_ -Sources $Using:sources)}
     $packages=$configs|ForEach-Object{
         $config=$_.Config
