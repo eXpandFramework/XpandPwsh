@@ -178,7 +178,8 @@ function Invoke-Parallel {
         [string]$LogFile,
 
         [switch] $Quiet = $false,
-        [string]$ActivityName="Running Query"
+        [string]$ActivityName="Running Query",
+        [System.Management.Automation.PSVariable[]]$AdditionalVariables=@()
     )
     begin {
         #No max queue specified?  Estimate one.
@@ -204,7 +205,7 @@ function Invoke-Parallel {
 
                 #Get variables in this clean runspace
                 #Called last to get vars like $? into session
-                $Variables = Get-Variable | Select-Object -ExpandProperty Name
+                $Variables = $(Get-Variable) + $AdditionalVariables|Select-Object -ExpandProperty Name -Unique
 
                 #Return a hashtable where we can access each.
                 @{
@@ -225,7 +226,7 @@ function Invoke-Parallel {
                 # One of the veriables that we pass is '$?'.
                 # There could be other variables with such problems.
                 # Scope 2 required if we move to a real module
-                $UserVariables = @( Get-Variable | Where-Object { -not ($VariablesToExclude -contains $_.Name) } )
+                $UserVariables = @( $(Get-Variable) + $AdditionalVariables | Where-Object { -not ($VariablesToExclude -contains $_.Name) } )
                 Write-Verbose "Found variables to import: $( ($UserVariables | Select-Object -expandproperty Name | Sort-Object ) -join ", " | Out-String).`n"
             }
             if ($ImportModules) {
@@ -412,6 +413,9 @@ function Invoke-Parallel {
             if($ImportVariables -and $UserVariables.count -gt 0) {
                 foreach($Variable in $UserVariables) {
                     $sessionstate.Variables.Add((New-Object -TypeName System.Management.Automation.Runspaces.SessionStateVariableEntry -ArgumentList $Variable.Name, $Variable.Value, $null) )
+                }
+                foreach ($V in $AdditionalVariables){
+
                 }
             }
             if ($ImportModules) {
