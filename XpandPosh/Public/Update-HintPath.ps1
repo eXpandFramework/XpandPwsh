@@ -18,7 +18,7 @@ function Update-HintPath{
             if (!$reference.Hintpath) {
                 $reference.AppendChild($reference.OwnerDocument.CreateElement("HintPath", $csproj.DocumentElement.NamespaceURI))|out-null
             }            
-            $hintPath = Get-XRelativePath $projectPath $outputPath
+            $hintPath = Get-RelativePath $projectPath $outputPath
             $reference.HintPath = "$hintPath\$($reference.Include).dll"
             if (!$(Test-path $("$projectDir\$hintPath"))) {
                 throw "File not found $($reference.HintPath)"
