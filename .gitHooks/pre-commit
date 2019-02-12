@@ -7,4 +7,4 @@
 #
 # To enable this hook, rename this file to "pre-commit".
 
-powershell $PWD/.GitHooks/pre-commit.ps1
+
