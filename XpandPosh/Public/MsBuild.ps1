@@ -1,5 +1,5 @@
 function Start-Build($msbuild,$buildArgs){
-    & $msbuild $buildArgs;
+    & $msbuild $buildArgs
     if ($LASTEXITCODE){
         throw "Build failed $buildArgs"
     }   
