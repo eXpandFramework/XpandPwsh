@@ -1,5 +1,5 @@
 $lastSha = (git ls-remote https://github.com/eXpandFramework/XpandPosh.git|Where {$_ -like "*HEAD*"}|Select -first 1).Replace("HEAD", "").Trim("")
-$needNewVersion = git diff --name-only $lastSha HEAD|Where-Object {$_ -like "*\XpandPosh\*" -and $_ -notlike "*.md"}
+$needNewVersion = git diff --name-only $lastSha HEAD|Where-Object {$_ -like "XpandPosh/*" -and $_ -notlike "*.md"}
 if ($needNewVersion) {
     $onlineVersion = New-Object System.Version ((Find-Module XpandPosh -Repository PSGallery).Version)
     $file = "$PSScriptRoot\..\XpandPosh\XpandPosh.psd1"

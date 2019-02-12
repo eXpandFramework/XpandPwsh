@@ -1,3 +1,4 @@
+$ErrorActionPreference="Stop"
 if (!(Get-Module PSMD -ListAvailable)){
     Install-Module PSMD
 }
