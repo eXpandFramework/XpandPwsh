@@ -11,18 +11,17 @@ function Install-DX {
         [string]$packagesFolder = "$binPath\TempDXNupkg"
     )
     $ErrorActionPreference = "Stop"
-    "Installing DX assemblies from $dxSources"
-    $allNugets=Get-DxNugets $dxVersion
-    $nugets=Get-ChildItem $sourcePath *.csproj -Recurse|ForEach-Object{
+    $hash=@{}
+    (Get-DxNugets $dxVersion)|ForEach-Object{
+        $hash[$_.Assembly]=$_.Package
+    }
+    $projects=Get-ChildItem $sourcePath *.csproj -Recurse
+    $nugets=$projects|Invoke-Parallel -ImportVariables -AdditionalVariables $(Get-Variable hash) -ActivityName "Discovering packages" {
         [xml]$csproj = Get-Content $_.FullName
-        $csproj.Project.ItemGroup.Reference.Include|Where-Object {$_ -like "DevExpress*" -and $_ -notlike "DevExpress.DXCore*" }|ForEach-Object {
+        ($csproj.Project.ItemGroup.Reference.Include|Where-Object {$_ -like "DevExpress*" -and $_ -notlike "DevExpress.DXCore*" }|ForEach-Object {
             $assemblyName = [System.Text.RegularExpressions.Regex]::Match($_,"([^,]*)").Groups[1].Value
-            $item=$allNugets|Where-Object{$_.Assembly -eq $assemblyName}|Select-Object -First 1
-            if (!$item){
-                throw "project:$($_.FullName) assembly:$assemblyName"
-            }
-            $item.Package
-        }
+            $hash[$assemblyName]
+        })
     }|Select-Object -Unique
     New-Item $packagesFolder -ItemType Directory -Force|out-null
     $psObj = [PSCustomObject]@{
@@ -35,10 +34,14 @@ function Install-DX {
         throw "No nugets found??"
     }
 
-    $psObj.Nugets|Invoke-Parallel -ImportVariables {
-        (& nuget Install $_ -source "$($psObj.Source)" -OutputDirectory "$($psObj.OutputDirectory)" -Version $psObj.Version)    
+    $psObj.Nugets|Invoke-Parallel -ImportVariables -ImportFunctions -ActivityName "Installing DX" {
+        $package=$_
+        (Invoke-Retry {
+            Write-host "Installing $package $($psObj.Version) in $($psObj.OutputDirectory)" 
+            & nuget Install $package -source "$($psObj.Source)" -OutputDirectory "$($psObj.OutputDirectory)" -Version $($psObj.Version)
+        })
     }
-    "Flattening nugets..." -f "Blue"
+    
     Get-ChildItem -Path "$packagesFolder" -Include "*.dll" -Recurse  |Where-Object {
         $item = Get-Item $_
         $item.GetType().Name -eq "FileInfo" -and $item.DirectoryName -like "*net452"
