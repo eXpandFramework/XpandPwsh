@@ -179,7 +179,8 @@ function Invoke-Parallel {
 
         [switch] $Quiet = $false,
         [string]$ActivityName="Running Query",
-        [System.Management.Automation.PSVariable[]]$AdditionalVariables=@()
+        [System.Management.Automation.PSVariable[]]$AdditionalVariables=@(),
+        [System.Management.Automation.PSModuleInfo[]]$ModulesToImport=@()
     )
     begin {
         #No max queue specified?  Estimate one.
@@ -434,6 +435,9 @@ function Invoke-Parallel {
                 foreach ($FunctionDef in $UserFunctions) {
                     $sessionstate.Commands.Add((New-Object System.Management.Automation.Runspaces.SessionStateFunctionEntry -ArgumentList $FunctionDef.Name,$FunctionDef.ScriptBlock))
                 }
+            }
+            $ModulesToImport|ForEach-Object{
+                $sessionstate.ImportPSModule($_.Path)
             }
 
             #Create runspace pool
