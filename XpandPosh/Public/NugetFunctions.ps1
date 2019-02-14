@@ -125,15 +125,70 @@ function Get-PackageSourceLocations($providerName){
         !$providerName -bor ($_.ProviderName -eq $providerName) 
     }|Select-Object -ExpandProperty Location -Unique|Where-Object{$_ -like "http*" -bor (Test-Path $_)})
 }
-function Format-Nuget(
-    [string]$item) {
 
-    $strings = $item.Split(" ")
-    [PSCustomObject]@{
-        Name    = $strings[0]
-        Version = new-object System.Version ($strings[1])
+function Publish-NugetPackage {
+    [CmdletBinding()]
+    param (
+        [parameter(ValueFromPipeline,Mandatory)]
+        [string]$NupkgPath,
+        [parameter(Mandatory)]
+        [string]$Source,
+        [parameter(Mandatory)]
+        [string]$ApiKey
+    )
+    
+    begin {
+        if (!(Test-Path $NupkgPath)){
+            throw "$NupkgPath is not a valid path"
+        }
+        Get-NugetPackageSearchMetadata -Name "a" -Sources $PSScriptRoot|out-null
+    }
+    
+    process {
+        $packages=& Nuget List -source $NupkgPath|convertto-packageobject
+        Write-Verbose "Packages found:`r`n$packages"
+        $additionalVariables=(("source","ApiKey")|Get-Variable)
+        $published=$packages|Select-Object -ExpandProperty Name| Invoke-Parallel -activityName "Getting latest versions from sources" -ImportVariables -ImportFunctions -AdditionalVariables $additionalVariables -ModulesToImport (Get-Module NugetSearch) { 
+            (Get-NugetPackageSearchMetadata -Name $_ -Sources $Source|Select-object -ExpandProperty Metadata|Get-MetadataVersion)
+        } 
+        Write-Verbose "Published packages:`r`n$published"
+        $needPush=$packages|Where-Object{
+            $p=$_
+            $published |Where-Object{
+                $_.Name -eq $p.Name -and $_.Version -eq $_.Version
+            }
+        }
+        $needPush|Invoke-Parallel -ActivityName "Publishing Nugets" -AdditionalVariables $additionalVariables -ImportVariables {
+            Write-Host "Pushing $_ in $Source "
+            # (& nuget Push "$_" $ApiKey -source $Source)
+        }
+    }
+    
+    end {
     }
 }
+function ConvertTo-PackageObject {
+    [CmdletBinding()]
+    param (
+        [parameter(ValueFromPipeline,Mandatory)]
+        [string]$item
+    )
+    
+    begin {
+    }
+    
+    process {
+        $strings = $item.Split(" ")
+        [PSCustomObject]@{
+            Name    = $strings[0]
+            Version = new-object System.Version ($strings[1])
+        }
+    }
+    
+    end {
+    }
+}
+
 
 
 function Remove-Nuget([parameter(Mandatory)][string]$id,$path=(Get-Location)) {
@@ -147,7 +202,7 @@ function Get-NugetPackageAssembly {
     [CmdletBinding(DefaultParameterSetName="nupkgPath")]
     param (
         [parameter(Mandatory,ParameterSetName="nupkgPath")]
-        [string]$nupkgPath,
+        [string]$NupkgPath,
         [parameter(ParameterSetName="nupkgPath")]
         [string]$flattenPath="$env:TEMP\$([System.Guid]::NewGuid())",
         [parameter(ParameterSetName="nupkgPath")]
@@ -175,12 +230,12 @@ function Get-NugetPackageAssembly {
             Get-NugetPackageAssembly -nupkgPath $nupkg.DirectoryName -flattenPath "$($nupkg.DirectoryName)\$($p.Name)" -keepFlatten 
         }
         else{
-            if ($flattenPath -eq $nupkgPath){
+            if ($flattenPath -eq $NupkgPath){
                 throw "same paths"
             }
             New-Item $flattenPath -ItemType Directory -Force|Out-Null
             Write-Verbose "Move packages to $flattenPath and rename to zip"
-            Get-ChildItem $nupkgPath *.nupkg |ForEach-Object{
+            Get-ChildItem $NupkgPath *.nupkg |ForEach-Object{
                 $newName=([Path]::ChangeExtension($_.Name, ".zip"))
                 if (!(Test-path "$flattenPath\$newName")){
                     Copy-Item $_.FullName -Destination $flattenPath -Force

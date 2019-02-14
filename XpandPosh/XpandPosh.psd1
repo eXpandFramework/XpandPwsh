@@ -110,6 +110,8 @@
         "Get-NugetPackageVersion",
         "Get-DotnetCoreVersion",
         "Get-MetadataVersion",
+        "ConvertTo-PackageObject",
+        "Publish-NugetPackage",
         "Get-ChocoPackage",
         "Invoke-Parallel"
     )
