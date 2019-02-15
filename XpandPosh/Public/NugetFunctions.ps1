@@ -234,7 +234,8 @@ function Get-NugetPackageAssembly {
                 throw "same paths"
             }
             New-Item $flattenPath -ItemType Directory -Force|Out-Null
-            Write-Verbose "Move packages to $flattenPath and rename to zip"
+            $packages=& Nuget List -Source "$NupkgPath"|ConvertTo-PackageObject
+            Write-Verbose "Copy packages to $flattenPath and rename to zip"
             Get-ChildItem $NupkgPath *.nupkg |ForEach-Object{
                 $newName=([Path]::ChangeExtension($_.Name, ".zip"))
                 if (!(Test-path "$flattenPath\$newName")){
@@ -250,14 +251,14 @@ function Get-NugetPackageAssembly {
                 }
             }
             Write-Verbose "Creating Objects "
-            $packages=Get-ChildItem $flattenPath|ForEach-Object{
-                $version = [Regex]::Match($_.BaseName, "[\d]*\.[\d]*\.[\d]*(\.[\d]*)?$").Value.Trim(".")
-                $packageName = $_.BaseName.Replace($version, "").Trim(".").Trim(".v")
-                Get-ChildItem $_.FullName *.dll -Recurse|ForEach-Object{
+            $packageAssemblies=$packages|ForEach-Object{
+                $packageName=$_.Name
+                $packageVersion=$_.Version
+                Get-ChildItem "$flattenPath\$packageName.$packageVersion" "*.dll" -Recurse|ForEach-Object{
                     [PSCustomObject]@{
                         Package = $packageName
-                        Version  = $version
-                        Assembly = $_
+                        Version  = $packageVersion
+                        Assembly = $_.Name
                         Framework = $_.Directory.Name
                     }
                 }
@@ -265,7 +266,7 @@ function Get-NugetPackageAssembly {
             if (!$keepFlatten){
                 [Directory]::Delete($flattenPath,$true)|Out-Null        
             }
-            $packages
+            $packageAssemblies
         }
         
     }

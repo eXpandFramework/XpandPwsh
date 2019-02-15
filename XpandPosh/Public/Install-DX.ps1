@@ -20,9 +20,10 @@ function Install-DX {
         [xml]$csproj = Get-Content $_.FullName
         ($csproj.Project.ItemGroup.Reference.Include|Where-Object {$_ -like "DevExpress*" -and $_ -notlike "DevExpress.DXCore*" }|ForEach-Object {
             $assemblyName = [System.Text.RegularExpressions.Regex]::Match($_,"([^,]*)").Groups[1].Value
-            $hash[$assemblyName]
+            $hash["$assemblyName.dll"]
         })
     }|Select-Object -Unique
+
     New-Item $packagesFolder -ItemType Directory -Force|out-null
     $psObj = [PSCustomObject]@{
         OutputDirectory = $(Get-Item $packagesFolder).FullName
