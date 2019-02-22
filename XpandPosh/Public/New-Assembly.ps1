@@ -1,45 +1,58 @@
 function New-Assembly {
     [CmdletBinding()]
     param (
-        [parameter(ValueFromPipeline,Mandatory)]
-        $AssemblyName,
         [parameter(Mandatory)]
-        $Code,
+        [string]$AssemblyName,
+        [parameter(Mandatory,ParameterSetName="code")]
+        [string]$Code,
+        [parameter(Mandatory,ParameterSetName="files",ValueFromPipeline)]
+        [string[]]$Files,
         [parameter()]
-        $Packages=@(),
+        [string[]]$Packages=@(),
         [parameter()]
-        $path="$PSScriptRoot\$assemblyName",
+        [string]$OutputPath="$PSScriptRoot\$assemblyName",
         [ValidateSet("console","classlib")]
-        $template="classlib",
+        [string]$Template="classlib",
         [ValidateSet("netstandard2.0","netcoreapp2.1","netcoreapp2.2","netcoreapp3.0")]
-        $framework="netstandard2.0",
+        [string]$Framework="netstandard2.0",
         [ValidateSet("Debug","Release")]
-        $configuration="Release"
+        [string]$Configuration="Release"
     )
     
     begin {
     }
     
     process {
-        & {
-            push-location $env:TEMP
-            if (Test-Path "$env:TEMP\$assemblyName"){
-                get-childitem "$env:TEMP\$assemblyName" -Recurse|Remove-Item -ErrorAction Continue -Force -Recurse
-            }
-            dotnet new $template --name $assemblyName --force -f $framework
-            Push-Location $AssemblyName
-            Get-ChildItem *.cs |Remove-Item
-            $packages |ForEach-Object{dotnet add package $_}
-            
+        Push-location $env:TEMP
+        if (Test-Path "$env:TEMP\$assemblyName"){
+            get-childitem "$env:TEMP\$assemblyName" -Recurse|Remove-Item -ErrorAction Continue -Force -Recurse
+        }
+        dotnet new $Template --name $assemblyName --force -f $Framework
+        Push-Location $AssemblyName
+        $location=get-location
+        [xml]$csproj=Get-Content "$location\$AssemblyName.csproj"
+        $element=$csproj.CreateElement("CopyLocalLockFileAssemblies")
+        $propertyGroup=$csproj.Project.PropertyGroup
+        $propertyGroup.AppendChild($element)
+        $propertyGroup.CopyLocalLockFileAssemblies="true"
+        $csproj.Save("$location\$AssemblyName.csproj")
+        Get-ChildItem *.cs |Remove-Item
+        $packages |ForEach-Object{dotnet add package $_}
+        if($PSCmdlet.ParameterSetName -eq "code"){
             $code|Out-file ".\$assemblyName.cs" -encoding UTF8
-            dotnet publish -c $configuration -f $framework -o $path 
-            if ($LASTEXITCODE){
-                throw   "Fail to publish $assemblyName"
-            }
-            Pop-Location
-            Pop-Location
-        }|Write-Verbose
-        "$path\$AssemblyName.dll"
+        }
+        else{
+            $files|Copy-Item -Destination .
+        }
+        
+        $publish=dotnet publish -c $Configuration -f $Framework -o $OutputPath 
+        if ($LASTEXITCODE){
+            throw   "Fail to publish $assemblyName`r`n`r`n$publish"
+        }
+        $publish
+        Pop-Location
+        Pop-Location
+        "$OutputPath\$AssemblyName.dll"
     }
     
     end {

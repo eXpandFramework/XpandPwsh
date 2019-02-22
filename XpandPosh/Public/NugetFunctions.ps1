@@ -159,8 +159,9 @@ function Publish-NugetPackage {
             }
         }
         $needPush|Invoke-Parallel -ActivityName "Publishing Nugets" -AdditionalVariables $additionalVariables -ImportVariables {
-            Write-Host "Pushing $_ in $Source "
-            # (& nuget Push "$_" $ApiKey -source $Source)
+            $package="$NupkgPath\$($_.Name).$($_.Version).nupkg"
+            Write-Host "Pushing $package in $Source "
+            (& nuget Push "$package" $ApiKey -source $Source)
         }
     }
     
@@ -171,21 +172,37 @@ function ConvertTo-PackageObject {
     [CmdletBinding()]
     param (
         [parameter(ValueFromPipeline,Mandatory)]
-        [string]$item
+        [string]$item,
+        [switch]$LatestVersion
     )
     
     begin {
+        if ($LatestVersion){
+            $list=New-Object System.Collections.Arraylist
+        }
     }
     
     process {
+        
         $strings = $item.Split(" ")
-        [PSCustomObject]@{
+        $psobj=[PSCustomObject]@{
             Name    = $strings[0]
             Version = new-object System.Version ($strings[1])
+        }
+        if ($LatestVersion){
+            $list.Add($psObj)|Out-Null
+        }
+        else{
+            $psobj
         }
     }
     
     end {
+        if ($LatestVersion){
+            $list|Group-Object -Property Name|ForEach-Object{
+                ($_.Group|Sort-Object -Property Version -Descending|Select-Object -First 1)
+            }
+        }
     }
 }
 
@@ -274,19 +291,30 @@ function Get-NugetPackageAssembly {
     end {
     }
 }
-
-function Install-NugetSearch{
-    $nugetSearch=Get-Module NugetSearch -ListAvailable
-    if (!$nugetSearch){
-        Write-Host "Installing Nuget-Search"
-        $installationPath="$($env:PSModulePath -split ";"|where-object{$_ -like "$env:USERPROFILE*"}|Select-Object -Unique)\NugetSearch"
-        # $installationPath="$PSScriptRoot\NugetSearch"
+function Install-SubModule{
+    param(
+        [string]$Name,
+        [string[]]$Files,
+        [string[]]$Packages
+    )
+    if (!(Get-Module $Name -ListAvailable)){
+        Write-Host "Installing $Name"
+        $installationPath="$($env:PSModulePath -split ";"|where-object{$_ -like "$env:USERPROFILE*"}|Select-Object -Unique)\$Name"
         New-Item $installationPath -ItemType Directory -Force
-        $code=Get-Content "$PSScriptRoot\NugetSearch.cs" -Raw
-        New-Assembly -AssemblyName NugetSearch -Code $code -Packages @("NuGet.Protocol.Core.v3","PowerShellStandard.Library") -path $installationPath
+        New-Assembly -AssemblyName $Name -Files $Files -Packages $Packages -outputpath $installationPath
     }
 }
-
+function Install-NugetSearch{
+    Install-SubModule NugetSearch @("$PSScriptRoot\NugetSearch.cs") @("NuGet.Protocol.Core.v3","PowerShellStandard.Library")
+}
+function Install-VersionUpdater{
+    $Files=("AsyncCmdlet","OctokitEx","Update-NugetProjectVersion")|ForEach-Object{"$PSScriptRoot\$_.cs"}
+    Install-SubModule VersionUpdater $Files @("Octokit","PowerShellStandard.Library","System.Reactive")
+}
+function Install-UpdateGitHubIssue{
+    $Files=("AsyncCmdlet","OctokitEx","Update-GithubIssue")|ForEach-Object{"$PSScriptRoot\$_.cs"}
+    Install-SubModule UpdateGithubIssue $Files @("Octokit","PowerShellStandard.Library","System.Reactive","SmartFormat.NET")
+}
 
 function Use-NugetAssembly {
     [CmdletBinding()]
@@ -311,3 +339,5 @@ function Use-NugetAssembly {
 
 Install-NugetCommandLine
 Install-NugetSearch
+Install-VersionUpdater
+Install-UpdateGitHubIssue
