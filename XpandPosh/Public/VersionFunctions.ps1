@@ -1,12 +1,52 @@
 using namespace System.Text.RegularExpressions
-function Get-XpandVersion ($XpandPath) { 
-    $assemblyInfo="$XpandPath\Xpand\Xpand.Utils\Properties\XpandAssemblyInfo.cs"
-    $matches = Get-Content $assemblyInfo -ErrorAction Stop | Select-String 'public const string Version = \"([^\"]*)'
-    if ($matches) {
-        return $matches[0].Matches.Groups[1].Value
+function Get-XpandVersion{ 
+    param(
+        $XpandPath,
+        [switch]$Latest,
+        [switch]$Release,
+        [switch]$Lab,
+        [switch]$Next
+    )
+    if($Next){
+        $official=Get-XpandVersion -Release
+        $labVersion=Get-XpandVersion -Lab 
+        $revision=0
+        if ($official.Build -eq $labVersion.Build){
+            $revision=$labVersion.Revision+1
+        }
+        return New-Object System.Version($official.Major,$official.Minor,$official.Build,$revision)
     }
-    else{
-        Write-Error "Version info not found in $assemblyInfo"
+    if ($XpandPath){
+        $assemblyInfo="$XpandPath\Xpand\Xpand.Utils\Properties\XpandAssemblyInfo.cs"
+        $matches = Get-Content $assemblyInfo -ErrorAction Stop | Select-String 'public const string Version = \"([^\"]*)'
+        if ($matches) {
+            return New-Object Syetm.Version($matches[0].Matches.Groups[1].Value)
+        }
+        else{
+            Write-Error "Version info not found in $assemblyInfo"
+        }
+        return
+    }
+    if ($Latest) {
+        $official=Get-XpandVersion -Release
+        $labVersion=Get-XpandVersion -Lab 
+        if ($labVersion -gt $official){
+            $labVersion
+        }
+        else {
+            $official
+        }
+        return
+    }
+    if ($Lab){
+        (& nuget list eXpand -Source https://xpandnugetserver.azurewebsites.net/nuget|ConvertTo-PackageObject -LatestVersion|Sort-Object -Property Version -Descending |Select-Object -First 1).Version
+        return
+    }
+    if ($Release){
+        $c=New-Object System.Net.WebClient
+        $c.Headers.Add("User-Agent", "Xpand");
+        New-Object System.Version (($c.DownloadString("https://api.github.com/repos/eXpand/eXpand/releases/latest")|ConvertFrom-Json).tag_Name)
+        $c.Dispose()
     }
 }
 
