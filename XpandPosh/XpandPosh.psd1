@@ -108,7 +108,7 @@
         "Use-NugetAssembly",
         "Install-NugetSearch",
         "Install-VersionUpdater",
-        "Install-UpdateGitHubIssue",
+        "Install-CheckpointGithubIssue",
         "Install-SubModule",
         "Get-NugetPackageVersion",
         "Get-DotnetCoreVersion",

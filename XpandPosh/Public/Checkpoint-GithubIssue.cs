@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 using Octokit;
 using SmartFormat;
 
-namespace UpdateGithubIssue{
+namespace CheckpointGithubIssue{
     [CmdletBinding(SupportsShouldProcess = true)]
-    [Cmdlet(VerbsData.Update, "GithubIssue",SupportsShouldProcess = true)]
-    public class UpdateGithubIssue : AsyncCmdlet{
+    [Cmdlet(VerbsData.Checkpoint, "GithubIssue",SupportsShouldProcess = true)]
+    public class CheckpointGithubIssue : AsyncCmdlet{
         [Parameter(Mandatory = true)]
         public string GitHubApp{ get; set; } 
         [Parameter(Mandatory = true)]
@@ -22,7 +22,6 @@ namespace UpdateGithubIssue{
         public string Repository1{ get; set; } 
         [Parameter(Mandatory = true)]
         public string Repository2{ get; set; } 
-        
         [Parameter(Mandatory = true)]
         public string Message{ get; set; } 
         [Parameter]
@@ -46,7 +45,7 @@ namespace UpdateGithubIssue{
             var version = "18.2.601.2";
             var installerBuildUri ="https://dev.azure.com/eXpandDevOps/eXpandFramework/_build/results?buildId=BuildId&view=results";
             string nugetServerUri="https://xpandnugetserver.azurewebsites.net/";
-            var updateGithubIssueMock = new UpdateGithubIssue{
+            var updateGithubIssueMock = new CheckpointGithubIssue{
                 GitHubApp = "eXpandFramework",
                 Owner = "apobekiaris",
                 Organization = "eXpandFramework",
@@ -58,7 +57,7 @@ namespace UpdateGithubIssue{
             await LinkCommits(updateGithubIssueMock, false);
         }
 
-        private static IObservable<PSObject> LinkCommits( UpdateGithubIssue cmdLet,bool shouldCreateComment){
+        private static IObservable<PSObject> LinkCommits( CheckpointGithubIssue cmdLet,bool shouldCreateComment){
             var appClient = OctokitEx.CreateClient(cmdLet.Owner, cmdLet.Pass, cmdLet.GitHubApp);
             var issueToNotify = appClient
                 .LastMileStone(cmdLet.Organization, cmdLet.Repository1)
@@ -101,7 +100,7 @@ namespace UpdateGithubIssue{
         }
 
         private static string GenerateComment(((Issue issue, long repoId) key, GitHubCommit[] commits) _,
-            UpdateGithubIssue cmdLet){
+            CheckpointGithubIssue cmdLet){
             var objects = new object[] {
                 new{
                     Options = cmdLet,

@@ -311,8 +311,8 @@ function Install-VersionUpdater{
     $Files=("AsyncCmdlet","OctokitEx","Update-NugetProjectVersion")|ForEach-Object{"$PSScriptRoot\$_.cs"}
     Install-SubModule VersionUpdater $Files @("Octokit","PowerShellStandard.Library","System.Reactive")
 }
-function Install-UpdateGitHubIssue{
-    $Files=("AsyncCmdlet","OctokitEx","Update-GithubIssue")|ForEach-Object{"$PSScriptRoot\$_.cs"}
+function Install-CheckpointGithubIssue{
+    $Files=("AsyncCmdlet","OctokitEx","Checkpoint-GithubIssue")|ForEach-Object{"$PSScriptRoot\$_.cs"}
     Install-SubModule UpdateGithubIssue $Files @("Octokit","PowerShellStandard.Library","System.Reactive","SmartFormat.NET")
 }
 
@@ -337,7 +337,6 @@ function Use-NugetAssembly {
     }
 }
 
-Install-NugetCommandLine
-Install-NugetSearch
-Install-VersionUpdater
-Install-UpdateGitHubIssue
+@({Install-NugetCommandLine},{Install-NugetSearch},{Install-VersionUpdater},{Install-CheckpointGithubIssue})|Invoke-Parallel{
+    Invoke-Command $_
+}
