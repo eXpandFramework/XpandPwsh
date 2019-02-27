@@ -13,6 +13,9 @@ function Get-XpandVersion{
         $revision=0
         if ($official.Build -eq $labVersion.Build){
             $revision=$labVersion.Revision+1
+            if ($labVersion.Revision -eq -1){
+                $revision=1
+            }
         }
         return New-Object System.Version($official.Major,$official.Minor,$official.Build,$revision)
     }
