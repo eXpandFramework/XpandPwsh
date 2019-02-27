@@ -326,3 +326,4 @@ function Use-NugetAssembly {
     }
 }
 
+Install-NugetCommandLine
