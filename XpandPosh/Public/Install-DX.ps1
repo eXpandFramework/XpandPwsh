@@ -37,7 +37,7 @@ function Install-DX {
 
     $psObj.Nugets|Invoke-Parallel -ImportVariables -ImportFunctions -ActivityName "Installing DX" {
         $package=$_
-        (Invoke-Retry {
+        (Invoke-Retry -Maximum 150 {
             Write-host "Installing $package $($psObj.Version) in $($psObj.OutputDirectory)" 
             & nuget Install $package -source "$($psObj.Source)" -OutputDirectory "$($psObj.OutputDirectory)" -Version $($psObj.Version)
         })
