@@ -13,7 +13,8 @@ steps:
    $manifest = Invoke-Expression $data
    $onlineVersion = (Find-Module XpandPosh -Repository PSGallery).Version.ToString()
    if ($manifest.ModuleVersion -ne $onlineVersion){
-      $publish=dotnet build "$(System.DefaultWorkingDirectory)\XpandPosh\Private\Cmdlets.sln"
+      New-Item "$(System.DefaultWorkingDirectory)\XpandPosh\Cmdlets\bin" -ItemType Directory
+      $publish=dotnet build "$(System.DefaultWorkingDirectory)\XpandPosh\Cmdlets\src\Cmdlets.sln"
       if ($LASTEXITCODE){
           throw   "Fail to publish $assemblyName`r`n`r`n$publish"
       }
