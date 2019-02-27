@@ -20,7 +20,7 @@ function Get-XpandVersion{
         $assemblyInfo="$XpandPath\Xpand\Xpand.Utils\Properties\XpandAssemblyInfo.cs"
         $matches = Get-Content $assemblyInfo -ErrorAction Stop | Select-String 'public const string Version = \"([^\"]*)'
         if ($matches) {
-            return New-Object Syetm.Version($matches[0].Matches.Groups[1].Value)
+            return New-Object System.Version($matches[0].Matches.Groups[1].Value)
         }
         else{
             Write-Error "Version info not found in $assemblyInfo"
