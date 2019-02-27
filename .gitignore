@@ -4,5 +4,5 @@
 **/obj/
 **/.suo
 **/.vs/
-/XpandPosh/Cmdlets/
+/XpandPosh/Cmdlets/bin/
 *.sln.DotSettings.user

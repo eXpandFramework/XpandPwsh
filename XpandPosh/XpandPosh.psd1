@@ -42,7 +42,7 @@
     # PowerShellHostVersion = ''
 
     # Minimum version of Microsoft .NET Framework required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
-    DotNetFrameworkVersion = '4.7.2'
+    DotNetFrameworkVersion = '4.7.1'
 
     # Minimum version of the common language runtime (CLR) required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
     # CLRVersion = ''
@@ -66,11 +66,10 @@
     # FormatsToProcess = @()
 
     # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
-    NestedModules = @("Cmdlets\NugetSearch\NugetSearch.dll","Cmdlets\CheckpointGitHubIssue\CheckpointGitHubIssue.dll","Cmdlets\VersionUpdater\VersionUpdater.dll")
+    NestedModules = @("Cmdlets\bin\NugetSearch\NugetSearch.dll","Cmdlets\bin\CheckpointGitHubIssue\CheckpointGitHubIssue.dll","Cmdlets\bin\VersionUpdater\VersionUpdater.dll")
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport = @(
-        "Get-NugetPackageSearchMetadata",
         "Clear-ASPNETTemp", 
         "Clear-ProjectDirectories", 
         "Install-Chocolatey", 
