@@ -304,17 +304,6 @@ function Install-SubModule{
         New-Assembly -AssemblyName $Name -Files $Files -Packages $Packages -outputpath $installationPath
     }
 }
-function Install-NugetSearch{
-    Install-SubModule NugetSearch @("$PSScriptRoot\NugetSearch.cs") @("NuGet.Protocol.Core.v3","PowerShellStandard.Library")
-}
-function Install-VersionUpdater{
-    $Files=("AsyncCmdlet","OctokitEx","Update-NugetProjectVersion")|ForEach-Object{"$PSScriptRoot\$_.cs"}
-    Install-SubModule VersionUpdater $Files @("Octokit","PowerShellStandard.Library","System.Reactive")
-}
-function Install-CheckpointGithubIssue{
-    $Files=("AsyncCmdlet","OctokitEx","Checkpoint-GithubIssue")|ForEach-Object{"$PSScriptRoot\$_.cs"}
-    Install-SubModule UpdateGithubIssue $Files @("Octokit","PowerShellStandard.Library","System.Reactive","SmartFormat.NET")
-}
 
 function Use-NugetAssembly {
     [CmdletBinding()]
@@ -337,6 +326,3 @@ function Use-NugetAssembly {
     }
 }
 
-@({Install-NugetCommandLine},{Install-NugetSearch},{Install-VersionUpdater},{Install-CheckpointGithubIssue})|Invoke-Parallel{
-    Invoke-Command $_
-}

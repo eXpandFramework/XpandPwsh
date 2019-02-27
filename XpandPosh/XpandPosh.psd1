@@ -42,7 +42,7 @@
     # PowerShellHostVersion = ''
 
     # Minimum version of Microsoft .NET Framework required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
-    # DotNetFrameworkVersion = ''
+    DotNetFrameworkVersion = '4.7.2'
 
     # Minimum version of the common language runtime (CLR) required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
     # CLRVersion = ''
@@ -51,7 +51,7 @@
     # ProcessorArchitecture = ''
 
     # Modules that must be imported into the global environment prior to importing this module
-    # RequiredModules = @()
+    # RequiredModules = @("XpandPosh\Public\NugetSearch.dll")
 
     # Assemblies that must be loaded prior to importing this module
     # RequiredAssemblies = @()
@@ -66,10 +66,11 @@
     # FormatsToProcess = @()
 
     # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
-    # NestedModules = @()
+    NestedModules = @("Cmdlets\NugetSearch\NugetSearch.dll","Cmdlets\CheckpointGitHubIssue\CheckpointGitHubIssue.dll","Cmdlets\VersionUpdater\VersionUpdater.dll")
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport = @(
+        "Get-NugetPackageSearchMetadata",
         "Clear-ASPNETTemp", 
         "Clear-ProjectDirectories", 
         "Install-Chocolatey", 
@@ -106,9 +107,6 @@
         "Update-SpecificVersion",
         "Get-XpandPath",
         "Use-NugetAssembly",
-        "Install-NugetSearch",
-        "Install-VersionUpdater",
-        "Install-CheckpointGithubIssue",
         "Install-SubModule",
         "Get-NugetPackageVersion",
         "Get-DotnetCoreVersion",
@@ -120,7 +118,7 @@
     )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-    CmdletsToExport   = @()
+    # CmdletsToExport   = @("bin\NugetSearch.dll")
 
     # Variables to export from this module
     VariablesToExport = '*'
