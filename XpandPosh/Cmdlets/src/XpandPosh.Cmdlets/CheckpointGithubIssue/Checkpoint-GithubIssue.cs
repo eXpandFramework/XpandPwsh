@@ -4,20 +4,17 @@ using System.Management.Automation;
 using System.Net;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
+using System.Threading;
 using System.Threading.Tasks;
 using Octokit;
 using SmartFormat;
+using XpandPosh.CmdLets;
 
-namespace CheckpointGithubIssue{
+namespace XpandPosh.Cmdlets.CheckpointGithubIssue{
     [CmdletBinding(SupportsShouldProcess = true)]
     [Cmdlet(VerbsData.Checkpoint, "GithubIssue",SupportsShouldProcess = true)]
-    public class CheckpointGithubIssue : AsyncCmdlet{
-        [Parameter(Mandatory = true)]
-        public string GitHubApp{ get; set; } 
-        [Parameter(Mandatory = true)]
-        public string Owner{ get; set; } 
-        [Parameter(Mandatory = true)]
-        public string Organization{ get; set; } 
+    public class CheckpointGithubIssue : GithubCmdlet{
+        
         [Parameter(Mandatory = true)]
         public string Repository1{ get; set; } 
         [Parameter(Mandatory = true)]
@@ -26,18 +23,14 @@ namespace CheckpointGithubIssue{
         public string Message{ get; set; } 
         [Parameter]
         public string Branch{ get; set; } 
-        [Parameter(Mandatory = true)]
-        public string Pass{ get; set; }
 
-        public SwitchParameter WhatIf{ get; set; }
-
-        protected override async Task ProcessRecordAsync(){
+        protected override Task ProcessRecordAsync(){
+            var context = SynchronizationContext.Current;
             var shouldProcess = ShouldProcess("Create issue comment");
-            var linkCommits = LinkCommits(this,shouldProcess).Replay().RefCount();
-            await linkCommits;
-            foreach (var psObject in linkCommits.ToEnumerable()){
-                WriteObject(psObject);
-            } 
+            return LinkCommits(this,shouldProcess)
+                .ObserveOn(context)
+                .Do(WriteObject)
+                .ToTask();
         }
 
         internal async Task Test(){
@@ -58,7 +51,7 @@ namespace CheckpointGithubIssue{
         }
 
         private static IObservable<PSObject> LinkCommits( CheckpointGithubIssue cmdLet,bool shouldCreateComment){
-            var appClient = OctokitEx.CreateClient(cmdLet.Owner, cmdLet.Pass, cmdLet.GitHubApp);
+            var appClient = cmdLet.CreateClient();
             var issueToNotify = appClient
                 .LastMileStone(cmdLet.Organization, cmdLet.Repository1)
                 .SelectMany(milestone => appClient
@@ -98,6 +91,7 @@ namespace CheckpointGithubIssue{
                 })
                 .DefaultIfEmpty();
         }
+
 
         private static string GenerateComment(((Issue issue, long repoId) key, GitHubCommit[] commits) _,
             CheckpointGithubIssue cmdLet){

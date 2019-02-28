@@ -8,33 +8,23 @@ using System.Reactive.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Octokit;
+using XpandPosh.CmdLets;
 
-namespace UpdateNugetProjectVersion{
+namespace XpandPosh.Cmdlets.UpdateNugetProjectVersion{
     [CmdletBinding]
     [Cmdlet(VerbsData.Update,"NugetProjectVersion")]
-    public class UpdateNugetProjectVersion:AsyncCmdlet,IParameter{
-        [Parameter(Mandatory = true)]
-        public string GitHubApp{ get; set; }
-        [Parameter(Mandatory = true)]
-        public string Owner{ get; set; } 
-        [Parameter(Mandatory = true)]
-        public string Organization{ get; set; } 
+    public class UpdateNugetProjectVersion:GithubCmdlet,IParameter{
         [Parameter(Mandatory = true)]
         public string Repository{ get; set; } 
         [Parameter(Mandatory = true)]
         public string Branch{ get; set; } 
-        [Parameter(Mandatory = true)]
-        public string Pass{ get; set; } 
         [Parameter(Mandatory = true)]
         public string SourcePath{ get; set; }
         [Parameter(Mandatory=true)]
         public PSObject[] Packages{ get; set; } 
 
         protected override async Task ProcessRecordAsync(){
-            var appClient = new GitHubClient(new ProductHeaderValue(GitHubApp)){
-                Credentials = new Credentials(Owner, Pass)
-            };
-
+            var appClient = CreateClient();
             var lastTagedDate = (appClient.Repository.GetForOrg(Organization, Repository)
                 .Select(repository => appClient.Repository
                     .LastTag(repository)

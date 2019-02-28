@@ -8,7 +8,7 @@ using namespace System.Collections.Generic
 function Get-GitLastSha {
     [CmdletBinding()]
     param (
-        [parammeter(ValueFromPipeline,Mandatory)]
+        [parameter(ValueFromPipeline,Mandatory)]
         [string]$repoGitUrl
     )
     
