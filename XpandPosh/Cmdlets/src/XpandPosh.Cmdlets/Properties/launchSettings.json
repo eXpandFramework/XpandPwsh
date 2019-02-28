@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "XpandPosh.Cmdlets": {
+      "commandName": "Executable",
+      "executablePath": "powershell",
+      "commandLineArgs": "-noexit Import-Module \".\\XpandPosh.Cmdlets.dll\""
+    }
+  }
+}
