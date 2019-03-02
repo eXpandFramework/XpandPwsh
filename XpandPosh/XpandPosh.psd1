@@ -99,6 +99,7 @@
         "Invoke-Retry", 
         "Install-DX",
         "Get-PackageSourceLocations",
+        "Set-VsoVariable",
         "Update-NugetPackage",
         "Update-Symbols",
         "Get-NugetPackageAssembly",
