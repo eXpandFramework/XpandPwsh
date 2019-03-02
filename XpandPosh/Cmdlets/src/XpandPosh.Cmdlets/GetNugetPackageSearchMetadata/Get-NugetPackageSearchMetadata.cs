@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Threading;
 using NuGet.Common;
 using NuGet.Configuration;
@@ -27,18 +29,20 @@ namespace XpandPosh.Cmdlets.GetNugetPackageSearchMetadata{
      [Cmdlet(VerbsCommon.Get, "NugetPackageSearchMetadata")]
      [OutputType(typeof(IPackageSourceSearchMetadata))]
      [CmdletBinding]
-     public class GetNugetPackageSearchMetadata : PSCmdlet{
-         [Parameter(Mandatory = true, ValueFromPipeline = true)]
+     public class GetNugetPackageSearchMetadata : Cmdlet{
+         [Parameter(Position = 0,ValueFromPipeline = true,Mandatory = true)]
          public string Name{ get; set; }
 
-         [Parameter]
-         public string[] Sources{ get; set; } = {"https://api.nuget.org/v3/index.json"};
+         [Parameter(Position = 1)]
+         public string[] Sources{ get; set; } = {"https://nuget.devexpress.com/88luCgoeuPFTrDrTDcc6zKg22U2cVcTm3vdKCv88I7PHF9St6i/api"};
          [Parameter]
          public SwitchParameter IncludePrerelease{ get; set; } =new SwitchParameter(false);
          [Parameter]
          public SwitchParameter IncludeUnlisted{ get; set; } = new SwitchParameter(false);
          [Parameter]
          public SwitchParameter AllVersions{ get; set; } = new SwitchParameter(false);
+         [Parameter]
+         public string[] Versions{ get; set; }
 
          class MetadataEqualityComparer:IEqualityComparer<IPackageSourceSearchMetadata>{
              public bool Equals(IPackageSourceSearchMetadata x, IPackageSourceSearchMetadata y){
@@ -51,41 +55,71 @@ namespace XpandPosh.Cmdlets.GetNugetPackageSearchMetadata{
          }
          protected override void ProcessRecord(){
              base.ProcessRecord();
-             try{
-                 var metadatas = Sources.SelectMany(source => {
-                     var providers = new List<Lazy<INuGetResourceProvider>>();
-                     providers.AddRange(Repository.Provider.GetCoreV3()); 
-                     var packageSource = new PackageSource(source);
-                     var sourceRepository = new SourceRepository(packageSource, providers);
+             var providers = new List<Lazy<INuGetResourceProvider>>();
+             providers.AddRange(Repository.Provider.GetCoreV3());
+             var metadatas =ListPackages(providers)
+                 .SelectMany(s => GetPackageSourceSearchMetadatas(s,providers)) 
+                 .OnErrorResumeNext(Observable.Empty<IPackageSourceSearchMetadata>())
+                 .ToEnumerable();
+             WriteObject(metadatas, true);
+
+         }
+
+         private IObservable<string> ListPackages(List<Lazy<INuGetResourceProvider>> providers){
+             if (Name != null){
+                 return Observable.Return(Name);
+             }
+
+             return Sources.ToObservable().SelectMany(source => {
+                     var sourceRepository = new SourceRepository(new PackageSource(source), providers);
+                     return sourceRepository.GetResourceAsync<ListResource>().ToObservable()
+                         .Select(resource => resource.ListAsync(null,false,false,false,NullLogger.Instance, CancellationToken.None).ToObservable())
+                         .Merge();
+                 })
+                 .SelectMany(async => {
+                     return Observable.Create<IPackageSearchMetadata>(observer =>{
+                         var enumeratorAsync = async.GetEnumeratorAsync();
+                         return enumeratorAsync.MoveNextAsync().ToObservable()
+                             .Do(b => {
+                                 if (b){
+                                     observer.OnNext(enumeratorAsync.Current);
+                                 }
+                                 else{
+                                     observer.OnCompleted();
+                                 }
+                             })
+                             .Subscribe();
+                         
+                     });
+                     
+                 })
+                 .Select(metadata => metadata.Identity.Id);
+         }
+
+         private IPackageSourceSearchMetadata[] GetPackageSourceSearchMetadatas(string name,
+             List<Lazy<INuGetResourceProvider>> providers){
+             var metadatas = Sources.SelectMany(source => {
+                     var sourceRepository = new SourceRepository(new PackageSource(source), providers);
                      var packageMetadataResource = sourceRepository.GetResourceAsync<PackageMetadataResource>().Result;
-                     return packageMetadataResource.GetMetadataAsync(Name, IncludePrerelease, IncludeUnlisted, NullLogger.Instance, CancellationToken.None).Result
+                     return packageMetadataResource.GetMetadataAsync(name, IncludePrerelease, IncludeUnlisted,
+                             NullLogger.Instance, CancellationToken.None).Result
                          .Select(metadata => new PackageSourceSearchMetadata(source, metadata));
                  })
-                .Distinct(new MetadataEqualityComparer())
-                .OrderByDescending(metadata => GetNuGetVersion(metadata).Version)
-                .ToArray();
-                 if (!AllVersions){
-                     metadatas = metadatas.Take(1).ToArray();
-                 }
-                 WriteObject(metadatas, true);
+                 .Distinct(new MetadataEqualityComparer())
+                 .OrderByDescending(metadata => GetNuGetVersion(metadata).Version)
+                 .ToArray();
+             if (!AllVersions && Versions==null){
+                 return metadatas.Take(1).ToArray();
              }
-             catch (AggregateException e){
-                 var flatten = e.Flatten();
-                 WriteError(new ErrorRecord(flatten, flatten.GetType().FullName, ErrorCategory.InvalidOperation, Name));
-                 flatten.Handle(_ => {
-                     if (!(_ is AggregateException)){
-                         WriteError(new ErrorRecord(_, _.GetType().FullName, ErrorCategory.InvalidOperation, Name));
-                         return true;
-                     }
 
-                     return false;
-                 });
-                 throw;
+             if (Versions != null){
+                 return metadatas.Where(metadata => {
+                     var nuGetVersion = GetNuGetVersion(metadata).ToString();
+                     return Versions.Contains(nuGetVersion);
+                 }).ToArray();
              }
-             catch (Exception e){
-                 WriteError(new ErrorRecord(e, e.GetType().FullName, ErrorCategory.InvalidOperation, Name));
-                 throw;
-             }
+
+             return metadatas;
          }
 
          private static NuGetVersion GetNuGetVersion(IPackageSourceSearchMetadata metadata){

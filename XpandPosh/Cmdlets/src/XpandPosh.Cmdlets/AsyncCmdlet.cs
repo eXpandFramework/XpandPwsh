@@ -15,7 +15,7 @@ namespace XpandPosh.CmdLets{
     ///     Inherit from this class if your Cmdlet needs to use <c>async</c> / <c>await</c> functionality.
     /// </remarks>
     public abstract class AsyncCmdlet
-        : PSCmdlet, IDisposable{
+        : Cmdlet, IDisposable{
         /// <summary>
         ///     The source for cancellation tokens that can be used to cancel the operation.
         /// </summary>
