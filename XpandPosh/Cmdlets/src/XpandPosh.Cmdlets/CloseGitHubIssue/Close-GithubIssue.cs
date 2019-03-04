@@ -15,7 +15,9 @@ namespace XpandPosh.Cmdlets.CloseGitHubIssue{
     public class CloseGithubIssue : GithubCmdlet{
         [Parameter(Mandatory = true)]
         public string Repository1{ get; set; } 
+        [Parameter]
         public string Message{ get; set; } ="Closing issue for age. Feel free to reopen it at any time.\r\n\r\n.Thank you for your contribution.";
+        [Parameter]
         public int DaysUntilClose{ get; set; } = 60;
 
         protected override Task ProcessRecordAsync(){

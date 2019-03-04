@@ -102,7 +102,6 @@
         "Set-VsoVariable",
         "Update-NugetPackage",
         "Update-Symbols",
-        "Get-NugetPackageAssembly",
         "Get-CallerPreference",
         "Update-HintPath",
         "Get-DxNugets",
