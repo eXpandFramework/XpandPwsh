@@ -71,7 +71,7 @@ function Get-DevExpressVersion {
         [switch]$Build,
         [parameter(ParameterSetName = "latest")]
         [switch]$Latest,
-        [parameter(Mandatory)]
+        [parameter(Mandatory,ParameterSetName = "latest")]
         [string[]]$Sources
     )
     

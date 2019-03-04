@@ -21,7 +21,12 @@ namespace XpandPosh.CmdLets{
         }
 
         public static void GetCallerPreference(this Cmdlet cmdlet){
-            cmdlet.Invoke("Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState");
+            try{
+                cmdlet.Invoke("Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState");
+            }
+            catch{
+                // ignored
+            }
         }
 
         public static Collection<PSObject> Invoke(this Cmdlet cmdlet, string script){
