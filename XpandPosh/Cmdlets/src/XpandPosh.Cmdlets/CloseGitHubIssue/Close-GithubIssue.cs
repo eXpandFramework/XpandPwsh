@@ -36,7 +36,7 @@ namespace XpandPosh.Cmdlets.CloseGitHubIssue{
                     WriteVerbose($"Issue {issue.Number} needclose={needsClosing}");
                     return needsClosing;
                 })
-                .CombineLatest(repository, (issue, repo) => (issue: issue, repo: repo));
+                .CombineLatest(repository, (issue, repo) => (issue, repo));
             return issuesToClose
                 .ObserveOn(context)
                 .Do(_ => WriteVerbose($"Closing issue #{_.issue.Number}"))

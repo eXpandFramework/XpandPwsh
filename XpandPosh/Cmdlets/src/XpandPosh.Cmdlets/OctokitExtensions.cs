@@ -6,7 +6,7 @@ using System.Reactive.Threading.Tasks;
 using Octokit;
 
 namespace XpandPosh.CmdLets{
-    public static class OctokitEx{
+    public static class OctokitExtensions{
         public static IObservable<Milestone> LastMileStone(this GitHubClient gitHubClient,string organization,string repositoryName){
             return gitHubClient.Repository.GetForOrg(organization, repositoryName)
                 .SelectMany(repository => gitHubClient.Issue.Milestone.GetAllForRepository(repository.Id).ToObservable()
@@ -74,7 +74,7 @@ namespace XpandPosh.CmdLets{
             var millestones = issuesClient.Milestone.GetAllForRepository(repoTuple.repo1.Id).ToObservable()
                 .Select(list => list.First(milestone => milestone.Title==millestone)).DefaultIfEmpty();
             var lastMilestoneIssues = issuesClient.GetAllForRepository(repoTuple.repo1.Id).ToObservable()
-                .CombineLatest(millestones, (issues, milestone) => (issues: issues, milestone: milestone))
+                .CombineLatest(millestones, (issues, milestone) => (issues, milestone))
                 .Select(tuple => tuple.issues.Where(issue =>issue.Milestone!=null&& issue.Milestone.Number == tuple.milestone.Number).ToArray())
                 .Where(issues => issues.Any())
                 .StartWith(new Issue[0][]);

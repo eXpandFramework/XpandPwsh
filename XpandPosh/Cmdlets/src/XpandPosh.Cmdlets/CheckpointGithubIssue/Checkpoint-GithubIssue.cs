@@ -58,18 +58,18 @@ namespace XpandPosh.Cmdlets.CheckpointGithubIssue{
                     .CommitIssues(cmdLet.Organization, cmdLet.Repository1, cmdLet.Repository2, milestone.Title,cmdLet.Branch)
                     .SelectMany(tuple => {
                         var issues = tuple.commitIssues
-                            .SelectMany(_ => _.issues.Select(issue => (commit: _.commit, issue: issue))).ToObservable()
+                            .SelectMany(_ => _.issues.Select(issue => (_.commit, issue))).ToObservable()
                             .SelectMany(_ => appClient.Issue.Comment
                                 .GetAllForIssue(tuple.repoTuple.repo1.Id, _.issue.Number)
                                 .ToObservable()
                                 .Where(list => list.All(comment => !comment.Body.Contains(_.commit.Sha)))
-                                .Select(list => (repo1: tuple.repoTuple.repo1.Id, repo2: tuple.repoTuple.repo2.Id,commit: _.commit, issue: _.issue)));
+                                .Select(list => (repo1: tuple.repoTuple.repo1.Id, repo2: tuple.repoTuple.repo2.Id,_.commit, _.issue)));
                         return issues;
                     }))
                 .Replay().RefCount();
 
             return issueToNotify
-                .GroupBy(_ => (issue: _.issue, repo1: _.repo1))
+                .GroupBy(_ => (_.issue, _.repo1))
                 .SelectMany(_ => {
                     return _.TakeUntil(_.LastAsync()).ToArray()
                         .Select(tuples => tuples.Select(valueTuple => valueTuple.commit).ToArray())

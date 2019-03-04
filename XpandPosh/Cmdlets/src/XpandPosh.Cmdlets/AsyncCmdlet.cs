@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Management.Automation;
-using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 
 namespace XpandPosh.CmdLets{
-    
+
     /// <summary>
     ///     Base class for Cmdlets that run asynchronously.
     /// </summary>
@@ -15,7 +15,7 @@ namespace XpandPosh.CmdLets{
     ///     Inherit from this class if your Cmdlet needs to use <c>async</c> / <c>await</c> functionality.
     /// </remarks>
     public abstract class AsyncCmdlet
-        : Cmdlet, IDisposable{
+        : PSCmdlet, IDisposable{
         /// <summary>
         ///     The source for cancellation tokens that can be used to cancel the operation.
         /// </summary>
