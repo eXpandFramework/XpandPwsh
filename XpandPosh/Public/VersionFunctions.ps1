@@ -70,7 +70,9 @@ function Get-DevExpressVersion {
         [parameter(ParameterSetName = "version")]
         [switch]$Build,
         [parameter(ParameterSetName = "latest")]
-        [switch]$Latest
+        [switch]$Latest,
+        [parameter(Mandatory)]
+        [string[]]$Sources
     )
     
     begin {
@@ -87,7 +89,7 @@ function Get-DevExpressVersion {
             }
         }
         else{
-            (Get-NugetPackageSearchMetadata -Name DevExpress.ExpressApp -Sources (Get-DXFeed)|Select-Object -ExpandProperty metadata).Version.ToString()
+            (Get-NugetPackageSearchMetadata -Name DevExpress.ExpressApp -Sources $Sources|Select-Object -ExpandProperty metadata).Version.ToString()
         }
         
     }
