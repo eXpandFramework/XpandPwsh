@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Management.Automation;
 
@@ -9,8 +10,11 @@ namespace XpandPosh.CmdLets{
             return $"{cmdletAttribute.VerbName}-{cmdletAttribute.NounName}";
         }
 
-        public static T GetVariableValue<T>(this PSCmdlet cmdlet, string name){ 
-            return (T)cmdlet.Invoke<PSVariable>($"Get-Variable|where{{$_.Name -eq '{name}'}}").First().Value;
+        public static T GetVariableValue<T>(this PSCmdlet cmdlet, string name){
+            var psVariable = cmdlet.Invoke<PSVariable>($"Get-Variable|where{{$_.Name -eq '{name}'}}").FirstOrDefault();
+            if (psVariable==null)
+                throw new NullReferenceException(name);
+            return (T)psVariable.Value;
         }
 
         public static ActionPreference ErrorAction(this PSCmdlet cmdlet){

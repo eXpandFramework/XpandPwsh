@@ -29,7 +29,7 @@ namespace XpandPosh.Cmdlets.GetNugetPackage{
         [Parameter(Mandatory = true, Position = 2)]
         public string[] Sources{ get; set; } 
 
-        [Parameter(Mandatory = true, Position = 1)]
+        [Parameter(Mandatory =true, Position = 1)]
         public string OutputFolder{ get; set; } 
         [Parameter]
         public SwitchParameter AllVersions{ get; set; }
@@ -38,11 +38,12 @@ namespace XpandPosh.Cmdlets.GetNugetPackage{
         public string[] Versions{ get; set; } 
 
         [Parameter]
-        public SwitchParameter AllFiles{ get; set; } 
+        public SwitchParameter AllFiles{ get; set; }
 
         protected override  Task ProcessRecordAsync(){
             return GetDownloadResults()
                 .SelectMany(NugetPackageAssemblies)
+                .DefaultIfEmpty()
                 .Catch(this,Name)
                 .WriteObject(this)
                 .ToTask();
@@ -79,12 +80,12 @@ namespace XpandPosh.Cmdlets.GetNugetPackage{
                         .SelectMany(tuple => tuple.Item1.GetDownloadResourceResultAsync(metadata.Metadata.Identity,
                             downloadContext, OutputFolder, NullLogger.Instance, CancellationToken.None));
                 })
-                .Where(result => result.Status==DownloadResourceResultStatus.Available)
-                .OnErrorResumeNext(Observable.Empty<DownloadResourceResult>());
+                .Where(result => result.Status == DownloadResourceResultStatus.Available)
+                .Catch(this, Name);
         }
 
         private Collection<IPackageSourceSearchMetadata> PackageSourceSearchMetadatas(){
-            var cmdlet = new GetNugetPackageSearchMetadata.GetNugetPackageSearchMetadata();
+            
             string allVersions = $"-{nameof(AllVersions)} {AllVersions}";
             if (!AllVersions){
                 allVersions = null;
@@ -99,7 +100,9 @@ namespace XpandPosh.Cmdlets.GetNugetPackage{
             if (Name == null){
                 name = null;
             }
-            var script = $"{cmdlet.GetName()} {sources} {allVersions} {name} {versions}";
+
+            var cmdletName = CmdletExtensions.GetCmdletName<GetNugetPackageSearchMetadata.GetNugetPackageSearchMetadata>();
+            var script = $"{cmdletName} {sources} {allVersions} {name} {versions}";
             var sourceSearchMetadatas = this.Invoke<IPackageSourceSearchMetadata>(script);
             return sourceSearchMetadatas;
         }
