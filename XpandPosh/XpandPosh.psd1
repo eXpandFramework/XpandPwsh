@@ -105,7 +105,6 @@
         "Get-CallerPreference",
         "Update-HintPath",
         "Get-DxNugets",
-        "Update-SpecificVersion",
         "Get-XpandPath",
         "Use-NugetAssembly",
         "Install-SubModule",
