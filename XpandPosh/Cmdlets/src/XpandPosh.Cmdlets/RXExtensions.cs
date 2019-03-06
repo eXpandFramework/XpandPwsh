@@ -9,6 +9,14 @@ using XpandPosh.CmdLets;
 
 namespace XpandPosh.Cmdlets{
     internal static class RXExtensions{
+        public static IObservable<T> IgnoreException<T,TException>(this IObservable<T> source, PSCmdlet cmdlet,object targetObject) where  TException:Exception{
+            return source.ObserveOn(SynchronizationContext.Current)
+                .Catch<T, TException>(exception => {
+                    cmdlet.WriteError(new ErrorRecord(exception, $"{exception.GetHashCode()}",ErrorCategory.InvalidOperation, targetObject));
+                    return Observable.Empty<T>();
+                });
+        }
+
         public static IObservable<TSource> Catch<TSource>(this IObservable<TSource> source,PSCmdlet cmdlet, object targetObject){
             return source.Catch<TSource, Exception>(cmdlet, targetObject);
         }

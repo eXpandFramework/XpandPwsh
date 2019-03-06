@@ -11,6 +11,7 @@
     <PackageReference Include="Fasterflect.Netstandard" Version="1.0.9" />
     <PackageReference Include="ImpromptuInterface" Version="7.0.1" />
     <PackageReference Include="JetBrains.Annotations" Version="2018.3.0" />
+    <PackageReference Include="MimeSharp" Version="1.0.0" />
     <PackageReference Include="NuGet.Protocol.Core.v3" Version="4.2.0" />
     <PackageReference Include="Octokit" Version="0.32.0" />
     <PackageReference Include="PowerShellAsync" Version="0.1.0" />
