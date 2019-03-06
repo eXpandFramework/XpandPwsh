@@ -75,7 +75,7 @@
         "Clear-ProjectDirectories", 
         "Install-Chocolatey", 
         "Install-NugetCommandLine", 
-        "Remove-Nuget", 
+        "Remove-ProjectNuget", 
         "Compress-Files", 
         "Compress-ProjectFolder"
         "Uninstall-ProjectAllPackages", 
