@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using XpandPosh.Cmdlets.GetGitHubCommitIssue;
 using XpandPosh.CmdLets;
 
-namespace XpandPosh.Cmdlets.NewGitHubRelease{
+namespace XpandPosh.Cmdlets.PublishGitHubRelease{
     [CmdletBinding(SupportsShouldProcess = true)]
     [Cmdlet(VerbsCommon.New, "GithubReleaseNotes",SupportsShouldProcess = true)]
     [OutputType(typeof(string))]
@@ -20,12 +20,11 @@ namespace XpandPosh.Cmdlets.NewGitHubRelease{
         public string Repository2{ get; set; }
         [Parameter]
         public string Header{ get; set; }
-        [Parameter(Mandatory = true)]
-        public string Milestone{ get; set; }
+        
         [Parameter]
         public ICommitIssues[] CommitIssues{ get; set; }
         [Parameter()]
-        public IReleaseNotesTemplate ReleaseNotesTemplate{ get; set; } = Cmdlets.NewGitHubRelease.ReleaseNotesTemplate.Default;
+        public IReleaseNotesTemplate ReleaseNotesTemplate{ get; set; } = Cmdlets.PublishGitHubRelease.ReleaseNotesTemplate.Default;
         
         protected override  Task ProcessRecordAsync(){
             return Observable.Return(string.Join(Environment.NewLine,ReleaseNotesTemplate.Parts.Select(GetBody)))

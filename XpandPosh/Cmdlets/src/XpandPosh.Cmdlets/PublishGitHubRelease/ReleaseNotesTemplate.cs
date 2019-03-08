@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace XpandPosh.Cmdlets.NewGitHubRelease{
+namespace XpandPosh.Cmdlets.PublishGitHubRelease{
     public interface IReleaseNotesTemplate{
         IList<ITemplatePart> Parts{ get;  }
     }

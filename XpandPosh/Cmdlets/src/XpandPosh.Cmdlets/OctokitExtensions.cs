@@ -33,7 +33,7 @@ namespace XpandPosh.CmdLets{
         }
 
         public static IObservable<((GitHubCommit, Issue[] issues)[] commitIssues, Repository repository)> CommitIssues(
-            this GitHubClient appClient, string organization, string repositoryName, string millestone){
+            this GitHubClient appClient, string organization, string repositoryName, string millestone=null){
             return appClient.CommitIssues(organization, repositoryName, repositoryName, millestone).Select(tuple => (tuple.commitIssues,tuple.repoTuple.repo1));
         }
 
@@ -70,9 +70,9 @@ namespace XpandPosh.CmdLets{
                 .Select(list => list.First()).FirstAsync();
         }
 
-        public static IObservable<Issue[]> LastMilestoneIssues(this IIssuesClient issuesClient, (Repository repo1, Repository repo2) repoTuple,string millestone){
+        public static IObservable<Issue[]> LastMilestoneIssues(this IIssuesClient issuesClient, (Repository repo1, Repository repo2) repoTuple,string millestone=null){
             var millestones = issuesClient.Milestone.GetAllForRepository(repoTuple.repo1.Id).ToObservable()
-                .Select(list => list.First(milestone => milestone.Title==millestone)).DefaultIfEmpty();
+                .Select(list => GetMilestone(millestone, list)).DefaultIfEmpty();
             var lastMilestoneIssues = issuesClient.GetAllForRepository(repoTuple.repo1.Id).ToObservable()
                 .CombineLatest(millestones, (issues, milestone) => (issues, milestone))
                 .Select(tuple => tuple.issues.Where(issue =>issue.Milestone!=null&& issue.Milestone.Number == tuple.milestone.Number).ToArray())
@@ -81,10 +81,13 @@ namespace XpandPosh.CmdLets{
             return lastMilestoneIssues.Replay().RefCount();
         }
 
+        private static Milestone GetMilestone(string millestone, IReadOnlyList<Milestone> list){
+            var version = list.Select(_ => Version.TryParse(_.Title, out var result) ? result : new Version("0.0.0.0")).OrderByDescending(_ => _).First();
+            return list.FirstOrDefault(_ => millestone == null ? _.Title == version.ToString() : _.Title == millestone);
+        }
+
         public static GitHubClient CreateClient(string owner,string pass,string githubAApp){
-            return new GitHubClient(new ProductHeaderValue(githubAApp)){
-                Credentials = new Credentials(owner, pass)
-            }; 
+            return new GitHubClient(new ProductHeaderValue(githubAApp)){Credentials = new Credentials(owner, pass)}; 
         }
 
         public static IObservable<GitHubCommit> Commits(this GitHubClient appClient, string organization,

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using Octokit;
 using XpandPosh.CmdLets;
 
-namespace XpandPosh.Cmdlets.NewGitHubRelease{
+namespace XpandPosh.Cmdlets.PublishGitHubRelease{
     [CmdletBinding(SupportsShouldProcess = true)]
     [OutputType(typeof(Release))]
-    [Cmdlet(VerbsCommon.New, "GithubRelease",SupportsShouldProcess = true)]
-    public class NewGitHubRelease : GitHubCmdlet{
+    [Cmdlet(VerbsData.Publish, "GitHubRelease",SupportsShouldProcess = true)]
+    public class PublishGitHubRelease : GitHubCmdlet{
         
         [Parameter(Mandatory = true)]
         public string Repository{ get; set; }

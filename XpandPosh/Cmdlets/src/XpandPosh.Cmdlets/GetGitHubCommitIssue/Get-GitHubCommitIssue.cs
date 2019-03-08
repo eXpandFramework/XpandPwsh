@@ -17,7 +17,7 @@ namespace XpandPosh.Cmdlets.GetGitHubCommitIssue{
         public string Repository1{ get; set; } 
         [Parameter(Mandatory = true)]
         public string Repository2{ get; set; } 
-        [Parameter(Mandatory = true)]
+        [Parameter]
         public string Milestone{ get; set; } 
 
         protected override Task ProcessRecordAsync(){
