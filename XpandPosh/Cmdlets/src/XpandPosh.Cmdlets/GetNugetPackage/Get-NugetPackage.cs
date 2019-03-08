@@ -20,7 +20,7 @@ using XpandPosh.CmdLets;
 
 namespace XpandPosh.Cmdlets.GetNugetPackage{
     [Cmdlet(VerbsCommon.Get, "NugetPackage")]
-    [OutputType(typeof(FileInfo))]
+    [OutputType(typeof(INugetPackageAssembly))]
     [CmdletBinding]
     public class GetNugetPackage : XpandCmdlet{
         [Parameter(ValueFromPipeline = true)]

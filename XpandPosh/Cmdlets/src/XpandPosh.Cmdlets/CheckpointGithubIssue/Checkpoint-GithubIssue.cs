@@ -13,7 +13,7 @@ using XpandPosh.CmdLets;
 namespace XpandPosh.Cmdlets.CheckpointGithubIssue{
     [CmdletBinding(SupportsShouldProcess = true)]
     [Cmdlet(VerbsData.Checkpoint, "GithubIssue",SupportsShouldProcess = true)]
-    public class CheckpointGithubIssue : GithubCmdlet{
+    public class CheckpointGitHubIssue : GitHubCmdlet{
         
         [Parameter(Mandatory = true)]
         public string Repository1{ get; set; } 
@@ -38,7 +38,7 @@ namespace XpandPosh.Cmdlets.CheckpointGithubIssue{
             var version = "18.2.601.2";
             var installerBuildUri ="https://dev.azure.com/eXpandDevOps/eXpandFramework/_build/results?buildId=BuildId&view=results";
             string nugetServerUri="https://xpandnugetserver.azurewebsites.net/";
-            var updateGithubIssueMock = new CheckpointGithubIssue{
+            var updateGithubIssueMock = new CheckpointGitHubIssue{
                 GitHubApp = "eXpandFramework",
                 Owner = "apobekiaris",
                 Organization = "eXpandFramework",
@@ -50,8 +50,8 @@ namespace XpandPosh.Cmdlets.CheckpointGithubIssue{
             await LinkCommits(updateGithubIssueMock, false);
         }
 
-        private static IObservable<PSObject> LinkCommits( CheckpointGithubIssue cmdLet,bool shouldCreateComment){
-            var appClient = cmdLet.CreateClient();
+        private static IObservable<PSObject> LinkCommits( CheckpointGitHubIssue cmdLet,bool shouldCreateComment){
+            var appClient = cmdLet.NewGitHubClient();
             var issueToNotify = appClient
                 .LastMileStone(cmdLet.Organization, cmdLet.Repository1)
                 .SelectMany(milestone => appClient
@@ -94,7 +94,7 @@ namespace XpandPosh.Cmdlets.CheckpointGithubIssue{
 
 
         private static string GenerateComment(((Issue issue, long repoId) key, GitHubCommit[] commits) _,
-            CheckpointGithubIssue cmdLet){
+            CheckpointGitHubIssue cmdLet){
             var objects = new object[] {
                 new{
                     Options = cmdLet,

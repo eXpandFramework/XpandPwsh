@@ -10,4 +10,5 @@ namespace XpandPosh.Cmdlets.GetNugetPackageSearchMetadata{
         public int GetHashCode(IPackageSourceSearchMetadata obj){
             return $"{obj.Metadata.Identity.Id}{obj.GetNuGetVersion().Version}".GetHashCode();
         }
-    }}
+    }
+}

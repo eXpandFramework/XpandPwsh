@@ -36,9 +36,9 @@ namespace XpandPosh.Cmdlets{
                 });
         }
 
-        public static IObservable<T> WriteObject<T>(this IObservable<T> source,Cmdlet cmdlet){
+        public static IObservable<T> WriteObject<T>(this IObservable<T> source,Cmdlet cmdlet,bool enumerateCollection=true){
             var synchronizationContext = SynchronizationContext.Current;
-            return source.ObserveOn(synchronizationContext).Do(obj => cmdlet.WriteObject(obj));
+            return source.ObserveOn(synchronizationContext).Do(obj => cmdlet.WriteObject(obj,enumerateCollection));
         }
 
         public static IObservable<T> ToObservable<T>(this IEnumeratorAsync<T> enumeratorAsync){

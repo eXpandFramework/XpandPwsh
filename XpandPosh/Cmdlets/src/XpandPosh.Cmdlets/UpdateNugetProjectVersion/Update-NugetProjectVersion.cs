@@ -13,7 +13,7 @@ using XpandPosh.CmdLets;
 namespace XpandPosh.Cmdlets.UpdateNugetProjectVersion{
     [CmdletBinding]
     [Cmdlet(VerbsData.Update,"NugetProjectVersion")]
-    public class UpdateNugetProjectVersion:GithubCmdlet,IParameter{
+    public class UpdateNugetProjectVersion:GitHubCmdlet,IParameter{
         [Parameter(Mandatory = true)]
         public string Repository{ get; set; } 
         [Parameter(Mandatory = true)]
@@ -24,7 +24,7 @@ namespace XpandPosh.Cmdlets.UpdateNugetProjectVersion{
         public PSObject[] Packages{ get; set; } 
 
         protected override async Task ProcessRecordAsync(){
-            var appClient = CreateClient();
+            var appClient = NewGitHubClient();
             var lastTagedDate = (appClient.Repository.GetForOrg(Organization, Repository)
                 .Select(repository => appClient.Repository
                     .LastTag(repository)

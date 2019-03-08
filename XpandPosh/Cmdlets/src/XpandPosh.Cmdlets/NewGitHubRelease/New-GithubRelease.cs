@@ -1,18 +1,17 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Management.Automation;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
-using System.Threading;
 using System.Threading.Tasks;
 using Octokit;
 using XpandPosh.CmdLets;
 
-namespace XpandPosh.Cmdlets{
+namespace XpandPosh.Cmdlets.NewGitHubRelease{
     [CmdletBinding(SupportsShouldProcess = true)]
+    [OutputType(typeof(Release))]
     [Cmdlet(VerbsCommon.New, "GithubRelease",SupportsShouldProcess = true)]
-    public class NewGithubRelease : GithubCmdlet{
+    public class NewGitHubRelease : GitHubCmdlet{
         
         [Parameter(Mandatory = true)]
         public string Repository{ get; set; }
@@ -22,14 +21,11 @@ namespace XpandPosh.Cmdlets{
         public string ReleaseNotes{ get; set; }
         [Parameter]
         public string[] Files{ get; set; }
-
         [Parameter]
         public SwitchParameter Draft{ get; set; } 
 
         protected override async Task ProcessRecordAsync(){
-            
-            var gitHubClient = CreateClient();
-            var repositoriesClient = gitHubClient.Repository;
+            var repositoriesClient = NewGitHubClient().Repository;
             var repository = await repositoriesClient.GetForOrg(Organization, Repository);
             var release = await repositoriesClient.Release.GetAll(repository.Id).ToObservable().SelectMany(list => list).Where(_ => _.Name==ReleaseName)
                 .IgnoreException<Release,NotFoundException>(this,ReleaseName).DefaultIfEmpty();

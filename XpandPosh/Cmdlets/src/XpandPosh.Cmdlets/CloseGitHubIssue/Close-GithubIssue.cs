@@ -9,10 +9,10 @@ using Octokit;
 using XpandPosh.CmdLets;
 
 namespace XpandPosh.Cmdlets.CloseGitHubIssue{
-    [CmdletBinding(SupportsShouldProcess = true)]
+        [CmdletBinding(SupportsShouldProcess = true)]
     [Cmdlet(VerbsCommon.Close, "GithubIssue",SupportsShouldProcess = true)]
     [OutputType(typeof(Issue))]
-    public class CloseGithubIssue : GithubCmdlet{
+    public class CloseGitHubIssue : GitHubCmdlet{
         [Parameter(Mandatory = true)]
         public string Repository1{ get; set; } 
         [Parameter]
@@ -21,7 +21,7 @@ namespace XpandPosh.Cmdlets.CloseGitHubIssue{
         public int DaysUntilClose{ get; set; } = 60;
 
         protected override Task ProcessRecordAsync(){
-            var appClient = CreateClient();
+            var appClient = NewGitHubClient();
             var repository = appClient.Repository.GetAllForOrg(Organization).ToObservable()
                 .Select(list => list.First(_ => _.Name == Repository1));
             var filter = new RepositoryIssueRequest{
@@ -72,4 +72,5 @@ namespace XpandPosh.Cmdlets.CloseGitHubIssue{
             return totalDays - daysUntilClose > 0;
         }
     }
+
 }

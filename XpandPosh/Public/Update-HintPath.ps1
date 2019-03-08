@@ -4,7 +4,8 @@ function Update-HintPath{
         [string]$SourcesPath,
         [parameter(Mandatory)]
         [string]$OutputPath,
-        [string]$filter="DevExpress*"
+        [parameter(Mandatory)]
+        [string]$filter
 
     )
     Get-ChildItem $sourcesPath "*.csproj" -Recurse|ForEach-Object {
