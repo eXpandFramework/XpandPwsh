@@ -12,7 +12,7 @@
     RootModule        = 'XpandPosh'
 
     # Version number of this module.
-    ModuleVersion     = '1.0.35'
+    ModuleVersion     = '1.0.36'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -166,6 +166,7 @@
     # DefaultCommandPrefix = ''
 
 }
+
 
 
 
