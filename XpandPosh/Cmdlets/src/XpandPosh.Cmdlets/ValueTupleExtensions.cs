@@ -3,7 +3,7 @@ using System.Linq;
 using DynamicExpressions.Linq;
 using Fasterflect;
 
-namespace XpandPosh.Cmdlets.GetGitHubCommitIssue{
+namespace XpandPosh.Cmdlets{
     public static class ValueTupleExtensions{
         public static object ToClass<T1, T2>(this (T1, T2) tuple){
             var tuples = new (Type type, object value)[]{
