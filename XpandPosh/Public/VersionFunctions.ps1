@@ -65,13 +65,13 @@ function Get-VersionFromFile([parameter(mandatory)][string]$assemblyInfo) {
 function Get-DevExpressVersion {
     [CmdletBinding()]
     param (
-        [parameter(Mandatory, ParameterSetName = "version")]
+        [parameter(Mandatory, ParameterSetName = "version",Position=0)]
         [string]$Version,
         [parameter(ParameterSetName = "version")]
         [switch]$Build,
         [parameter(ParameterSetName = "latest")]
         [switch]$Latest,
-        [parameter(Mandatory,ParameterSetName = "latest")]
+        [parameter(Mandatory,ParameterSetName = "latest",Position=1)]
         [string[]]$Sources
     )
     
