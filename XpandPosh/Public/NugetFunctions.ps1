@@ -141,13 +141,19 @@ function Publish-NugetPackage {
         if (!(Test-Path $NupkgPath)){
             throw "$NupkgPath is not a valid path"
         }
+        try{
+            Get-NugetPackageSearchMetadata -Name "a" -Sources $PSScriptRoot -ErrorAction SilentlyContinue|out-null
+        }
+        catch{
+
+        }
     }
     
     process {
         $packages=& Nuget List -source $NupkgPath|convertto-packageobject
         Write-Verbose "Packages found:`r`n$packages"
         $additionalVariables=(("source","ApiKey")|Get-Variable)
-        $published=$packages|Select-Object -ExpandProperty Name| Invoke-Parallel -activityName "Getting latest versions from sources" -ImportVariables -ImportFunctions -AdditionalVariables $additionalVariables -ModulesToImport (Get-Module NugetSearch) { 
+        $published=$packages|Select-Object -ExpandProperty Name| Invoke-Parallel -activityName "Getting latest versions from sources" -ImportVariables -ImportFunctions -AdditionalVariables $additionalVariables  { 
             Write-Verbose "Get $_ metadata from $Source"
             (Get-NugetPackageSearchMetadata -Name $_ -Sources $Source|Select-object -ExpandProperty Metadata|Get-MetadataVersion)
         } 
