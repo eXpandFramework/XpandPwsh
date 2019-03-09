@@ -12,7 +12,9 @@ function Install-DX {
     )
     $ErrorActionPreference = "Stop"
     $hash=@{}
-    (Get-DxNugets $dxVersion)|ForEach-Object{
+    $dxNugets=(Get-DxNugets $dxVersion)
+    
+    $dxNugets|ForEach-Object{
         $hash[$_.Assembly]=$_.Package
     }
     $projects=Get-ChildItem $sourcePath *.csproj -Recurse
