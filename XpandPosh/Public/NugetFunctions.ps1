@@ -164,7 +164,7 @@ function Publish-NugetPackage {
                 $_.Name -eq $p.Name -and $_.Version -eq $_.Version
             }
         }
-        $needPush|Invoke-Parallel -ActivityName "Publishing Nugets" -VariablesToImport @("apikey","NupkgPath","Source") -Script -IgnoreLastEditCode {
+        $needPush|Invoke-Parallel -ActivityName "Publishing Nugets" -VariablesToImport @("apikey","NupkgPath","Source") -IgnoreLastEditCode -Script {
             $package="$NupkgPath\$($_.Name).$($_.Version).nupkg"
             Write-Host "Pushing $package in $Source "
             nuget Push "$package" $ApiKey -source $Source
