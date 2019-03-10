@@ -44,7 +44,7 @@ namespace XpandPosh.Cmdlets.GetNugetPackage{
             return GetDownloadResults()
                 .SelectMany(NugetPackageAssemblies)
                 .DefaultIfEmpty()
-                .Catch(this,Name)
+                .HandleErrors(this,Name)
                 .WriteObject(this)
                 .ToTask();
         }
@@ -81,7 +81,7 @@ namespace XpandPosh.Cmdlets.GetNugetPackage{
                             downloadContext, OutputFolder, NullLogger.Instance, CancellationToken.None));
                 })
                 .Where(result => result.Status == DownloadResourceResultStatus.Available)
-                .Catch(this, Name);
+                .HandleErrors(this, Name);
         }
 
         private Collection<IPackageSourceSearchMetadata> PackageSourceSearchMetadatas(){

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Management.Automation;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
@@ -17,28 +16,40 @@ namespace XpandPosh.Cmdlets{
                 });
         }
 
-        public static IObservable<TSource> Catch<TSource>(this IObservable<TSource> source,PSCmdlet cmdlet, object targetObject){
-            return source.Catch<TSource, Exception>(cmdlet, targetObject);
+        public static IObservable<TSource> HandleErrors<TSource>(this IObservable<TSource> source,XpandCmdlet cmdlet, object targetObject,SynchronizationContext context=null){
+            context = context ?? SynchronizationContext.Current;
+            return source.HandleErrors<TSource, Exception>(cmdlet, targetObject,context);
         }
 
-        public static IObservable<TSource> Catch<TSource,TException>(this IObservable<TSource> source, PSCmdlet cmdlet,object targetObject) where TException:Exception{
-            var synchronizationContext = SynchronizationContext.Current;
-            var errorAction = cmdlet.ErrorAction();
-            return source.ObserveOn(synchronizationContext)
+        public static IObservable<TSource> HandleErrors<TSource,TException>(this IObservable<TSource> source, XpandCmdlet cmdlet,object targetObject,SynchronizationContext context=null) where TException:Exception{
+            context = context ?? SynchronizationContext.Current;
+            return source.ObserveOn(context)
                 .Catch<TSource,TException>(exception => {
-                    if (errorAction==ActionPreference.Stop)
-                        return Observable.Empty<TSource>();
-                    if (!new[]{ActionPreference.Ignore, ActionPreference.SilentlyContinue}.Contains(errorAction)){
-                        var errorRecord = new ErrorRecord(exception, exception.GetHashCode().ToString(),ErrorCategory.InvalidOperation, targetObject);
-                        cmdlet.WriteError(errorRecord);
+                    var errorAction = cmdlet.ErrorAction();
+                    if (errorAction==ActionPreference.SilentlyContinue)
+                        return Observable.Return(default(TSource));
+                    var errorRecord = new ErrorRecord(exception, exception.GetHashCode().ToString(),ErrorCategory.InvalidOperation, cmdlet.ActivityName);
+                    cmdlet.WriteError(errorRecord);
+                    if (errorAction==ActionPreference.Stop){
+                        return Observable.Throw<TSource>(exception);
                     }
-                    return Observable.Empty<TSource>();
+                    if (errorAction==ActionPreference.Ignore||errorAction==ActionPreference.Continue)
+                        return Observable.Return(default(TSource));
+                    throw new NotImplementedException($"{errorAction}");
                 });
         }
 
-        public static IObservable<T> WriteObject<T>(this IObservable<T> source,Cmdlet cmdlet,bool enumerateCollection=true){
-            var synchronizationContext = SynchronizationContext.Current;
-            return source.ObserveOn(synchronizationContext).Do(obj => cmdlet.WriteObject(obj,enumerateCollection));
+        public static IObservable<T> WriteProgress<T>(this IObservable<T> source, IProgressCmdlet cmdlet,int itemsCount){
+            return source.Select((objects, i) => {
+                var percentComplete = i * 100 / itemsCount;
+                cmdlet.WriteProgress(new ProgressRecord(cmdlet.ActivityId, cmdlet.ActivityName,string.Format(cmdlet.ActivityStatus, percentComplete)){PercentComplete = percentComplete});
+                return objects;
+            }).Finally(() => cmdlet.WriteProgressCompletion(new ProgressRecord(cmdlet.ActivityId, cmdlet.ActivityName, cmdlet.ActivityStatus){PercentComplete = 100},cmdlet.CompletionMessage));
+        }
+
+        public static IObservable<T> WriteObject<T>(this IObservable<T> source,Cmdlet cmdlet,int? progressItemsTotalCount=null,bool enumerateCollection=true){
+            var writeObject = source.ObserveOn(SynchronizationContext.Current).Do(obj => cmdlet.WriteObject(obj,enumerateCollection));
+            return progressItemsTotalCount.HasValue ? writeObject.WriteProgress((IProgressCmdlet) cmdlet, progressItemsTotalCount.Value) : writeObject;
         }
 
         public static IObservable<T> ToObservable<T>(this IEnumeratorAsync<T> enumeratorAsync){

@@ -18,7 +18,7 @@ function Install-DX {
         $hash[$_.Assembly]=$_.Package
     }
     $projects=Get-ChildItem $sourcePath *.csproj -Recurse
-    $nugets=$projects|Invoke-Parallel -ImportVariables -AdditionalVariables $(Get-Variable hash) -ActivityName "Discovering packages" {
+    $nugets=$projects|Invoke-Parallel -ActivityName "Discovering packages" -VariablesToImport hash -Script {
         [xml]$csproj = Get-Content $_.FullName
         ($csproj.Project.ItemGroup.Reference.Include|Where-Object {$_ -like "DevExpress*" -and $_ -notlike "DevExpress.DXCore*" }|ForEach-Object {
             $assemblyName = [System.Text.RegularExpressions.Regex]::Match($_,"([^,]*)").Groups[1].Value
@@ -37,12 +37,11 @@ function Install-DX {
         throw "No nugets found??"
     }
 
-    $psObj.Nugets|Invoke-Parallel -ImportVariables -ImportFunctions -ActivityName "Installing DX" {
+    $psObj.Nugets|Invoke-Parallel -ActivityName "Installing DX" -VariablesToImport psObj -IgnoreLastEditCode -script {
+        $psObj
         $package=$_
-        (Invoke-Retry -Maximum 150 {
-            Write-host "Installing $package $($psObj.Version) in $($psObj.OutputDirectory)" 
-            & nuget Install $package -source "$($psObj.Source)" -OutputDirectory "$($psObj.OutputDirectory)" -Version $($psObj.Version)
-        })
+        "Installing $package $($psObj.Version) in $($psObj.OutputDirectory)" 
+        nuget Install $package -source "$($psObj.Source)" -OutputDirectory "$($psObj.OutputDirectory)" -Version $($psObj.Version)
     }
     
     Get-ChildItem -Path "$packagesFolder" -Include "*.dll" -Recurse  |Where-Object {

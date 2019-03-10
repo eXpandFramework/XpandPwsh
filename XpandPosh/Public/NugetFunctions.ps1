@@ -152,8 +152,8 @@ function Publish-NugetPackage {
     process {
         $packages=& Nuget List -source $NupkgPath|convertto-packageobject
         Write-Verbose "Packages found:`r`n$packages"
-        $additionalVariables=(("source","ApiKey")|Get-Variable)
-        $published=$packages|Select-Object -ExpandProperty Name| Invoke-Parallel -activityName "Getting latest versions from sources" -ImportVariables -ImportFunctions -AdditionalVariables $additionalVariables  { 
+        
+        $published=$packages|Select-Object -ExpandProperty Name| Invoke-Parallel -activityName "Getting latest versions from sources" -VariablesToImport @("source") -Script  { 
             Write-Verbose "Get $_ metadata from $Source"
             (Get-NugetPackageSearchMetadata -Name $_ -Sources $Source|Select-object -ExpandProperty Metadata|Get-MetadataVersion)
         } 
@@ -164,10 +164,10 @@ function Publish-NugetPackage {
                 $_.Name -eq $p.Name -and $_.Version -eq $_.Version
             }
         }
-        $needPush|Invoke-Parallel -ActivityName "Publishing Nugets" -AdditionalVariables $additionalVariables -ImportVariables {
+        $needPush|Invoke-Parallel -ActivityName "Publishing Nugets" -VariablesToImport @("apikey","NupkgPath","Source") -Script -IgnoreLastEditCode {
             $package="$NupkgPath\$($_.Name).$($_.Version).nupkg"
             Write-Host "Pushing $package in $Source "
-            (& nuget Push "$package" $ApiKey -source $Source)
+            nuget Push "$package" $ApiKey -source $Source
         }
     }
     

@@ -21,14 +21,14 @@ namespace XpandPosh.Cmdlets.GetGitHubMilestone{
                 .Select(list => list.First(repository => repository.Name == Repository))
                 .SelectMany(repository => appClient.Issue.Milestone.GetAllForRepository(repository.Id))
                 .SelectMany(list => list)
-                .Catch(this,Repository)
+                .HandleErrors(this,Repository)
                 .Replay().RefCount();
             await milestones;
 
             if (Latest)
                 milestones = Observable.Return(milestones.ToEnumerable().GetMilestone());
             await milestones
-                .Catch(this,Repository)
+                .HandleErrors(this,Repository)
                 .WriteObject(this)
                 .ToTask();
         }

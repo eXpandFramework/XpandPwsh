@@ -12,7 +12,7 @@ namespace XpandPosh.Cmdlets.PublishGitHubRelease{
         
         protected override  Task ProcessRecordAsync(){
             return Observable.Return(ReleaseNotesTemplate.Default)
-                .Catch(this,"")
+                .HandleErrors(this,"")
                 .WriteObject(this)
                 .ToTask();
         }

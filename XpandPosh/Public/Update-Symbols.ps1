@@ -24,7 +24,7 @@ function Update-Symbols {
     }
     
     end {
-        $list|Invoke-Parallel -ImportVariables {
+        $list|Invoke-Parallel -ActivityName Indexing -Script {
             Write-Verbose "Indexing $($_.FullName) ..."
         
             $streamPath = [System.IO.Path]::GetTempFileName()

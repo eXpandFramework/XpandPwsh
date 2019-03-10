@@ -83,7 +83,6 @@
         "Update-ProjectPackage", 
         "Restore-ProjectPackages", 
         "New-Command", 
-        "Start-Build", 
         "Get-VersionFromFile", 
         "Disable-ExecutionPolicy", 
         "Get-MsBuildLocation", 

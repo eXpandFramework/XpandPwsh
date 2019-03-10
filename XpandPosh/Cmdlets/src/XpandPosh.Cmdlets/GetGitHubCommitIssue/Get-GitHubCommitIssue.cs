@@ -24,7 +24,7 @@ namespace XpandPosh.Cmdlets.GetGitHubCommitIssue{
             var appClient = NewGitHubClient();
             return appClient.CommitIssues(Organization, Repository1, Repository2,Milestone)
                 .Select(_ => _.commitIssues.Select(tuple => (_.repoTuple.repo1,_.repoTuple.repo2,tuple.commit,tuple.issues).ToClass().ActLike<ICommitIssues>()))
-                .Catch(this,Repository1)
+                .HandleErrors(this,Repository1)
                 .WriteObject(this)
                 .ToTask();
         }

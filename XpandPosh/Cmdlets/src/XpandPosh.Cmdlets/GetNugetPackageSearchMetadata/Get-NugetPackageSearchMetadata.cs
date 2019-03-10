@@ -40,9 +40,9 @@ namespace XpandPosh.Cmdlets.GetNugetPackageSearchMetadata{
             var providers = new List<Lazy<INuGetResourceProvider>>();
             providers.AddRange(Repository.Provider.GetCoreV3());
             return ListPackages(providers)
-                .Catch(this,Name)
+                .HandleErrors(this,Name)
                 .Select(s => PackageSourceSearchMetadatas(s, providers)).Concat()
-                .Catch(this,Name)
+                .HandleErrors(this,Name)
                 .Distinct(new MetadataEqualityComparer())
                 .ObserveOn(SynchronizationContext.Current)
                 .WriteObject(this)
