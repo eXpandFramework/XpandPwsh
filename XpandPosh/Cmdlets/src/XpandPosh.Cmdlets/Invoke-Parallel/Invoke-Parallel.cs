@@ -15,8 +15,7 @@ namespace XpandPosh.Cmdlets{
         private List<object> _values;
         private PSVariable[] _psVariables;
 
-        [Parameter]
-        public SwitchParameter IgnoreLastEditCode{ get; set; }
+        
         [Parameter(Mandatory = true, Position = 3)]
         public ScriptBlock Script{ get; set; }
 
@@ -46,11 +45,11 @@ namespace XpandPosh.Cmdlets{
                             runspace.SetVariable(new PSVariable("_", o));
                             runspace.SetVariable(_psVariables);
                             var psObjects = runspace.Invoke(Script.ToString());
-                            if (!IgnoreLastEditCode){
-                                var lastExitCode = runspace.Invoke("$LastExitCode").FirstOrDefault();
-                                if (lastExitCode != null&& ((int) lastExitCode.BaseObject) >0){
-                                    var reason = string.Join(Environment.NewLine,runspace.Invoke("$Error"));
-                                    throw new Exception($"ExitCode:{lastExitCode}{Environment.NewLine}Errors: {reason}{Environment.NewLine}Script:{Script}");
+                            var lastExitCode = runspace.Invoke("$LastExitCode").FirstOrDefault();
+                            if (lastExitCode != null&& ((int) lastExitCode.BaseObject) >0){
+                                var error = string.Join(Environment.NewLine,runspace.Invoke("$Error"));
+                                if (!string.IsNullOrWhiteSpace(error)){
+                                    throw new Exception($"ExitCode:{lastExitCode}{Environment.NewLine}Errors: {error}{Environment.NewLine}Script:{Script}");
                                 }
                             }
                             runspace.Close();
