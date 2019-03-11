@@ -1,10 +1,3 @@
-using namespace System
-using namespace System.Reflection
-using namespace System.Text.RegularExpressions
-using namespace System.IO
-using namespace System.Collections
-using namespace System.Collections.Generic
-
 function Get-GitLastSha {
     [CmdletBinding()]
     param (

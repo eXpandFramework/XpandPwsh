@@ -51,11 +51,11 @@ namespace XpandPosh.CmdLets{
         static IObservable<IReadOnlyList<GitHubCommit>> Commits(this IRepositoriesClient repositoriesClient,(Repository repo1, Repository repo2) repoTuple,  string millestone,string branch=null){
             return repositoriesClient.LastRelease( repoTuple.repo1,  millestone).SelectMany(_ =>
                     repositoriesClient.Commit.GetAll(repoTuple.repo2.Id, new CommitRequest(){Since = _.PublishedAt,Sha = branch}))
-                .Select(list => PopulateCommits(repositoriesClient, repoTuple, list)).Concat();
+                .SelectMany(list => PopulateCommits(repositoriesClient, repoTuple, list));
         }
 
         private static IObservable<GitHubCommit[]> PopulateCommits(IRepositoriesClient repositoriesClient, (Repository repo1, Repository repo2) repoTuple, IReadOnlyList<GitHubCommit> list){
-            return list.ToObservable().Select(commit => repositoriesClient.Commit.Get(repoTuple.repo2.Id,commit.Sha)).Concat().ToArray();
+            return list.ToObservable().SelectMany(commit => repositoriesClient.Commit.Get(repoTuple.repo2.Id,commit.Sha)).ToArray();
         }
 
         public static IObservable<Release> LastRelease(this IRepositoriesClient repositoriesClient, Repository repository,  string millestone){

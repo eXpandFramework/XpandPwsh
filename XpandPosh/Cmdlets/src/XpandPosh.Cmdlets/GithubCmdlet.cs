@@ -12,6 +12,6 @@ namespace XpandPosh.CmdLets{
         [Parameter(Mandatory = true)]
         public string Pass{ get; set; }
 
-        protected GitHubClient NewGitHubClient() => OctokitExtensions.CreateClient(Owner, Pass, "ff");
+        protected GitHubClient NewGitHubClient() => OctokitExtensions.CreateClient(Owner, Pass, ActivityName);
     }
 }

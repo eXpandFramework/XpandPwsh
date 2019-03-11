@@ -32,9 +32,5 @@ namespace XpandPosh.Cmdlets.GetGitHubMilestone{
                 .WriteObject(this)
                 .ToTask();
         }
-
-
-
     }
-
 }
