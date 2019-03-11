@@ -1,4 +1,6 @@
-function Install-DX {
+
+function Install-DevExpress {
+    [alias("Install-DX")]
     param(
         [parameter(Mandatory)]
         [string]$binPath, 
@@ -37,7 +39,7 @@ function Install-DX {
         throw "No nugets found??"
     }
 
-    $psObj.Nugets|Invoke-Parallel -ActivityName "Installing DX" -VariablesToImport psObj -IgnoreLastEditCode -script {
+    $psObj.Nugets|Invoke-Parallel -ActivityName "Installing DX" -VariablesToImport psObj -script {
         $psObj
         $package=$_
         "Installing $package $($psObj.Version) in $($psObj.OutputDirectory)" 

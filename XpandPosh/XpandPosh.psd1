@@ -96,7 +96,7 @@
         "Update-AssemblyInfoVersion", 
         "Update-AssemblyInfoBuild", 
         "Invoke-Retry", 
-        "Install-DX",
+        "Install-Devexpress",
         "Get-PackageSourceLocations",
         "Set-VsoVariable",
         "Update-NugetPackage",
