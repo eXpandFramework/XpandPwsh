@@ -39,8 +39,9 @@ namespace XpandPosh.Cmdlets.PublishGitHubRelease{
                     await Files.ToObservable()
                         .Do(file => WriteVerbose($"Uploading {file}"))
                         .SelectMany(file => Observable.Using(() => File.OpenRead(file), stream => {
+                            var fileName = Path.GetFileName(file);
                             var releaseAssetUpload = new ReleaseAssetUpload() {
-                                FileName = file, ContentType = mime.Lookup(Path.GetFileName(file)), RawData = stream
+                                FileName = fileName, ContentType = mime.Lookup(fileName), RawData = stream
                             };
                             return repositoriesClient.Release.UploadAsset(release, releaseAssetUpload).ToObservable();
                         }));

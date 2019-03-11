@@ -144,7 +144,7 @@ function Publish-NugetPackage {
     }
     
     process {
-        $packages=Nuget List -source $NupkgPath|convertto-packageobject
+        $packages=(& Nuget List -source $NupkgPath)|convertto-packageobject
         Write-Verbose "Packages found:"
         $packages|Write-Verbose
         
