@@ -44,7 +44,6 @@ namespace XpandPosh.Cmdlets.GetNugetPackageSearchMetadata{
                 .Select(s => PackageSourceSearchMetadatas(s, providers)).Concat()
                 .HandleErrors(this,Name)
                 .Distinct(new MetadataEqualityComparer())
-                .ObserveOn(SynchronizationContext.Current)
                 .WriteObject(this)
                 .ToTask();
         }

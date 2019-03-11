@@ -141,36 +141,38 @@ function Publish-NugetPackage {
         if (!(Test-Path $NupkgPath)){
             throw "$NupkgPath is not a valid path"
         }
-        try{
-            Get-NugetPackageSearchMetadata -Name "a" -Sources $PSScriptRoot -ErrorAction SilentlyContinue|out-null
-        }
-        catch{
-
-        }
     }
     
     process {
-        $packages=& Nuget List -source $NupkgPath|convertto-packageobject
-        Write-Verbose "Packages found:`r`n$packages"
+        $packages=Nuget List -source $NupkgPath|convertto-packageobject
+        Write-Verbose "Packages found:"
+        $packages|Write-Verbose
         
-        $published=$packages|Select-Object -ExpandProperty Name| Invoke-Parallel -activityName "Getting latest versions from sources" -VariablesToImport @("source") -Script  { 
-            Write-Verbose "Get $_ metadata from $Source"
-            (Get-NugetPackageSearchMetadata -Name $_ -Sources $Source|Select-object -ExpandProperty Metadata|Get-MetadataVersion)
+        $published=$packages|Select-Object -ExpandProperty Name| Invoke-Parallel -activityName "Getting latest versions from sources" -VariablesToImport @("Source") -Script  { 
+            Get-NugetPackageSearchMetadata -Name $_ -Sources $Source
         } 
-        Write-Verbose "Published packages:`r`n$published"
+        Write-Verbose "Published packages:"
+        $published=$published|Select-object -ExpandProperty Metadata|Get-MetadataVersion
+        $published|Write-Verbose 
+        
         $needPush=$packages|Where-Object{
             $p=$_
             $published |Where-Object{
                 $_.Name -eq $p.Name -and $_.Version -eq $_.Version
             }
         }
-        $needPush|Invoke-Parallel -ActivityName "Publishing Nugets" -VariablesToImport @("apikey","NupkgPath","Source") -IgnoreLastEditCode -Script {
+        Write-Verbose "NeedPush"
+        $needPush|Write-Verbose 
+        $NupkgPath=$NupkgPath.TrimEnd("\")
+        $publishScript={        
             $package="$NupkgPath\$($_.Name).$($_.Version).nupkg"
-            Write-Host "Pushing $package in $Source "
-            nuget Push "$package" $ApiKey -source $Source
+            "Pushing $package in $Source "
+            nuget Push "$package" -ApiKey $ApiKey -source $Source
         }
+        
+        $needPush|Invoke-Parallel -ActivityName "Publishing Nugets" -VariablesToImport @("ApiKey","NupkgPath","Source") -Script $publishScript
+     
     }
-    
     end {
     }
 }
