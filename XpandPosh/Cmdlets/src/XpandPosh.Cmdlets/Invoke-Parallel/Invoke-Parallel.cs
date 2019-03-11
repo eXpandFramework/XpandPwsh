@@ -48,7 +48,10 @@ namespace XpandPosh.Cmdlets{
                             var psObjects = runspace.Invoke(Script.ToString());
                             if (!IgnoreLastEditCode){
                                 var lastExitCode = runspace.Invoke("$LastExitCode").FirstOrDefault();
-                                if (lastExitCode != null&& ((int) lastExitCode.BaseObject) >0) throw new Exception(lastExitCode.ToString());
+                                if (lastExitCode != null&& ((int) lastExitCode.BaseObject) >0){
+                                    var reason = string.Join(Environment.NewLine,runspace.Invoke("$Error"));
+                                    throw new Exception($"ExitCode:{lastExitCode}{Environment.NewLine}Errors: {reason}{Environment.NewLine}Script:{Script}");
+                                }
                             }
                             runspace.Close();
                             return psObjects;
