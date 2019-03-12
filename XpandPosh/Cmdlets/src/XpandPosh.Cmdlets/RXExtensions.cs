@@ -47,6 +47,15 @@ namespace XpandPosh.Cmdlets{
             }).Finally(() => cmdlet.WriteProgressCompletion(new ProgressRecord(cmdlet.ActivityId, cmdlet.ActivityName, cmdlet.ActivityStatus){PercentComplete = 100},cmdlet.CompletionMessage));
         }
 
+        public static IObservable<T> WriteVerboseObject<T>(this IObservable<T> source, Cmdlet cmdlet,Func<T,string> text=null,SynchronizationContext synchronizationContext=null){
+            synchronizationContext = synchronizationContext ?? SynchronizationContext.Current;
+            text = text ?? (arg => $"{arg}");
+            return source.ObserveOn(synchronizationContext).Select((arg1, i) => {
+                cmdlet.WriteVerbose($"{arg1.GetType().Name}: {text(arg1)}");
+                return arg1;
+            });
+        }
+
         public static IObservable<T> WriteObject<T>(this IObservable<T> source,Cmdlet cmdlet,int? progressItemsTotalCount=null,bool enumerateCollection=true){
             var writeObject = source.ObserveOn(SynchronizationContext.Current).Do(obj => cmdlet.WriteObject(obj,enumerateCollection));
             return progressItemsTotalCount.HasValue ? writeObject.WriteProgress((IProgressCmdlet) cmdlet, progressItemsTotalCount.Value) : writeObject;

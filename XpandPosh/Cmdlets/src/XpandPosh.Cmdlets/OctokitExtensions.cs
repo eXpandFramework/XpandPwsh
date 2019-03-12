@@ -28,7 +28,10 @@ namespace XpandPosh.CmdLets{
                 .Zip(allRepos.Select(list => list.First(repository => repository.Name==repository2)),(repo1, repo2) =>(repo1, repo2) )
                 .SelectMany(repoTuple => {
                     return appClient.Issue.LastMilestoneIssues(repoTuple, millestone)
-                        .Select(issues => (commitIssues: appClient.Repository.CommitIssues( repoTuple, issues,   millestone,branch),repository: repoTuple));
+                        .Select(issues => {
+                            var commitIssues = appClient.Repository.CommitIssues( repoTuple, issues,   millestone,branch);
+                            return (commitIssues, repository: repoTuple);
+                        });
                 });
         }
 

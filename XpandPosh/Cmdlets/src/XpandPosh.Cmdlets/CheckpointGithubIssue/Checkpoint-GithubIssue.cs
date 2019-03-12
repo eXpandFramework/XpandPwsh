@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Management.Automation;
-using System.Net;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
@@ -12,7 +11,7 @@ using XpandPosh.CmdLets;
 
 namespace XpandPosh.Cmdlets.CheckpointGithubIssue{
     [CmdletBinding(SupportsShouldProcess = true)]
-    [Cmdlet(VerbsData.Checkpoint, "GithubIssue",SupportsShouldProcess = true)]
+    [Cmdlet(VerbsData.Checkpoint, "GitHubIssue",SupportsShouldProcess = true)]
     public class CheckpointGitHubIssue : GitHubCmdlet{
         
         [Parameter(Mandatory = true)]
@@ -25,48 +24,39 @@ namespace XpandPosh.Cmdlets.CheckpointGithubIssue{
         public string Branch{ get; set; } 
 
         protected override Task ProcessRecordAsync(){
-            var context = SynchronizationContext.Current;
-            var shouldProcess = ShouldProcess("Create issue comment");
-            return LinkCommits(this,shouldProcess)
-                .ObserveOn(context)
-                .Do(WriteObject)
+            return LinkCommits()
+                .HandleErrors(this,Repository1)
+                .WriteObject(this)
                 .ToTask();
         }
 
-        internal async Task Test(){
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            var version = "18.2.601.2";
-            var installerBuildUri ="https://dev.azure.com/eXpandDevOps/eXpandFramework/_build/results?buildId=BuildId&view=results";
-            string nugetServerUri="https://xpandnugetserver.azurewebsites.net/";
-            var updateGithubIssueMock = new CheckpointGitHubIssue{
-                GitHubApp = "eXpandFramework",
-                Owner = "apobekiaris",
-                Organization = "eXpandFramework",
-                Repository1 = "eXpand",
-                Repository2 = "lab",
-                Pass = Environment.GetEnvironmentVariable("GithubPass", EnvironmentVariableTarget.User),
-                Message = $"Installer lab build [{version}]({installerBuildUri}) includes commit {{Commits}} that relate to this task. Please test if it addresses the problem. If you use nuget add our [NugetServer]({nugetServerUri}) as a nuget package source in VS"
-            };
-            await LinkCommits(updateGithubIssueMock, false);
-        }
-
-        private static IObservable<PSObject> LinkCommits( CheckpointGitHubIssue cmdLet,bool shouldCreateComment){
-            var appClient = cmdLet.NewGitHubClient();
+        private IObservable<PSObject> LinkCommits( ){
+            var appClient = NewGitHubClient();
+            var synchronizationContext = SynchronizationContext.Current;
             var issueToNotify = appClient
-                .LastMileStone(cmdLet.Organization, cmdLet.Repository1)
+                .LastMileStone(Organization, Repository1)
+                .WriteVerboseObject(this,milestone => milestone.Title)
                 .SelectMany(milestone => appClient
-                    .CommitIssues(cmdLet.Organization, cmdLet.Repository1, cmdLet.Repository2, milestone.Title,cmdLet.Branch)
+                    .CommitIssues(Organization, Repository1, Repository2, milestone.Title,Branch)
                     .SelectMany(tuple => {
                         var issues = tuple.commitIssues
                             .SelectMany(_ => _.issues.Select(issue => (_.commit, issue))).ToObservable()
+                            .WriteVerboseObject(this,_ => $"Commit ({_.commit.Sha}){_.commit.Commit.Message} links to {_.issue.Number}",synchronizationContext)
                             .SelectMany(_ => appClient.Issue.Comment
                                 .GetAllForIssue(tuple.repoTuple.repo1.Id, _.issue.Number)
                                 .ToObservable()
-                                .Where(list => list.All(comment => !comment.Body.Contains(_.commit.Sha)))
+                                .ObserveOn(synchronizationContext)
+                                .Where(list => {
+                                    WriteVerbose($"Searching {list.Count} comments in Issue {_.issue.Number} for {_.commit.Sha}");
+                                    var checkpoint = list.Any(comment => comment.Body.Contains(_.commit.Sha));
+                                    WriteVerbose($"Checkpoint {(!checkpoint ? " not " : null)}exists");
+                                    return !checkpoint;
+                                })
                                 .Select(list => (repo1: tuple.repoTuple.repo1.Id, repo2: tuple.repoTuple.repo2.Id,_.commit, _.issue)));
                         return issues;
                     }))
-                .Replay().RefCount();
+                .Replay().RefCount()
+                .WriteVerboseObject(this);
 
             return issueToNotify
                 .GroupBy(_ => (_.issue, _.repo1))
@@ -75,14 +65,17 @@ namespace XpandPosh.Cmdlets.CheckpointGithubIssue{
                         .Select(tuples => tuples.Select(valueTuple => valueTuple.commit).ToArray())
                         .Select(hubCommits => (key: _.Key, commits: hubCommits));
                 })
+                .ObserveOn(synchronizationContext)
                 .SelectMany(_ => {
-                    var comment = GenerateComment(_,cmdLet);
+                    var comment = GenerateComment(_);
                     var issue = _.key.issue;
                     var psObject = Observable.Return(new PSObject(new {
                         IssueNumber = issue.Number, Milestone = issue.Milestone?.Title,issue.Title,
                         Commits = string.Join(",", _.commits.Select(commit => commit.Commit.Message)), Comment = comment
                     }));
-                    if (shouldCreateComment){
+                    var text = $"Create comment for issue {_.key.issue.Number}";
+                    WriteVerbose(text);
+                    if (ShouldProcess(text)){
                         return appClient.Issue.Comment.Create(_.key.repo1, _.key.issue.Number, comment)
                             .ToObservable().Select(issueComment => psObject).Concat();
                     }
@@ -93,17 +86,16 @@ namespace XpandPosh.Cmdlets.CheckpointGithubIssue{
         }
 
 
-        private static string GenerateComment(((Issue issue, long repoId) key, GitHubCommit[] commits) _,
-            CheckpointGitHubIssue cmdLet){
+        private  string GenerateComment(((Issue issue, long repoId) key, GitHubCommit[] commits) _){
             var objects = new object[] {
                 new{
-                    Options = cmdLet,
+                    Options = this,
                     Commits = string.Join(",",
                         _.commits.Select(commit =>
-                            $@"[{commit.Commit.Message}](https://github.com/{cmdLet.Organization}/{cmdLet.Repository2}/commit/{commit.Sha})"))
+                            $@"[{commit.Commit.Message}](https://github.com/{Organization}/{Repository2}/commit/{commit.Sha})"))
                 }
             };
-            var comment = Smart.Format(cmdLet.Message, objects);
+            var comment = Smart.Format(Message, objects);
             return comment;
         }
     }
