@@ -1,15 +1,48 @@
-if (!(Get-Module XpandPosh -ListAvailable)){
+function NeedsMinor {
+    $c = New-Object System.Net.WebClient
+    $readme = $c.DownloadString("https://raw.githubusercontent.com/eXpandFramework/XpandPosh/master/ReadMe.md")
+    $onlineModules = $readme.Split("`r`n")|ForEach-Object {
+        if ($start -and ($_ -eq "``````")) {
+            $start = $false
+        }
+        if ($start) {
+            $_
+        }
+        if ($_ -eq "``````txt") {
+            $start = $true
+        }
+    }|Where-Object {$_}
+    $localModules=(Get-Command -Module XpandPosh)|Select-Object -ExpandProperty Name
+    $newCommands=$localModules|Where-Object{!$onlineModules.Contains("$_")}
+    $removedCommand=$onlineModules|Where-Object{!$localModules.Contains("$_")}
+    $($newCommands+$removedCommand).Count
+}
+if (!(Get-Module XpandPosh -ListAvailable)) {
     Install-Module XpandPosh
 }
 $lastSha = Get-GitLastSha "https://github.com/eXpandFramework/XpandPosh.git"
-$needNewVersion = git diff --name-only $lastSha HEAD|Where-Object {$_ -like "XpandPosh/*" -and $_ -notlike "*.md" -and $_ -notlike "*.yml" }
-if ($needNewVersion) {
-    $onlineVersion = New-Object System.Version ((Find-Module XpandPosh -Repository PSGallery).Version)
+$lastSha
+$needNewVersion = (git diff --name-only "$lastSha" HEAD|Select-Object -First 1)|Where-Object {$_ -like "XpandPosh/*" -and $_ -notlike "*.md" -and $_ -notlike "*.yml" }
+"needNewVersion=$needNewVersion"
+if (!$needNewVersion) {
     $file = "$PSScriptRoot\..\XpandPosh\XpandPosh.psd1"
     $data = Get-Content $file -Raw
     $manifest = Invoke-Expression $data
-    $newBuild = $onlineVersion.Build + 1
-    $newVersion = "$($onlineVersion.Major).$($onlineVersion.Minor).$($newBuild)"
+    $needNewMinor = NeedsMinor 
+    "needNewMinor=$needNewMinor"
+    $moduleVersion = New-Object System.Version($manifest.ModuleVersion)
+    "moduleVersion=$moduleVersion"
+    if ($needNewMinor) {
+        $newMinor = $moduleVersion.Minor + 1
+        $newBuild = 0
+    }
+    else {
+        $onlineVersion = New-Object System.Version ((Find-Module XpandPosh -Repository PSGallery).Version)
+        $newMinor = $onlineVersion.Minor
+        $newBuild = $onlineVersion.Build + 1
+    }
+    
+    $newVersion = "$($moduleVersion.Major).$newMinor.$newBuild"
     if ($manifest.ModuleVersion -ne $newVersion) {
         Set-Content $file $data.Replace($manifest.ModuleVersion, $newVersion)
         & git commit -a -m $newVersion
