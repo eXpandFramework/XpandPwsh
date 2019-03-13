@@ -25,7 +25,7 @@ namespace XpandPosh.Cmdlets.PublishGitHubRelease{
         public SwitchParameter Draft{ get; set; } 
 
         protected override async Task ProcessRecordAsync(){
-            var repositoriesClient = NewGitHubClient().Repository;
+            var repositoriesClient = GitHubClient.Repository;
             var repository = await repositoriesClient.GetForOrg(Organization, Repository);
             var release = await repositoriesClient.Release.GetAll(repository.Id).ToObservable().SelectMany(list => list).Where(_ => _.Name==ReleaseName)
                 .IgnoreException<Release,NotFoundException>(this,ReleaseName).DefaultIfEmpty();

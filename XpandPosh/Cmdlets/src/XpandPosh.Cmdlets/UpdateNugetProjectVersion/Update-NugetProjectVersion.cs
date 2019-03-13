@@ -24,24 +24,23 @@ namespace XpandPosh.Cmdlets.UpdateNugetProjectVersion{
         public PSObject[] Packages{ get; set; } 
 
         protected override async Task ProcessRecordAsync(){
-            var appClient = NewGitHubClient();
-            var lastTagedDate = (appClient.Repository.GetForOrg(Organization, Repository)
-                .Select(repository => appClient.Repository
+            var lastTagedDate = (GitHubClient.Repository.GetForOrg(Organization, Repository)
+                .Select(repository => GitHubClient.Repository
                     .LastTag(repository)
-                    .Select(tag => appClient.Repository.Commit.Get(repository.Id, tag.Commit.Sha))).Concat()
+                    .Select(tag => GitHubClient.Repository.Commit.Get(repository.Id, tag.Commit.Sha))).Concat()
                 .Concat()
                 .Select(tag => tag.Commit.Committer.Date.AddSeconds(1)));
             var dateTimeOffset = await lastTagedDate;
             WriteVerbose($"lastTaggedDate={dateTimeOffset}");
-            var commits =  appClient.Commits(Organization, Repository,
+            var commits =  GitHubClient.Commits(Organization, Repository,
                 dateTimeOffset, Branch).Replay().RefCount();
             var changedPackages = ExistingPackages(this).ToObservable()
                 .SelectMany(tuple => commits.Where(commit => commit.Files.Any(file => file.Filename.Contains(tuple.directory.Name))).Select(_=>tuple)).Distinct()
                 .Publish().RefCount();
 
-            await changedPackages.SelectMany(tuple => appClient.Repository
+            await changedPackages.SelectMany(tuple => GitHubClient.Repository
                     .GetForOrg(Organization, Repository)
-                    .SelectMany(_ => CreateTagReference(this, appClient, _, tuple, null))
+                    .SelectMany(_ => CreateTagReference(this, GitHubClient, _, tuple, null))
                     .Select(tag => tuple))
                 .Select(UpdateAssemblyInfo).ToTask();
         }

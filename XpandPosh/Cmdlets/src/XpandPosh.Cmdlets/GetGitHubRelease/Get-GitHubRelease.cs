@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Management.Automation;
+﻿using System.Management.Automation;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
@@ -15,10 +14,8 @@ namespace XpandPosh.Cmdlets.GetGitHubRelease{
         public string Repository{ get; set; }
         
         protected override  Task ProcessRecordAsync(){
-            var appClient = NewGitHubClient();
-            return appClient.Repository.GetAllForOrg(Organization).ToObservable()
-                .Select(list => list.First(repository => repository.Name == Repository))
-                .SelectMany(repository => appClient.Repository.Release.GetAll(repository.Id))
+            return GitHubClient.Repository.GetForOrg(Organization, Repository)
+                .SelectMany(repository => GitHubClient.Repository.Release.GetAll(repository.Id))
                 .SelectMany(list => list)
                 .HandleErrors(this,Repository)
                 .WriteObject(this)

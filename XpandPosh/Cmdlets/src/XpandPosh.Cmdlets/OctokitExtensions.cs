@@ -21,44 +21,20 @@ namespace XpandPosh.CmdLets{
         }
 
         public static IObservable<((GitHubCommit commit, Issue[] issues)[] commitIssues, (Repository repo1, Repository repo2) repoTuple)> CommitIssues(
-            this GitHubClient appClient, string organization, string repository1,string repository2, string millestone,string branch=null){
+            this GitHubClient appClient, string organization, string repository1,string repository2, DateTimeOffset? since,string branch=null){
 
             var allRepos = appClient.Repository.GetAllForOrg(organization).ToObservable().Replay().RefCount();
             return allRepos.Select(list => list.First(repository => repository.Name==repository1))
                 .Zip(allRepos.Select(list => list.First(repository => repository.Name==repository2)),(repo1, repo2) =>(repo1, repo2) )
-                .SelectMany(repoTuple => {
-                    return appClient.Issue.LastMilestoneIssues(repoTuple, millestone)
-                        .Select(issues => {
-                            var commitIssues = appClient.Repository.CommitIssues( repoTuple, issues,   millestone,branch);
-                            return (commitIssues, repository: repoTuple);
-                        });
+                .Select(repoTuple => {
+                    var allIssues = appClient.Issue.GetAllForRepository(repoTuple.repo1.Id,new RepositoryIssueRequest{Since = since}).ToObservable().SelectMany(list => list).ToEnumerable().ToArray();
+                    var commits = appClient.Repository.Commit.GetAll(repoTuple.repo2.Id,new CommitRequest(){Since = since}).ToObservable().SelectMany(list => list).ToEnumerable().ToArray();
+                    var commitIssues = commits.Select(commit => {
+                        var issues = allIssues.Where(issue => commit.Commit.Message.Contains($"#{issue.Number}")).ToArray();
+                        return (commit,issues);
+                    }).ToArray();
+                    return (commitIssues,repoTuple); 
                 });
-        }
-
-        public static IObservable<((GitHubCommit, Issue[] issues)[] commitIssues, Repository repository)> CommitIssues(
-            this GitHubClient appClient, string organization, string repositoryName, string millestone=null){
-            return appClient.CommitIssues(organization, repositoryName, repositoryName, millestone).Select(tuple => (tuple.commitIssues,tuple.repoTuple.repo1));
-        }
-
-        static (GitHubCommit, Issue[] issues)[] CommitIssues(this IRepositoriesClient repositoriesClient,
-            (Repository repo1,Repository repo2) repoTuple, Issue[] issues,  string millestone,string branch=null){
-
-            return repositoriesClient.Commits(repoTuple, millestone,branch)
-                .SelectMany(commits => commits.Select(commit => (commit,issues: issues.Where(issue => commit.Commit.Message.Contains($"#{issue.Number}")).ToArray())))
-                .Where(tuple => tuple.issues.Any())
-                .Select(tuple => tuple)
-                .ToEnumerable()
-                .ToArray();
-        }
-
-        static IObservable<IReadOnlyList<GitHubCommit>> Commits(this IRepositoriesClient repositoriesClient,(Repository repo1, Repository repo2) repoTuple,  string millestone,string branch=null){
-            return repositoriesClient.LastRelease( repoTuple.repo1,  millestone).SelectMany(_ =>
-                    repositoriesClient.Commit.GetAll(repoTuple.repo2.Id, new CommitRequest(){Since = _.PublishedAt,Sha = branch}))
-                .SelectMany(list => PopulateCommits(repositoriesClient, repoTuple, list));
-        }
-
-        private static IObservable<GitHubCommit[]> PopulateCommits(IRepositoriesClient repositoriesClient, (Repository repo1, Repository repo2) repoTuple, IReadOnlyList<GitHubCommit> list){
-            return list.ToObservable().SelectMany(commit => repositoriesClient.Commit.Get(repoTuple.repo2.Id,commit.Sha)).ToArray();
         }
 
         public static IObservable<Release> LastRelease(this IRepositoriesClient repositoriesClient, Repository repository,  string millestone){

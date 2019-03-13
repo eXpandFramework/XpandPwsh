@@ -1,4 +1,5 @@
 ﻿using System.Management.Automation;
+using System.Threading.Tasks;
 using Octokit;
 
 namespace XpandPosh.CmdLets{
@@ -12,6 +13,11 @@ namespace XpandPosh.CmdLets{
         [Parameter(Mandatory = true)]
         public string Pass{ get; set; }
 
-        protected GitHubClient NewGitHubClient() => OctokitExtensions.CreateClient(Owner, Pass, ActivityName);
+        protected override Task BeginProcessingAsync(){
+            GitHubClient = OctokitExtensions.CreateClient(Owner, Pass, ActivityName);
+            return base.BeginProcessingAsync();
+        }
+
+        public GitHubClient GitHubClient{ get; private set; }
     }
 }

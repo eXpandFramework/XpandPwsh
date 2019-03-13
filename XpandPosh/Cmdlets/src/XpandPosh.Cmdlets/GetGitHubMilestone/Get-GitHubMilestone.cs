@@ -16,10 +16,9 @@ namespace XpandPosh.Cmdlets.GetGitHubMilestone{
         [Parameter]
         public SwitchParameter Latest{ get; set; }
         protected override async Task ProcessRecordAsync(){
-            var appClient = NewGitHubClient();
-            var milestones = appClient.Repository.GetAllForOrg(Organization).ToObservable()
+            var milestones = GitHubClient.Repository.GetAllForOrg(Organization).ToObservable()
                 .Select(list => list.First(repository => repository.Name == Repository))
-                .SelectMany(repository => appClient.Issue.Milestone.GetAllForRepository(repository.Id))
+                .SelectMany(repository => GitHubClient.Issue.Milestone.GetAllForRepository(repository.Id))
                 .SelectMany(list => list)
                 .HandleErrors(this,Repository)
                 .Replay().RefCount();

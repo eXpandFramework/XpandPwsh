@@ -21,8 +21,7 @@ namespace XpandPosh.Cmdlets.CloseGitHubIssue{
         public int DaysUntilClose{ get; set; } = 60;
 
         protected override Task ProcessRecordAsync(){
-            var appClient = NewGitHubClient();
-            var repository = appClient.Repository.GetAllForOrg(Organization).ToObservable()
+            var repository = GitHubClient.Repository.GetAllForOrg(Organization).ToObservable()
                 .Select(list => list.First(_ => _.Name == Repository1));
             var filter = new RepositoryIssueRequest{
                 SortDirection = SortDirection.Ascending, SortProperty = IssueSort.Updated,
@@ -30,7 +29,7 @@ namespace XpandPosh.Cmdlets.CloseGitHubIssue{
             };
 
             var context = SynchronizationContext.Current;
-            var issuesToClose = repository.SelectMany(_ => appClient.Issue.GetAllForRepository(_.Id, filter))
+            var issuesToClose = repository.SelectMany(_ => GitHubClient.Issue.GetAllForRepository(_.Id, filter))
                 .SelectMany(list => list)
                 .ObserveOn(context)
                 .Where(issue => {
@@ -43,7 +42,7 @@ namespace XpandPosh.Cmdlets.CloseGitHubIssue{
                 .ObserveOn(context)
                 .Do(_ => WriteVerbose($"Closing issue #{_.issue.Number}"))
                 .SelectMany(_ => {
-                    var issues = CloseIssue(appClient, _).Select(issue => CommentIssue( appClient, _)).Concat();
+                    var issues = CloseIssue(GitHubClient, _).Select(issue => CommentIssue( GitHubClient, _)).Concat();
                     return ShouldProcess("Close Issue") ? issues : Observable.Return(_.issue);
                 })
                 .DefaultIfEmpty()
