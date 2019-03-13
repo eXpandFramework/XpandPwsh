@@ -1,4 +1,7 @@
 function NeedsMinor {
+    param(
+        $moduleVersion
+    )
     $c = New-Object System.Net.WebClient
     $readme = $c.DownloadString("https://raw.githubusercontent.com/eXpandFramework/XpandPosh/master/ReadMe.md")
     $onlineModules = $readme.Split("`r`n")|ForEach-Object {
@@ -15,7 +18,11 @@ function NeedsMinor {
     $localModules=(Get-Command -Module XpandPosh)|Select-Object -ExpandProperty Name
     $newCommands=$localModules|Where-Object{!$onlineModules.Contains("$_")}
     $removedCommand=$onlineModules|Where-Object{!$localModules.Contains("$_")}
-    $($newCommands+$removedCommand).Count
+    if ($($newCommands+$removedCommand).Count -gt 0){
+        $onlineVersion = New-Object System.Version ((Find-Module XpandPosh -Repository PSGallery).Version)
+        return $onlineVersion -gt $moduleVersion
+    }
+    $false
 }
 if (!(Get-Module XpandPosh -ListAvailable)) {
     Install-Module XpandPosh
@@ -24,14 +31,15 @@ $lastSha = Get-GitLastSha "https://github.com/eXpandFramework/XpandPosh.git"
 $lastSha
 $needNewVersion = (git diff --name-only "$lastSha" HEAD|Select-Object -First 1)|Where-Object {$_ -like "XpandPosh/*" -and $_ -notlike "*.md" -and $_ -notlike "*.yml" }
 "needNewVersion=$needNewVersion"
-if (!$needNewVersion) {
+if ($needNewVersion) {
     $file = "$PSScriptRoot\..\XpandPosh\XpandPosh.psd1"
     $data = Get-Content $file -Raw
     $manifest = Invoke-Expression $data
-    $needNewMinor = NeedsMinor 
-    "needNewMinor=$needNewMinor"
     $moduleVersion = New-Object System.Version($manifest.ModuleVersion)
     "moduleVersion=$moduleVersion"
+    $needNewMinor = NeedsMinor $moduleVersion
+    "needNewMinor=$needNewMinor"
+    
     if ($needNewMinor) {
         $newMinor = $moduleVersion.Minor + 1
         $newBuild = 0
