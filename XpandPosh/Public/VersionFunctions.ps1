@@ -76,7 +76,9 @@ function Get-DevExpressVersion {
         [parameter(ParameterSetName = "version")]
         [switch]$Build,
         [parameter(ParameterSetName = "latest")]
-        [switch]$Latest
+        [switch]$Latest,
+        [parameter(ParameterSetName = "latest")]
+        [string]$LatestVersionFeed="https://xpandnugetserver.azurewebsites.net/nuget"
     )
     
     begin {
@@ -93,7 +95,7 @@ function Get-DevExpressVersion {
             }
         }
         else{
-            nuget list DevExpress.ExpressApp -source (Get-Feed -Xpand)|ConvertTo-PackageObject|Select-Object -ExpandProperty Version -First 1
+            nuget list DevExpress.ExpressApp -source $LatestVersionFeed|ConvertTo-PackageObject|Select-Object -ExpandProperty Version -First 1
         }
         
     }
