@@ -11,13 +11,19 @@ function Get-XpandVersion {
         $official = Get-XpandVersion -Release
         $labVersion = Get-XpandVersion -Lab 
         $revision = 0
-        if ($official.Build -eq $labVersion.Build) {
-            $revision = $labVersion.Revision + 1
-            if ($labVersion.Revision -eq -1) {
-                $revision = 1
+        $dxVersion=Get-DevExpressVersion -Latest
+        $build="$($dxVersion.Build)00"
+        if ($official.Minor -like "$($dxVersion.Build)*"){
+            if ($official.Build -eq $labVersion.Build) {
+                $revision = $labVersion.Revision + 1
+                if ($labVersion.Revision -eq -1) {
+                    $revision = 1
+                }
+                $build=$official.Build
             }
         }
-        return New-Object System.Version($official.Major, $official.Minor, $official.Build, $revision)
+        
+        return New-Object System.Version($dxVersion.Major, $dxVersion.Minor, $build, $revision)
     }
     if ($XpandPath) {
         $assemblyInfo = "$XpandPath\Xpand\Xpand.Utils\Properties\XpandAssemblyInfo.cs"
@@ -70,9 +76,7 @@ function Get-DevExpressVersion {
         [parameter(ParameterSetName = "version")]
         [switch]$Build,
         [parameter(ParameterSetName = "latest")]
-        [switch]$Latest,
-        [parameter(Mandatory,ParameterSetName = "latest",Position=1)]
-        [string[]]$Sources
+        [switch]$Latest
     )
     
     begin {
@@ -89,7 +93,7 @@ function Get-DevExpressVersion {
             }
         }
         else{
-            (Get-NugetPackageSearchMetadata -Name DevExpress.ExpressApp -Sources $Sources|Select-Object -ExpandProperty metadata).Version.ToString()
+            nuget list DevExpress.ExpressApp -source (Get-Feed -Xpand)|ConvertTo-PackageObject|Select-Object -ExpandProperty Version -First 1
         }
         
     }
