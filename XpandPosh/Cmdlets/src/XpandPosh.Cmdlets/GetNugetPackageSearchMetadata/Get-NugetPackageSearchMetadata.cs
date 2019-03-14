@@ -60,6 +60,7 @@ namespace XpandPosh.Cmdlets.GetNugetPackageSearchMetadata{
                         .Concat();
                 })
                 .SelectMany(async => async.GetEnumeratorAsync().ToObservable())
+                .Where(metadata => metadata!=null)
                 .Select(metadata => metadata.Identity.Id);
         }
 

@@ -10,7 +10,8 @@ function Install-DevExpress {
         [string]$sourcePath ,
         [parameter(Mandatory)]
         [string]$dxVersion ,
-        [string]$packagesFolder = "$binPath\TempDXNupkg"
+        [string]$packagesFolder = "$binPath\TempDXNupkg",
+        [int]$MaximumRetries=5
     )
     $ErrorActionPreference = "Stop"
     $hash=@{}
@@ -43,7 +44,9 @@ function Install-DevExpress {
         $psObj
         $package=$_
         "Installing $package $($psObj.Version) in $($psObj.OutputDirectory)" 
-        nuget Install $package -source "$($psObj.Source)" -OutputDirectory "$($psObj.OutputDirectory)" -Version $($psObj.Version)
+        Invoke-Retry -Maximum $MaximumRetries {
+            nuget Install $package -source "$($psObj.Source)" -OutputDirectory "$($psObj.OutputDirectory)" -Version $($psObj.Version)
+        }
     }
     
     Get-ChildItem -Path "$packagesFolder" -Include "*.dll" -Recurse  |Where-Object {
