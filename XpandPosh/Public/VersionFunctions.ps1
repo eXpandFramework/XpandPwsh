@@ -9,17 +9,26 @@ function Get-XpandVersion {
     )
     if ($Next) {
         $official = Get-XpandVersion -Release
+        Write-Verbose $official
         $labVersion = Get-XpandVersion -Lab 
+        Write-Verbose $labVersion
         $revision = 0
         $dxVersion=Get-DevExpressVersion -Latest
+        Write-Verbose $dxVersion
         $build="$($dxVersion.Build)00"
-        if ($official.Minor -like "$($dxVersion.Build)*"){
+        if ($official.Build -like "$($dxVersion.build)*"){
             if ($official.Build -eq $labVersion.Build) {
                 $revision = $labVersion.Revision + 1
                 if ($labVersion.Revision -eq -1) {
                     $revision = 1
                 }
                 $build=$official.Build
+            }
+        }
+        else{
+            $revision = $labVersion.Revision + 1
+            if ($labVersion.Revision -eq -1) {
+                $revision = 1
             }
         }
         
