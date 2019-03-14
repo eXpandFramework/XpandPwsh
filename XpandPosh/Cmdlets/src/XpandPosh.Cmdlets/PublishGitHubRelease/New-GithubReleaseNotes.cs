@@ -13,13 +13,6 @@ namespace XpandPosh.Cmdlets.PublishGitHubRelease{
     [Cmdlet(VerbsCommon.New, "GithubReleaseNotes",SupportsShouldProcess = true)]
     [OutputType(typeof(string))]
     public class NewGitHubReleaseNotes : GitHubCmdlet{
-        
-        [Parameter(Mandatory = true)]
-        public string Repository1{ get; set; }
-        [Parameter(Mandatory = true)]
-        public string Repository2{ get; set; }
-        
-        
         [Parameter(Mandatory = true)]
         public ICommitIssues[] CommitIssues{ get; set; }
         [Parameter(Mandatory = true)]
