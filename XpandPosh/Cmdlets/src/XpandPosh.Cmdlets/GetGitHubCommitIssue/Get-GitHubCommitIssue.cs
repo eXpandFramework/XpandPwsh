@@ -27,7 +27,7 @@ namespace XpandPosh.Cmdlets.GetGitHubCommitIssue{
             if (!Since.HasValue){
                 var release = await GitHubClient.Repository.GetForOrg(Organization, Repository1)
                     .SelectMany(repository => GitHubClient.Repository.Release.GetAll(repository.Id))
-                    .Select(list => list.First());
+                    .Select(list => list.First(_ => !_.Draft));
                 Since = release.PublishedAt;
                 WriteVerbose($"Last {Repository1} release was at {release.PublishedAt}");
             }
