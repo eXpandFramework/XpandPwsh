@@ -97,9 +97,7 @@ function Get-DevExpressVersion {
     end {
     }
 }
-function Get-DXVersion([string]$Version, [switch]$Build, [switch]$Latest) {
-    
-}
+
 
 function Update-AssemblyInfoBuild($path) {
     if (!$path) {
