@@ -3,6 +3,8 @@
 namespace XpandPosh.Cmdlets.PublishGitHubRelease{
     public interface ITemplatePart{
         IList<string> Labels{ get; }
+        string Header{ get; set; }
+        string Footer{ get; set; }
     }
 
     public class TemplatePart : ITemplatePart{
