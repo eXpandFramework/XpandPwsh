@@ -14,10 +14,11 @@ namespace XpandPosh.Cmdlets.PublishGitHubRelease{
     [OutputType(typeof(string))]
     public class NewGitHubReleaseNotes : XpandCmdlet{
         [Parameter(Mandatory = true)]
-        public ICommitIssues[] CommitIssues{ get; set; }
-        [Parameter(Mandatory = true)]
         public IReleaseNotesTemplate ReleaseNotesTemplate{ get; set; } = Cmdlets.PublishGitHubRelease.ReleaseNotesTemplate.Default;
-        
+
+        [Parameter(Mandatory = true)]
+        public ICommitIssues[] CommitIssues{ get; set; }
+
         protected override  Task ProcessRecordAsync(){
             return Observable.Return(string.Join(Environment.NewLine,ReleaseNotesTemplate.Parts.Select(GetBody)))
                 .WriteObject(this)
