@@ -17,7 +17,7 @@ function Install-Xpand {
     else {
         Write-Host ""$InstallationPath\UnInstall-Xpand.ps1" exists, unistalling." -f "Red"
         Read-Host "Press a key to continue."
-        . "$PSSCriptRoot\UnInstall-Xpand.ps1"
+        . "$InstallationPath\UnInstall-Xpand.ps1"
         UnInstall-Xpand $InstallationPath    
     }
     Write-Host "Installing $($Assets -join ', ') into $InstallationPath."-f Green
@@ -44,7 +44,7 @@ function Install-Xpand {
         $xpandDLL = "$InstallationPath\Xpand.DLL"
         Remove-Item $xpandDLL -Recurse -Force -ErrorAction SilentlyContinue
         write-host "Expanding files into $xpandDLL" -f Green
-        Expand-Archive $zip -DestinationPath $xpandDLL
+        Expand-Archive $zip -DestinationPath $xpandDLL -Force
         Remove-Item $zip
         $demos = "$InstallationPath\Demos"
         Write-Host "Moving Demos" -f Green
@@ -94,7 +94,7 @@ function Install-Xpand {
         & "$env:TEMP\VSIXBootstrapper.exe" $vsix
     }
     DownloadFile "https://raw.githubusercontent.com/eXpandFramework/XpandPosh/master/XpandPosh/Public/UnInstall-Xpand.ps1" "$InstallationPath\UnInstall-Xpand.ps1"
-    Set-Content "$InstallationPath\UnInstall-Xpand.ps1" "UnInstall-Xpand"
+    Add-Content "$InstallationPath\UnInstall-Xpand.ps1" "`nUnInstall-Xpand" 
 }
 function DownloadFile($url, $targetFile){
     $uri = New-Object "System.Uri" "$url"
