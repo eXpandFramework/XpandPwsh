@@ -28,6 +28,7 @@ function UnInstall-Xpand {
         & "$InstallationPath\VSIXBootstrapper.exe" "/u:""Xpand.VSIX.eXpandFramework.4ab62fb3-4108-4b4d-9f45-8a265487d3dc"""
         Write-host "Removing $InstallationPath" -f Blue
         Remove-Item $InstallationPath -Recurse -Force
+        Remove-Item "$InstallationPath\VSIXBootstrapper.exe"
     }
     
     end {
