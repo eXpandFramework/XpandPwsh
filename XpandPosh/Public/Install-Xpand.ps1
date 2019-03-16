@@ -97,6 +97,8 @@ function Install-Xpand {
     Add-Content "$InstallationPath\UnInstall-Xpand.ps1" "`nUnInstall-Xpand" 
 }
 function DownloadFile($url, $targetFile){
+    Start-BitsTransfer $url $targetFile
+    return
     $uri = New-Object "System.Uri" "$url"
     $request = [System.Net.HttpWebRequest]::Create($uri)
     $request.set_Timeout(15000) #15 second timeout
