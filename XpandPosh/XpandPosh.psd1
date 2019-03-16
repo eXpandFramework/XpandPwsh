@@ -104,6 +104,8 @@
         "Get-CallerPreference",
         "Update-HintPath",
         "Get-DxNugets",
+        "Install-Xpand",
+        "UnInstall-Xpand",
         "Get-XpandPath",
         "Use-NugetAssembly",
         "Install-SubModule",
@@ -165,6 +167,7 @@
     # DefaultCommandPrefix = ''
 
 }
+
 
 
 
