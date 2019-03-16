@@ -10,7 +10,7 @@ function Install-Xpand {
     New-Object System.Net.WebClient
     if (!(Test-Path "$InstallationPath\UnInstall-Xpand.ps1")) {
         if (!(Test-Path $InstallationPath)){
-            Write-Host "Creating $InstallationPath" -f Blue
+            Write-Host "Creating $InstallationPath" -f Green
             New-Item $InstallationPath -ItemType Directory|Out-Null
         }
     }
@@ -20,34 +20,34 @@ function Install-Xpand {
         . "$PSSCriptRoot\UnInstall-Xpand.ps1"
         UnInstall-Xpand $InstallationPath    
     }
-    Write-Host "Installing $($Assets -join ', ') into $InstallationPath."-f Blue
+    Write-Host "Installing $($Assets -join ', ') into $InstallationPath."-f Green
     Write-Host "Additional paraters are available Version, Latest, Assets, InstallationPath" -f Yellow
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     $repo = "eXpand"
     $release=$Version
     if (!$Latest) {
-        Write-Host "Finding latest Xpand version" -f Blue
+        Write-Host "Finding latest Xpand version" -f Green
         $release = (Invoke-WebRequest -Uri "https://api.github.com/repos/eXpandFramework/eXpand/releases" -UseBasicParsing | ConvertFrom-Json)[0].tag_name
-        Write-Host "Latest official:$release" -f Blue
+        Write-Host "Latest official:$release" -f Green
         $lab = (Invoke-WebRequest -Uri "https://api.github.com/repos/eXpandFramework/lab/releases" -UseBasicParsing | ConvertFrom-Json)[0].tag_name
-        Write-Host "Latest lab:$lab" -f Blue
+        Write-Host "Latest lab:$lab" -f Green
         if ($lab -gt $release) {
             $repo = "lab"
             $release = $lab
         }
     }
     if ($Assets -contains "Assemblies") {
-        Write-Host "Downloading assemblies from $repo repo into $InstallationPath" -f Blue
+        Write-Host "Downloading assemblies from $repo repo into $InstallationPath" -f Green
         $uri = "https://github.com/eXpandFramework/$repo/releases/download/$release/Xpand-lib-$release.zip"
         $zip = "$InstallationPath\Xpand-lib-$release.zip"
         DownloadFile $uri $zip
         $xpandDLL = "$InstallationPath\Xpand.DLL"
         Remove-Item $xpandDLL -Recurse -Force -ErrorAction SilentlyContinue
-        write-host "Expanding files into $xpandDLL" -f Blue
+        write-host "Expanding files into $xpandDLL" -f Green
         Expand-Archive $zip -DestinationPath $xpandDLL
         Remove-Item $zip
         $demos = "$InstallationPath\Demos"
-        Write-Host "Moving Demos" -f Blue
+        Write-Host "Moving Demos" -f Green
         Remove-Item $demos -Recurse -Force -ErrorAction SilentlyContinue
         New-Item $demos -ItemType Directory -Force|Out-Null
         New-Item "$demos\Testers" -ItemType Directory -Force|Out-Null
@@ -56,44 +56,45 @@ function Install-Xpand {
             New-Item "$demos\Demos\$_" -ItemType Directory -Force|Out-Null
             Get-ChildItem $xpandDLL "*$_*"|Move-Item -Destination "$demos\Demos\$_" 
         }
-        Write-Host "Write Registry " -f Blue
+        Write-Host "Write Registry " -f Green
         $key = [Microsoft.Win32.RegistryKey]::OpenBaseKey([Microsoft.Win32.RegistryHive]::LocalMachine, [Microsoft.Win32.RegistryView]::Registry32)
         $subKey = $key.OpenSubKey("SOFTWARE\Microsoft\.NETFramework\AssemblyFolders", $true)
         $subKey.CreateSubKey("Xpand").SetValue("", $xpandDLL)
         if (!$SkipGac) {
-            Write-Host "$Installing to GAC" -f Blue
+            Write-Host "$Installing to GAC" -f Green
             Set-Location "$InstallationPath\Xpand.DLL"
             & .\gacInstaller.exe -m Install
         }
     }
     if ($Assets -contains "Nuget") {
-        Write-Host "Downloading Nugets from $repo repo into $InstallationPath" -f Blue
+        Write-Host "Downloading Nugets from $repo repo into $InstallationPath" -f Green
         $uri = "https://github.com/eXpandFramework/$repo/releases/download/$release/Nupkg-$release.zip"
         $zip = "$InstallationPath\Nupkg-$release.zip"
         DownloadFile $uri $zip
         $nugetPath = "$InstallationPath\Packages"
         Remove-Item $nugetPath -Recurse -Force -ErrorAction SilentlyContinue
-        write-host "Expanding files into $nugetPath" -f Blue
+        write-host "Expanding files into $nugetPath" -f Green
         Expand-Archive $zip -DestinationPath $nugetPath 
         Remove-Item $zip
     }
     if ($Assets -contains "Source") {
-        Write-Host "Downloading Sources from $repo repo into $InstallationPath" -f Blue
+        Write-Host "Downloading Sources from $repo repo into $InstallationPath" -f Green
         $uri = "https://github.com/eXpandFramework/$repo/releases/download/$release/Xpand-Source-$release.zip"
         $zip = "$InstallationPath\Xpand-Source-$release.zip"
         DownloadFile $uri $zip
     }
     if ($Assets -contains "VSIX") {
-        Write-Host "Downloading VSIX from $repo repo into $InstallationPath" -f Blue
+        Write-Host "Downloading VSIX from $repo repo into $InstallationPath" -f Green
         $uri = "https://github.com/eXpandFramework/$repo/releases/download/$release/Xpand.VSIX-$release.vsix"
         $vsix = "$InstallationPath\Xpand.VSIX-$release.vsix"
         DownloadFile $uri $vsix
-        Write-Host "Download VSIX bootstrapper" -f Blue
-        Invoke-WebRequest "https://github.com/Microsoft/vsixbootstrapper/releases/download/1.0.37/VSIXBootstrapper.exe" -OutFile "$env:TEMP\VSIXBootstrapper.exe"
-        write-host "Installing VSIX" -f Blue
+        Write-Host "Download VSIX bootstrapper" -f Green
+        DownloadFile "https://github.com/Microsoft/vsixbootstrapper/releases/download/1.0.37/VSIXBootstrapper.exe" "$env:TEMP\VSIXBootstrapper.exe"
+        write-host "Installing VSIX" -f Green
         & "$env:TEMP\VSIXBootstrapper.exe" $vsix
     }
     DownloadFile "https://raw.githubusercontent.com/eXpandFramework/XpandPosh/master/XpandPosh/Public/UnInstall-Xpand.ps1" "$InstallationPath\UnInstall-Xpand.ps1"
+    Set-Content "$InstallationPath\UnInstall-Xpand.ps1" "UnInstall-Xpand"
 }
 function DownloadFile($url, $targetFile){
     $uri = New-Object "System.Uri" "$url"
