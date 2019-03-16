@@ -7,7 +7,7 @@ function Install-Xpand {
         [string]$InstallationPath = "${env:ProgramFiles(x86)}\eXpandFramework",
         [switch]$SkipGac
     )
-
+    New-Object System.Net.WebClient
     if (!(Test-Path "$InstallationPath\UnInstall-Xpand.ps1")) {
         if (!(Test-Path $InstallationPath)){
             Write-Host "Creating $InstallationPath" -f Blue
@@ -40,7 +40,7 @@ function Install-Xpand {
         Write-Host "Downloading assemblies from $repo repo into $InstallationPath" -f Blue
         $uri = "https://github.com/eXpandFramework/$repo/releases/download/$release/Xpand-lib-$release.zip"
         $zip = "$InstallationPath\Xpand-lib-$release.zip"
-        Invoke-WebRequest $uri -Out $zip
+        DownloadFile $uri $zip
         $xpandDLL = "$InstallationPath\Xpand.DLL"
         Remove-Item $xpandDLL -Recurse -Force -ErrorAction SilentlyContinue
         write-host "Expanding files into $xpandDLL" -f Blue
@@ -70,7 +70,7 @@ function Install-Xpand {
         Write-Host "Downloading Nugets from $repo repo into $InstallationPath" -f Blue
         $uri = "https://github.com/eXpandFramework/$repo/releases/download/$release/Nupkg-$release.zip"
         $zip = "$InstallationPath\Nupkg-$release.zip"
-        Invoke-WebRequest $uri -Out $zip
+        DownloadFile $uri $zip
         $nugetPath = "$InstallationPath\Packages"
         Remove-Item $nugetPath -Recurse -Force -ErrorAction SilentlyContinue
         write-host "Expanding files into $nugetPath" -f Blue
@@ -81,22 +81,40 @@ function Install-Xpand {
         Write-Host "Downloading Sources from $repo repo into $InstallationPath" -f Blue
         $uri = "https://github.com/eXpandFramework/$repo/releases/download/$release/Xpand-Source-$release.zip"
         $zip = "$InstallationPath\Xpand-Source-$release.zip"
-        Invoke-WebRequest $uri -Out $zip
-        $sourcesPath = "$InstallationPath\Sources"
-        Remove-Item $sourcesPath -Recurse -Force -ErrorAction SilentlyContinue
-        write-host "Expanding files into $sourcesPath" -f Blue
-        Expand-Archive $zip -DestinationPath $sourcesPath
-        Remove-Item $zip
+        DownloadFile $uri $zip
     }
     if ($Assets -contains "VSIX") {
         Write-Host "Downloading VSIX from $repo repo into $InstallationPath" -f Blue
         $uri = "https://github.com/eXpandFramework/$repo/releases/download/$release/Xpand.VSIX-$release.vsix"
         $vsix = "$InstallationPath\Xpand.VSIX-$release.vsix"
-        Invoke-WebRequest $uri -Out $vsix
+        DownloadFile $uri $vsix
         Write-Host "Download VSIX bootstrapper" -f Blue
         Invoke-WebRequest "https://github.com/Microsoft/vsixbootstrapper/releases/download/1.0.37/VSIXBootstrapper.exe" -OutFile "$env:TEMP\VSIXBootstrapper.exe"
         write-host "Installing VSIX" -f Blue
         & "$env:TEMP\VSIXBootstrapper.exe" $vsix
     }
-    Invoke-WebRequest "https://raw.githubusercontent.com/eXpandFramework/XpandPosh/master/XpandPosh/Public/UnInstall-Xpand.ps1" -OutFile "$InstallationPath\UnInstall-Xpand.ps1"
+    DownloadFile "https://raw.githubusercontent.com/eXpandFramework/XpandPosh/master/XpandPosh/Public/UnInstall-Xpand.ps1" "$InstallationPath\UnInstall-Xpand.ps1"
 }
+function DownloadFile($url, $targetFile){
+    $uri = New-Object "System.Uri" "$url"
+    $request = [System.Net.HttpWebRequest]::Create($uri)
+    $request.set_Timeout(15000) #15 second timeout
+    $response = $request.GetResponse()
+    $totalLength = [System.Math]::Floor($response.get_ContentLength()/1024)
+    $responseStream = $response.GetResponseStream()
+    $targetStream = New-Object -TypeName System.IO.FileStream -ArgumentList $targetFile, Create
+    $buffer = new-object byte[] 10KB
+    $count = $responseStream.Read($buffer,0,$buffer.length)
+    $downloadedBytes = $count
+    while ($count -gt 0)   {
+        $targetStream.Write($buffer, 0, $count)
+        $count = $responseStream.Read($buffer,0,$buffer.length)
+        $downloadedBytes = $downloadedBytes + $count
+        Write-Progress -activity "Downloading file '$($url.split('/') | Select -Last 1)'" -status "Downloaded ($([System.Math]::Floor($downloadedBytes/1024))K of $($totalLength)K): " -PercentComplete ((([System.Math]::Floor($downloadedBytes/1024)) / $totalLength)  * 100)
+    }
+    Write-Progress -activity "Finished downloading file '$($url.split('/') | Select -Last 1)'"
+    $targetStream.Flush()
+    $targetStream.Close()
+    $targetStream.Dispose()
+    $responseStream.Dispose()
+ }
