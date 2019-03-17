@@ -7,6 +7,7 @@ function Install-Xpand {
         [string]$InstallationPath = "${env:ProgramFiles(x86)}\eXpandFramework",
         [switch]$SkipGac
     )
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     $client=New-Object System.Net.WebClient
     if (!(Test-Path "$InstallationPath\UnInstall-Xpand.ps1")) {
         if (!(Test-Path $InstallationPath)){
