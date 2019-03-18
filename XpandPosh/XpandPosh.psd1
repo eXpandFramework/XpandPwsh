@@ -111,7 +111,7 @@
         "Install-SubModule",
         "Get-NugetPackageVersion",
         "Get-DotnetCoreVersion",
-        "Get-MetadataVersion",
+        "Get-NUgetPackageMetadataVersion",
         "ConvertTo-PackageObject",
         "Publish-NugetPackage",
         "Get-ChocoPackage",
