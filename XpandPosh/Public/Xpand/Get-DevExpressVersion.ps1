@@ -25,7 +25,7 @@ function Get-DevExpressVersion {
             }
         }
         else{
-            nuget list DevExpress.ExpressApp -source $LatestVersionFeed|ConvertTo-PackageObject|Select-Object -ExpandProperty Version -First 1
+            & (Get-NugetPath) list DevExpress.ExpressApp -source $LatestVersionFeed|ConvertTo-PackageObject|Select-Object -ExpandProperty Version -First 1
         }
         
     }

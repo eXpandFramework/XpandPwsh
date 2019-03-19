@@ -1,4 +1,5 @@
 function Get-XpandVersion { 
+    [CmdletBinding()]
     param(
         $XpandPath,
         [switch]$Latest,
@@ -8,20 +9,24 @@ function Get-XpandVersion {
     )
     if ($Next) {
         $official = Get-XpandVersion -Release
-        Write-Verbose $official
+        Write-Verbose "Release=$official"
         $labVersion = Get-XpandVersion -Lab 
-        Write-Verbose $labVersion
+        Write-Verbose "lab=$labVersion"
         $revision = 0
         $dxVersion=Get-DevExpressVersion -Latest
-        Write-Verbose $dxVersion
+        Write-Verbose "dx=$dxVersion"
         $build="$($dxVersion.Build)00"
-        if ($official.Build -like "$($dxVersion.build)*"){
+        if (($official.Build -like "$($dxVersion.build)*")){
             if ($official.Build -eq $labVersion.Build) {
                 $revision = $labVersion.Revision + 1
                 if ($labVersion.Revision -eq -1) {
                     $revision = 1
                 }
                 $build=$official.Build
+            }
+            elseif ($official.Build -gt $labVersion.Build) {
+                $build=$official.Build
+                $revision=1
             }
         }
         else{
@@ -56,13 +61,9 @@ function Get-XpandVersion {
         return
     }
     if ($Lab) {
-        (& nuget list eXpand -Source https://xpandnugetserver.azurewebsites.net/nuget|ConvertTo-PackageObject -LatestVersion|Sort-Object -Property Version -Descending |Select-Object -First 1).Version
-        return
+        return (& $(Get-NugetPath) list eXpand -Source (Get-PackageFeed -Xpand)|ConvertTo-PackageObject -LatestVersion|Sort-Object -Property Version -Descending |Select-Object -First 1).Version
     }
     if ($Release) {
-        $c = New-Object System.Net.WebClient
-        $c.Headers.Add("User-Agent", "Xpand");
-        New-Object System.Version (($c.DownloadString("https://api.github.com/repos/eXpand/eXpand/releases/latest")|ConvertFrom-Json).tag_Name)
-        $c.Dispose()
+        return (& $(Get-NugetPath) list eXpand -Source (Get-PackageFeed -Nuget)|Where-Object{$_ -like "eXpand*"}|ConvertTo-PackageObject|Sort-Object -Property Version -Descending |Select-Object -First 1).Version
     }
 }
