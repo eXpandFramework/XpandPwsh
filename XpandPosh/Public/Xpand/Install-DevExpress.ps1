@@ -39,13 +39,12 @@ function Install-DevExpress {
     if ($nugets.Count -eq 0) {
         throw "No nugets found??"
     }
-
-    $psObj.Nugets|Invoke-Parallel -ActivityName "Installing DX" -VariablesToImport psObj -script {
-        $psObj
+    $nuget=Get-NugetPath
+    $psObj.Nugets|Invoke-Parallel -ActivityName "Installing DX" -VariablesToImport @("psObj","nuget") -script {
         $package=$_
-        "Installing $package $($psObj.Version) in $($psObj.OutputDirectory)" 
+        Write-Host "Installing $package $($psObj.Version) in $($psObj.OutputDirectory) from $($psObj.Source)" 
         Invoke-Retry -Maximum $MaximumRetries {
-            nuget Install $package -source "$($psObj.Source)" -OutputDirectory "$($psObj.OutputDirectory)" -Version $($psObj.Version)
+            & "$nuget"  Install "$package" -Source "$($psObj.Source)" -OutputDirectory "$($psObj.OutputDirectory)" -Version "$($psObj.Version)"
         }
     }
     
