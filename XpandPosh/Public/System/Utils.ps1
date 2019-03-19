@@ -1,4 +1,3 @@
-Install-NugetCommandLine
 function Sort-PackageByDependencies {
     [CmdletBinding()]
     param (

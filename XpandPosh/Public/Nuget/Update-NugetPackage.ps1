@@ -12,9 +12,10 @@ function Update-NugetPackage{
             Config = $_
         }
     }
+    $configs.Content.Packages.package.id
     $sources=Get-PackageSourceLocations Nuget
     $ids=$configs|ForEach-Object{$_.Content.packages.package.id}|Where-Object{$_ -like $Filter}|Select-Object -Unique 
-    $metadatas= $ids|Invoke-Parallel -activityName "Getting latest versions from sources" {(Get-NugetPackageSearchMetadata -Name $_ -Sources $Using:sources)}
+    $metadatas= $ids|Invoke-Parallel -activityName "Getting latest versions from sources" -Script {(Get-NugetPackageSearchMetadata -Name $_ -Sources $Using:sources)}
     $packages=$configs|ForEach-Object{
         $config=$_.Config
         $_.Content.packages.package|Where-Object{$_.id -like $filter}|ForEach-Object{
@@ -38,7 +39,7 @@ function Update-NugetPackage{
     } 
     
     
-    $sortedPackages|Invoke-Parallel -activityName "Update all packages" {
+    $sortedPackages|Invoke-Parallel -activityName "Update all packages" -Script {
         ($_.Packages|ForEach-Object{
             Write-host "Updating $($_.Id) in $($_.Config) to version $($_.NewVersion) from $($_.Metadata.Source)"
             (& Nuget Update $_.Config -Id $_.Id -Version $($_.NewVersion) -Source "$($_.Metadata.Source)")

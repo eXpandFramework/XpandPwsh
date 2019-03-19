@@ -70,11 +70,12 @@
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport = @(
+        "Get-XpandPackages",
+        "Get-NugetPath",
         "Get-GitLastSha", 
         "Clear-ASPNETTemp", 
         "Clear-ProjectDirectories", 
         "Install-Chocolatey", 
-        "Install-NugetCommandLine", 
         "Remove-ProjectNuget", 
         "Compress-Files", 
         "Compress-ProjectFolder"
@@ -100,7 +101,9 @@
         "Get-PackageSourceLocations",
         "Set-VsoVariable",
         "Update-NugetPackage",
+        "UnPublish-NugetPackage",
         "Update-Symbols",
+        "Get-PackageFeed",
         "Get-CallerPreference",
         "Update-HintPath",
         "Get-DxNugets",
