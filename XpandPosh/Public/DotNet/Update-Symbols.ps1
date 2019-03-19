@@ -2,13 +2,13 @@ function Update-Symbols {
     [CmdletBinding()]
     param (
         [parameter(Mandatory, ValueFromPipeline)]
-        [FileInfo]$pdb,
+        [System.IO.FileInfo]$pdb,
         [parameter(Mandatory)]
         [string]$TargetRoot,
         [parameter()]
         [string]$SourcesRoot,
         [parameter()]
-        [string]$dbgToolsPath = "$PSScriptRoot\srcsrv"
+        [string]$dbgToolsPath = "$PSScriptRoot\..\..\Private\srcsrv"
     )
     
     begin {
