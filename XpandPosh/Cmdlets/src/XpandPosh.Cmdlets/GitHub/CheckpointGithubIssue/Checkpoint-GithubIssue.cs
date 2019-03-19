@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Octokit;
 using SmartFormat;
 using XpandPosh.Cmdlets.GitHub.GetGitHubCommitIssue;
-using XpandPosh.CmdLets;
 
 namespace XpandPosh.Cmdlets.GitHub.CheckpointGithubIssue{
     [CmdletBinding(SupportsShouldProcess = true)]

@@ -22,7 +22,7 @@ namespace XpandPosh.Cmdlets.Nuget.GetNugetPackage{
     [Cmdlet(VerbsCommon.Get, "NugetPackage")]
     [OutputType(typeof(INugetPackageAssembly))]
     [CmdletBinding]
-    public class GetNugetPackage : XpandCmdlet{
+    public class GetNugetPackage : NugetCmdlet{
         [Parameter(ValueFromPipeline = true)]
         public string Name{ get; set; } 
 

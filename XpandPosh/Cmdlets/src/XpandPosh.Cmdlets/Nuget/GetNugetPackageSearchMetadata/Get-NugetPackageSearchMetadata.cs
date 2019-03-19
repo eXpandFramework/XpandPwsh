@@ -10,13 +10,12 @@ using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
-using XpandPosh.CmdLets;
 
 namespace XpandPosh.Cmdlets.Nuget.GetNugetPackageSearchMetadata{
     [Cmdlet(VerbsCommon.Get, "NugetPackageSearchMetadata")]
     [OutputType(typeof(IPackageSourceSearchMetadata))]
     [CmdletBinding()]
-    public  class GetNugetPackageSearchMetadata : XpandCmdlet{
+    public  class GetNugetPackageSearchMetadata : NugetCmdlet{
         [Parameter(Position = 0, ValueFromPipeline = true)]
         public string Name{ get; set; }
 
