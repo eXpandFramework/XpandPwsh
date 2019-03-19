@@ -13,10 +13,11 @@ function Publish-NugetPackage {
         if (!(Test-Path $NupkgPath)){
             throw "$NupkgPath is not a valid path"
         }
+        $Nuget=Get-NugetPath
     }
     
     process {
-        $packages=(& Nuget List -source $NupkgPath)|convertto-packageobject
+        $packages=(& $Nuget List -source $NupkgPath)|convertto-packageobject
         Write-Verbose "Packages found:"
         $packages|Write-Verbose
         
@@ -39,10 +40,10 @@ function Publish-NugetPackage {
         $publishScript={        
             $package="$NupkgPath\$($_.Name).$($_.Version).nupkg"
             "Pushing $package in $Source "
-            nuget Push "$package" -ApiKey $ApiKey -source $Source
+            & $Nuget Push "$package" -ApiKey $ApiKey -source $Source
         }
         
-        $needPush|Invoke-Parallel -ActivityName "Publishing Nugets" -VariablesToImport @("ApiKey","NupkgPath","Source") -Script $publishScript
+        $needPush|Invoke-Parallel -ActivityName "Publishing Nugets" -VariablesToImport @("ApiKey","NupkgPath","Source","Nuget") -Script $publishScript
      
     }
     end {
