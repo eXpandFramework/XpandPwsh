@@ -25,7 +25,7 @@ function Publish-NugetPackage {
             Get-NugetPackageSearchMetadata -Name $_ -Sources $Source
         } 
         Write-Verbose "Published packages:"
-        $published=$published|Select-object -ExpandProperty Metadata|Get-MetadataVersion
+        $published=$published|Select-object -ExpandProperty Metadata|Get-NugetPackageMetadataVersion
         $published|Write-Verbose 
         
         $needPush=$packages|Where-Object{
