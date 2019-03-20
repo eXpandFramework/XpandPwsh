@@ -25,11 +25,10 @@ function Install-Xpand {
         Latest=$Latest
         Assets=$Assets
         InstallationPath=$InstallationPath
-        ScipGac=$ScipGac
+        SkipGac=$SkipGac
     }
-    Write-Host "Installation parameters:"
+    Write-Host "Installation parameters:" -f Green
     $instalationParameters|Write-Output 
     InstallXpand @instalationParameters
 
 }
-

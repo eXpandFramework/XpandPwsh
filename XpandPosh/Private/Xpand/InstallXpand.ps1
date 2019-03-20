@@ -39,7 +39,7 @@ function InstallXpand {
     if ($Latest) {
         Write-Host "Finding latest Xpand version" -f Green
         $release = (& $nuget list eXpandlib -source "https://api.nuget.org/v3/index.json").Split(" ")[1]
-        Write-Host "Latest official:$release" -f Green
+        Write-Host "Latest official:$release" -f Yellow
         $lab = (& $nuget list eXpandlib -source "https://xpandnugetserver.azurewebsites.net/nuget").Split(" ")[1]
         Write-Host "Latest lab:$lab" -f Green
         if ($lab -gt $release) {
