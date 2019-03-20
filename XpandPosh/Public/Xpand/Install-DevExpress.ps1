@@ -43,7 +43,7 @@ function Install-DevExpress {
     $psObj.Nugets|Invoke-Parallel -ActivityName "Installing DX" -VariablesToImport @("psObj","nuget") -script {
         $package=$_
         Write-Host "Installing $package $($psObj.Version) in $($psObj.OutputDirectory) from $($psObj.Source)" 
-        Invoke-Retry -Maximum $MaximumRetries {
+        Invoke-Retry -Maximum $MaximumRetries -retryInterval 3 {
             & "$nuget"  Install "$package" -Source "$($psObj.Source)" -OutputDirectory "$($psObj.OutputDirectory)" -Version "$($psObj.Version)"
         }
     }

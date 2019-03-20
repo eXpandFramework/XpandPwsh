@@ -5,7 +5,8 @@ function Invoke-Retry {
         [scriptblock]$ScriptBlock,
 
         [Parameter(Position=1, Mandatory=$false)]
-        [int]$Maximum = 5
+        [int]$Maximum = 5,
+        [int]$RetryInterval=1
     )
 
     Begin {
@@ -19,7 +20,7 @@ function Invoke-Retry {
                 $ScriptBlock.Invoke()
                 return
             } catch {
-                [System.Threading.Thread]::Sleep([System.TimeSpan]::FromSeconds(1))
+                [System.Threading.Thread]::Sleep([System.TimeSpan]::FromSeconds($RetryInterval))
                 Write-Error $_.Exception.InnerException.Message -ErrorAction Continue
             }
         } while ($cnt -lt $Maximum)
