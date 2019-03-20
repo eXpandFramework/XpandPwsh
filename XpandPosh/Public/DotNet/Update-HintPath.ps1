@@ -1,4 +1,4 @@
-function Update-HintPath{
+function Update-HintPath {
     param(
         [parameter(Mandatory)]
         [string]$SourcesPath,
@@ -8,7 +8,7 @@ function Update-HintPath{
         [string]$filter
 
     )
-    Get-ChildItem $sourcesPath "*.csproj" -Recurse|ForEach-Object {
+    Get-ChildItem $sourcesPath "*.csproj" -Recurse|Invoke-Parallel -ActivityName "Checking DX references" -VariablesToImport @("SourcePath","OutputPath","Filter") -Script {
         $projectPath = $_.FullName
         Write-Host "Checking DX references $projectPath"
         $projectDir = (Get-Item $projectPath).DirectoryName
