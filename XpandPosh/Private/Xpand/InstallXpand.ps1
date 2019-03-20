@@ -52,16 +52,19 @@ function InstallXpand {
         $release = New-Object System.Version(((& $nuget list eXpandlib -source "https://api.nuget.org/v3/index.json").Split(" ")[1]))
         Write-Host "Latest official:$release" -f Green
     }
+    if ($release.Revision -eq -1){
+        $release=New-Object System.Version("$release.0")
+    }
     if ($Assets -contains "Source") {
-        Write-Host "Downloading Sources from $repo repository into $InstallationPath" -f Green
         $uri = "https://github.com/eXpandFramework/$repo/releases/download/$release/Xpand-Source-$release.zip"
+        Write-Host "Downloading Sources from $uri into $InstallationPath" -f Green
         $zip = "Xpand-Source-$release.zip"
         $client.DownloadFile($uri, "$InstallationPath\$zip")
         Start-Process powershell "-Command Expand-7Zip '$InstallationPath\$zip' '$InstallationPath\Sources'" -WorkingDirectory $InstallationPath
     }
     if ($Assets -contains "Nuget") {
-        Write-Host "Downloading Nugets from $repo repo into $InstallationPath" -f Green
         $uri = "https://github.com/eXpandFramework/$repo/releases/download/$release/Nupkg-$release.zip"
+        Write-Host "Downloading Nugets from $uri into $InstallationPath" -f Green
         $zip = "$InstallationPath\Nupkg-$release.zip"
         $client.DownloadFile($uri, $zip)
         $nugetPath = "$InstallationPath\Packages"
@@ -70,8 +73,8 @@ function InstallXpand {
         Start-Process powershell "-Command Expand-7Zip '$zip' '$nugetPath'" -WorkingDirectory $InstallationPath
     }
     if ($Assets -contains "Assemblies") {
-        Write-Host "Downloading assemblies from $repo repo into $InstallationPath" -f Green
         $uri = "https://github.com/eXpandFramework/$repo/releases/download/$release/Xpand-lib-$release.zip"
+        Write-Host "Downloading assemblies from $uri into $InstallationPath" -f Green
         $zip = "$InstallationPath\Xpand-lib-$release.zip"
         $client.DownloadFile($uri, $zip)
         $xpandDLL = "$InstallationPath\Xpand.DLL"
@@ -111,8 +114,8 @@ function InstallXpand {
         }
     }
     if ($Assets -contains "VSIX") {
-        Write-Host "Downloading VSIX from $repo repo into $InstallationPath" -f Green
         $uri = "https://github.com/eXpandFramework/$repo/releases/download/$release/Xpand.VSIX-$release.vsix"
+        Write-Host "Downloading VSIX from $uri into $InstallationPath" -f Green
         $vsix = "$InstallationPath\Xpand.VSIX-$release.vsix"
         $client.DownloadFile($uri, $vsix)
         Write-Host "Download VSIX bootstrapper" -f Green
