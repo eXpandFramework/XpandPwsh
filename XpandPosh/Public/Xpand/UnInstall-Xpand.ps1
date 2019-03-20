@@ -14,13 +14,13 @@ function UnInstall-Xpand {
         $c=New-Object System.Net.WebClient
         $uri="https://raw.githubusercontent.com/eXpandFramework/XpandPosh/master/XpandPosh/Private/Xpand/UnInstallXpand.ps1"
         $scriptPath="$PSScriptRoot\UnInstallXpand.ps1"
-        Write-Host "Downloading installation script from $uri into $scriptPath"
-        $c.DownloadFile($url,$scriptPath)
+        Write-Host "Downloading installation script from $uri into $scriptPath" -f Green
+        $c.DownloadFile($uri,$scriptPath)
         . $scriptPath
         $instalationParameters=@{
             InstallationPath=$InstallationPath
         }
-        Write-Host "Installation parameters:"
+        Write-Host "Installation parameters:" -f Yellow
         $instalationParameters|Write-Output
         UninstallXpand @instalationParameters
     }

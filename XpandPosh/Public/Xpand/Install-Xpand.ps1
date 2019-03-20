@@ -27,7 +27,7 @@ function Install-Xpand {
         InstallationPath=$InstallationPath
         SkipGac=$SkipGac
     }
-    Write-Host "Installation parameters:" -f Green
+    Write-Host "Installation parameters:" -f Yellow 
     $instalationParameters|Write-Output 
     InstallXpand @instalationParameters
 
