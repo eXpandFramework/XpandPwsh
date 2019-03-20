@@ -13,8 +13,12 @@ function Install-Xpand {
     $c=New-Object System.Net.WebClient
     $uri="https://raw.githubusercontent.com/eXpandFramework/XpandPosh/master/XpandPosh/Private/Xpand/InstallXpand.ps1"
     $scriptPath="$InstallationPath\InstallXpand.ps1"
-    Write-Host "Downloading installation script from $uri into $scriptPath"
-    $c.DownloadFile($url,$scriptPath)
+    Write-Host "Downloading installation script from $uri into $scriptPath" -f Green
+    New-Item $InstallationPath -ItemType Directory -Force -ErrorAction Continue
+    if (Test-Path $scriptPath){
+        Remove-Item $scriptPath
+    }
+    $c.DownloadFile($uri,$scriptPath)
     . $scriptPath
     InstallXpand $Version $Latest $Assets $InstallationPath $ScipGac
 
