@@ -28,7 +28,7 @@ function Install-Xpand {
         ScipGac=$ScipGac
     }
     Write-Host "Installation parameters:"
-    Write-Host $instalationParameters
+    $instalationParameters|Write-Output 
     InstallXpand @instalationParameters
 
 }

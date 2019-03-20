@@ -21,7 +21,7 @@ function UnInstall-Xpand {
             InstallationPath=$InstallationPath
         }
         Write-Host "Installation parameters:"
-        Write-Host $instalationParameters
+        $instalationParameters|Write-Output
         UninstallXpand @instalationParameters
     }
     
