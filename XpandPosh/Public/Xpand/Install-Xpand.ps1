@@ -20,7 +20,16 @@ function Install-Xpand {
     }
     $c.DownloadFile($uri,$scriptPath)
     . $scriptPath
-    InstallXpand $Version $Latest $Assets $InstallationPath $ScipGac
+    $instalationParameters=@{
+        Version=$Version
+        Latest=$Latest
+        Assets=$Assets
+        InstallationPath=$InstallationPath
+        ScipGac=$ScipGac
+    }
+    Write-Host "Installation parameters:"
+    Write-Host $instalationParameters
+    InstallXpand @instalationParameters
 
 }
 

@@ -17,7 +17,12 @@ function UnInstall-Xpand {
         Write-Host "Downloading installation script from $uri into $scriptPath"
         $c.DownloadFile($url,$scriptPath)
         . $scriptPath
-        
+        $instalationParameters=@{
+            InstallationPath=$InstallationPath
+        }
+        Write-Host "Installation parameters:"
+        Write-Host $instalationParameters
+        UninstallXpand @instalationParameters
     }
     
     end {
