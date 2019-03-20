@@ -7,7 +7,7 @@ function Install-Xpand {
         [string]$InstallationPath = "$([Environment]::GetFolderPath('MyDocuments'))\eXpandFramework",
         [switch]$SkipGac
     )
-    
+throw "Not functional see #349"    
     [Net.ServicePointManager]::Expect100Continue=$true
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     $client=New-Object System.Net.WebClient
