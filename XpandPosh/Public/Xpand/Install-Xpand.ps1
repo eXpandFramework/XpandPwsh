@@ -25,7 +25,7 @@ function Install-Xpand {
         Latest=$Latest
         Assets=$Assets
         InstallationPath=$InstallationPath
-        ScipGac=$ScipGac
+        SkipGac=$SkipGac
     }
     Write-Host "Installation parameters:"
     $instalationParameters|Write-Output 
