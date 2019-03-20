@@ -123,7 +123,7 @@ function InstallXpand {
         & "$env:TEMP\VSIXBootstrapper.exe" $vsix
     }
     Write-Host "Creating Uninstall-Xpand.ps1" -f Green
-    $client.DownloadFile("https://raw.githubusercontent.com/eXpandFramework/XpandPosh/master/XpandPosh/Public/UnInstall-Xpand.ps1", "$InstallationPath\UnInstall-Xpand.ps1")
+    $client.DownloadFile("https://raw.githubusercontent.com/eXpandFramework/XpandPosh/master/XpandPosh/Public/Xpand/UnInstall-Xpand.ps1", "$InstallationPath\UnInstall-Xpand.ps1")
     Add-Content "$InstallationPath\UnInstall-Xpand.ps1" "`nUnInstall-Xpand" 
     Write-Host "Finished installtion in $InstallationPath" -f Green
 }
