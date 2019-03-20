@@ -111,7 +111,7 @@ function InstallXpand {
             & "$InstallationPath\Xpand.Dll\GAcInstaller.exe" -m Install|ForEach-Object {
                 if ($_) {
                     $i++;
-                    Write-Progress -Activity gacInstaller -Status $_ -PercentComplete $($i * 100 / $count)
+                    Write-Progress -Activity gacInstaller -Status $_ -PercentComplete $($i * 100 / $count) -ErrorAction Continue
                 }
                 $_
             }
