@@ -38,9 +38,9 @@ function InstallXpand {
 
     if ($Latest) {
         Write-Host "Finding latest Xpand version" -f Green
-        $release = (& $nuget list eXpandlib -source "https://api.nuget.org/v3/index.json").Split(" ")[1]
+        $release = New-Object System.Version((& $nuget list eXpandlib -source "https://api.nuget.org/v3/index.json").Split(" ")[1])
         Write-Host "Latest official:$release" -f Yellow
-        $lab = (& $nuget list eXpandlib -source "https://xpandnugetserver.azurewebsites.net/nuget").Split(" ")[1]
+        $lab = New-Object System.Version((& $nuget list eXpandlib -source "https://xpandnugetserver.azurewebsites.net/nuget").Split(" ")[1])
         Write-Host "Latest lab:$lab" -f Green
         if ($lab -gt $release) {
             $repo = "lab"
@@ -49,9 +49,7 @@ function InstallXpand {
     }
     elseif (!$Version) {
         Write-Host "Finding latest Xpand version" -f Green
-        
-        $release = ((& $nuget list eXpandlib -source "https://api.nuget.org/v3/index.json").Split(" ")[1])
-        $release += ".0"
+        $release = New-Object System.Version(((& $nuget list eXpandlib -source "https://api.nuget.org/v3/index.json").Split(" ")[1]))
         Write-Host "Latest official:$release" -f Green
     }
     if ($Assets -contains "Source") {
