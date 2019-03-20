@@ -5,7 +5,10 @@ function UnInstallXpand {
     $ErrorActionPreference = "Stop"
     [Net.ServicePointManager]::Expect100Continue = $true
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        
+    $isElevated=[bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544")
+    if (!$isElevated){
+        throw "The script needs administrator rights. Right click on the powershell icon and choose run as Administrator"
+    }        
     $key = [Microsoft.Win32.RegistryKey]::OpenBaseKey([Microsoft.Win32.RegistryHive]::LocalMachine, [Microsoft.Win32.RegistryView]::Registry32)
     $subKey = $key.OpenSubKey("SOFTWARE\Microsoft\.NETFramework\AssemblyFolders\Xpand", $true)
     if (!$InstallationPath -and !$subKey) {
