@@ -11,7 +11,12 @@ function InstallXpand {
     [Net.ServicePointManager]::Expect100Continue = $true
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     $client = New-Object System.Net.WebClient
-    
+    if ($Assets -contains "Assemblies"){
+        $isElevated=[bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544")
+        if (!$isElevated){
+            throw "The script needs administrator rights. Right click on the powershell icon and choose run as Administrator"
+        }
+    }
     if (!(Get-Module 7Zip4Powershell -ListAvailable)) {
         Install-Module 7Zip4Powershell -Scope CurrentUser -Force
     }
