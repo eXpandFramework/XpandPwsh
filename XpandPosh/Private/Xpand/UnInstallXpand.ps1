@@ -30,11 +30,10 @@ function UnInstallXpand {
     $i = 0
     & "$InstallationPath\Xpand.Dll\GAcInstaller.exe" -m UnInstall|ForEach-Object {
         if ($_ -like "*Number of assemblies uninstalled =*") {
-            $i++;
-            [int]$completed = $i * 100 / $count
-            if ($completed -lt 100) {
-                Write-Progress -Activity gacInstaller -Status $_ -PercentComplete $completed
-            }
+            Invoke-Command  {
+                $ErrorActionPreference="SilentlyContinue"
+                Write-Progress -Activity gacInstaller -Status $_ -PercentComplete $($i * 100 / $count)
+            } 
         }
         $_
     }

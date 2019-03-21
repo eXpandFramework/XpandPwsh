@@ -104,14 +104,16 @@ function InstallXpand {
         if (!$SkipGac) {
             Write-Host "$Installing to GAC" -f Green
             Set-Location "$InstallationPath\Xpand.DLL"
-
             $count = (Get-ChildItem "$InstallationPath\Xpand.DLL" *.dll).Count
             Write-Progress -Activity gacInstaller -Status "Installing assemblies in GAC"
             $i = 0
             & "$InstallationPath\Xpand.Dll\GAcInstaller.exe" -m Install|ForEach-Object {
                 if ($_) {
                     $i++;
-                    Write-Progress -Activity gacInstaller -Status $_ -PercentComplete $($i * 100 / $count) -ErrorAction Continue
+                    Invoke-Command  {
+                        $ErrorActionPreference="SilentlyContinue"
+                        Write-Progress -Activity gacInstaller -Status $_ -PercentComplete $($i * 100 / $count)
+                    } 
                 }
                 $_
             }
@@ -133,3 +135,6 @@ function InstallXpand {
     Add-Content "$InstallationPath\UnInstall-Xpand.ps1" "`nUnInstall-Xpand" 
     Write-Host "Finished installtion in $InstallationPath" -f Green
 }
+
+
+
