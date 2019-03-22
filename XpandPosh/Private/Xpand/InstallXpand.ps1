@@ -53,9 +53,11 @@ function InstallXpand {
         }
     }
     elseif (!$Version) {
-        Write-Host "Finding latest Xpand version" -f Green
-        $release = New-Object System.Version(((& $nuget list eXpandlib -source "https://api.nuget.org/v3/index.json").Split(" ")[1]))
-        Write-Host "Latest official:$release" -f Green
+        $systemVersion=New-Object System.Version($Version)
+        if ($systemVersion.Revision -gt 0){
+            $repo="lab"
+        }
+        Write-Host "This is a $repo version" -f Green
     }
     if ($release.Revision -eq -1){
         $release=New-Object System.Version("$release.0")
