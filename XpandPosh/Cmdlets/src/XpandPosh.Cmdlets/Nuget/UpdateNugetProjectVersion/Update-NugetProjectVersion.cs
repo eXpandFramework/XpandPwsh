@@ -35,7 +35,10 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
             WriteVerbose($"lastTaggedDate={dateTimeOffset}");
             var commits =  GitHubClient.Commits(Organization, Repository,
                 dateTimeOffset, Branch).Replay().RefCount();
+            WriteVerbose($"Commits");
+            await commits.WriteVerboseObject(this,commit => commit.Commit.Message);
             var changedPackages = ExistingPackages(this).ToObservable()
+                .WriteVerboseObject(this,_ => $"Existing: {_.name}, {_.version} ")
                 .SelectMany(tuple => commits.Where(commit => commit.Files.Any(file => file.Filename.Contains(tuple.directory.Name))).Select(_=>tuple)).Distinct()
                 .Publish().RefCount();
 

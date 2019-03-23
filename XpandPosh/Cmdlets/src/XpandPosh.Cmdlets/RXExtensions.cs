@@ -35,7 +35,7 @@ namespace XpandPosh.Cmdlets{
                         return Observable.Throw<TSource>(exception);
                     }
                     if (errorAction==ActionPreference.Ignore||errorAction==ActionPreference.Continue)
-                        return Observable.Return(default(TSource));
+                        return Observable.Never<TSource>();
                     throw new NotImplementedException($"{errorAction}");
                 });
         }

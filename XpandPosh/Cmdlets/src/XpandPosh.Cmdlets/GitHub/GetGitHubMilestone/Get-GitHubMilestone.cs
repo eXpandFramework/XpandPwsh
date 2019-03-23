@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Management.Automation;
+﻿using System.Management.Automation;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
@@ -16,8 +15,7 @@ namespace XpandPosh.Cmdlets.GitHub.GetGitHubMilestone{
         [Parameter]
         public SwitchParameter Latest{ get; set; }
         protected override async Task ProcessRecordAsync(){
-            var milestones = GitHubClient.Repository.GetAllForOrg(Organization).ToObservable()
-                .Select(list => list.First(repository => repository.Name == Repository))
+            var milestones = GitHubClient.Repository.GetForOrg(Organization, Repository)
                 .SelectMany(repository => GitHubClient.Issue.Milestone.GetAllForRepository(repository.Id))
                 .SelectMany(list => list)
                 .HandleErrors(this,Repository)
