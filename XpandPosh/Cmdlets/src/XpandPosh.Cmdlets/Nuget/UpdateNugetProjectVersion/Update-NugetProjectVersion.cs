@@ -4,6 +4,7 @@ using System.Linq;
 using System.Management.Automation;
 using System.Net;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -12,8 +13,8 @@ using XpandPosh.Cmdlets.GitHub;
 using XpandPosh.CmdLets;
 
 namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
-    [CmdletBinding]
-    [Cmdlet(VerbsData.Update,"NugetProjectVersion")]
+    [CmdletBinding(SupportsShouldProcess = true)]
+    [Cmdlet(VerbsData.Update,"NugetProjectVersion",SupportsShouldProcess = true)]
     public class UpdateNugetProjectVersion:GitHubCmdlet,IParameter{
         [Parameter(Mandatory = true)]
         public string Repository{ get; set; } 
@@ -35,18 +36,23 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
             WriteVerbose($"lastTaggedDate={dateTimeOffset}");
             var commits =  GitHubClient.Commits(Organization, Repository,
                 dateTimeOffset, Branch).Replay().RefCount();
-            WriteVerbose($"Commits");
+            
             await commits.WriteVerboseObject(this,commit => commit.Commit.Message);
             var changedPackages = ExistingPackages(this).ToObservable()
                 .WriteVerboseObject(this,_ => $"Existing: {_.name}, {_.version} ")
                 .SelectMany(tuple => commits.Where(commit => commit.Files.Any(file => file.Filename.Contains(tuple.directory.Name))).Select(_=>tuple)).Distinct()
                 .Publish().RefCount();
 
+            var subject = new Subject<string>();
+            subject.WriteObject(this).Subscribe();
             await changedPackages.SelectMany(tuple => GitHubClient.Repository
                     .GetForOrg(Organization, Repository)
                     .SelectMany(_ => CreateTagReference(this, GitHubClient, _, tuple, null))
                     .Select(tag => tuple))
-                .Select(UpdateAssemblyInfo).ToTask();
+                .Select(UpdateAssemblyInfo)
+                .HandleErrors(this)
+                .WriteObject(this)
+                .ToTask();
         }
 
         internal async Task Test(){
@@ -55,28 +61,36 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
             await ProcessRecordAsync();
         }
 
-        private static string UpdateAssemblyInfo((string name, string version, DirectoryInfo directory) info){
+        private string UpdateAssemblyInfo((string name, string version, DirectoryInfo directory) info){
             var newVersion = GetVersion(info);
-            var directoryName = info.directory.FullName;
-            var path = $@"{directoryName}\Properties\AssemblyInfo.cs";
-            var text = File.ReadAllText(path);
-            text = Regex.Replace(text, @"Version\(""([^""]*)", $"Version(\"{newVersion}");
-            File.WriteAllText(path, text);
-            return $"{info.name} version raised from {info.version} to {newVersion} ";
+            if (ShouldProcess($"Update version {newVersion}")){
+                var directoryName = info.directory.FullName;
+                var path = $@"{directoryName}\Properties\AssemblyInfo.cs";
+                var text = File.ReadAllText(path);
+                text = Regex.Replace(text, @"Version\(""([^""]*)", $"Version(\"{newVersion}");
+                File.WriteAllText(path, text);
+                return $"{info.name} version raised from {info.version} to {newVersion} ";
+            }
+
+            return null;
         }
 
 
-        private static IObservable<Reference> CreateTagReference(IParameter parameter, GitHubClient appClient,
-            Repository repository, (string name, string version, DirectoryInfo directory) tuple,
-            IObserver<string> observer){
+        private IObservable<Reference> CreateTagReference(IParameter parameter, GitHubClient appClient,
+            Repository repository, (string name, string version, DirectoryInfo directory) tuple,IObserver<string> observer){
             observer.OnNext($"Lookup {tuple.name} heads");
             return appClient.Git.Reference.Get(repository.Id, $"heads/{parameter.Branch}")
-                .ToObservable().SelectMany(reference => {
+                .ToObservable()
+                .SelectMany(reference => {
                     var tag = $"{tuple.directory.Name}_{GetVersion(tuple)}";
                     observer.OnNext($"Tagging {repository.Name} with {tag}");
-                    return appClient.Git.Reference.Create(repository.Id,new NewReference($@"refs/tags/{tag}",reference.Object.Sha))
-                        .ToObservable().Catch<Reference, ApiValidationException>(ex =>
-                            ex.ApiError.Message=="Reference already exists"? Observable.Return<Reference>(null): Observable.Throw<Reference>(ex));
+                    if (ShouldProcess($"Creating tag on repo {repository.Name}")){
+                        return appClient.Git.Reference.Create(repository.Id,new NewReference($@"refs/tags/{tag}",reference.Object.Sha))
+                            .ToObservable().Catch<Reference, ApiValidationException>(ex =>
+                                ex.ApiError.Message=="Reference already exists"? Observable.Return<Reference>(null): Observable.Throw<Reference>(ex));
+                    }
+
+                    return Observable.Return(default(Reference));
 
                 });
         }

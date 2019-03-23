@@ -9,7 +9,7 @@ using Octokit;
 using XpandPosh.CmdLets;
 
 namespace XpandPosh.Cmdlets.GitHub.CloseGitHubIssue{
-        [CmdletBinding(SupportsShouldProcess = true)]
+    [CmdletBinding(SupportsShouldProcess = true)]
     [Cmdlet(VerbsCommon.Close, "GithubIssue",SupportsShouldProcess = true)]
     [OutputType(typeof(Issue))]
     public class CloseGitHubIssue : GitHubCmdlet{
