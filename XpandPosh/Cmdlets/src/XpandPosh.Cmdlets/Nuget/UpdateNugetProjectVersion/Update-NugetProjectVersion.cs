@@ -7,6 +7,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Octokit;
 using XpandPosh.Cmdlets.GitHub;
@@ -45,9 +46,10 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
 
             var subject = new Subject<string>();
             subject.WriteObject(this).Subscribe();
+            var synchronizationContext = SynchronizationContext.Current;
             await changedPackages.SelectMany(tuple => GitHubClient.Repository
                     .GetForOrg(Organization, Repository)
-                    .SelectMany(_ => CreateTagReference(this, GitHubClient, _, tuple, null))
+                    .SelectMany(_ => CreateTagReference(this, GitHubClient, _, tuple, subject,synchronizationContext))
                     .Select(tag => tuple))
                 .Select(UpdateAssemblyInfo)
                 .HandleErrors(this)
@@ -77,10 +79,12 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
 
 
         private IObservable<Reference> CreateTagReference(IParameter parameter, GitHubClient appClient,
-            Repository repository, (string name, string version, DirectoryInfo directory) tuple,IObserver<string> observer){
+            Repository repository, (string name, string version, DirectoryInfo directory) tuple,
+            IObserver<string> observer, SynchronizationContext synchronizationContext){
             observer.OnNext($"Lookup {tuple.name} heads");
             return appClient.Git.Reference.Get(repository.Id, $"heads/{parameter.Branch}")
                 .ToObservable()
+                .ObserveOn(synchronizationContext)
                 .SelectMany(reference => {
                     var tag = $"{tuple.directory.Name}_{GetVersion(tuple)}";
                     observer.OnNext($"Tagging {repository.Name} with {tag}");
