@@ -25,7 +25,7 @@ function Update-Symbols {
     
     end {
         Write-Verbose "Indexing $($list.count) pdb files"
-        $list|Invoke-Parallel -ActivityName Indexing -VariablesToImport "dbgToolsPath" -Script {
+        $list|Invoke-Parallel -ActivityName Indexing -VariablesToImport @("dbgToolsPath","TargetRoot","SourcesRoot") -Script {
             "Indexing $($_.FullName) ..."
         
             $streamPath = [System.IO.Path]::GetTempFileName()
@@ -48,8 +48,7 @@ function Update-Symbols {
             "Preparing stream source files section..."
                 
             $sources = & "$dbgToolsPath\srctool.exe" -r $_.FullName |Select-Object -SkipLast 1
-            if (!$sources) {
-                
+            if ($sources) {
                 Add-Content -value "SRCSRV: source files ---------------------------------------" -path $streamPath
                 foreach ($src in $sources) {
                     $target = "$src*$TargetRoot\$src"
@@ -58,7 +57,7 @@ function Update-Symbols {
                         $target = "$src*$TargetRoot/$file"
                     }
                     Add-Content -value $target -path $streamPath
-                    "Indexing source to $target"
+                    "Indexing $src to $TargetRoot\$src"
                 }
                 Add-Content -value "SRCSRV: end ------------------------------------------------" -path $streamPath
                 
