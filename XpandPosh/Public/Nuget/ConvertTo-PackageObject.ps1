@@ -13,11 +13,13 @@ function ConvertTo-PackageObject {
     }
     
     process {
-        
         $strings = $item.Split(" ")
+        if ($strings.Length -eq 2){
+            $v=new-object System.Version ($strings[1])
+        }
         $psobj=[PSCustomObject]@{
             Name    = $strings[0]
-            Version = new-object System.Version ($strings[1])
+            Version = $v
         }
         if ($LatestVersion){
             $list.Add($psObj)|Out-Null
