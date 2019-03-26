@@ -65,7 +65,11 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
 
         private string UpdateAssemblyInfo((string name, string version, DirectoryInfo directory) info){
             var newVersion = GetVersion(info);
-            if (ShouldProcess($"Update version {newVersion}")){
+            if (newVersion.ToString() == info.version){
+                return $"{info.name} will not be updated";
+            }
+
+            if (ShouldProcess($"Update {info.name} to version {newVersion}")){
                 var directoryName = info.directory.FullName;
                 var path = $@"{directoryName}\Properties\AssemblyInfo.cs";
                 var text = File.ReadAllText(path);
@@ -87,8 +91,9 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
                 .ObserveOn(synchronizationContext)
                 .SelectMany(reference => {
                     var tag = $"{tuple.directory.Name}_{GetVersion(tuple)}";
-                    observer.OnNext($"Tagging {repository.Name} with {tag}");
-                    if (ShouldProcess($"Creating tag on repo {repository.Name}")){
+                    var description = $"Creating {tag} tag on repo {repository.Name}";
+                    if (ShouldProcess(description)){
+                        observer.OnNext(description);
                         return appClient.Git.Reference.Create(repository.Id,new NewReference($@"refs/tags/{tag}",reference.Object.Sha))
                             .ToObservable().Catch<Reference, ApiValidationException>(ex =>
                                 ex.ApiError.Message=="Reference already exists"? Observable.Return<Reference>(null): Observable.Throw<Reference>(ex));
