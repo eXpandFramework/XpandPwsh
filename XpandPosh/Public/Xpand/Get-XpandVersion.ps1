@@ -5,18 +5,26 @@ function Get-XpandVersion {
         [switch]$Latest,
         [switch]$Release,
         [switch]$Lab,
-        [switch]$Next
+        [switch]$Next,
+        [string]$Module="eXpand"
     )
     if ($Next) {
-        $official = Get-XpandVersion -Release
+        $official = Get-XpandVersion -Release -Module $Module
+        if (!$official){
+            Write-Verbose "Release not found"
+            return
+        }
         Write-Verbose "Release=$official"
-        $labVersion = Get-XpandVersion -Lab 
+        $labVersion = Get-XpandVersion -Lab -Module $Module
         Write-Verbose "lab=$labVersion"
         $revision = 0
-        $dxVersion=Get-DevExpressVersion -Latest
-        Write-Verbose "dx=$dxVersion"
-        $build="$($dxVersion.Build)00"
-        if (($official.Build -like "$($dxVersion.build)*")){
+        $baseVersion=Get-DevExpressVersion -Latest
+        if ($Module -ne "eXpand"){
+            $baseVersion=$official
+        }
+        Write-Verbose "baseVersion=$baseVersion"
+        $build="$($baseVersion.Build)00"
+        if (($official.Build -like "$($baseVersion.build)*")){
             if ($official.Build -eq $labVersion.Build) {
                 $revision = $labVersion.Revision + 1
                 if ($labVersion.Revision -eq -1) {
@@ -35,12 +43,19 @@ function Get-XpandVersion {
                 $revision = 1
             }
         }
-        
-        return New-Object System.Version($dxVersion.Major, $dxVersion.Minor, $build, $revision)
+        return New-Object System.Version($baseVersion.Major, $baseVersion.Minor, $build, $revision)
     }
     if ($XpandPath) {
-        $assemblyInfo = "$XpandPath\Xpand\Xpand.Utils\Properties\XpandAssemblyInfo.cs"
-        $matches = Get-Content $assemblyInfo -ErrorAction Stop | Select-String 'public const string Version = \"([^\"]*)'
+        $assemblyIndoName="AssemblyInfo"
+        $pattern='AssemblyVersion\("([^"]*)'
+        if ($Module -eq "eXpand"){
+            $assemblyInfoPath="Xpand\Xpand.Utils"
+            $assemblyIndoName="XpandAssemblyInfo"
+            $pattern='public const string Version = \"([^\"]*)'
+        }
+        $assemblyInfo = "$XpandPath\$assemblyInfoPath\Properties\$assemblyIndoName.cs"
+        
+        $matches = Get-Content $assemblyInfo -ErrorAction Stop | Select-String $pattern
         if ($matches) {
             return New-Object System.Version($matches[0].Matches.Groups[1].Value)
         }
@@ -50,8 +65,8 @@ function Get-XpandVersion {
         return
     }
     if ($Latest) {
-        $official = Get-XpandVersion -Release
-        $labVersion = Get-XpandVersion -Lab 
+        $official = Get-XpandVersion -Release -Module $Module
+        $labVersion = Get-XpandVersion -Lab -Module $Module
         if ($labVersion -gt $official) {
             $labVersion
         }
@@ -61,9 +76,9 @@ function Get-XpandVersion {
         return
     }
     if ($Lab) {
-        return (& $(Get-NugetPath) list eXpand -Source (Get-PackageFeed -Xpand)|ConvertTo-PackageObject -LatestVersion|Sort-Object -Property Version -Descending |Select-Object -First 1).Version
+        return (& $(Get-NugetPath) list $Module -Source (Get-PackageFeed -Xpand)|ConvertTo-PackageObject -LatestVersion|Sort-Object -Property Version -Descending |Select-Object -First 1).Version
     }
     if ($Release) {
-        return (& $(Get-NugetPath) list eXpand -Source (Get-PackageFeed -Nuget)|Where-Object{$_ -like "eXpand*"}|ConvertTo-PackageObject|Sort-Object -Property Version -Descending |Select-Object -First 1).Version
+        return (& $(Get-NugetPath) list $Module -Source (Get-PackageFeed -Nuget)|Where-Object{$_ -like "$Module*"}|ConvertTo-PackageObject|Sort-Object -Property Version -Descending |Select-Object -First 1).Version
     }
 }
