@@ -48,7 +48,7 @@ function InstallXpand {
         $lab = New-Object System.Version((& $nuget list eXpandlib -source "https://xpandnugetserver.azurewebsites.net/nuget").Split(" ")[1])
         Write-Host "Latest lab:$lab" -f Green
         if ($lab -gt $release) {
-            $repo = "lab"
+            $repo = "eXpand.lab"
             $release = $lab
         }
     }
@@ -60,7 +60,7 @@ function InstallXpand {
     elseif($Version){
         $systemVersion=New-Object System.Version($Version)
         if ($systemVersion.Revision -gt 0){
-            $repo="lab"
+            $repo="eXpand.lab"
         }
         Write-Host "$Version is a $repo version" -f Green
     }
