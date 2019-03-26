@@ -24,7 +24,9 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
         [Parameter(Mandatory = true)]
         public string SourcePath{ get; set; }
         [Parameter(Mandatory=true)]
-        public PSObject[] Packages{ get; set; } 
+        public PSObject[] Packages{ get; set; }
+        [Parameter]
+        public SwitchParameter UpdateRevision{ get; set; }
 
         protected override async Task ProcessRecordAsync(){
             var lastTagedDate = (GitHubClient.Repository.GetForOrg(Organization, Repository)
@@ -40,7 +42,7 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
             
             await commits.WriteVerboseObject(this,commit => commit.Commit.Message);
             var changedPackages = ExistingPackages(this).ToObservable()
-                .WriteVerboseObject(this,_ => $"Existing: {_.name}, {_.version} ")
+                .WriteVerboseObject(this,_ => $"Existing: {_.name}, {_.nextVersion} ")
                 .SelectMany(tuple => commits.Where(commit => commit.Files.Any(file => file.Filename.Contains(tuple.directory.Name))).Select(_=>tuple)).Distinct()
                 .Publish().RefCount();
 
@@ -63,19 +65,14 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
             await ProcessRecordAsync();
         }
 
-        private string UpdateAssemblyInfo((string name, string version, DirectoryInfo directory) info){
-            var newVersion = GetVersion(info);
-            if (newVersion.ToString() == info.version){
-                return $"{info.name} will not be updated";
-            }
-
-            if (ShouldProcess($"Update {info.name} to version {newVersion}")){
+        private string UpdateAssemblyInfo((string name, string nextVersion, DirectoryInfo directory) info){
+            if (ShouldProcess($"Update {info.name} to version {info.nextVersion}")){
                 var directoryName = info.directory.FullName;
                 var path = $@"{directoryName}\Properties\AssemblyInfo.cs";
                 var text = File.ReadAllText(path);
-                text = Regex.Replace(text, @"Version\(""([^""]*)", $"Version(\"{newVersion}");
+                text = Regex.Replace(text, @"Version\(""([^""]*)", $"Version(\"{info.nextVersion}");
                 File.WriteAllText(path, text);
-                return $"{info.name} version raised from {info.version} to {newVersion} ";
+                return $"{info.name} version raised from {info.nextVersion} to {info.nextVersion} ";
             }
 
             return null;
@@ -83,14 +80,14 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
 
 
         private IObservable<Reference> CreateTagReference(IParameter parameter, GitHubClient appClient,
-            Repository repository, (string name, string version, DirectoryInfo directory) tuple,
+            Repository repository, (string name, string nextVersion, DirectoryInfo directory) tuple,
             IObserver<string> observer, SynchronizationContext synchronizationContext){
             observer.OnNext($"Lookup {tuple.name} heads");
             return appClient.Git.Reference.Get(repository.Id, $"heads/{parameter.Branch}")
                 .ToObservable()
                 .ObserveOn(synchronizationContext)
                 .SelectMany(reference => {
-                    var tag = $"{tuple.directory.Name}_{GetVersion(tuple)}";
+                    var tag = $"{tuple.directory.Name}_{tuple.nextVersion}";
                     var description = $"Creating {tag} tag on repo {repository.Name}";
                     if (ShouldProcess(description)){
                         observer.OnNext(description);
@@ -103,23 +100,10 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
 
                 });
         }
-        private static Version GetVersion((string name, string version, DirectoryInfo directory) info){
-            var directoryName = info.directory.FullName;
-            var version = new Version(info.version);
-            var path = $@"{directoryName}\Properties\AssemblyInfo.cs";
-            var text = File.ReadAllText(path);
-            var regex = new Regex(@"Version\(""([^""]*)""");
-            var newVersion = new Version(version.Major, version.Minor, version.Build, version.Revision + 1);
-            var fileVersion = new Version(regex.Match(text).Groups[1].Value);
-            if (fileVersion.Build != version.Build){
-                newVersion = new Version(fileVersion.Major, fileVersion.Minor, fileVersion.Build, fileVersion.Revision );
-            }
 
-            return newVersion;
-        }
-
-        private static (string name, string version, DirectoryInfo directory)[] ExistingPackages(IParameter parameter){
-            var packageArgs = parameter.Packages.Select(_ => (name: $"{_.Properties["Name"].Value}", version: $"{_.Properties["Version"].Value}", directory: (DirectoryInfo) null)).ToArray();
+        private static (string name, string nextVersion, DirectoryInfo directory)[] ExistingPackages(IParameter parameter){
+            var packageArgs = parameter.Packages.Select(_ => (name: $"{_.Properties["Name"].Value}",
+                nextVersion: $"{_.Properties["nextVersion"].Value}", directory: (DirectoryInfo) null)).ToArray();
 
             var existingPackages = Directory.GetFiles(parameter.SourcePath, "*.csproj", SearchOption.AllDirectories)
                 .Where(s => packageArgs.Select(_ => _.name).Any(s.Contains)).ToArray()
