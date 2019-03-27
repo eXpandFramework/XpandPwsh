@@ -28,7 +28,8 @@ function Install-DevExpress {
             $hash["$assemblyName.dll"]
         })
     }|Select-Object -Unique
-
+    
+    
     New-Item $packagesFolder -ItemType Directory -Force|out-null
     $psObj = [PSCustomObject]@{
         OutputDirectory = $(Get-Item $packagesFolder).FullName
@@ -39,14 +40,43 @@ function Install-DevExpress {
     if ($nugets.Count -eq 0) {
         throw "No nugets found??"
     }
-    $nuget=Get-NugetPath
-    $psObj.Nugets|Invoke-Parallel -ActivityName "Installing DX" -VariablesToImport @("psObj","nuget") -script {
-        $package=$_
-        Write-Host "Installing $package $($psObj.Version) in $($psObj.OutputDirectory) from $($psObj.Source)" 
-        Invoke-Retry -Maximum $MaximumRetries -retryInterval 3 {
+    
+    $installScript={
+        param(
+            $ActivityName
+        )
+        $nuget=Get-NugetPath
+        $psObj.Nugets|Invoke-Parallel -ActivityName $ActivityName -VariablesToImport @("psObj","nuget") -script {
+            $package=$_
+            Write-Host "Installing $package $($psObj.Version) in $($psObj.OutputDirectory) from $($psObj.Source)" 
             & "$nuget"  Install "$package" -Source "$($psObj.Source)" -OutputDirectory "$($psObj.OutputDirectory)" -Version "$($psObj.Version)"
         }
     }
+    $psObj.Nugets=$nugets|Where-Object{$_ -notmatch "win" -and $_ -notmatch "web" -and $_ -notmatch "expressapp" -and $_ -notmatch "baseimpl" }
+    Write-Host "Agnostic non-XAF packages" -f Blue
+    $psObj.Nugets|Write-Output
+    & $installScript "Installing agnostic non-XAF DevExpress packages"
+
+    $psObj.Nugets=$nugets|Where-Object{($_ -match "win" -or $_ -match "web") -and $_ -notmatch "expressapp" }
+    Write-Host "Non-agnostic-non-xaf packages" -f Blue
+    $psObj.Nugets|Write-Output
+    & $installScript "Installing non-agnostic-non-XAF DevExpress packages"
+    
+    $psObj.Nugets=$nugets|Where-Object{($_ -notmatch "win" -and $_ -notmatch "web") -and $_ -match "expressapp" }
+    Write-Host "Agnostic-xaf packages" -f Blue
+    $psObj.Nugets|Write-Output
+    & $installScript "Installing agnostic-XAF DevExpress packages"
+    
+    $psObj.Nugets=$nugets|Where-Object{($_ -match "win" -or $_ -match "web") -and $_ -match "expressapp" }
+    Write-Host "Non-agnostic-xaf packages" -f Blue
+    $psObj.Nugets|Write-Output
+    & $installScript "Installing non-agnostic-XAF DevExpress packages"
+    
+    $psObj.Nugets=$nugets|Where-Object{$_ -match "baseimpl" }
+    Write-Host "BaseImpl packages" -f Blue
+    $psObj.Nugets|Write-Output
+    & $installScript "Installing baseimpl DevExpress packages"
+    
     
     Get-ChildItem -Path "$packagesFolder" -Include "*.dll" -Recurse  |Where-Object {
         $item = Get-Item $_
