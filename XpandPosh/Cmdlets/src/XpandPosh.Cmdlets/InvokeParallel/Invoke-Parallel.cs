@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
+using System.Threading;
 using System.Threading.Tasks;
 using XpandPosh.CmdLets;
 
@@ -25,6 +27,13 @@ namespace XpandPosh.Cmdlets.InvokeParallel{
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true)]
         public object Value{ get; set; }
 
+        [Parameter]
+        public int RetryOnError{ get; set; } = 5;
+
+        [Parameter]
+        public int RetryDelay{ get; set; } = 3000;
+        [Parameter]
+        public int StepInterval{ get; set; } 
         protected override Task BeginProcessingAsync(){
             _values = new List<object>();
             _psVariables = this.Invoke<PSVariable>("Get-Variable")
@@ -38,7 +47,15 @@ namespace XpandPosh.Cmdlets.InvokeParallel{
         }
 
         protected override Task EndProcessingAsync(){
-            return _values.ToObservable()
+            var signal = Enumerable.Range(0,RetryOnError).ToObservable()
+                .Delay(TimeSpan.FromMilliseconds(RetryDelay));
+            var eventLoopScheduler = new EventLoopScheduler(start => new Thread(start));
+            var synchronizationContext = SynchronizationContext.Current;
+            var values = _values.ToObservable();
+            if (StepInterval > 0){
+                values=values.StepInterval(TimeSpan.FromMilliseconds(StepInterval),eventLoopScheduler);
+            }
+            return values
                 .SelectMany((o, i) => Observable.Start(() => {
                         using (var runspace = RunspaceFactory.CreateRunspace()){
                             runspace.Open();
@@ -56,9 +73,12 @@ namespace XpandPosh.Cmdlets.InvokeParallel{
                             return psObjects;
                         }
                     })
-                    .HandleErrors(this, ActivityName))
+                    .RetryWhen(_ => _.SelectMany(exception => signal.Concat(Observable.Throw<int>(exception))))
+                    .HandleErrors(this, ActivityName,synchronizationContext))
                 .WriteObject(this,_values.Count)
                 .ToTask();
         }
+
+        
     }
 }

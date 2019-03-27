@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Management.Automation;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
@@ -8,6 +9,14 @@ using XpandPosh.CmdLets;
 
 namespace XpandPosh.Cmdlets{
     internal static class RXExtensions{
+        public static IObservable<T> StepInterval<T>(this IObservable<T> source, TimeSpan minDelay,IScheduler scheduler=null){
+            scheduler = scheduler ?? Scheduler.CurrentThread;
+            return source.Select(x => Observable.Empty<T>(scheduler)
+                .Delay(minDelay,scheduler)
+                .StartWith(scheduler,x)
+            ).Concat();
+        }
+
         public static IObservable<T> IgnoreException<T,TException>(this IObservable<T> source, PSCmdlet cmdlet,object targetObject) where  TException:Exception{
             return source.ObserveOn(SynchronizationContext.Current)
                 .Catch<T, TException>(exception => {
