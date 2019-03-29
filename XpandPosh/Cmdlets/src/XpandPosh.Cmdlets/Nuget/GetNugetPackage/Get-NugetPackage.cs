@@ -15,7 +15,6 @@ using NuGet.Frameworks;
 using NuGet.Packaging;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
-using XpandPosh.Cmdlets.Nuget.GetNugetPackageSearchMetadata;
 using XpandPosh.CmdLets;
 
 namespace XpandPosh.Cmdlets.Nuget.GetNugetPackage{
@@ -27,7 +26,7 @@ namespace XpandPosh.Cmdlets.Nuget.GetNugetPackage{
         public string Name{ get; set; } 
 
         [Parameter(Mandatory = true, Position = 2)]
-        public string[] Sources{ get; set; } 
+        public string Source{ get; set; } 
 
         [Parameter(Mandatory =true, Position = 1)]
         public string OutputFolder{ get; set; } 
@@ -68,29 +67,29 @@ namespace XpandPosh.Cmdlets.Nuget.GetNugetPackage{
             var packageSourceSearchMetadatas = sourceSearchMetadatas.ToObservable().Replay().RefCount();
             var downloadContext = new PackageDownloadContext(new SourceCacheContext());
             var providers = new List<Lazy<INuGetResourceProvider>>();
-            providers.AddRange(Repository.Provider.GetCoreV3()); 
-            
-            var downloads = packageSourceSearchMetadatas.Select(metadata => metadata.Source).Distinct()
-                .Select(s => new SourceRepository(new PackageSource(s), providers))
-                .SelectMany(repository => repository.GetResourceAsync<DownloadResource>().ToObservable().Select(resource => (resource,repository)))
+            providers.AddRange(Repository.Provider.GetCoreV3());
+
+            var sourceRepository = new SourceRepository(new PackageSource(Source), providers);
+
+            var downloads = sourceRepository.GetResourceAsync<DownloadResource>().ToObservable()
+                .Select(resource => (resource, sourceRepository))
                 .Replay().RefCount();
             return packageSourceSearchMetadatas
                 .SelectMany(metadata => {
-                    return downloads.FirstAsync(tuple => tuple.Item2.PackageSource.Source == metadata.Source)
-                        .SelectMany(tuple => tuple.Item1.GetDownloadResourceResultAsync(metadata.Metadata.Identity,
+                    return downloads.FirstAsync(tuple => tuple.Item2.PackageSource.Source == Source)
+                        .SelectMany(tuple => tuple.Item1.GetDownloadResourceResultAsync(metadata.Identity,
                             downloadContext, OutputFolder, NullLogger.Instance, CancellationToken.None));
                 })
                 .Where(result => result.Status == DownloadResourceResultStatus.Available)
-                .HandleErrors(this, Name);
-        }
+                .HandleErrors(this, Name);        }
 
-        private Collection<IPackageSourceSearchMetadata> PackageSourceSearchMetadatas(){
+        private Collection<IPackageSearchMetadata> PackageSourceSearchMetadatas(){
             
             string allVersions = $"-{nameof(AllVersions)} {AllVersions}";
             if (!AllVersions){
                 allVersions = null;
             }
-            string sources = $"-{nameof(Sources)} @({string.Join(",", Sources.Select(s => $"'{s}'"))})";
+            string sources = $"-{nameof(Source)} '{Source}'";
             string versions = null;
             if (Versions != null){
                 versions = $"-{nameof(Versions)} @({string.Join(",", Versions.Select(s => $"'{s}'"))})";
@@ -103,7 +102,7 @@ namespace XpandPosh.Cmdlets.Nuget.GetNugetPackage{
 
             var cmdletName = CmdletExtensions.GetCmdletName<GetNugetPackageSearchMetadata.GetNugetPackageSearchMetadata>();
             var script = $"{cmdletName} {sources} {allVersions} {name} {versions}";
-            var sourceSearchMetadatas = this.Invoke<IPackageSourceSearchMetadata>(script);
+            var sourceSearchMetadatas = this.Invoke<IPackageSearchMetadata>(script);
             return sourceSearchMetadatas;
         }
     }

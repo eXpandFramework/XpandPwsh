@@ -67,7 +67,10 @@ namespace XpandPosh.Cmdlets{
         }
 
         public static IObservable<T> WriteObject<T>(this IObservable<T> source,Cmdlet cmdlet,int? progressItemsTotalCount=null,bool enumerateCollection=true){
-            var writeObject = source.ObserveOn(SynchronizationContext.Current).Do(obj => cmdlet.WriteObject(obj,enumerateCollection));
+            var writeObject = source.ObserveOn(SynchronizationContext.Current).Select(obj => {
+                cmdlet.WriteObject(obj, enumerateCollection);
+                return obj;
+            });
             return progressItemsTotalCount.HasValue ? writeObject.WriteProgress((IProgressCmdlet) cmdlet, progressItemsTotalCount.Value) : writeObject;
         }
 

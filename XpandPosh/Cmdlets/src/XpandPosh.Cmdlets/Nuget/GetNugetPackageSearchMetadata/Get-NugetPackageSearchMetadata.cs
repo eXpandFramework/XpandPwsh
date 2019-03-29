@@ -13,14 +13,13 @@ using NuGet.Protocol.Core.Types;
 
 namespace XpandPosh.Cmdlets.Nuget.GetNugetPackageSearchMetadata{
     [Cmdlet(VerbsCommon.Get, "NugetPackageSearchMetadata")]
-    [OutputType(typeof(IPackageSourceSearchMetadata))]
     [CmdletBinding()]
     public  class GetNugetPackageSearchMetadata : NugetCmdlet{
         [Parameter(Position = 0, ValueFromPipeline = true)]
         public string Name{ get; set; }
 
         [Parameter(Position = 1,Mandatory = true)]
-        public string[] Sources{ get; set; } 
+        public string Source{ get; set; } 
 
         [Parameter]
         public SwitchParameter IncludePrerelease{ get; set; } = new SwitchParameter(false);
@@ -40,39 +39,42 @@ namespace XpandPosh.Cmdlets.Nuget.GetNugetPackageSearchMetadata{
             providers.AddRange(Repository.Provider.GetCoreV3());
             return ListPackages(providers)
                 .HandleErrors(this,Name)
-                .Select(s => PackageSourceSearchMetadatas(s, providers)).Concat()
+                .Select(s => SelectPackages(s, providers))
+                .Concat()
                 .HandleErrors(this,Name)
-                .Distinct(new MetadataEqualityComparer())
                 .WriteObject(this)
                 .ToTask();
+        }
+
+        private IObservable<IPackageSearchMetadata> SelectPackages(string s, List<Lazy<INuGetResourceProvider>> providers){
+            return PackageSourceSearchMetadatas(Source, s,providers)
+                .Concat(Observable.Empty<IPackageSearchMetadata>());
         }
 
         private IObservable<string> ListPackages(List<Lazy<INuGetResourceProvider>> providers){
             if (Name != null) return Observable.Return(Name);
 
-            return Sources.ToObservable().SelectMany(source => {
-                    var sourceRepository = new SourceRepository(new PackageSource(source), providers);
-                    return sourceRepository.GetResourceAsync<ListResource>().ToObservable()
-                        .Select(resource =>
-                            resource.ListAsync(null, false, false, false, NullLogger.Instance, CancellationToken.None)
-                                .ToObservable())
-                        .Concat();
-                })
-                .SelectMany(async => async.GetEnumeratorAsync().ToObservable())
+            var sourceRepository = new SourceRepository(new PackageSource(Source), providers);
+            return sourceRepository.GetResourceAsync<ListResource>().ToObservable()
+                .Select(resource =>
+                    resource.ListAsync(null, false, false, false, NullLogger.Instance, CancellationToken.None)
+                        .ToObservable())
+                .Concat()
+                .Select(async => async.GetEnumeratorAsync().ToObservable()).Concat()
                 .Where(metadata => metadata!=null)
                 .Select(metadata => metadata.Identity.Id);
         }
 
-        private IObservable<IPackageSourceSearchMetadata> PackageSourceSearchMetadatas(string name,
+        private IObservable<IPackageSearchMetadata> PackageSourceSearchMetadatas(string source,string name,
             List<Lazy<INuGetResourceProvider>> providers){
-            var metadatas = Sources.ToObservable()
-                .SelectMany(source => new SourceRepository(new PackageSource(source), providers)
-                    .GetResourceAsync<PackageMetadataResource>().ToObservable()
-                    .SelectMany(resource => resource
-                        .GetMetadataAsync(name, IncludePrerelease, IncludeUnlisted, NullLogger.Instance,
-                            CancellationToken.None).ToObservable()
-                        .SelectMany(_ => _).Select(metadata => new PackageSourceSearchMetadata
-                            {Source = source, Metadata = metadata})));
+            var metadatas = new SourceRepository(new PackageSource(source), providers)
+                .GetResourceAsync<PackageMetadataResource>().ToObservable()
+                .SelectMany(resource => resource
+                    .GetMetadataAsync(name, IncludePrerelease, IncludeUnlisted, NullLogger.Instance,
+                        CancellationToken.None).ToObservable())
+                .Select(enumerable => enumerable.ToArray())
+                .Select(searchMetadatas => searchMetadatas.ToObservable()).Concat();
+
             if (!AllVersions && Versions == null) return metadatas.FirstAsync();
 
             if (Versions != null)
