@@ -54,33 +54,41 @@ function Install-DevExpress {
     }
     $psObj.Nugets=$nugets|Where-Object{$_ -notmatch "win" -and $_ -notmatch "web" -and $_ -notmatch "expressapp" -and $_ -notmatch "baseimpl" }
     Write-Host "Agnostic non-XAF packages" -f Blue
-    $psObj.Nugets|Write-Output
-    & $installScript "Installing agnostic non-XAF DevExpress packages"
+    if ($psObj.Nugets){
+        $psObj.Nugets|Write-Output
+        & $installScript "Installing agnostic non-XAF DevExpress packages"
+    }
 
     $psObj.Nugets=$nugets|Where-Object{($_ -match "win" -or $_ -match "web") -and $_ -notmatch "expressapp" }
     Write-Host "Non-agnostic-non-xaf packages" -f Blue
-    $psObj.Nugets|Write-Output
-    & $installScript "Installing non-agnostic-non-XAF DevExpress packages"
+    if ($psObj.nugets){
+        $psObj.Nugets|Write-Output
+        & $installScript "Installing non-agnostic-non-XAF DevExpress packages"
+    }
     
     $psObj.Nugets=$nugets|Where-Object{($_ -notmatch "win" -and $_ -notmatch "web") -and $_ -match "expressapp" }
     Write-Host "Agnostic-xaf packages" -f Blue
-    $psObj.Nugets|Write-Output
-    & $installScript "Installing agnostic-XAF DevExpress packages"
+    if ($psObj.nugets){
+        $psObj.Nugets|Write-Output
+        & $installScript "Installing agnostic-XAF DevExpress packages"
+    }
     
     $psObj.Nugets=$nugets|Where-Object{($_ -match "win" -or $_ -match "web") -and $_ -match "expressapp" }
     Write-Host "Non-agnostic-xaf packages" -f Blue
-    $psObj.Nugets|Write-Output
-    & $installScript "Installing non-agnostic-XAF DevExpress packages"
+    if ($psObj.Nugets){
+        $psObj.Nugets|Write-Output
+        & $installScript "Installing non-agnostic-XAF DevExpress packages"
+    }
     
     $psObj.Nugets=$nugets|Where-Object{$_ -match "baseimpl" }
     Write-Host "BaseImpl packages" -f Blue
-    $psObj.Nugets|Write-Output
-    & $installScript "Installing baseimpl DevExpress packages"
-    
+    if ($psObj.nugets){
+        $psObj.Nugets|Write-Output
+        & $installScript "Installing baseimpl DevExpress packages"
+    }
     
     Get-ChildItem -Path "$packagesFolder" -Include "*.dll" -Recurse  |Where-Object {
         $item = Get-Item $_
         $item.GetType().Name -eq "FileInfo" -and $item.DirectoryName -like "*net452"
     }|Copy-Item -Destination $binPath -Force 
 }
-
