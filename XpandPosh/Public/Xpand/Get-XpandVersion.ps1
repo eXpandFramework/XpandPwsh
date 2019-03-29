@@ -10,17 +10,18 @@ function Get-XpandVersion {
     )
     if ($Next) {
         $official = Get-XpandVersion -Release -Module $Module
-        if (!$official){
-            Write-Verbose "Release not found"
-            return
-        }
         Write-Verbose "Release=$official"
         $labVersion = Get-XpandVersion -Lab -Module $Module
         Write-Verbose "lab=$labVersion"
         $revision = 0
         $baseVersion=Get-DevExpressVersion -Latest
-        if ($Module -ne "eXpand"){
-            $baseVersion=$official
+        if ($Module -ne "eXpand" ){
+            if ($official){
+                $baseVersion=$official
+            }
+            else{
+                $baseVersion=$labVersion
+            }
         }
         Write-Verbose "baseVersion=$baseVersion"
         $build="$($baseVersion.Build)00"
