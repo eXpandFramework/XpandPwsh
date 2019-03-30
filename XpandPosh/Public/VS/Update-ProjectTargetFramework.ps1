@@ -14,7 +14,7 @@ function Update-ProjectTargetFramework {
         $activity="Changing TargetFramework to $FrameworkVersion"
         $activity
         $dte=($allProjects|Select-Object -First 1 ).Dte
-        $solutionFile=$dte.Solution.Filename
+        # $solutionFile=$dte.Solution.Filename
         $allProjects|ForEach-Object{
             $projectName=$_.ProjectName
             [xml]$csproj=Get-Content $_.FullName
@@ -24,10 +24,10 @@ function Update-ProjectTargetFramework {
             }
             $csproj.Save($_.FullName)
         }
-        "Closing solution $($dte.Solution.FileName)"
-        $dte.Solution.Close($true)
-        "Opening solution $solutionFile"
-        $dte.Solution.Open($solutionFile)
+        # "Closing solution $($dte.Solution.FileName)"
+        # $dte.Solution.Close($true)
+        # "Opening solution $solutionFile"
+        # $dte.Solution.Open($solutionFile)
     }
     
     end {
