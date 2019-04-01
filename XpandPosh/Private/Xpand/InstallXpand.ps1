@@ -145,4 +145,3 @@ function InstallXpand {
 
 
 
-InstallXpand -Version 18.2.703.1
