@@ -28,7 +28,7 @@ namespace XpandPosh.CmdLets{
                 .Zip(allRepos.Select(list => list.First(repository => repository.Name==repository2)),(repo1, repo2) =>(repo1, repo2) )
                 .Select(repoTuple => {
                     var allIssues = appClient.Issue.GetAllForRepository(repoTuple.repo1.Id,new RepositoryIssueRequest{Since = since}).ToObservable().SelectMany(list => list).ToEnumerable().ToArray();
-                    var commits = appClient.Repository.Commit.GetAll(repoTuple.repo2.Id,new CommitRequest(){Since = since}).ToObservable().SelectMany(list => list).ToEnumerable().ToArray();
+                    var commits = appClient.Repository.Commit.GetAll(repoTuple.repo2.Id,new CommitRequest(){Since = since,Sha = branch}).ToObservable().SelectMany(list => list).ToEnumerable().ToArray();
                     var commitIssues = commits.Select(commit => {
                         var issues = allIssues.Where(issue => commit.Commit.Message.Contains($"#{issue.Number}")).ToArray();
                         return (commit,issues);
