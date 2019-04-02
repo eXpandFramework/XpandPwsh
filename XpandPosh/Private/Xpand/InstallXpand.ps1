@@ -36,6 +36,7 @@ function InstallXpand {
     Write-Host "Additional parameters: Version, Latest, Assets, InstallationPath" -f Yellow
 
     $nuget = "$InstallationPath\nuget.exe"
+    Write-Host "Downloading Nuget at $nuget" -f Green
     $client.DownloadFile("https://dist.nuget.org/win-x86-commandline/latest/nuget.exe", $nuget)
     
     $repo = "eXpand"

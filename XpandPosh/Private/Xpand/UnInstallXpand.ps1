@@ -34,6 +34,7 @@ function UnInstallXpand {
                 $ErrorActionPreference="SilentlyContinue"
                 Write-Progress -Activity gacInstaller -Status $_ -PercentComplete $($i * 100 / $count)
             } 
+            $i++
         }
         $_
     }
