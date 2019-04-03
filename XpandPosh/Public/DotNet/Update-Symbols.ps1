@@ -51,13 +51,13 @@ function Update-Symbols {
             if ($sources) {
                 Add-Content -value "SRCSRV: source files ---------------------------------------" -path $streamPath
                 foreach ($src in $sources) {
-                    $target = "$src*$TargetRoot\$src"
+                    $target = "$src*$TargetRoot$src"
                     if ($remoteTarget) {
                         $file = "$src".replace($SourcesRoot, '').Trim("\").replace("\", "/")
                         $target = "$src*$TargetRoot/$file"
                     }
                     Add-Content -value $target -path $streamPath
-                    "Indexing $src to $TargetRoot\$src"
+                    "Indexing $src to $target"
                 }
                 Add-Content -value "SRCSRV: end ------------------------------------------------" -path $streamPath
                 
