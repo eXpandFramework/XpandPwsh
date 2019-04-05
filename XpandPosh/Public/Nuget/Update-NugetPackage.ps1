@@ -1,8 +1,11 @@
+
 function Update-NugetPackage{
     [cmdletbinding()]
     param(
         [parameter(ValueFromPipeline)]
         [string]$SourcePath=".",
+        [parameter(Mandatory)]
+        [string]$RepositoryPath,
         [parameter()]
         [string]$Filter="*"
     )
@@ -12,25 +15,33 @@ function Update-NugetPackage{
             Config = $_
         }
     }
+    write-host "configs" -f Blue
     $configs.Content.Packages.package.id
-    $sources=Get-PackageSourceLocations Nuget
-    $ids=$configs|ForEach-Object{$_.Content.packages.package.id}|Where-Object{$_ -like $Filter}|Select-Object -Unique 
-    $metadatas= $ids|Invoke-Parallel -activityName "Getting latest versions from sources" -Script {(Get-NugetPackageSearchMetadata -Name $_ -Sources $Using:sources)}
+    $sources=((Get-PackageSourceLocations Nuget) -join ";")
+    $metadatas=$configs.Content.packages.package.id|Where-Object{$_ -like $Filter}|Select-Object -Unique |
+    Get-NugetPackageSearchMetadata -Source $sources|Get-NugetPackageMetadataVersion|
+    Group-Object Name|ForEach-Object{
+        $_.Group|Sort-Object Version -Descending|Select-Object -First 1
+    }
+    $metadatas|Write-Output
+    
     $packages=$configs|ForEach-Object{
         $config=$_.Config
         $_.Content.packages.package|Where-Object{$_.id -like $filter}|ForEach-Object{
             $packageId=$_.Id
-            $metadata=$metadatas|Where-object{$_.Metadata.Identity.id -eq $packageId}
+            $metadata=$metadatas|Where-object{$_.Name -eq $packageId}
             if ($metadata){
+                $csproj=Get-ChildItem $config.DirectoryName *.csproj|Select -first 1
                 [PSCustomObject]@{
                     Id = $packageId
-                    NewVersion = (Get-MetadataVersion $metadata.Metadata).Version
+                    NewVersion = $metadata.Version
                     Config =$config.FullName
-                    Metadata=$metadata
+                    csproj =$csproj.FullName
+                    Version=$_.Version
                 }
             }
         }
-    }|Where-Object{$_.NewVersion -and ($_.Metadata.Version -ne $_.NewVersion)}
+    }|Where-Object{$_.NewVersion -and ($_.Version -ne $_.NewVersion)}
     $sortedPackages=$packages|Group-Object Config|ForEach-Object{
         $p=[PSCustomObject]@{
             Packages = ($_.Group|Sort-PackageByDependencies)
@@ -39,10 +50,12 @@ function Update-NugetPackage{
     } 
     
     
-    $sortedPackages|Invoke-Parallel -activityName "Update all packages" -Script {
+    $sortedPackages|Invoke-Parallel -activityName "Update all packages" -VariablesToImport @("RepositoryPath","sources") -Script {
+    # $sortedPackages|ForEach-Object {
         ($_.Packages|ForEach-Object{
+
             Write-host "Updating $($_.Id) in $($_.Config) to version $($_.NewVersion) from $($_.Metadata.Source)"
-            (& Nuget Update $_.Config -Id $_.Id -Version $($_.NewVersion) -Source "$($_.Metadata.Source)")
+            & (Get-NugetPath) Update $_.Config -Id $_.Id -Version $($_.NewVersion) -Source $sources -NonInteractive -RepositoryPath $RepositoryPath
         })
     }
 }

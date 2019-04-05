@@ -28,7 +28,7 @@ namespace XpandPosh.Cmdlets.InvokeParallel{
         public object Value{ get; set; }
 
         [Parameter]
-        public int RetryOnError{ get; set; } = 5;
+        public int RetryOnError{ get; set; } = 0;
 
         [Parameter]
         public int RetryDelay{ get; set; } = 3000;
@@ -48,7 +48,7 @@ namespace XpandPosh.Cmdlets.InvokeParallel{
 
         protected override Task EndProcessingAsync(){
             var signal = Enumerable.Range(0,RetryOnError).ToObservable()
-                .Delay(TimeSpan.FromMilliseconds(RetryDelay));
+                .Delay(TimeSpan.FromMilliseconds(RetryDelay)).Publish().AutoConnect();
             var eventLoopScheduler = new EventLoopScheduler(start => new Thread(start));
             var synchronizationContext = SynchronizationContext.Current;
             var values = _values.ToObservable();

@@ -34,34 +34,53 @@ namespace XpandPosh.Cmdlets.Nuget.GetNugetPackageSearchMetadata{
         public string[] Versions{ get; set; }
 
 
-        protected override Task ProcessRecordAsync(){
+        protected override  Task ProcessRecordAsync(){
             var providers = new List<Lazy<INuGetResourceProvider>>();
             providers.AddRange(Repository.Provider.GetCoreV3());
             return ListPackages(providers)
-                .HandleErrors(this,Name)
-                .Select(s => SelectPackages(s, providers))
-                .Concat()
-                .HandleErrors(this,Name)
+                .SelectMany(package => SelectPackages(package, providers))
+                .HandleErrors(this)
+                .Where(metadata => metadata!=null)
+                .Distinct(new MetadataComparer())
                 .WriteObject(this)
                 .ToTask();
         }
 
+        public class MetadataComparer : IEqualityComparer<IPackageSearchMetadata>{
+            public bool Equals(IPackageSearchMetadata x, IPackageSearchMetadata y){
+                return x?.Identity.Id == y?.Identity.Id && x?.Identity.Version.Version==y?.Identity.Version.Version;
+            }
+
+            public int GetHashCode(IPackageSearchMetadata obj){
+                return $"{obj.Identity.Id}{obj.Identity.Version.Version}".GetHashCode();
+            }
+        }
+
         private IObservable<IPackageSearchMetadata> SelectPackages(string s, List<Lazy<INuGetResourceProvider>> providers){
-            return PackageSourceSearchMetadatas(Source, s,providers)
-                .Concat(Observable.Empty<IPackageSearchMetadata>());
+            var metadatas = Source.Split(';').ToObservable().SelectMany(source => PackageSourceSearchMetadatas(source, s,providers));
+            if (!AllVersions && Versions == null){
+                return metadatas.DefaultIfEmpty().LastAsync();
+            }
+
+            if (Versions != null)
+                return metadatas.Where(metadata => {
+                    var nuGetVersion = metadata.GetNuGetVersion().ToString();
+                    return Versions.Contains(nuGetVersion);
+                });
+            return metadatas;
         }
 
         private IObservable<string> ListPackages(List<Lazy<INuGetResourceProvider>> providers){
             if (Name != null) return Observable.Return(Name);
+            return Source.Split(';').Select(source => ListPackages(providers, source)).Merge();
+        } 
 
-            var sourceRepository = new SourceRepository(new PackageSource(Source), providers);
+        private static IObservable<string> ListPackages(List<Lazy<INuGetResourceProvider>> providers, string source){
+            var sourceRepository = new SourceRepository(new PackageSource(source), providers);
             return sourceRepository.GetResourceAsync<ListResource>().ToObservable()
-                .Select(resource =>
-                    resource.ListAsync(null, false, false, false, NullLogger.Instance, CancellationToken.None)
-                        .ToObservable())
-                .Concat()
+                .Select(resource =>resource.ListAsync(null, false, false, false, NullLogger.Instance, CancellationToken.None).ToObservable()).Concat()
                 .Select(async => async.GetEnumeratorAsync().ToObservable()).Concat()
-                .Where(metadata => metadata!=null)
+                .Where(metadata => metadata != null)
                 .Select(metadata => metadata.Identity.Id);
         }
 
@@ -70,18 +89,18 @@ namespace XpandPosh.Cmdlets.Nuget.GetNugetPackageSearchMetadata{
             var metadatas = new SourceRepository(new PackageSource(source), providers)
                 .GetResourceAsync<PackageMetadataResource>().ToObservable()
                 .SelectMany(resource => resource
-                    .GetMetadataAsync(name, IncludePrerelease, IncludeUnlisted, NullLogger.Instance,
-                        CancellationToken.None).ToObservable())
-                .Select(enumerable => enumerable.ToArray())
-                .Select(searchMetadatas => searchMetadatas.ToObservable()).Concat();
-
-            if (!AllVersions && Versions == null) return metadatas.FirstAsync();
-
-            if (Versions != null)
-                return metadatas.Where(metadata => {
-                    var nuGetVersion = metadata.GetNuGetVersion().ToString();
-                    return Versions.Contains(nuGetVersion);
-                });
+                    .GetMetadataAsync(name, IncludePrerelease, IncludeUnlisted, NullLogger.Instance,CancellationToken.None).ToObservable()
+                    .SelectMany(enumerable => enumerable.ToArray())
+                );
+//            if (!AllVersions && Versions == null){
+//                return metadatas.FirstAsync();
+//            }
+//
+//            if (Versions != null)
+//                return metadatas.Where(metadata => {
+//                    var nuGetVersion = metadata.GetNuGetVersion().ToString();
+//                    return Versions.Contains(nuGetVersion);
+//                });
             return metadatas;
         }
 
