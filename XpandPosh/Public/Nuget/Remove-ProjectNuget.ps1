@@ -2,24 +2,24 @@ function Remove-ProjectNuget{
     param(
         [parameter(Mandatory)]
         [string]$id,
-        [string]$path=(Get-Location)
+        [string]$projectPath=(Get-Location),
+        [parameter(Mandatory)]
+        [string]$nugetAssembliesBin
     )
-    Get-ChildItem $path *.csproj -Recurse | ForEach-Object { 
-        $fiLeName=$_.FullName 
-        [xml]$project=Get-Content $_.FullName 
-        $project.Project.ItemGroup.Reference|Where-Object{$_.Include -like "*$id*"}|ForEach-Object{
-            if ($_.SpecificVersion){
-                $_.SpecificVersion="False"
+    Get-ChildItem $projectPath *.csproj -Recurse | ForEach-Object { 
+        [xml]$project=Get-XmlContent $_.FullName
+        $project.Project.ItemGroup.Reference|Where-Object{$_.Include -match "$id"}|ForEach-Object{
+            $fileName=[System.IO.Path]::GetFileName($_.Hintpath)
+            $hintPath="$nugetAssembliesBin\$fileName"
+            if (!(Test-Path $hintPath)){
+                throw "HintPath not found: $hintPath"
             }
-            if($_.HintPath){
-                $_.ChildNodes|ForEach-Object{
-                    $_.ParentNode.RemoveChild($_)
-                }
-            }
+            $_.Hintpath= $hintPath
         }
-        $project.Save($fiLeName)
+
+        $project.Save($_.FullName)
     } 
-    push-location $path
+    push-location $projectPath
     Clear-ProjectDirectories 
     pop-location
 }
