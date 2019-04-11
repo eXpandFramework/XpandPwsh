@@ -27,7 +27,11 @@ namespace XpandPosh.Cmdlets.GitHub.CheckpointGithubIssue{
 
         private IObservable<PSObject> LinkCommits( ){
             var synchronizationContext = SynchronizationContext.Current;
-            
+            var repositories = GitHubClient.Repository.GetAllForOrg(Organization)
+                .ToObservable().Replay().AutoConnect()
+                .ToEnumerable()
+                .SelectMany(list => list)
+                .ToArray();
             var issueToNotify = CommitIssues
                     .Select(_ => _.Issues.Select(issue => (_.GitHubCommit, issue)).ToObservable()
                         .WriteVerboseObject(this,__ => $"Commit ({__.GitHubCommit.Sha}){__.GitHubCommit.Commit.Message} links to {__.issue.Number}",synchronizationContext)
@@ -41,7 +45,7 @@ namespace XpandPosh.Cmdlets.GitHub.CheckpointGithubIssue{
                     .Select(hubCommits => (key: _.Key, commits: hubCommits)))
                 .ObserveOn(synchronizationContext)
                 .SelectMany(_ => {
-                    var comment = GenerateComment(_);
+                    var comment = GenerateComment(_,repositories);
                     var issue = _.key.issue;
                     var psObject = Observable.Return(new PSObject(new {
                         IssueNumber = issue.Number, Milestone = issue.Milestone?.Title,issue.Title,
@@ -74,13 +78,15 @@ namespace XpandPosh.Cmdlets.GitHub.CheckpointGithubIssue{
                 .Select(list => (repo1: _.Repository1.Id, repo2: _.Repository2.Id, _.GitHubCommit, tuple.issue));
         }
 
-        private  string GenerateComment(((Issue issue, long repo1, long repo2) key, GitHubCommit[] commits) _){
+        private string GenerateComment(((Issue issue, long repo1, long repo2) key, GitHubCommit[] commits) _,
+            Repository[] repositories){
+            var repositoryName = repositories.First(repository => repository.Id==_.key.repo2).Name;
             var objects = new object[] {
                 new{
                     Options = this,
                     Commits = string.Join(",",
                         _.commits.Select(commit =>
-                            $@"[{commit.Commit.Message}](https://github.com/{Organization}/{_.key.repo2}/commit/{commit.Sha})"))
+                            $@"[{commit.Commit.Message}](https://github.com/{Organization}/{repositoryName}/commit/{commit.Sha})"))
                 }
             };
             var comment = Smart.Format(Message, objects);
