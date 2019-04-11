@@ -99,7 +99,7 @@
         "Get-RelativePath", 
         "Get-XpandVersion", 
         "Update-AssemblyInfoVersion", 
-        "Update-AssemblyInfoBuild", 
+        "Update-AssemblyInfo", 
         "Invoke-Retry", 
         "Install-Devexpress",
         "Get-PackageSourceLocations",
