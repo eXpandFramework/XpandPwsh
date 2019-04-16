@@ -9,6 +9,7 @@ function Get-XpandVersion {
         [string]$Module="eXpand"
     )
     if ($Next) {
+        
         $official = Get-XpandVersion -Release -Module $Module
         Write-Verbose "Release=$official"
         $labVersion = Get-XpandVersion -Lab -Module $Module
@@ -22,10 +23,17 @@ function Get-XpandVersion {
             else{
                 $baseVersion=$labVersion
             }
+            $build=$baseVersion.Build
+        }
+        else{
+            $build="$($baseVersion.Build)00"
         }
         Write-Verbose "baseVersion=$baseVersion"
-        $build="$($baseVersion.Build)00"
-        if (($official.Build -like "$($baseVersion.build)*")){
+        
+        if (!$official -and !$baseVersion){
+            return
+        }
+        elseif ((($official.Build -like "$($baseVersion.build)*"))){
             if ($official.Build -eq $labVersion.Build) {
                 $revision = $labVersion.Revision + 1
                 if ($labVersion.Revision -eq -1) {
