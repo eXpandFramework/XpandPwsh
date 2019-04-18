@@ -46,7 +46,7 @@ namespace XpandPosh.Cmdlets.Nuget.GetNugetPackageSearchMetadata{
             var packageSearchMetadatas = metaData.ToEnumerable().ToArray()
                 .OrderByDescending(_ => _.Identity.Version.Version).ToArray();
             if (!AllVersions && Versions == null){
-                WriteObject(packageSearchMetadatas.FirstOrDefault());
+                WriteObject(packageSearchMetadatas.OrderByDescending(metadata => metadata.Identity.Version.Version).FirstOrDefault());
                 return;
             }
             foreach (var packageSearchMetadata in packageSearchMetadatas){
