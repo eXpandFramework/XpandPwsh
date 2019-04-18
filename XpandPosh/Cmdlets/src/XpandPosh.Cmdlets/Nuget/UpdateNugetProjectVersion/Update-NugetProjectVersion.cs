@@ -44,11 +44,12 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
             var changedPackages = ExistingPackages(this).ToObservable()
                 .WriteVerboseObject(this,_ => $"Existing: {_.name}, {_.nextVersion} ")
                 .SelectMany(tuple => commits.Where(commit => commit.Files.Any(file => file.Filename.Contains(tuple.directory.Name))).Select(_=>tuple)).Distinct()
-                .Publish().RefCount();
-
+                .Replay().RefCount();
+            await changedPackages.WriteVerboseObject(this);
             var subject = new Subject<string>();
             subject.WriteObject(this).Subscribe();
             var synchronizationContext = SynchronizationContext.Current;
+
             await changedPackages.SelectMany(tuple => GitHubClient.Repository
                     .GetForOrg(Organization, Repository)
                     .SelectMany(_ => CreateTagReference(this, GitHubClient, _, tuple, subject,synchronizationContext))
@@ -72,7 +73,7 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
                 var text = File.ReadAllText(path);
                 text = Regex.Replace(text, @"Version\(""([^""]*)", $"Version(\"{info.nextVersion}");
                 File.WriteAllText(path, text);
-                return $"{info.name} version raised from {info.nextVersion} to {info.nextVersion} ";
+                return $"{info.name} version raised to {info.nextVersion} ";
             }
 
             return null;

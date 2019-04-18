@@ -86,6 +86,7 @@
         "Uninstall-ProjectAllPackages", 
         "Uninstall-ProjectXAFPackages", 
         "Update-ProjectPackage", 
+        "ConvertTo-Object", 
         "Restore-ProjectPackages", 
         "New-Command", 
         "Get-VersionFromFile", 
