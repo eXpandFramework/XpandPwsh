@@ -1,60 +1,63 @@
 
-function Update-NugetPackage{
+function Update-NugetPackage {
     [cmdletbinding()]
     param(
         [parameter(ValueFromPipeline)]
-        [string]$SourcePath=".",
-        [parameter(Mandatory)]
+        [string]$SourcePath = ".",
         [string]$RepositoryPath,
         [parameter()]
-        [string]$Filter="*",
-        [string]$sources=((Get-PackageSourceLocations Nuget) -join ";")
+        [string]$Filter = "*",
+        [string]$sources = ((Get-PackageSourceLocations Nuget) -join ";")
     )
-    $configs=Get-ChildItem $sourcePath packages.config -Recurse|ForEach-Object{
+    $configs = Get-ChildItem $sourcePath packages.config -Recurse | ForEach-Object {
         [PSCustomObject]@{
             Content = [xml]$(Get-Content $_.FullName)
-            Config = $_
+            Config  = $_
         }
     }
 
-    $metadatas=$configs.Content.packages.package.id|Where-Object{$_ -like $Filter}|Select-Object -Unique |
-    Get-NugetPackageSearchMetadata -Source $sources
+    $metadatas = $configs.Content.packages.package.id | Where-Object { $_ -like $Filter } | Select-Object -Unique | Get-NugetPackageSearchMetadata -Source $sources
     $metadatas|ForEach-Object{
         [PSCustomObject]@{
-            Name = $_.Identity.Id
-            Version=(Get-NugetPackageMetadataVersion $_).Version
+            Title=$_.Title
+            Version=$_.Identity.Version.Version
         }
     }
-    
-    $packages=$configs|ForEach-Object{
-        $config=$_.Config
-        $_.Content.packages.package|Where-Object{$_.id -like $filter}|ForEach-Object{
-            $packageId=$_.Id
-            $metadata=$metadatas|Where-object{$_.Identity.Id -eq $packageId}
-            if ($metadata){
-                $csproj=Get-ChildItem $config.DirectoryName *.csproj|Select -first 1
+    $packages = $configs | ForEach-Object {
+        $config = $_.Config
+        $_.Content.packages.package | Where-Object { $_.id -like $filter } | ForEach-Object {
+            $packageId = $_.Id
+            $metadata = $metadatas | Where-object { $_.Identity.Id -eq $packageId }
+            if ($metadata) {
+                $csproj = Get-ChildItem $config.DirectoryName *.csproj | Select -first 1
                 [PSCustomObject]@{
-                    Id = $packageId
+                    Id         = $packageId
                     NewVersion = (Get-NugetPackageMetadataVersion $metadata).version
-                    Config =$config.FullName
-                    csproj =$csproj.FullName
-                    Version=$_.Version
+                    Config     = $config.FullName
+                    csproj     = $csproj.FullName
+                    Version    = $_.Version
                 }
             }
         }
-    }|Where-Object{$_.NewVersion -and ($_.Version -ne $_.NewVersion)}
-    $sortedPackages=$packages|Group-Object Config|ForEach-Object{
-        $p=[PSCustomObject]@{
-            Packages = ($_.Group|Sort-PackageByDependencies)
+    } | Where-Object { $_.NewVersion -and ($_.Version -ne $_.NewVersion) }
+    $sortedPackages = $packages | Group-Object Config | ForEach-Object {
+        $p = [PSCustomObject]@{
+            Packages = ($_.Group | Sort-PackageByDependencies)
         }
         $p
     } 
     
     
-    $sortedPackages|Invoke-Parallel -activityName "Update all packages" -VariablesToImport @("RepositoryPath","sources") -Script {
-        ($_.Packages|ForEach-Object{
-            & (Get-NugetPath) Update $_.Config -Id $_.Id -Version $($_.NewVersion) -Source $sources -NonInteractive -RepositoryPath $RepositoryPath
-        })
+    $sortedPackages | Invoke-Parallel -activityName "Update all packages" -VariablesToImport @("RepositoryPath", "sources") -Script {
+        ($_.Packages | ForEach-Object {
+                if ($RepositoryPath) {
+                    & (Get-NugetPath) Update $_.Config -Id $_.Id -Version $($_.NewVersion) -Source $sources -NonInteractive -RepositoryPath $RepositoryPath
+                }
+                else {
+                    & (Get-NugetPath) Update $_.Config -Id $_.Id -Version $($_.NewVersion) -Source $sources -NonInteractive 
+                }
+            
+            })
     }
 }
 

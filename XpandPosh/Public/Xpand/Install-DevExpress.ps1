@@ -91,4 +91,5 @@ function Install-DevExpress {
         $item = Get-Item $_
         $item.GetType().Name -eq "FileInfo" -and $item.DirectoryName -like "*net452"
     }|Copy-Item -Destination $binPath -Force 
+    Write-Host "Finish installation" -f Blue
 }
