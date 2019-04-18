@@ -9,9 +9,9 @@ New-PSMDDocument -Name ReadMe -OutputPath "$PSScriptRoot\.." -Content {
     Title -Text Installation -Size h1
     Paragraph -Text "``XpandPosh`` is available in ``PSGallery``. Open a powershell prompt and type:"
     CodeBlock -Lang ps1 -Code "Install-Module XpandPosh"
-    Title -Text "Exported Functions" -Size h2
+    Title -Text "Exported Functions-CmdLets" -Size h2
     CodeBlock -Lang ps1 -Code "Get-Command -Module XpandPosh"
-    CodeBlock -Lang txt -Code "$($(Get-Command -Module XpandPosh) -join "`r`n")"
+    CodeBlock -Lang txt -Code "$($(Get-Command -Module XpandPosh|Sort-Object) -join "`r`n")"
 }
 
 if (git diff --name-only |Where-Object{$_ -like "*ReadMe.md"}){

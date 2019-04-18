@@ -47,6 +47,9 @@ namespace XpandPosh.Cmdlets.InvokeParallel{
         }
 
         protected override Task EndProcessingAsync(){
+            if (!_values.Any()){
+                return Task.CompletedTask;
+            }
             var signal = Enumerable.Range(0,RetryOnError).ToObservable()
                 .Delay(TimeSpan.FromMilliseconds(RetryDelay)).Publish().AutoConnect();
             var eventLoopScheduler = new EventLoopScheduler(start => new Thread(start));
