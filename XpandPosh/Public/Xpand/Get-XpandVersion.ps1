@@ -17,7 +17,7 @@ function Get-XpandVersion {
         $revision = 0
         $baseVersion=Get-DevExpressVersion -Latest
         if ($Module -ne "eXpand" ){
-            if ($official){
+            if ($labVersion -lt $official){
                 $baseVersion=$official
             }
             else{
