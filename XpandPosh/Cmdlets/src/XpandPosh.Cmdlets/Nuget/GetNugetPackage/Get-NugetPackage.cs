@@ -12,7 +12,6 @@ using ImpromptuInterface;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;
-using NuGet.Packaging;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using XpandPosh.CmdLets;
@@ -49,17 +48,18 @@ namespace XpandPosh.Cmdlets.Nuget.GetNugetPackage{
         }
 
         private IEnumerable<INugetPackageAssembly> NugetPackageAssemblies(DownloadResourceResult result){
-            var resultPackageReader = (PackageFolderReader) result.PackageReader;
-            var directoryInfo = new DirectoryInfo($"{Path.GetDirectoryName(resultPackageReader.GetNuspecFile())}");
-            return resultPackageReader.GetLibItems().SelectMany(group =>
+            return result.PackageReader.GetLibItems().SelectMany(group =>
                 group.Items
                     .Where(s => AllFiles || Path.GetExtension(s) == ".dll")
-                    .Select(s => new{
-                        Package = directoryInfo.Parent?.Name,
-                        Version = directoryInfo.Name,
-                        DotNetFramework = group.TargetFramework.GetDotNetFrameworkName(DefaultFrameworkNameProvider.Instance),
-                        File = $@"{s.Replace(@"/", @"\")}"
-                    }.ActLike<INugetPackageAssembly>()));
+                    .Select(s => {
+                        var identity = result.PackageReader.NuspecReader.GetIdentity();
+                        return new{
+                            Package = identity.Id,
+                            Version=identity.Version.Version.ToString(),
+                            DotNetFramework =group.TargetFramework.GetDotNetFrameworkName(DefaultFrameworkNameProvider.Instance),
+                            File = $@"{s.Replace(@"/", @"\")}"
+                        }.ActLike<INugetPackageAssembly>();
+                    }));
         }
 
         private IObservable<DownloadResourceResult> GetDownloadResults(){

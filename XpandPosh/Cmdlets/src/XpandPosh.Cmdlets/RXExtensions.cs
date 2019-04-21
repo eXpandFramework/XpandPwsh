@@ -61,7 +61,9 @@ namespace XpandPosh.Cmdlets{
             synchronizationContext = synchronizationContext ?? SynchronizationContext.Current;
             text = text ?? (arg => $"{arg}");
             return source.ObserveOn(synchronizationContext).Select((arg1, i) => {
-                cmdlet.WriteVerbose($"{arg1.GetType().Name}: {text(arg1)}");
+                if (arg1 != null){
+                    cmdlet.WriteVerbose($"{arg1.GetType().Name}: {text(arg1)}");
+                }
                 return arg1;
             });
         }
