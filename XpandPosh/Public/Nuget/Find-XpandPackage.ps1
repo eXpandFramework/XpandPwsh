@@ -1,9 +1,9 @@
 function Find-XpandPackage {
     [CmdletBinding()]
     param (
-        [parameter(Mandatory, ValueFromPipeline)]
+        [parameter(Mandatory, ValueFromPipeline,Position=0)]
         [string]$Name,
-        [parameter()]
+        [parameter(Position=1)]
         [ValidateSet("All", "Release", "Lab")]
         [string]$PackageSource = "All",
         [switch]$AllVersions,
@@ -41,8 +41,7 @@ function Find-XpandPackage {
                 if (!$AllVersions) {
                     $_
                 }
-                else {
-                    
+                else {           
                     $sArgs.Name = $_.Name
                     $allPackages=Find-Package @sArgs 
                     if ($First -gt 0){
@@ -54,12 +53,8 @@ function Find-XpandPackage {
                         $allPackages
                     }
                 }
-                
-                
             }
-
         }
-        
     }
     
     end {

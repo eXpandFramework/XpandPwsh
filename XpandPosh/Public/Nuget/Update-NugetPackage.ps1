@@ -10,12 +10,12 @@ function Update-NugetPackage {
         [string]$sources = ((Get-PackageSourceLocations Nuget) -join ";")
     )
     $configs = Get-ChildItem $sourcePath packages.config -Recurse | ForEach-Object {
-        [PSCustomObject]@{
-            Content = [xml]$(Get-Content $_.FullName)
-            Config  = $_
-        }
+            [PSCustomObject]@{
+                Content = [xml]$(Get-Content $_.FullName)
+                Config  = $_
+            }
     }
-
+    
     $metadatas = $configs.Content.packages.package.id | Where-Object { $_ -like $Filter } | Select-Object -Unique | Get-NugetPackageSearchMetadata -Source $sources
     $metadatas|ForEach-Object{
         [PSCustomObject]@{
@@ -24,15 +24,17 @@ function Update-NugetPackage {
         }
     }
     $packages = $configs | ForEach-Object {
+        $_.Config.FullName
         $config = $_.Config
         $_.Content.packages.package | Where-Object { $_.id -like $filter } | ForEach-Object {
             $packageId = $_.Id
             $metadata = $metadatas | Where-object { $_.Identity.Id -eq $packageId }
             if ($metadata) {
                 $csproj = Get-ChildItem $config.DirectoryName *.csproj | Select -first 1
+                $newVersion=(Get-NugetPackageMetadataVersion $metadata).version
                 [PSCustomObject]@{
                     Id         = $packageId
-                    NewVersion = (Get-NugetPackageMetadataVersion $metadata).version
+                    NewVersion = $newVersion
                     Config     = $config.FullName
                     csproj     = $csproj.FullName
                     Version    = $_.Version
