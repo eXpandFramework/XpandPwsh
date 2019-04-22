@@ -15,7 +15,7 @@ function Get-XpandVersion {
         $labVersion = Get-XpandVersion -Lab -Module $Module
         Write-Verbose "lab=$labVersion"
         $revision = 0
-        $baseVersion=Get-DevExpressVersion -Latest
+        [version]$baseVersion=Get-DevExpressVersion -Latest
         if ($Module -ne "eXpand" ){
             if ($labVersion -lt $official){
                 $baseVersion=$official
@@ -48,8 +48,8 @@ function Get-XpandVersion {
         }
         else{
             $revision = $labVersion.Revision + 1
-            if ($labVersion.Revision -eq -1) {
-                $revision = 1
+            if ($baseVersion.Minor -ne $labVersion.Minor -or $labVersion.Revision -eq -1){
+                $revision=1
             }
         }
         return New-Object System.Version($baseVersion.Major, $baseVersion.Minor, $build, $revision)
