@@ -49,9 +49,18 @@ namespace XpandPosh.Cmdlets.Nuget.GetNugetPackageSearchMetadata{
                 WriteObject(packageSearchMetadatas.OrderByDescending(metadata => metadata.Identity.Version.Version).FirstOrDefault());
                 return;
             }
-            foreach (var packageSearchMetadata in packageSearchMetadatas){
+            if (Versions==null)
+                Versions=new string[0];
+            foreach (var packageSearchMetadata in packageSearchMetadatas.Where(VersionMatch)){
+                
                 WriteObject(packageSearchMetadata);
             }
+        }
+
+        private bool VersionMatch(IPackageSearchMetadata metadata){
+            if (Versions == null)
+                return true;
+            return Versions.Contains(metadata.Identity.Version.ToString());
         }
 
         public class MetadataComparer : IEqualityComparer<IPackageSearchMetadata>{
