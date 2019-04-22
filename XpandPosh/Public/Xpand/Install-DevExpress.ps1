@@ -47,8 +47,10 @@ function Install-DevExpress {
         )
         $nuget=Get-NugetPath
         $psObj.Nugets|Invoke-Parallel -ActivityName $ActivityName -VariablesToImport @("psObj","nuget") -script {
+        # $psObj.Nugets|foreach{
             $package=$_
             Write-Host "Installing $package $($psObj.Version) in $($psObj.OutputDirectory) from $($psObj.Source)" 
+            
             & "$nuget"  Install "$package" -Source "$($psObj.Source)" -OutputDirectory "$($psObj.OutputDirectory)" -Version "$($psObj.Version)"
         }
     }
