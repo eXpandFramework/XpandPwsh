@@ -18,7 +18,7 @@ function ConvertTo-PackageObject {
             $v=new-object System.Version ($strings[1])
         }
         $psobj=[PSCustomObject]@{
-            Name    = $strings[0]
+            Id    = $strings[0]
             Version = $v
         }
         if ($LatestVersion){
