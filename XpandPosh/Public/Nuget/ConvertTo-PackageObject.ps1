@@ -13,6 +13,9 @@ function ConvertTo-PackageObject {
     }
     
     process {
+        if ($item -eq "No packages found."){
+            return
+        }
         $strings = $item.Split(" ")
         if ($strings.Length -eq 2){
             $v=new-object System.Version ($strings[1])
