@@ -3,7 +3,7 @@ if (!(Get-Module XpandPosh -ListAvailable)) {
 }
 $lastSha = Get-GitLastSha "https://github.com/eXpandFramework/XpandPosh.git"
 $lastSha
-$needNewVersion = (git diff --name-only "$lastSha" HEAD|Select-Object -First 1)|Where-Object {$_ -like "XpandPosh/*" -and $_ -notlike "*.md" -and $_ -notlike "*.yml" }
+$needNewVersion = (git diff --name-only "$lastSha" HEAD|where{$_ -notlike ".githooks*"}|Select-Object -First 1)|Where-Object {$_ -like "XpandPosh/*" -and $_ -notlike "*.md" -and $_ -notlike "*.yml" }
 "needNewVersion=$needNewVersion"
 $needNewMinor = git diff --name-only |Where-Object{$_ -like "*ReadMe.md"}
 "needNewMinor=$needNewMinor"
