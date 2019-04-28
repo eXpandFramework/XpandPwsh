@@ -1,29 +1,3 @@
-# function NeedsMinor {
-#     param(
-#         $moduleVersion
-#     )
-#     $c = New-Object System.Net.WebClient
-#     $readme = $c.DownloadString("https://raw.githubusercontent.com/eXpandFramework/XpandPosh/master/ReadMe.md")
-#     $onlineModules = $readme.Split("`r`n")|ForEach-Object {
-#         if ($start -and ($_ -eq "``````")) {
-#             $start = $false
-#         }
-#         if ($start) {
-#             $_
-#         }
-#         if ($_ -eq "``````txt") {
-#             $start = $true
-#         }
-#     }|Where-Object {$_}
-#     $localModules=(Get-Command -Module XpandPosh)|Select-Object -ExpandProperty Name
-#     $newCommands=$localModules|Where-Object{!$onlineModules.Contains("$_")}
-#     $removedCommand=$onlineModules|Where-Object{!$localModules.Contains("$_")}
-#     if ($($newCommands+$removedCommand).Count -gt 0){
-#         $onlineVersion = New-Object System.Version ((Find-Module XpandPosh -Repository PSGallery).Version)
-#         return $onlineVersion -gt $moduleVersion
-#     }
-#     $false
-# }
 if (!(Get-Module XpandPosh -ListAvailable)) {
     Install-Module XpandPosh
 }

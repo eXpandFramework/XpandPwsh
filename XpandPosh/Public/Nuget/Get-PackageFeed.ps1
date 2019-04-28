@@ -4,7 +4,7 @@ function Get-PackageFeed {
         [switch]$Nuget
     )
     if ($Xpand){
-        "https://xpandnugetserver.azurewebsites.net/nuget"
+        "http://lab.nugetserver.expandframework.com/nuget"
     }
     if ($Nuget){
         "https://api.nuget.org/v3/index.json"

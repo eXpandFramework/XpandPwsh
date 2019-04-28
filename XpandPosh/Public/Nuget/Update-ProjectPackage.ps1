@@ -22,7 +22,7 @@ function Update-ProjectPackage {
             Write-Verbose "Checking $($packageItem.FullName)"
             $config.packages.package|where {!$filter -bor $_.Id -like "*$filter*"}|ForEach-Object {
                 Write-Verbose "Updating $($_.Id)"
-                Update-NugetPackages -sourcePath ($packageItem.DirectoryName) -filter $_.Id 
+                Update-NugetPackage -sourcePath ($packageItem.DirectoryName) -filter $_.Id 
             }
         }
     }
