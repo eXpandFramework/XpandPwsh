@@ -5,7 +5,7 @@ function Find-XpandPackage {
         [string]$Name,
         [parameter(Position=1)]
         [ValidateSet("All", "Release", "Lab")]
-        [string]$PackageSource = "All",
+        [string]$PackageSource = "Release",
         [switch]$AllVersions,
         [int]$First=3
     )
@@ -14,46 +14,41 @@ function Find-XpandPackage {
     }
     
     process {
-        $sArgs = @{
-            Name         = "*$Name*"
-            ProviderName = "Nuget"
+        
+        Write-Verbose ($fArgs|Out-String)
+        $nuget=(Get-NugetPath)
+        if ($PackageSource -eq "Lab"){
+            $p=& ($nuget) list $name -Source (Get-PackageFeed -Xpand) 
         }
-        if ($PackageSource -ne "All") {
-            $sources = Get-PackageSource
-            $sourceFilter = Get-PackageFeed -Xpand
-            if ($packageSource -eq "Release") {
-                $sourceFilter = Get-PackageFeed -Nuget
+        elseif ($PackageSource -eq "All"){
+            $p=(Find-XpandPackage -Name $Name -PackageSource Lab)+(Find-XpandPackage -Name $Name -PackageSource Release)
+        }
+        elseif ($PackageSource -eq "Release"){
+            $p=& $nuget list author:eXpandFramework -Source (Get-PackageFeed -Nuget) |Where-Object{$_ -like $name}
+        }
+        $p|ConvertTo-PackageObject
+        return
+        (Find-Package "*$name*" -Source (Get-PackageFeed -xpand) -ProviderName Nuget|Invoke-Parallel -script{
+            $sources=Get-PackageSource|Where-Object{$_.ProviderName -eq "Nuget"}    
+            if ($PackageSource -eq "Release"){
+                $sources=$sources|Where-Object{$_.Location -match (Get-PackageFeed -Nuget) }
             }
-            $source = $sources | Where-Object { $_.Location -like $sourceFilter } | Select-Object -ExpandProperty Name -First 1
-            $sArgs.Add("Source", $source)
-        }
-        Write-Verbose "sArgs:"
-        Write-Verbose ($sArgs | out-string)
-        $packages = Find-Package @sArgs 
-        IF ($AllVersions){
-            $sArgs.Add("AllVersions", $AllVersions)
-        }
-        $packages | ForEach-Object {
-            $isXpandPackage = ($_ | ConvertTo-Object).Entities | Where-Object {
-                $_.Role -eq "Author" -and $_.Name -eq "eXpandFramework"
+            elseif ($PackageSource -eq "Lab"){
+                Find-Package "*$name*" -Source (Get-PackageFeed -xpand) -ProviderName Nuget
             }
-            if ($isXpandPackage) {
-                if (!$AllVersions) {
-                    $_
-                }
-                else {           
-                    $sArgs.Name = $_.Name
-                    $allPackages=Find-Package @sArgs 
-                    if ($First -gt 0){
-                        $allPackages|Group-Object Source|ForEach-Object{
-                            $_.group|Select-Object -First $First
-                        }
-                    }
-                    else{
-                        $allPackages
-                    }
+            $packageName=$_.Name
+            $sources|ForEach-Object{
+                [PSCustomObject]@{
+                    Name         = $packageName
+                    ProviderName = "Nuget"
+                    AllVersions=$AllVersions
+                    ErrorAction="SilentlyContinue"
+                    Source=$_.Name
                 }
             }
+        })|Invoke-Parallel -script{
+            Find-Package $_.Name -Source $_.Source
+            
         }
     }
     
