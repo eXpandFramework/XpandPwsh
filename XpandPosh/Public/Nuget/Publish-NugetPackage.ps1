@@ -21,7 +21,7 @@ function Publish-NugetPackage {
         Write-Verbose "Packages found:"
         $packages|Write-Verbose
         
-        $published=$packages|Select-Object -ExpandProperty Name| Invoke-Parallel -activityName "Getting latest versions from sources" -VariablesToImport @("Source") -Script  { 
+        $published=$packages|Select-Object -ExpandProperty Id| Invoke-Parallel -activityName "Getting latest versions from sources" -VariablesToImport @("Source") -Script  { 
             Get-NugetPackageSearchMetadata -Name $_ -Sources $Source
         } 
         Write-Verbose "Published packages:"
