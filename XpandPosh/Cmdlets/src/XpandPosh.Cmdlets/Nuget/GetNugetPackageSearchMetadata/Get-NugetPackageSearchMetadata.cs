@@ -42,7 +42,9 @@ namespace XpandPosh.Cmdlets.Nuget.GetNugetPackageSearchMetadata{
                 .Where(metadata => metadata!=null)
                 .HandleErrors(this)
                 .Distinct(new MetadataComparer()).Replay().AutoConnect();
-            await metaData;
+            var searchMetadata = await metaData.DefaultIfEmpty();
+            if (searchMetadata==null)
+                return;
             var packageSearchMetadatas = metaData.ToEnumerable().ToArray()
                 .OrderByDescending(_ => _.Identity.Version.Version).ToArray();
             if (!AllVersions && Versions == null){
