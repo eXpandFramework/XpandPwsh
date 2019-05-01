@@ -8,7 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using NuGet.Common;
 using NuGet.Configuration;
-using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 
 namespace XpandPosh.Cmdlets.Nuget.GetNugetPackageSearchMetadata{
@@ -35,14 +34,14 @@ namespace XpandPosh.Cmdlets.Nuget.GetNugetPackageSearchMetadata{
 
 
         protected override async Task ProcessRecordAsync(){
-            var providers = new List<Lazy<INuGetResourceProvider>>();
-            providers.AddRange(Repository.Provider.GetCoreV3());
-            var metaData = ListPackages(providers)
-                .SelectMany(package => SelectPackages(package, providers))
+            var listPackages = Name != null ? Observable.Return(Name):Providers.ListPackages(Source);
+            var metaData = listPackages
+                .SelectMany(package => SelectPackages(package, Providers))
                 .Where(metadata => metadata!=null)
                 .HandleErrors(this)
                 .Distinct(new MetadataComparer()).Replay().AutoConnect();
             var searchMetadata = await metaData.DefaultIfEmpty();
+            
             if (searchMetadata==null)
                 return;
             var packageSearchMetadatas = metaData.ToEnumerable().ToArray()
@@ -51,8 +50,6 @@ namespace XpandPosh.Cmdlets.Nuget.GetNugetPackageSearchMetadata{
                 WriteObject(packageSearchMetadatas.OrderByDescending(metadata => metadata.Identity.Version.Version).FirstOrDefault());
                 return;
             }
-            if (Versions==null)
-                Versions=new string[0];
             foreach (var packageSearchMetadata in packageSearchMetadatas.Where(VersionMatch)){
                 
                 WriteObject(packageSearchMetadata);
@@ -79,19 +76,7 @@ namespace XpandPosh.Cmdlets.Nuget.GetNugetPackageSearchMetadata{
             return Source.Split(';').ToObservable().SelectMany(source => PackageSourceSearchMetadatas(source, s,providers));
         }
 
-        private IObservable<string> ListPackages(List<Lazy<INuGetResourceProvider>> providers){
-            if (Name != null) return Observable.Return(Name);
-            return Source.Split(';').Select(source => ListPackages(providers, source)).Merge();
-        } 
-
-        private static IObservable<string> ListPackages(List<Lazy<INuGetResourceProvider>> providers, string source){
-            var sourceRepository = new SourceRepository(new PackageSource(source), providers);
-            return sourceRepository.GetResourceAsync<ListResource>().ToObservable()
-                .Select(resource =>resource.ListAsync(null, false, false, false, NullLogger.Instance, CancellationToken.None).ToObservable()).Concat()
-                .Select(async => async.GetEnumeratorAsync().ToObservable()).Concat()
-                .Where(metadata => metadata != null)
-                .Select(metadata => metadata.Identity.Id);
-        }
+        
 
         private IObservable<IPackageSearchMetadata> PackageSourceSearchMetadatas(string source,string name,
             List<Lazy<INuGetResourceProvider>> providers){

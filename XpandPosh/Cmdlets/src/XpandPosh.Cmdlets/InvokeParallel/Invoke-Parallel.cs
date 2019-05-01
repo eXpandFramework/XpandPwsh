@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
@@ -14,7 +14,7 @@ namespace XpandPosh.Cmdlets.InvokeParallel{
     [Cmdlet(VerbsLifecycle.Invoke, "Parallel")]
     [CmdletBinding]
     public class InvokeParallel : XpandCmdlet{
-        private List<object> _values;
+        private ConcurrentBag<object> _values;
         private PSVariable[] _psVariables;
 
         
@@ -35,7 +35,7 @@ namespace XpandPosh.Cmdlets.InvokeParallel{
         [Parameter]
         public int StepInterval{ get; set; } 
         protected override Task BeginProcessingAsync(){
-            _values = new List<object>();
+            _values = new ConcurrentBag<object>();
             _psVariables = this.Invoke<PSVariable>("Get-Variable")
                 .Where(variable => VariablesToImport.Contains(variable.Name)).ToArray();
             return base.BeginProcessingAsync();
