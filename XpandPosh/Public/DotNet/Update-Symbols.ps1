@@ -16,6 +16,14 @@ function Update-Symbols {
             throw "srcsrv is invalid"
         }
         $remoteTarget = ($TargetRoot -like "http*")
+        if (!$remoteTarget ){
+            if (!$SourcesRoot.EndsWith("\")){
+                $SourcesRoot+="\"
+            }
+            if (!$TargetRoot.EndsWith("\")){
+                $TargetRoot+="\"
+            }
+        }
         $list = New-Object System.Collections.ArrayList
     }
     
@@ -25,7 +33,8 @@ function Update-Symbols {
     
     end {
         Write-Verbose "Indexing $($list.count) pdb files"
-        $list|Invoke-Parallel -ActivityName Indexing -VariablesToImport @("dbgToolsPath","TargetRoot","SourcesRoot") -Script {
+        $list|Invoke-Parallel -ActivityName Indexing -VariablesToImport @("dbgToolsPath","TargetRoot","SourcesRoot","remoteTarget") -Script {
+        # $list|foreach {
             "Indexing $($_.FullName) ..."
         
             $streamPath = [System.IO.Path]::GetTempFileName()
