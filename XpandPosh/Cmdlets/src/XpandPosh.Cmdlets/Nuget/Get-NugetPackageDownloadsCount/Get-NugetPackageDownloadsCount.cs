@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Management.Automation;
 using System.Net;
 using System.Reactive.Linq;
@@ -6,7 +8,6 @@ using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using NuGet.Protocol.Core.Types;
 using XpandPosh.CmdLets;
 
 namespace XpandPosh.Cmdlets.Nuget{
@@ -32,12 +33,19 @@ namespace XpandPosh.Cmdlets.Nuget{
         }
 
         protected override async Task EndProcessingAsync(CancellationToken cancellationToken){
-            var sum = await _packages.ToObservable()
+            var concurrentBag = _packages;
+            var downloads = Downloads(concurrentBag);
+            var sum = await downloads;
+            WriteObject(sum);
+        }
+
+        public static IObservable<int> Downloads(IEnumerable<string> concurrentBag){
+            var downloads = concurrentBag.ToObservable()
                 .SelectMany(id => Observable.Using(() => new WebClient(), client => client
                     .DownloadStringTaskAsync(
                         $"https://api-v2v3search-0.nuget.org/query?q=packageid:{id}").ToObservable()))
                 .Sum(json => (int) JsonConvert.DeserializeObject<dynamic>(json).data[0].totalDownloads);
-            WriteObject(sum);
+            return downloads;
         }
     }
 }

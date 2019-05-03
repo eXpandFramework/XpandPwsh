@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Management.Automation;
 using System.Reactive.Linq;
@@ -16,29 +17,30 @@ namespace XpandPosh.Cmdlets.Nuget{
         public XpandPackageFilter Filter{ get; set; }
 
         protected override async Task ProcessRecordAsync(){
-            var feed = GetFeed(XpandPackageSource.Xpand);
-            var allLabPackages = Providers.ListPackages(feed)
-                .Where(FilterMatch);
-            if (PackageSource == XpandPackageSource.Xpand){
-                await allLabPackages.Distinct().WriteObject(this);
-            }
-            else{
-                feed = GetFeed(XpandPackageSource.Nuget);
-                await allLabPackages.SelectMany(id => Providers.ListPackages(feed, id))
-                    .Distinct()
-                    .WriteObject(this);
+            var packageSource = PackageSource;
+            var xpandFeed = GetFeed(XpandPackageSource.Xpand);
+            var nugetFeed = GetFeed(XpandPackageSource.Nuget);
+            var allLabPackages = GetPackages(packageSource,xpandFeed, nugetFeed, Filter);
+            await allLabPackages.WriteObject(this);
+        }
 
+        public static IObservable<string> GetPackages(XpandPackageSource packageSource,string xpandFeed,string nugetFeed,XpandPackageFilter filter){
+            var allLabPackages = Providers.ListPackages(xpandFeed)
+                .Where(s => FilterMatch(s,filter));
+            if (packageSource == XpandPackageSource.Nuget){
+                allLabPackages = allLabPackages.SelectMany(id => Providers.ListPackages(nugetFeed, id));
             }
+            return allLabPackages.Distinct();
         }
 
         private string GetFeed(XpandPackageSource source){
             return (string) this.Invoke($"Get-packageFeed -{source}").First().BaseObject;
         }
 
-        private bool FilterMatch(string id){
-            if (Filter == XpandPackageFilter.Standalone)
+        private static bool FilterMatch(string id,XpandPackageFilter filter){
+            if (filter == XpandPackageFilter.Standalone)
                 return id.StartsWith("Xpand");
-            if (Filter == XpandPackageFilter.Xpand){
+            if (filter == XpandPackageFilter.Xpand){
                 return id.StartsWith("eXpand");
             }
 
