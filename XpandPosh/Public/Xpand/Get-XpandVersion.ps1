@@ -6,7 +6,7 @@ function Get-XpandVersion {
         [switch]$Release,
         [switch]$Lab,
         [switch]$Next,
-        [string]$Module="eXpand"
+        [string]$Module="eXpand*"
     )
     if ($Next) {
         
@@ -16,7 +16,7 @@ function Get-XpandVersion {
         Write-Verbose "lab=$labVersion"
         $revision = 0
         [version]$baseVersion=Get-DevExpressVersion -Latest
-        if ($Module -ne "eXpand" ){
+        if ($Module -notlike "eXpand*" ){
             if ($labVersion -lt $official){
                 $baseVersion=$official
             }
@@ -57,7 +57,7 @@ function Get-XpandVersion {
     if ($XpandPath) {
         $assemblyIndoName="AssemblyInfo"
         $pattern='AssemblyVersion\("([^"]*)'
-        if ($Module -eq "eXpand"){
+        if ($Module -like "eXpand*"){
             $assemblyInfoPath="Xpand\Xpand.Utils"
             $assemblyIndoName="XpandAssemblyInfo"
             $pattern='public const string Version = \"([^\"]*)'
