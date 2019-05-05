@@ -23,10 +23,12 @@ namespace XpandPosh.Cmdlets.GitHub.GetGitHubCommitIssue{
         public string Branch{ get; set; } 
         [Parameter]
         public DateTimeOffset? Since{ get; set; }
-
+        [Parameter]
+        public ItemStateFilter ItemStateFilter{ get; set; }
         protected override async Task BeginProcessingAsync(){
             await base.BeginProcessingAsync();
             if (!Since.HasValue){
+                ItemStateFilter=ItemStateFilter.All;
                 var release = await GitHubClient.Repository.GetForOrg(Organization, Repository1)
                     .SelectMany(repository => GitHubClient.Repository.Release.GetAll(repository.Id))
                     .Select(list => list.First(_ => !_.Draft));
