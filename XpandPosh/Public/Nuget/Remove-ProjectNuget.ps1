@@ -4,9 +4,10 @@ function Remove-ProjectNuget{
         [string]$id,
         [string]$projectPath=(Get-Location),
         [parameter(Mandatory)]
-        [string]$nugetAssembliesBin
+        [string]$nugetAssembliesBin,
+        [string]$ProjectFilter="*"
     )
-    Get-ChildItem $projectPath *.csproj -Recurse | ForEach-Object { 
+    Get-ChildItem $projectPath "$ProjectFilter.csproj" -Recurse | ForEach-Object { 
         [xml]$project=Get-XmlContent $_.FullName
         $project.Project.ItemGroup.Reference|Where-Object{$_.Include -match "$id"}|ForEach-Object{
             $fileName=[System.IO.Path]::GetFileName($_.Hintpath)

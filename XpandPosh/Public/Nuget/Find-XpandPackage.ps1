@@ -18,15 +18,15 @@ function Find-XpandPackage {
         Write-Verbose ($fArgs | Out-String)
         $nuget = (Get-NugetPath)
         if ($PackageSource -eq "Lab") {
-            $p = & ($nuget) list -Source (Get-PackageFeed -Xpand) | Where-Object { $_ -like $Filter }
+            $p = & ($nuget) list -Source (Get-PackageFeed -Xpand)| ConvertTo-PackageObject | Where-Object { $_.Id -like $Filter }
         }
         elseif ($PackageSource -eq "All") {
             $p = (Find-XpandPackage -Name $Filter -PackageSource Lab) + (Find-XpandPackage -Name $Filter -PackageSource Release)
         }
         elseif ($PackageSource -eq "Release") {
-            $p = & $nuget list author:eXpandFramework -Source (Get-PackageFeed -Nuget) | Where-Object { $_ -like $Filter }
+            $p = & $nuget list author:eXpandFramework -Source (Get-PackageFeed -Nuget)|ConvertTo-PackageObject | Where-Object { $_.Id -like $Filter }
         }
-        $p | ConvertTo-PackageObject
+        $p 
     }
     
     end {

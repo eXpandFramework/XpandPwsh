@@ -12,7 +12,7 @@ function Get-XpandVersion {
         
         $official = Get-XpandVersion -Release -Module $Module
         Write-Verbose "Release=$official"
-        $labVersion = Get-XpandVersion -Lab 
+        $labVersion = Get-XpandVersion -Lab -Module $Module
         Write-Verbose "lab=$labVersion"
         $revision = 0
         [version]$baseVersion=Get-DevExpressVersion -Latest
@@ -85,9 +85,9 @@ function Get-XpandVersion {
         return
     }
     if ($Lab) {
-        return (Find-XpandPackage * -PackageSource lab|Sort-Object Version -Descending |Select-Object -First 1).Version
+        return (Find-XpandPackage $Module -PackageSource lab|Sort-Object Version -Descending |Select-Object -First 1).Version
     }
     if ($Release) {
-        return (Find-XpandPackage * -PackageSource  Release  |Sort-Object Version -Descending |Select-Object -First 1).Version
+        return (Find-XpandPackage $Module -PackageSource  Release  |Sort-Object Version -Descending |Select-Object -First 1).Version
     }
 }
