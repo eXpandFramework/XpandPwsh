@@ -1,7 +1,10 @@
-function Clear-ProjectDirectories() {
-    Get-ChildItem -Recurse | 
+function Clear-ProjectDirectories {
+    param(
+        $path=(Get-Location)
+    )
+    Get-ChildItem $path -Recurse | 
         Where-Object { $_.PSIsContainer } | 
-        Where-Object { $_.Name -eq 'bin' -or $_.Name -eq 'obj' -or $_.Name -eq '.vs' -or $_.Name.StartsWith('_ReSharper')} | foreach{
+        Where-Object { $_.Name -eq 'bin' -or $_.Name -eq 'obj' -or $_.Name -eq '.vs' -or $_.Name.StartsWith('_ReSharper')} | ForEach-Object{
             (Get-Item $_.FullName).Delete($true)
         }
     Get-ChildItem -Include "*.log", "*.bak" -Recurse | Remove-Item -Force
