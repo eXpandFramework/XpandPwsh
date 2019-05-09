@@ -43,7 +43,7 @@ function Update-Symbols {
         Write-Verbose "Indexing $($list.count) pdb files"
         # $list | Invoke-Parallel -ActivityName Indexing -VariablesToImport @("dbgToolsPath", "TargetRoot", "SourcesRoot", "remoteTarget") -Script {
         $list | foreach {
-            Write-Verbose "Indexing $($_.FullName) ..."
+            Write-Host "Indexing $($_.FullName) ..."
             $streamPath = [System.IO.Path]::GetTempFileName()
             Write-Verbose "Preparing stream header section..."
             Add-Content -value "SRCSRV: ini ------------------------------------------------" -path $streamPath
@@ -87,7 +87,7 @@ function Update-Symbols {
                     }
                 }
                 else {
-                    throw "No steppable code in pdb file $_"
+                    Write-Host "No steppable code in pdb file $_" -f Red
                 }       
             }
             Add-Content -value "SRCSRV: end ------------------------------------------------" -path $streamPath
