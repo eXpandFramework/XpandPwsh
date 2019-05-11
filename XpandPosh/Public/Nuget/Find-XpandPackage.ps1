@@ -21,7 +21,7 @@ function Find-XpandPackage {
             $p = & ($nuget) list -Source (Get-PackageFeed -Xpand)| ConvertTo-PackageObject | Where-Object { $_.Id -like $Filter }
         }
         elseif ($PackageSource -eq "All") {
-            $p = (Find-XpandPackage -Name $Filter -PackageSource Lab) + (Find-XpandPackage -Name $Filter -PackageSource Release)
+            $p = $(Find-XpandPackage -Filter $Filter -PackageSource Lab) , $(Find-XpandPackage -Filter $Filter -PackageSource Release)
         }
         elseif ($PackageSource -eq "Release") {
             $p = & $nuget list author:eXpandFramework -Source (Get-PackageFeed -Nuget)|ConvertTo-PackageObject | Where-Object { $_.Id -like $Filter }
