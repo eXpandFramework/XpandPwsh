@@ -5,24 +5,30 @@ function Update-HintPath {
         [parameter(Mandatory)]
         [string]$OutputPath,
         [parameter(Mandatory)]
-        [string]$filter
+        [string[]]$Include,
+        [parameter()]
+        [string[]]$Exclude
 
     )
-    Get-ChildItem $sourcesPath "*.csproj" -Recurse|Invoke-Parallel -ActivityName "Checking DX references" -VariablesToImport @("SourcePath","OutputPath","Filter") -Script {
+    # Get-ChildItem $sourcesPath "*Xpand.ExpressApp.csproj" -Recurse|Invoke-Parallel -ActivityName "Updating HintPath" -VariablesToImport @("SourcesPath","OutputPath","Include","Exclude") -Script {
+    Get-ChildItem $sourcesPath "*Xpand.ExpressApp.csproj" -Recurse|foreach {
         $projectPath = $_.FullName
-        Write-Host "Checking DX references $projectPath"
         $projectDir = (Get-Item $projectPath).DirectoryName
         [xml]$csproj = Get-Content $projectPath
-        $csproj.Project.ItemGroup.Reference|Where-Object {$_.Include -like $filter}|
-            Where-Object {!"$($_.Include)".Contains(".DXCore.")}|ForEach-Object {
-            $reference = $_
-            if (!$reference.Hintpath) {
-                $reference.AppendChild($reference.OwnerDocument.CreateElement("HintPath", $csproj.DocumentElement.NamespaceURI))|out-null
+        $csproj.Project.ItemGroup.Reference|Where-Object {
+            $ref=$_.Include
+            if ($Include|Where-Object{$ref -like $_}|Select-Object -First 1){
+                !($Exclude|Where-Object{$ref -like $_}|Select-object -first 1)
+            }
+        }|ForEach-Object {
+            if (!$_.Hintpath) {
+                $_.AppendChild($_.OwnerDocument.CreateElement("HintPath", $csproj.DocumentElement.NamespaceURI))|out-null
             }            
+            $reference = $_.Include
             $hintPath = Get-RelativePath $projectPath $outputPath
-            $reference.HintPath = "$hintPath\$($reference.Include).dll"
+            $_.HintPath = "$hintPath\$reference.dll"
             if (!$(Test-path $("$projectDir\$hintPath"))) {
-                throw "File not found $($reference.HintPath)"
+                throw "File not found $($_.HintPath)"
             }
             $csproj.Save($projectPath)
         }
