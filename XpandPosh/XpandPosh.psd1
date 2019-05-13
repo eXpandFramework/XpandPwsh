@@ -12,7 +12,7 @@
     RootModule        = 'XpandPosh'
 
     # Version number of this module.
-    ModuleVersion     = '1.16.0'
+    ModuleVersion     = '1.17.0'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -70,6 +70,7 @@
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport = @(
+        "Update-OutputPath",
         "Update-ProjectAutoGenerateBindingRedirects",
         "Update-ProjectProperty",
         "Remove-ProjectLicenseFile",
@@ -188,6 +189,7 @@
     # DefaultCommandPrefix = ''
 
 }
+
 
 
 

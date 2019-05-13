@@ -51,7 +51,8 @@ namespace XpandPosh.Cmdlets.Nuget{
     public enum XpandPackageFilter{
         All,
         Xpand,
-        Standalone
+        Standalone,
+
     }
 
     public enum XpandPackageSource{
