@@ -107,8 +107,8 @@ function InstallXpand {
         }
         Write-Host "Write Registry " -f Green
         $key = [Microsoft.Win32.RegistryKey]::OpenBaseKey([Microsoft.Win32.RegistryHive]::LocalMachine, [Microsoft.Win32.RegistryView]::Registry32)
-        $subKey = $key.OpenSubKey("SOFTWARE\Microsoft\.NETFramework\AssemblyFolders", $true)
-        $subKey.CreateSubKey("Xpand").SetValue("", $xpandDLL)
+        $subKey = $key.OpenSubKey("SOFTWARE\Microsoft\.NETFramework", $true)
+        $subKey.CreateSubKey("AssemblyFolders").CreateSubKey("Xpand").SetValue("", $xpandDLL)
         if (!$SkipGac) {
             Write-Host "$Installing to GAC" -f Green
             Set-Location "$InstallationPath\Xpand.DLL"
