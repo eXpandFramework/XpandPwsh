@@ -46,11 +46,14 @@ function Get-XpandVersion {
                 $revision=1
             }
         }
-        else{
+        elseif ((($labVersion.Build -like "$($baseVersion.build)*"))){
             $revision = $labVersion.Revision + 1
             if ($baseVersion.Minor -ne $labVersion.Minor -or $labVersion.Revision -eq -1){
                 $revision=1
             }
+        }
+        else{
+            $revision=1
         }
         return New-Object System.Version($baseVersion.Major, $baseVersion.Minor, $build, $revision)
     }
