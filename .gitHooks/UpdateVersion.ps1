@@ -1,11 +1,14 @@
 if (!(Get-Module XpandPosh -ListAvailable)) {
     Install-Module XpandPosh
 }
+
 $lastSha = Get-GitLastSha "https://github.com/eXpandFramework/XpandPosh.git"
 $lastSha
-$needNewVersion = (git diff --name-only "$lastSha" HEAD|where{$_ -notlike ".githooks*"}|Select-Object -First 1)|Where-Object {$_ -like "XpandPosh/*" -and $_ -notlike "*.md" -and $_ -notlike "*.yml" }
+$needNewVersion = (git diff --name-only "$lastSha" HEAD | where { $_ -notlike ".githooks*" } | Select-Object -First 1) | Where-Object { $_ -like "XpandPosh/*" -and $_ -notlike "*.md" -and $_ -notlike "*.yml" }
 "needNewVersion=$needNewVersion"
-$needNewMinor = git diff --name-only |Where-Object{$_ -like "*ReadMe.md"}
+$c = New-Object System.Net.WebClient
+$readme = $c.DownloadString("https://raw.githubusercontent.com/eXpandFramework/XpandPosh/master/ReadMe.md")
+$needNewMinor = (Get-Command -Module XpandPosh) | Where-Object { $readme -notmatch $_.Name } | Select-Object -First 1
 "needNewMinor=$needNewMinor"
 if ($needNewVersion -or $needNewMinor) {
     $file = "$PSScriptRoot\..\XpandPosh\XpandPosh.psd1"
@@ -19,9 +22,9 @@ if ($needNewVersion -or $needNewMinor) {
     }
     else {
         $onlineVersion = New-Object System.Version ((Find-Module XpandPosh -Repository PSGallery).Version)
-        $newMinor=0
-        $newBuild=0
-        if ($moduleVersion.Major -eq $onlineVersion.Major){
+        $newMinor = 0
+        $newBuild = 0
+        if ($moduleVersion.Major -eq $onlineVersion.Major) {
             $newMinor = $onlineVersion.Minor
             $newBuild = $onlineVersion.Build + 1
         }

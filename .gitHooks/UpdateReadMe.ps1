@@ -22,7 +22,7 @@ $cmdLetListTable=($cmdLetList|ForEach-Object{
     $mdFile=Get-Content "$wikiPath\$cmdletName.md" -Raw
     $regex = [regex] '(?is)## SYNOPSIS(.*)## SYNTAX'
     $mdFile = ($regex.Match($mdFile).Groups[1].Value).ToString().Trim();
-    "|[$cmdletName]($wikiUrl\$cmdletName)|$mdFile|"
+    "|[$cmdletName]($wikiUrl/$cmdletName)|$mdFile|"
 })|Out-String
 
 $regex = [regex] '(?is)## Exported Functions-Cmdlets(.*)'
