@@ -19,8 +19,12 @@ if ($needNewVersion -or $needNewMinor) {
     }
     else {
         $onlineVersion = New-Object System.Version ((Find-Module XpandPosh -Repository PSGallery).Version)
-        $newMinor = $onlineVersion.Minor
-        $newBuild = $onlineVersion.Build + 1
+        $newMinor=0
+        $newBuild=0
+        if ($moduleVersion.Major -eq $onlineVersion.Major){
+            $newMinor = $onlineVersion.Minor
+            $newBuild = $onlineVersion.Build + 1
+        }
     }
     
     $newVersion = "$($moduleVersion.Major).$newMinor.$newBuild"
