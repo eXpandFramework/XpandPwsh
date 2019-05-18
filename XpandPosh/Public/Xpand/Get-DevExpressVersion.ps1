@@ -6,8 +6,6 @@ function Get-DevExpressVersion {
         [parameter(ParameterSetName = "version")]
         [switch]$Build,
         [parameter(ParameterSetName = "latest")]
-        [switch]$Latest,
-        [parameter(ParameterSetName = "latest")]
         [string]$LatestVersionFeed="https://xpandnugetserver.azurewebsites.net/nuget"
     )
     

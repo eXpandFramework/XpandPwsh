@@ -6,8 +6,8 @@ function Test-Symbol {
         [parameter()]
         [string]$file,
         [parameter()]
-        [ValidateSet("Check","Match")]
-        [string]$Mode="Check",
+        [ValidateSet("Check", "Match")]
+        [string]$Mode = "Check",
         [parameter()]
         [string]$chckMatch = "$PSScriptRoot\..\..\Private\ChkMatch.exe"
     )
@@ -16,20 +16,20 @@ function Test-Symbol {
         if (!(test-path $chckMatch)) {
             throw "$chckMatch is invalid"
         }
-        if (!$file) {
-            $pdbFile = (get-item $pdb)
+        $pdbFile = (get-item $pdb)
+        if (!$File) {
             $file = "$($pdbFile.DirectoryName)\$($pdbFile.BaseName).dll"
-            if (!(Test-Path $file)) {
-                throw [System.IO.FileNotFoundException]::new($file)
-            }
+        }
+        if (!(Test-Path $file)) {
+            throw [System.IO.FileNotFoundException]::new($file)
         }
     }
     
     process {
-        if ($Mode -eq "Check"){
+        if ($Mode -eq "Check") {
             & $chckMatch -c $file $pdbFile.FullName
         }
-        else{
+        else {
             & $chckMatch -m $file $pdbFile.FullName
         }
     }

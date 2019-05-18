@@ -2,14 +2,11 @@ function ConvertTo-PackageObject {
     [CmdletBinding()]
     param (
         [parameter(ValueFromPipeline,Mandatory)]
-        [string]$item,
-        [switch]$LatestVersion
+        [string]$item
     )
     
     begin {
-        if ($LatestVersion){
-            $list=New-Object System.Collections.Arraylist
-        }
+        
     }
     
     process {
@@ -24,19 +21,10 @@ function ConvertTo-PackageObject {
             Id    = $strings[0]
             Version = $v
         }
-        if ($LatestVersion){
-            $list.Add($psObj)|Out-Null
-        }
-        else{
-            $psobj
-        }
+        $psobj
     }
     
     end {
-        if ($LatestVersion){
-            $list|Group-Object -Property Name|ForEach-Object{
-                ($_.Group|Sort-Object -Property Version -Descending|Select-Object -First 1)
-            }
-        }
+        
     }
 }

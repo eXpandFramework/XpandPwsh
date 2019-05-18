@@ -10,10 +10,10 @@ namespace XpandPosh.Cmdlets.Nuget{
     [CmdletBinding]
     public class FindXpandNugetPackage : NugetCmdlet{
 
-        [Parameter]
+        [Parameter(Position = 0)]
         public XpandPackageSource PackageSource{ get; set; } =XpandPackageSource.Nuget;
         
-        [Parameter]
+        [Parameter(Position = 1)]
         public XpandPackageFilter Filter{ get; set; }
 
         protected override async Task ProcessRecordAsync(){

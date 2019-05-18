@@ -5,8 +5,7 @@ using XpandPosh.CmdLets;
 
 namespace XpandPosh.Cmdlets.GitHub{
     public abstract class GitHubCmdlet:XpandCmdlet{
-        [Parameter()]
-        public string GitHubApp{ get; set; } 
+        
         [Parameter(Mandatory = true)]
         public string Owner{ get; set; } 
         [Parameter(Mandatory = true)]

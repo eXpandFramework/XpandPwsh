@@ -17,4 +17,4 @@ function Use-NugetAssembly {
     
     end {
     }
-}
+    }

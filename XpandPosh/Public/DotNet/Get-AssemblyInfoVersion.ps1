@@ -1,4 +1,4 @@
-function Get-VersionFromFile([parameter(mandatory)][string]$assemblyInfo) {
+function Get-AssemblyInfoVersion([parameter(mandatory)][string]$assemblyInfo) {
     $matches = Get-Content $assemblyInfo -ErrorAction Stop | Select-String 'public const string Version = \"([^\"]*)'
     if ($matches) {
         $matches[0].Matches.Groups[1].Value

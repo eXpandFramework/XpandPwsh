@@ -125,7 +125,6 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
 
     public interface IParameter{
         PSObject[] Packages{ get; set; }
-        string GitHubApp{ get; set; }
         string Owner{ get; set; }
         string Organization{ get; set; }
         string Repository{ get; set; }
