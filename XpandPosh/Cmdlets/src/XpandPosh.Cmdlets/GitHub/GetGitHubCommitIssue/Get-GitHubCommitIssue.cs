@@ -24,6 +24,8 @@ namespace XpandPosh.Cmdlets.GitHub.GetGitHubCommitIssue{
         [Parameter]
         public DateTimeOffset? Since{ get; set; }
         [Parameter]
+        public DateTimeOffset? Until{ get; set; }
+        [Parameter]
         public ItemStateFilter ItemStateFilter{ get; set; }
         protected override async Task BeginProcessingAsync(){
             await base.BeginProcessingAsync();
@@ -38,7 +40,7 @@ namespace XpandPosh.Cmdlets.GitHub.GetGitHubCommitIssue{
         }
 
         protected override Task ProcessRecordAsync(){
-            return GitHubClient.CommitIssues(Organization, Repository1, Repository2,Since,Branch)
+            return GitHubClient.CommitIssues(Organization, Repository1, Repository2,Since,Branch,ItemStateFilter,Until)
                 .Select(_ => _.commitIssues.Select(tuple => (_.repoTuple.repo1,_.repoTuple.repo2,tuple.commit,tuple.issues).ToClass().ActLike<ICommitIssues>()))
                 .HandleErrors(this,Repository1)
                 .WriteObject(this)

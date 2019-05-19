@@ -21,14 +21,14 @@ namespace XpandPosh.CmdLets{
         }
 
         public static IObservable<((GitHubCommit commit, Issue[] issues)[] commitIssues, (Repository repo1, Repository repo2) repoTuple)> CommitIssues(
-            this GitHubClient appClient, string organization, string repository1,string repository2, DateTimeOffset? since,string branch=null,ItemStateFilter state=ItemStateFilter.All){
+            this GitHubClient appClient, string organization, string repository1,string repository2, DateTimeOffset? since,string branch=null,ItemStateFilter state=ItemStateFilter.All,DateTimeOffset? until=null){
 
             var allRepos = appClient.Repository.GetAllForOrg(organization).ToObservable().Replay().RefCount();
             return allRepos.Select(list => list.First(repository => repository.Name==repository1))
                 .Zip(allRepos.Select(list => list.First(repository => repository.Name==repository2)),(repo1, repo2) =>(repo1, repo2) )
                 .Select(repoTuple => {
                     var allIssues = appClient.Issue.GetAllForRepository(repoTuple.repo1.Id,new RepositoryIssueRequest{Since = since,State = state}).ToObservable().SelectMany(list => list).ToEnumerable().ToArray();
-                    var commits = appClient.Repository.Commit.GetAll(repoTuple.repo2.Id,new CommitRequest(){Since = since,Sha = branch}).ToObservable().SelectMany(list => list).ToEnumerable().ToArray();
+                    var commits = appClient.Repository.Commit.GetAll(repoTuple.repo2.Id,new CommitRequest(){Since = since,Sha = branch,Until = until}).ToObservable().SelectMany(list => list).ToEnumerable().ToArray();
                     var commitIssues = commits.Select(commit => {
                         var issues = allIssues.Where(issue => commit.Commit.Message.Contains($"#{issue.Number}")).ToArray();
                         return (commit,issues);
