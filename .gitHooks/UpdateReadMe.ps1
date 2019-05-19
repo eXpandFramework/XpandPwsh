@@ -39,6 +39,7 @@ $cmdLetListTable
 
 Set-Content $readMePath $readMeContent
 if (git diff --name-only |Where-Object{$_ -like "*ReadMe.md"}){
+    Copy-Item $readMePath "$wikiPath\Home.md"
     Write-Error "ReadMe changed" -ErrorAction Continue
     exit 1
 }

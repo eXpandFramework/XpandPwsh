@@ -3,7 +3,6 @@ if (!(Get-Module XpandPosh -ListAvailable)) {
 }
 $lastmessage=git log -1 --pretty=%B
 if ($lastmessage -eq (Get-Module XpandPosh -ListAvailable).Version){
-    $_
     return
 }
 $lastSha = Get-GitLastSha "https://github.com/eXpandFramework/XpandPosh.git"
@@ -14,7 +13,7 @@ $c = New-Object System.Net.WebClient
 $readme = $c.DownloadString("https://raw.githubusercontent.com/eXpandFramework/XpandPosh/master/ReadMe.md")
 $needNewMinor = (Get-Command -Module XpandPosh) | Where-Object { $readme -notmatch $_.Name } | Select-Object -First 1
 "needNewMinor=$needNewMinor"
-if ($needNewVersion -or $needNewMinor) {
+if ($needNewVersion) {
     $file = "$PSScriptRoot\..\XpandPosh\XpandPosh.psd1"
     $data = Get-Content $file -Raw
     $manifest = Invoke-Expression $data

@@ -21,17 +21,17 @@ Get-Command -Module XpandPosh
 |[Close-GithubIssue](https://github.com/eXpandFramework/XpandPosh/wiki/Close-GithubIssue)|Close a GitHub Issue based on its last update.|
 |[Compress-Project](https://github.com/eXpandFramework/XpandPosh/wiki/Compress-Project)|Compress all files for a VS Solution|
 |[ConvertTo-Object](https://github.com/eXpandFramework/XpandPosh/wiki/ConvertTo-Object)|{{ Fill in the Synopsis }}|
-|[ConvertTo-PackageObject](https://github.com/eXpandFramework/XpandPosh/wiki/ConvertTo-PackageObject)||
+|[ConvertTo-PackageObject](https://github.com/eXpandFramework/XpandPosh/wiki/ConvertTo-PackageObject)|Converts nuget.exe commands output.|
 |[Disable-ExecutionPolicy](https://github.com/eXpandFramework/XpandPosh/wiki/Disable-ExecutionPolicy)|{{ Fill in the Synopsis }}|
 |[Find-XpandNugetPackage](https://github.com/eXpandFramework/XpandPosh/wiki/Find-XpandNugetPackage)|Finds only eXpandFramework packages.|
-|[Find-XpandPackage](https://github.com/eXpandFramework/XpandPosh/wiki/Find-XpandPackage)||
+|[Find-XpandPackage](https://github.com/eXpandFramework/XpandPosh/wiki/Find-XpandPackage)|Find eXpandFrameoWork only packages.|
 |[Get-AssemblyInfoVersion](https://github.com/eXpandFramework/XpandPosh/wiki/Get-AssemblyInfoVersion)|Returns the version of an AssemblyInfo.cs|
 |[Get-CallerPreference](https://github.com/eXpandFramework/XpandPosh/wiki/Get-CallerPreference)|Fetches "Preference" variable values from the caller's scope.|
 |[Get-ChocoPackage](https://github.com/eXpandFramework/XpandPosh/wiki/Get-ChocoPackage)|{{ Fill in the Synopsis }}|
 |[Get-DevExpressVersion](https://github.com/eXpandFramework/XpandPosh/wiki/Get-DevExpressVersion)|Returns the DevExpress version depending on the parameter set used.|
 |[Get-Distinct](https://github.com/eXpandFramework/XpandPosh/wiki/Get-Distinct)|{{ Fill in the Synopsis }}|
-|[Get-DotNetCoreVersion](https://github.com/eXpandFramework/XpandPosh/wiki/Get-DotNetCoreVersion)||
-|[Get-DxNugets](https://github.com/eXpandFramework/XpandPosh/wiki/Get-DxNugets)||
+|[Get-DotNetCoreVersion](https://github.com/eXpandFramework/XpandPosh/wiki/Get-DotNetCoreVersion)|Returns all installed sdks.|
+|[Get-DxNugets](https://github.com/eXpandFramework/XpandPosh/wiki/Get-DxNugets)|Lists all assemblies in a DevExpress Nuget package.|
 |[Get-GitHubCommitIssue](https://github.com/eXpandFramework/XpandPosh/wiki/Get-GitHubCommitIssue)|Lists all GitHub issues that related to a commit.|
 |[Get-GitHubIssue](https://github.com/eXpandFramework/XpandPosh/wiki/Get-GitHubIssue)|List Github issues for a repository.|
 |[Get-GitHubMilestone](https://github.com/eXpandFramework/XpandPosh/wiki/Get-GitHubMilestone)|Returns github repository milestones.|
@@ -50,7 +50,8 @@ Get-Command -Module XpandPosh
 |[Get-SymbolSources](https://github.com/eXpandFramework/XpandPosh/wiki/Get-SymbolSources)|List the sources of a symbol (*.pdb)|
 |[Get-XmlContent](https://github.com/eXpandFramework/XpandPosh/wiki/Get-XmlContent)|{{ Fill in the Synopsis }}|
 |[Get-XpandPath](https://github.com/eXpandFramework/XpandPosh/wiki/Get-XpandPath)|{{ Fill in the Synopsis }}|
-|[Get-XpandVersion](https://github.com/eXpandFramework/XpandPosh/wiki/Get-XpandVersion)||
+|[Get-XpandReleaseChange](https://github.com/eXpandFramework/XpandPosh/wiki/Get-XpandReleaseChange)|Query all eXpandFramework releases.|
+|[Get-XpandVersion](https://github.com/eXpandFramework/XpandPosh/wiki/Get-XpandVersion)|Returns eXpandFramework version for several scenarios.|
 |[Install-Chocolatey](https://github.com/eXpandFramework/XpandPosh/wiki/Install-Chocolatey)|{{ Fill in the Synopsis }}|
 |[Install-DebugOptimizationHook](https://github.com/eXpandFramework/XpandPosh/wiki/Install-DebugOptimizationHook)|Installs system wide hook for disabling debugging optimizations|
 |[Install-DevExpress](https://github.com/eXpandFramework/XpandPosh/wiki/Install-DevExpress)|Installs all DevExpress assemblies needed for all solutions under a directory.|
@@ -89,4 +90,3 @@ Get-Command -Module XpandPosh
 |[Update-Symbols](https://github.com/eXpandFramework/XpandPosh/wiki/Update-Symbols)|Index symbols to local or remote locations.|
 |[Use-NugetAssembly](https://github.com/eXpandFramework/XpandPosh/wiki/Use-NugetAssembly)|{{ Fill in the Synopsis }}|
  
-
