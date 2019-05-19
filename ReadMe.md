@@ -1,6 +1,6 @@
 [![](https://img.shields.io/powershellgallery/v/XpandPosh.svg?style=flat)](https://www.powershellgallery.com/packages/XpandPosh) [![](https://img.shields.io/powershellgallery/dt/XpandPosh.svg?style=flat)](https://www.powershellgallery.com/packages/XpandPosh)
 # About
-The module exports 73 Cmdlets that can help you automate your every day tasks. The module is used in production from the eXpandFramework [build scripts](https://github.com/eXpandFramework/eXpand/blob/master/Support/Build/Build.ps1) and [Azure Tasks](https://github.com/eXpandFramework/Azure-Tasks).
+The module exports 74 Cmdlets that can help you automate your every day tasks. The module is used in production from the eXpandFramework [build scripts](https://github.com/eXpandFramework/eXpand/blob/master/Support/Build/Build.ps1) and [Azure Tasks](https://github.com/eXpandFramework/Azure-Tasks).
 
 In this page you can see a list of all Cmdlets with a short description. For details and real world examples search the [Wiki](https://github.com/eXpandFramework/XpandPosh/wiki).
 ## Installation
@@ -89,3 +89,4 @@ Get-Command -Module XpandPosh
 |[Update-Symbols](https://github.com/eXpandFramework/XpandPosh/wiki/Update-Symbols)|Index symbols to local or remote locations.|
 |[Use-NugetAssembly](https://github.com/eXpandFramework/XpandPosh/wiki/Use-NugetAssembly)|{{ Fill in the Synopsis }}|
  
+
