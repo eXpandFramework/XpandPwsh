@@ -1,10 +1,14 @@
 if (!(Get-Module XpandPosh -ListAvailable)) {
     Install-Module XpandPosh
 }
-
+$lastmessage=git log -1 --pretty=%B
+if ($lastmessage -eq (Get-Module XpandPosh -ListAvailable).Version){
+    $_
+    return
+}
 $lastSha = Get-GitLastSha "https://github.com/eXpandFramework/XpandPosh.git"
 $lastSha
-$needNewVersion = (git diff --name-only "$lastSha" HEAD | where { $_ -notlike ".githooks*" } | Select-Object -First 1) | Where-Object { $_ -like "XpandPosh/*" -and $_ -notlike "*.md" -and $_ -notlike "*.yml" }
+$needNewVersion = (git diff --name-only "$lastSha" HEAD | Where-Object { $_ -notlike ".githooks*" } | Select-Object -First 1) | Where-Object { $_ -like "XpandPosh/*" -and $_ -notlike "*.md" -and $_ -notlike "*.yml" }
 "needNewVersion=$needNewVersion"
 $c = New-Object System.Net.WebClient
 $readme = $c.DownloadString("https://raw.githubusercontent.com/eXpandFramework/XpandPosh/master/ReadMe.md")
