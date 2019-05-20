@@ -1,6 +1,7 @@
 if (!(Get-Module XpandPosh -ListAvailable)) {
     Install-Module XpandPosh
 }
+Import-Module XpandPosh -Force
 $lastmessage = git log -1 --pretty=%B
 if ($lastmessage -eq (Get-Module XpandPosh -ListAvailable).Version) {
     return
