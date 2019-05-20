@@ -15,7 +15,7 @@ function Get-XpandVersion {
         $labVersion = Get-XpandVersion -Lab -Module $Module
         Write-Verbose "lab=$labVersion"
         $revision = 0
-        [version]$baseVersion=Get-DevExpressVersion -Latest
+        [version]$baseVersion=Get-DevExpressVersion 
         if ($Module -notlike "eXpand*" ){
             if ($labVersion -lt $official){
                 $baseVersion=$official
