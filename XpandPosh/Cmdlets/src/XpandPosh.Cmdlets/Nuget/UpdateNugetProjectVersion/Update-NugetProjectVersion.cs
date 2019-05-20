@@ -24,20 +24,12 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
         public string SourcePath{ get; set; }
         [Parameter(Mandatory=true)]
         public PSObject[] Packages{ get; set; }
-        [Parameter]
-        public SwitchParameter UpdateRevision{ get; set; }
+        [Parameter(Mandatory=true)]
+        public DateTimeOffset CommitsSince{ get; set; }
 
         protected override async Task ProcessRecordAsync(){
-            var lastTagedDate = (GitHubClient.Repository.GetForOrg(Organization, Repository)
-                .Select(repository => GitHubClient.Repository
-                    .LastTag(repository)
-                    .Select(tag => GitHubClient.Repository.Commit.Get(repository.Id, tag.Commit.Sha))).Concat()
-                .Concat()
-                .Select(tag => tag.Commit.Committer.Date.AddSeconds(1)));
-            var dateTimeOffset = await lastTagedDate;
-            WriteVerbose($"lastTaggedDate={dateTimeOffset}");
             var commits =  GitHubClient.Commits(Organization, Repository,
-                dateTimeOffset, Branch).Replay().RefCount();
+                CommitsSince, Branch).Replay().RefCount();
             
             await commits.WriteVerboseObject(this,commit => commit.Commit.Message);
             var changedPackages = ExistingPackages(this).ToObservable()
@@ -51,7 +43,7 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
 
             await changedPackages.SelectMany(tuple => GitHubClient.Repository
                     .GetForOrg(Organization, Repository)
-                    .SelectMany(_ => CreateTagReference(this, GitHubClient, _, tuple, subject,synchronizationContext))
+//                    .SelectMany(_ => CreateTagReference(this, GitHubClient, _, tuple, subject,synchronizationContext))
                     .Select(tag => tuple))
                 .Select(UpdateAssemblyInfo)
                 .HandleErrors(this)
