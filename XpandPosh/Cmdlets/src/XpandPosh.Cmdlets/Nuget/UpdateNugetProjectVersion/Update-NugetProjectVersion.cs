@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
-using System.Net;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
@@ -60,12 +59,6 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
                 .ToTask();
         }
 
-        internal async Task Test(){
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            Packages = PsObjects();
-            await ProcessRecordAsync();
-        }
-
         private string UpdateAssemblyInfo((string name, string nextVersion, DirectoryInfo directory) info){
             if (ShouldProcess($"Update {info.name} to version {info.nextVersion}")){
                 var directoryName = info.directory.FullName;
@@ -103,7 +96,7 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
         }
 
         private static (string name, string nextVersion, DirectoryInfo directory)[] ExistingPackages(IParameter parameter){
-            var packageArgs = parameter.Packages.Select(_ => (name: $"{_.Properties["Name"].Value}",
+            var packageArgs = parameter.Packages.Select(_ => (name: $"{_.Properties["Id"].Value}",
                 nextVersion: $"{_.Properties["nextVersion"].Value}", directory: (DirectoryInfo) null)).ToArray();
 
             var existingPackages = Directory.GetFiles(parameter.SourcePath, "*.csproj", SearchOption.AllDirectories)
@@ -115,11 +108,6 @@ namespace XpandPosh.Cmdlets.Nuget.UpdateNugetProjectVersion{
                 }).ToArray();
 
             return existingPackages;
-        }
-
-
-        private static PSObject[] PsObjects(){
-            return new[]{PSObject.AsPSObject(new{Name = "Xpand.XAF.Modules.ModelViewInheritance", Version = "1.0.8"})};
         }
     }
 

@@ -68,6 +68,7 @@ Get-Command -Module XpandPosh
 |[Publish-NugetPackage](https://github.com/eXpandFramework/XpandPosh/wiki/Publish-NugetPackage)|Publishes a NuGet package.|
 |[Remove-ProjectLicenseFile](https://github.com/eXpandFramework/XpandPosh/wiki/Remove-ProjectLicenseFile)|Removes licx files from a VS project.|
 |[Remove-ProjectNuget](https://github.com/eXpandFramework/XpandPosh/wiki/Remove-ProjectNuget)|{{ Fill in the Synopsis }}|
+|[Resolve-AssemblyDependencies](https://github.com/eXpandFramework/XpandPosh/wiki/Resolve-AssemblyDependencies)|Resolve all referenced assemblies for a given assembly, reclusively.|
 |[Set-VsoVariable](https://github.com/eXpandFramework/XpandPosh/wiki/Set-VsoVariable)|{{ Fill in the Synopsis }}|
 |[Test-Symbol](https://github.com/eXpandFramework/XpandPosh/wiki/Test-Symbol)|Checks if the symbol is valid for a given assembly.|
 |[Uninstall-ProjectAllPackages](https://github.com/eXpandFramework/XpandPosh/wiki/Uninstall-ProjectAllPackages)|Uninstall all NuGet and their dependencies from a project.|
@@ -90,4 +91,3 @@ Get-Command -Module XpandPosh
 |[Update-Symbols](https://github.com/eXpandFramework/XpandPosh/wiki/Update-Symbols)|Index symbols to local or remote locations.|
 |[Use-NugetAssembly](https://github.com/eXpandFramework/XpandPosh/wiki/Use-NugetAssembly)|{{ Fill in the Synopsis }}|
  
-
