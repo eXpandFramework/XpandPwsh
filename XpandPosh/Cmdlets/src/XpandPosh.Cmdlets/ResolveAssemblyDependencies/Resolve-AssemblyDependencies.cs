@@ -13,8 +13,6 @@ namespace XpandPosh.Cmdlets.ResolveAssemblyDependencies{
         [Parameter(Mandatory = true,Position = 0)]
         public string AssemblyFile{ get; set; }
 
-        public ResolveDependenciesOutputType OutputType{ get; set; }
-
         [Parameter(Position = 3)]
         public SwitchParameter SkipGAC{ get; set; }
         [Parameter(Position = 2)]
@@ -46,7 +44,9 @@ namespace XpandPosh.Cmdlets.ResolveAssemblyDependencies{
             var references = new HashSet<string>();
             var pending = new Queue<AssemblyName>();
 
-            pending.Enqueue(Assembly.LoadFile(AssemblyFile).GetName());
+            var file = Assembly.LoadFile(AssemblyFile);
+            WriteObject(file);
+            pending.Enqueue(file.GetName());
             while (pending.Count > 0){
                 var assemblyName = pending.Dequeue();
                 var value = assemblyName.ToString();
@@ -58,15 +58,14 @@ namespace XpandPosh.Cmdlets.ResolveAssemblyDependencies{
                 try{
                     var assembly = Assembly.Load(assemblyName);
                     if (assembly != null){
+                        WriteObject(assembly);
                         foreach (var sub in assembly.GetReferencedAssemblies()){
                             pending.Enqueue(sub);
                         }
 
                         foreach (var type in assembly.GetTypes()){
-                            foreach (var method in type.GetMethods(BindingFlags.Static | BindingFlags.Public |
-                                                                   BindingFlags.NonPublic)){
-                                var customAttribute =
-                                    (DllImportAttribute) Attribute.GetCustomAttribute(method, typeof(DllImportAttribute));
+                            foreach (var method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)){
+                                var customAttribute = (DllImportAttribute) Attribute.GetCustomAttribute(method, typeof(DllImportAttribute));
                                 if (customAttribute != null && !references.Contains(customAttribute.Value)){
                                     references.Add(customAttribute.Value);
                                 }
@@ -75,33 +74,9 @@ namespace XpandPosh.Cmdlets.ResolveAssemblyDependencies{
                     }
                 }
                 catch (Exception ex){
-                    WriteError(new ErrorRecord(ex, ex.GetHashCode().ToString(), ErrorCategory.InvalidOperation,
-                        assemblyName.ToString()));
+                    WriteError(new ErrorRecord(ex, ex.GetHashCode().ToString(), ErrorCategory.InvalidOperation,assemblyName.ToString()));
                 }
             }
-
-            var sortedRefs = references.OrderBy(s => s);
-            if (OutputType == ResolveDependenciesOutputType.Assembly){
-                var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-                    .Where(assembly => !SkipGAC || !assembly.GlobalAssemblyCache)
-                    .ToArray();
-                WriteObject(sortedRefs.Select(s => assemblies.FirstOrDefault(_ => _.GetName().ToString() == s)), true);
-            }
-            else if(OutputType==ResolveDependenciesOutputType.AssemblyName){
-                WriteObject(sortedRefs.Select(s => {
-                    var indexOf = s.IndexOf(",", StringComparison.Ordinal);
-                    return indexOf > -1 ? s.Substring(0, indexOf) : s;
-                }),true);
-            }
-            else{
-                WriteObject(sortedRefs,true);
-            }
         }
-    }
-
-    public enum ResolveDependenciesOutputType{
-        AssemblyName,
-        AssemblyFullName,
-        Assembly
     }
 }
