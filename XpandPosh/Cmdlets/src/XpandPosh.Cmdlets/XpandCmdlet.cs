@@ -1,11 +1,15 @@
-﻿using System.Management.Automation;
+﻿using System;
+using System.Management.Automation;
 using System.Threading.Tasks;
-using XpandPosh.Cmdlets;
 
 namespace XpandPosh.CmdLets{
-    public abstract class XpandCmdlet:AsyncCmdlet,IProgressCmdlet{
+    public abstract class XpandCmdlet:AsyncCmdlet{
+        public  string ActivityStatus= "Done {0}%";
+        public  int ActivityId;
+        public  string CompletionMessage= "Finished";
         protected XpandCmdlet(){
             ActivityName = CmdletExtensions.GetCmdletName(GetType());
+            ActivityId = (int) DateTime.Now.Ticks;
         }
 
         protected override Task BeginProcessingAsync(){
@@ -17,21 +21,10 @@ namespace XpandPosh.CmdLets{
             CmdletExtensions.GetCallerPreference(this);
         }
 
-        
-        [Parameter]
-        public int ActivityId{ get; set; }
+        public string ActivityName{ get;  }
 
-        [Parameter]
-        public string ActivityName{ get; set; }
-
-        [Parameter]
-        public string ActivityStatus{ get; set; } = "Done {0}%";
-
-        [Parameter]
-        public string CompletionMessage{ get; set; } = "Finished";
-
-        void IProgressCmdlet.WriteProgressCompletion(ProgressRecord progressRecord, string completionMessage){
-            WriteProgressCompletion(progressRecord, completionMessage);
+        public new void WriteProgressCompletion(ProgressRecord progressRecord, string completionMessageOrFormat, params object[] formatArguments){
         }
+
     }
 }

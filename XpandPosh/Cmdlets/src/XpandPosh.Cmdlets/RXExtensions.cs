@@ -49,7 +49,7 @@ namespace XpandPosh.Cmdlets{
                 });
         }
 
-        public static IObservable<T> WriteProgress<T>(this IObservable<T> source, IProgressCmdlet cmdlet,int itemsCount){
+        public static IObservable<T> WriteProgress<T>(this IObservable<T> source, XpandCmdlet cmdlet,int itemsCount){
             return source.Select((objects, i) => {
                 var percentComplete = i * 100 / itemsCount;
                 cmdlet.WriteProgress(new ProgressRecord(cmdlet.ActivityId, cmdlet.ActivityName,string.Format(cmdlet.ActivityStatus, percentComplete)){PercentComplete = percentComplete});
@@ -73,7 +73,7 @@ namespace XpandPosh.Cmdlets{
                 cmdlet.WriteObject(obj, enumerateCollection);
                 return obj;
             });
-            return progressItemsTotalCount.HasValue ? writeObject.WriteProgress((IProgressCmdlet) cmdlet, progressItemsTotalCount.Value) : writeObject;
+            return progressItemsTotalCount.HasValue ? writeObject.WriteProgress( (XpandCmdlet) cmdlet, progressItemsTotalCount.Value) : writeObject;
         }
 
         public static IObservable<T> ToObservable<T>(this IEnumeratorAsync<T> enumeratorAsync){
