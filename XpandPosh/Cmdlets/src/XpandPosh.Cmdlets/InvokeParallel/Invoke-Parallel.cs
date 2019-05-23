@@ -17,7 +17,9 @@ namespace XpandPosh.Cmdlets.InvokeParallel{
         private ConcurrentBag<object> _values;
         private PSVariable[] _psVariables;
 
-        
+        [Parameter]
+        public override string ActivityName{ get; set; }
+
         [Parameter(Mandatory = true, Position = 1)]
         public ScriptBlock Script{ get; set; }
 

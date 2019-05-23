@@ -8,11 +8,13 @@ namespace XpandPosh.CmdLets{
         public  int ActivityId;
         public  string CompletionMessage= "Finished";
         protected XpandCmdlet(){
-            ActivityName = CmdletExtensions.GetCmdletName(GetType());
-            ActivityId = (int) DateTime.Now.Ticks;
+            ActivityId = (int) Math.Abs(DateTime.Now.Ticks);
         }
 
         protected override Task BeginProcessingAsync(){
+            if (ActivityName == null){
+                ActivityName = CmdletExtensions.GetCmdletName(GetType());
+            }
             GetCallerPreference();    
             return base.BeginProcessingAsync();
         }
@@ -21,7 +23,7 @@ namespace XpandPosh.CmdLets{
             CmdletExtensions.GetCallerPreference(this);
         }
 
-        public string ActivityName{ get;  }
+        public virtual string ActivityName{ get; set; }
 
         public new void WriteProgressCompletion(ProgressRecord progressRecord, string completionMessageOrFormat, params object[] formatArguments){
         }
