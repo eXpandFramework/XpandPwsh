@@ -21,8 +21,7 @@ namespace XpandPosh.Cmdlets.Nuget{
         [Parameter(ValueFromPipeline = true, Mandatory = true)]
         public string Id{ get; set; }
 
-        [Parameter(Mandatory = true)]
-        public string Source{ get; set; }
+        
         [Parameter]
         public SwitchParameter Latest{ get; set; }
         [Parameter]
