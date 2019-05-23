@@ -1,20 +1,25 @@
 function Use-NugetAssembly {
     [CmdletBinding()]
     param (
-        [parameter(ValueFromPipeline,Mandatory)]
+        [parameter(ValueFromPipeline)]
         [string]$packageName,
-        [string]$framework="*"
+        [string]$framework = "*",
+        [string]$OutputFolder="$env:TEMP\$packageName",
+        [string]$Source=(Get-PackageFeed -Nuget)
     )
     
     begin {
     }
     
     process {
-        Get-NugetPackageAssembly -package $packageName |where-object{$_.Framework -like $framework}|ForEach-Object{
-            [Assembly]::LoadFile($_.Assembly.FullName)
+        Get-NugetPackage -name $packageName -OutputFolder $OutputFolder -Source $Source| where-object { $_.DotnetFramework -like $framework } | ForEach-Object {
+            $v=[version]$_.Version
+            $version="$($v.Major).$($v.Minor).$($v.Build)"
+            $fullName="$OutputFolder\$packagename\$version\$($_.File)"
+            [System.Reflection.Assembly]::LoadFile($fullName)
         }
     }
     
     end {
     }
-    }
+}

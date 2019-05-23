@@ -21,22 +21,29 @@ namespace XpandPosh.Cmdlets.Nuget.GetNugetPackage{
     [OutputType(typeof(INugetPackageAssembly))]
     [CmdletBinding]
     public class GetNugetPackage : NugetCmdlet{
-        [Parameter(ValueFromPipeline = true)]
-        public string Name{ get; set; } 
-
-        [Parameter(Mandatory = true, Position = 2)]
-        public string Source{ get; set; } 
-
-        [Parameter(Mandatory =true, Position = 1)]
+        [Parameter(ValueFromPipeline = true,Position = 0,Mandatory = true)]
+        public string Name{ get; set; }
+        [Parameter( Position = 2)]
+        public string Source{ get; set; }
+        [Parameter( Position = 1)]
         public string OutputFolder{ get; set; } 
         [Parameter]
         public SwitchParameter AllVersions{ get; set; }
-
         [Parameter]
-        public string[] Versions{ get; set; } 
-
+        public string[] Versions{ get; set; }
         [Parameter]
         public SwitchParameter AllFiles{ get; set; }
+
+        protected override Task BeginProcessingAsync(){
+            if (OutputFolder == null){
+                OutputFolder = Path.Combine(Path.GetTempPath(), Name);
+            }
+
+            if (Source == null){
+                Source = "https://api.nuget.org/v3/index.json";
+            }
+            return base.BeginProcessingAsync();
+        }
 
         protected override  Task ProcessRecordAsync(){
             return GetDownloadResults()
@@ -48,17 +55,17 @@ namespace XpandPosh.Cmdlets.Nuget.GetNugetPackage{
         }
 
         private IEnumerable<INugetPackageAssembly> NugetPackageAssemblies(DownloadResourceResult result){
-            return result.PackageReader.GetLibItems().SelectMany(group =>
-                group.Items
+            return result.PackageReader.GetLibItems().SelectMany(group => group.Items
                     .Where(s => AllFiles || Path.GetExtension(s) == ".dll")
                     .Select(s => {
                         var identity = result.PackageReader.NuspecReader.GetIdentity();
                         return new{
-                            Package = identity.Id,
-                            Version=identity.Version.Version.ToString(),
-                            DotNetFramework =group.TargetFramework.GetDotNetFrameworkName(DefaultFrameworkNameProvider.Instance),
-                            File = $@"{s.Replace(@"/", @"\")}"
-                        }.ActLike<INugetPackageAssembly>();
+                                Package = identity.Id,
+                                Version = identity.Version.Version.ToString(),
+                                DotNetFramework = group.TargetFramework.GetDotNetFrameworkName(DefaultFrameworkNameProvider.Instance),
+                                File = $@"{s.Replace(@"/", @"\")}"
+                            }
+                            .ActLike<INugetPackageAssembly>();
                     }));
         }
 
