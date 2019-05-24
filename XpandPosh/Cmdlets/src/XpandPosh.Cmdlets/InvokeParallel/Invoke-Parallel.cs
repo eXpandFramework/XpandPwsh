@@ -28,6 +28,8 @@ namespace XpandPosh.Cmdlets.InvokeParallel{
 
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true)]
         public object Value{ get; set; }
+        [Parameter]
+        public override int ActivityId{ get; set; }
 
         [Parameter]
         public int RetryOnError{ get; set; } = 0;
