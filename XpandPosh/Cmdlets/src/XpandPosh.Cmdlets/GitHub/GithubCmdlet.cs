@@ -14,8 +14,9 @@ namespace XpandPosh.Cmdlets.GitHub{
         public string Pass{ get; set; }
 
         protected override Task BeginProcessingAsync(){
+            var task = base.BeginProcessingAsync();
             GitHubClient = OctokitExtensions.CreateClient(Owner, Pass, ActivityName);
-            return base.BeginProcessingAsync();
+            return task;
         }
 
         public GitHubClient GitHubClient{ get; private set; }
