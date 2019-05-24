@@ -34,6 +34,7 @@ Get-Command -Module XpandPosh
 |[Get-DxNugets](https://github.com/eXpandFramework/XpandPosh/wiki/Get-DxNugets)|Lists all assemblies in a DevExpress Nuget package.|
 |[Get-GitHubCommitIssue](https://github.com/eXpandFramework/XpandPosh/wiki/Get-GitHubCommitIssue)|Lists all GitHub issues that related to a commit.|
 |[Get-GitHubIssue](https://github.com/eXpandFramework/XpandPosh/wiki/Get-GitHubIssue)|List Github issues for a repository.|
+|[Get-GitHubIssueComment](https://github.com/eXpandFramework/XpandPosh/wiki/Get-GitHubIssueComment)|Returns the comments of a GitHub Issue.|
 |[Get-GitHubMilestone](https://github.com/eXpandFramework/XpandPosh/wiki/Get-GitHubMilestone)|Returns github repository milestones.|
 |[Get-GitHubRelease](https://github.com/eXpandFramework/XpandPosh/wiki/Get-GitHubRelease)|Returns github repository releases.|
 |[Get-GitHubRepositoryTag](https://github.com/eXpandFramework/XpandPosh/wiki/Get-GitHubRepositoryTag)|Returns GitHub repository tags.|
@@ -89,7 +90,6 @@ Get-Command -Module XpandPosh
 |[Update-ProjectSign](https://github.com/eXpandFramework/XpandPosh/wiki/Update-ProjectSign)|Signs a VS project.|
 |[Update-ProjectTargetFramework](https://github.com/eXpandFramework/XpandPosh/wiki/Update-ProjectTargetFramework)|Update the Target Framework in a MSBuild project.|
 |[Update-Symbols](https://github.com/eXpandFramework/XpandPosh/wiki/Update-Symbols)|Index symbols to local or remote locations.|
+|[Use-MonoCecil](https://github.com/eXpandFramework/XpandPosh/wiki/Use-MonoCecil)|{{ Fill in the Synopsis }}|
 |[Use-NugetAssembly](https://github.com/eXpandFramework/XpandPosh/wiki/Use-NugetAssembly)|{{ Fill in the Synopsis }}|
  
-
-
