@@ -6,7 +6,7 @@ function InstallXpand {
         [string[]]$Assets = @("Assemblies", "Nuget", "Source", "VSIX"),
         [string]$InstallationPath = "$([Environment]::GetFolderPath('MyDocuments'))\eXpandFramework",
         [switch]$SkipGac,
-        [switch]$QuietVSIX
+        [switch]$Quiet
     )
     $ErrorActionPreference = "Stop"
     [Net.ServicePointManager]::Expect100Continue = $true
@@ -137,7 +137,7 @@ function InstallXpand {
         Write-Host "Download VSIX bootstrapper" -f Green
         $client.DownloadFile("https://github.com/Microsoft/vsixbootstrapper/releases/download/1.0.37/VSIXBootstrapper.exe", "$InstallationPath\VSIXBootstrapper.exe")
         write-host "Installing VSIX" -f Green
-        if ($QuietVSIX){
+        if ($Quiet){
             & "$InstallationPath\VSIXBootstrapper.exe" /q $vsix
         }
         else{

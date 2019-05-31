@@ -1,6 +1,7 @@
 function UnInstallXpand {
     param (
-        [string]$InstallationPath    
+        [string]$InstallationPath,
+        [switch]$Quiet
     )
     $ErrorActionPreference = "Stop"
     [Net.ServicePointManager]::Expect100Continue = $true
@@ -22,8 +23,10 @@ function UnInstallXpand {
         throw "Installtion path $InstallationPath is not valid"
     }
     $InstallationPath = [System.IO.Path]::GetFullPath($InstallationPath)
-    Write-host "Xpand found in $InstallationPath. All contetns will be deleted. Press any key to continue." -f Yellow    
-    Read-Host
+    if (!$Quiet){
+        Write-host "Xpand found in $InstallationPath. All contetns will be deleted. Press any key to continue." -f Yellow    
+        Read-Host
+    }
 
     $count = (Get-ChildItem "$InstallationPath\Xpand.DLL" *.dll).Count
     Write-Progress -Activity gacInstaller -Status "Uninstalling assemblies from GAC"
