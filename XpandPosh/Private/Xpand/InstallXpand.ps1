@@ -150,7 +150,11 @@ function InstallXpand {
     }
     Write-Host "Creating Uninstall-Xpand.ps1" -f Green
     $client.DownloadFile("https://raw.githubusercontent.com/eXpandFramework/XpandPosh/master/XpandPosh/Public/Xpand/UnInstall-Xpand.ps1", "$InstallationPath\UnInstall-Xpand.ps1")
-    Add-Content "$InstallationPath\UnInstall-Xpand.ps1" "`nUnInstall-Xpand" 
+    $unistallCall="`r`nUnInstall-Xpand"
+    if ($Quiet){
+        $unistallCall+=" -Quiet"
+    }
+    Add-Content "$InstallationPath\UnInstall-Xpand.ps1" $unistallCall 
     Write-Host "Finished installtion in $InstallationPath" -f Green
 }
 
