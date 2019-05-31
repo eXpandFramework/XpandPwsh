@@ -49,9 +49,12 @@ function UnInstallXpand {
 
     [System.IO.Directory]::Delete($InstallationPath, $true)
     Write-host "$InstallationPath removed" -f Green
-    $bootstrapper = "$env:TEMP\VSIXBootstrapper.exe"
-    if (!(Test-Path $bootstrapper)) {
-        Invoke-WebRequest -Uri "https://github.com/Microsoft/vsixbootstrapper/releases/download/1.0.37/VSIXBootstrapper.exe" -OutFile $bootstrapper
+
+    Write-Host "Uninstalling Xpand.VSIX" -ForegroundColor Blue
+    "Local","Roaming"|Get-ChildItem "$env:USERPROFILE\AppData\$_\Microsoft\VisualStudio" Xpand.VSIX.pkgdef -Recurse|ForEach-Object{
+        $directory=[System.IO.Path]::GetFullPath("$($_.DirectoryName)")
+        Write-Host "Found in $directory" -f Green
+        Get-ChildItem $directory -Recurse|Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
     }
-    & $bootstrapper "/u:Xpand.VSIX.eXpandFramework.4ab62fb3-4108-4b4d-9f45-8a265487d3dc"
+    
 }
