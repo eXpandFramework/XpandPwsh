@@ -16,6 +16,7 @@ namespace XpandPosh.Cmdlets.GitHub.GetGitHubIssue{
         public DateTimeOffset? Since{ get; set; }
         [Parameter]
         public IssueFilter IssueFilter{ get; set; }=IssueFilter.All;
+        [Parameter]
         public ItemStateFilter State{ get; set; }=ItemStateFilter.Open;
 
         protected override Task ProcessRecordAsync(){
