@@ -61,6 +61,7 @@ Get-Command -Module XpandPosh
 |[Invoke-AzureRestMethod](https://github.com/eXpandFramework/XpandPosh/wiki/Invoke-AzureRestMethod)|Invokes Azure DevOps REST API|
 |[Invoke-Parallel](https://github.com/eXpandFramework/XpandPosh/wiki/Invoke-Parallel)|Invokes tasks in parallel.|
 |[Invoke-Retry](https://github.com/eXpandFramework/XpandPosh/wiki/Invoke-Retry)|Retry on error.|
+|[New-AssemblyResolver](https://github.com/eXpandFramework/XpandPosh/wiki/New-AssemblyResolver)|{{ Fill in the Synopsis }}|
 |[New-Command](https://github.com/eXpandFramework/XpandPosh/wiki/New-Command)|{{ Fill in the Synopsis }}|
 |[New-GithubReleaseNotes](https://github.com/eXpandFramework/XpandPosh/wiki/New-GithubReleaseNotes)|Generates GitHub Release notes.|
 |[New-GithubReleaseNotesTemplate](https://github.com/eXpandFramework/XpandPosh/wiki/New-GithubReleaseNotesTemplate)|{{ Fill in the Synopsis }}|
@@ -93,5 +94,3 @@ Get-Command -Module XpandPosh
 |[Use-MonoCecil](https://github.com/eXpandFramework/XpandPosh/wiki/Use-MonoCecil)|{{ Fill in the Synopsis }}|
 |[Use-NugetAssembly](https://github.com/eXpandFramework/XpandPosh/wiki/Use-NugetAssembly)|{{ Fill in the Synopsis }}|
  
-
-

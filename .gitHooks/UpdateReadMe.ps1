@@ -17,9 +17,12 @@ In this page you can see a list of all Cmdlets with a short description. For det
 Set-Content $readMePath $readMeContent
 $wikiUrl="https://github.com/eXpandFramework/XpandPosh/wiki"
 
+New-MarkdownHelp -Module XpandPosh -OutputFolder "$PSSCriptRoot\..\..\XpandPosh.wiki" -ErrorAction SilentlyContinue
+Update-MarkdownHelp -Path "$PSSCriptRoot\..\..\XpandPosh.wiki"
 $cmdLetListTable=($cmdLetList|ForEach-Object{
     $cmdletName=$_.Name
-    $mdFile=Get-Content "$wikiPath\$cmdletName.md" -Raw
+    $cmdletPath="$wikiPath\$cmdletName.md"
+    $mdFile=Get-Content $cmdletPath -Raw
     $regex = [regex] '(?is)## SYNOPSIS(.*)## SYNTAX'
     $mdFile = ($regex.Match($mdFile).Groups[1].Value).ToString().Trim();
     "|[$cmdletName]($wikiUrl/$cmdletName)|$mdFile|"
