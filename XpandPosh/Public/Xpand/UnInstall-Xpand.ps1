@@ -1,7 +1,8 @@
 function UnInstall-Xpand {
     [CmdletBinding()]
     param (
-        [string]$InstallationPath    
+        [string]$InstallationPath,
+        [switch]$Quiet
     )
     
     begin {
@@ -19,6 +20,7 @@ function UnInstall-Xpand {
         . $scriptPath
         $instalationParameters=@{
             InstallationPath=$InstallationPath
+            Quiet=$Quiet
         }
         Write-Host "Installation parameters:" -f Yellow
         $instalationParameters|Write-Output
