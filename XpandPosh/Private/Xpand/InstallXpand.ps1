@@ -5,7 +5,8 @@ function InstallXpand {
         [validateSet("Assemblies", "Nuget", "Source", "VSIX")]
         [string[]]$Assets = @("Assemblies", "Nuget", "Source", "VSIX"),
         [string]$InstallationPath = "$([Environment]::GetFolderPath('MyDocuments'))\eXpandFramework",
-        [switch]$SkipGac
+        [switch]$SkipGac,
+        [switch]$QuietVSIX
     )
     $ErrorActionPreference = "Stop"
     [Net.ServicePointManager]::Expect100Continue = $true
@@ -136,7 +137,13 @@ function InstallXpand {
         Write-Host "Download VSIX bootstrapper" -f Green
         $client.DownloadFile("https://github.com/Microsoft/vsixbootstrapper/releases/download/1.0.37/VSIXBootstrapper.exe", "$InstallationPath\VSIXBootstrapper.exe")
         write-host "Installing VSIX" -f Green
-        & "$InstallationPath\VSIXBootstrapper.exe" $vsix
+        if ($QuietVSIX){
+            & "$InstallationPath\VSIXBootstrapper.exe" /q $vsix
+        }
+        else{
+            & "$InstallationPath\VSIXBootstrapper.exe" $vsix
+        }
+        
     }
     Write-Host "Creating Uninstall-Xpand.ps1" -f Green
     $client.DownloadFile("https://raw.githubusercontent.com/eXpandFramework/XpandPosh/master/XpandPosh/Public/Xpand/UnInstall-Xpand.ps1", "$InstallationPath\UnInstall-Xpand.ps1")

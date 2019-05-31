@@ -5,7 +5,8 @@ function Install-Xpand {
         [validateSet("Assemblies", "Nuget", "Source", "VSIX")]
         [string[]]$Assets = @("Assemblies", "Nuget", "Source", "VSIX"),
         [string]$InstallationPath = "$([Environment]::GetFolderPath('MyDocuments'))\eXpandFramework",
-        [switch]$SkipGac
+        [switch]$SkipGac,
+        [switch]$QuietVSIX
     )
     $ErrorActionPreference="Stop"
     [Net.ServicePointManager]::Expect100Continue=$true
@@ -26,6 +27,7 @@ function Install-Xpand {
         Assets=$Assets
         InstallationPath=$InstallationPath
         SkipGac=$SkipGac
+        QuietVSIX=$QuietVSIX
     }
     Write-Host "Installation parameters:" -f Yellow 
     $instalationParameters|Write-Output 
