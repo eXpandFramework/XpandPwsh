@@ -51,10 +51,12 @@ function UnInstallXpand {
     Write-host "$InstallationPath removed" -f Green
 
     Write-Host "Uninstalling Xpand.VSIX" -ForegroundColor Blue
-    "Local","Roaming"|Get-ChildItem "$env:USERPROFILE\AppData\$_\Microsoft\VisualStudio" Xpand.VSIX.pkgdef -Recurse|ForEach-Object{
-        $directory=[System.IO.Path]::GetFullPath("$($_.DirectoryName)")
-        Write-Host "Found in $directory" -f Green
-        Get-ChildItem $directory -Recurse|Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
+    "Local","Roaming"|ForEach-Object{
+        Get-ChildItem "$env:USERPROFILE\AppData\$_\Microsoft\VisualStudio" Xpand.VSIX.pkgdef -Recurse|ForEach-Object{
+            $directory=[System.IO.Path]::GetFullPath("$($_.DirectoryName)")
+            Write-Host "Found in $directory" -f Green
+            Get-ChildItem $directory -Recurse|Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
+        }
     }
     
 }
