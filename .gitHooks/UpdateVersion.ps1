@@ -2,13 +2,18 @@ if (!(Get-Module XpandPosh -ListAvailable)) {
     Install-Module XpandPosh
 }
 Import-Module XpandPosh -Force
-$lastmessage = git log -1 --pretty=%B
-if ($lastmessage -eq (Get-Module XpandPosh -ListAvailable).Version) {
+$lastmessage = (git log -1 --pretty=%B)|Select-Object -First 1
+
+$v=((Get-Module XpandPosh -ListAvailable).Version|Sort-Object -Descending |Select-Object -First 1)
+$version="$($v.Major).$($v.Minor).$($v.Build)"
+if ($version -eq $lastmessage){
     return
 }
 $lastSha = Get-GitLastSha "https://github.com/eXpandFramework/XpandPosh.git"
 $lastSha
-$needNewVersion = (git diff --name-only "$lastSha" HEAD | Where-Object { $_ -notlike ".githooks*" } | Select-Object -First 1) | Where-Object { $_ -like "XpandPosh/*" -and $_ -notlike "*.md" -and $_ -notlike "*.yml" }
+$diffs=git diff --name-only "$lastSha" HEAD 
+$diffs
+$needNewVersion = ($diffs| Where-Object { $_ -notlike ".githooks*" } | Select-Object -First 1) | Where-Object { $_ -like "XpandPosh/*" -and $_ -notlike "*.md" -and $_ -notlike "*.yml" }
 "needNewVersion=$needNewVersion"
 if ($needNewVersion) {
     $file = "$PSScriptRoot\..\XpandPosh\XpandPosh.psd1"
