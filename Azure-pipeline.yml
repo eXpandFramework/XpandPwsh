@@ -22,7 +22,7 @@ steps:
           throw   "Fail to publish $assemblyName`r`n`r`n$publish"
       }
       $publish
-      Publish-Module -Path $(System.DefaultWorkingDirectory)\XpandPosh -verbose -NugetApiKey $(PSNugetApiKey) -ErrorAction Stop    
+      Publish-Module -Path $(System.DefaultWorkingDirectory)\XpandPosh -verbose -NugetApiKey $(PSApiKey) -ErrorAction Stop    
    }
   displayName: 'Publish'
   failOnStderr: true
