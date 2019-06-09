@@ -15,7 +15,7 @@ $lastSha = Get-GitLastSha "https://github.com/$GitHubUser/XpandPwsh.git"
 $lastSha
 $diffs=git diff --name-only "$lastSha" HEAD 
 $diffs
-$needNewVersion = ($diffs| Where-Object { $_ -notlike ".githooks*" } | Select-Object -First 1) | Where-Object { $_ -like "XpandPwsh/*" -and $_ -notlike "*.md" -and $_ -notlike "*.yml" }
+$needNewVersion = ($diffs| Where-Object { $_ -notlike ".githooks*" } ) | Where-Object { $_ -like "XpandPwsh/*" -and $_ -notlike "*.md" -and $_ -notlike "*.yml" }
 "needNewVersion=$needNewVersion"
 if ($needNewVersion) {
     $file = "$PSScriptRoot\..\XpandPwsh\XpandPwsh.psd1"

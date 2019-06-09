@@ -1,4 +1,4 @@
-$GitHubUser
+$GitHubUser="eXpandFramework"
 $ErrorActionPreference="Stop"
 
 $lastmessage = (git log -1 --pretty=%B)|Select-Object -First 1
@@ -23,7 +23,7 @@ In this page you can see a list of all Cmdlets with a short description. For det
 "@
 )
 
-Set-Content $readMePath $readMeContent
+Set-Content $readMePath $readMeContent.Trim()
 $wikiUrl="https://github.com/$GitHubUser/XpandPwsh/wiki"
 
 New-MarkdownHelp -Module XpandPwsh -OutputFolder "$PSSCriptRoot\..\..\XpandPwsh.wiki" -ErrorAction SilentlyContinue
