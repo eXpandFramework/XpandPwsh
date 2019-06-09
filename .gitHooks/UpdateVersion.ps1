@@ -1,4 +1,4 @@
-$profile
+$GitHubUser="apobekiaris"
 if (!(Get-Module XpandPwsh -ListAvailable)) {
     Install-Module XpandPwsh
 }
@@ -11,8 +11,8 @@ if ($version -eq $lastmessage){
     return
 }
 
-$lastSha = Get-GitLastSha "https://bitbucket.org/apostolis_bekiaris/xpandpwsh/src/master/"
-# $lastSha = Get-GitLastSha "https://github.com/eXpandFramework/XpandPwsh.git"
+
+$lastSha = Get-GitLastSha "https://github.com/$GitHubUser/XpandPwsh.git"
 
 $lastSha
 $diffs=git diff --name-only "$lastSha" HEAD 
@@ -26,7 +26,7 @@ if ($needNewVersion) {
     $moduleVersion = New-Object System.Version($manifest.ModuleVersion)
     "moduleVersion=$moduleVersion"
     $c = New-Object System.Net.WebClient
-    $readme = $c.DownloadString("https://raw.githubusercontent.com/eXpandFramework/XpandPwsh/master/ReadMe.md")
+    $readme = $c.DownloadString("https://raw.githubusercontent.com/$GitHubUser/XpandPwsh/master/ReadMe.md")
     $needNewMinor = (Get-Command -Module XpandPwsh) | Where-Object { $readme -notmatch $_.Name } | Select-Object -First 1
     "needNewMinor=$needNewMinor"
     if ($needNewMinor) {
@@ -35,6 +35,7 @@ if ($needNewVersion) {
     }
     else {
         $onlineVersion = New-Object System.Version ((Find-Module XpandPwsh -Repository PSGallery).Version)
+        "onlineVersion=$onlineVersion"
         $newMinor = 0
         $newBuild = 0
         if ($moduleVersion.Major -eq $onlineVersion.Major) {
@@ -44,6 +45,7 @@ if ($needNewVersion) {
     }
     
     $newVersion = "$($moduleVersion.Major).$newMinor.$newBuild"
+    "newVersion=$newVersion"
     if ($manifest.ModuleVersion -ne $newVersion) {
         Set-Content $file $data.Replace($manifest.ModuleVersion, $newVersion)
         & git commit -a -m $newVersion
