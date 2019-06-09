@@ -9,10 +9,10 @@
 @{
 
 # Script module or binary module file associated with this manifest.
-RootModule = 'XpandPwsh'
+# RootModule = 'XpandPwsh'
 
 # Version number of this module.
-ModuleVersion = '0.0.1'
+ModuleVersion = '0.0.2'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -33,7 +33,7 @@ Copyright = '(c) 2019 eXpamdFramework. All rights reserved.'
 Description = 'Various functions working with DevExpress XAF, eXpandFramework and not only'
 
 # Minimum version of the PowerShell engine required by this module
-PowerShellVersion = '6.2.1'
+PowerShellVersion = '6.0.0'
 
 # Name of the PowerShell host required by this module
 # PowerShellHostName = ''
