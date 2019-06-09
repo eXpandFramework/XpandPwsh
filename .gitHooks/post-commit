@@ -1,2 +1,9 @@
 #!/bin/sh
+#.git/hooks/post-commit
+# An example hook script that is called after a successful
+# commit is made.
+#
+# To enable this hook, rename this file to "post-commit".
+
+echo "post-commit started"
 pwsh $PWD/.GitHooks/FunctionsToExport.ps1
