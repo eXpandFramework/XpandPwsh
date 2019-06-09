@@ -42,7 +42,7 @@ PowerShellVersion = '6.0.0'
 # PowerShellHostVersion = ''
 
 # Minimum version of Microsoft .NET Framework required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
-# DotNetFrameworkVersion = '4.7.2'
+DotNetFrameworkVersion = '4.7.1'
 
 # Minimum version of the common language runtime (CLR) required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
 # CLRVersion = '7.1'
@@ -51,7 +51,7 @@ PowerShellVersion = '6.0.0'
 # ProcessorArchitecture = ''
 
 # Modules that must be imported into the global environment prior to importing this module
-# RequiredModules = @()
+# RequiredModules = @("Cmdlets\bin\XpandPwsh.Cmdlets.dll")
 
 # Assemblies that must be loaded prior to importing this module
 # RequiredAssemblies = @()
@@ -66,84 +66,96 @@ PowerShellVersion = '6.0.0'
 # FormatsToProcess = @()
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
-# NestedModules = @()
+NestedModules = @('Cmdlets\bin\XpandPwsh.Cmdlets.dll')
+
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = @(
-    "New-AssemblyResolver",
-        "Use-MonoCecil",
-        "Get-XpandReleaseChange",
-        "Update-OutputPath",
-        "Update-ProjectAutoGenerateBindingRedirects",
-        "Update-ProjectProperty",
-        "Remove-ProjectLicenseFile",
-        "Update-ProjectSign",
-        "Update-ProjectDebugSymbols",
-        "Update-ProjectLanguageVersion",
-        "Invoke-AzureRestMethod",
-        "Install-DebugOptimizationHook",
-        "Publish-AssemblyToGac",
-        "Compress-Project",
-        "Test-Symbol",
-        "Get-SymbolSources",
-        "Find-XpandPackage",
-        "Clear-NugetCache",
-        "Get-XmlContent",
-        "Update-ProjectTargetFramework",
-        "Get-MsBuildPath",
-        "Get-NugetPath",
-        "Get-GitLastSha", 
-        "Clear-ASPNETTemp", 
-        "Clear-ProjectDirectories", 
-        "Install-Chocolatey", 
-        "Remove-ProjectNuget", 
-        "Compress-Files", 
-        "Compress-ProjectFolder"
-        "Uninstall-ProjectAllPackages", 
-        "Uninstall-ProjectXAFPackages", 
-        "Update-ProjectPackage", 
-        "ConvertTo-Object", 
-        "Restore-ProjectPackages", 
-        "New-Command", 
-        "Get-AssemblyInfoVersion", 
-        "Disable-ExecutionPolicy", 
-        "Get-MsBuildLocation", 
-        "Get-AllParameters", 
-        "Get-ScriptVariables", 
-        "Write-HostHashtable", 
-        "Get-DXPath", 
-        "Get-DevExpressVersion", 
-        "Get-RelativePath", 
-        "Get-XpandVersion", 
-        "Update-AssemblyInfoVersion", 
-        "Update-AssemblyInfo", 
-        "Invoke-Retry", 
-        "Install-Devexpress",
-        "Get-PackageSourceLocations",
-        "Set-VsoVariable",
-        "Update-NugetPackage",
-        "UnPublish-NugetPackage",
-        "Update-Symbols",
-        "Get-PackageFeed",
-        "Get-CallerPreference",
-        "Update-HintPath",
-        "Get-DxNugets",
-        "Install-Xpand",
-        "UnInstall-Xpand",
-        "Get-XpandPath",
-        "Use-NugetAssembly",
-        "Install-SubModule",
-        "Get-NugetPackageVersion",
-        "Get-DotnetCoreVersion",
-        "Get-NUgetPackageMetadataVersion",
-        "ConvertTo-PackageObject",
-        "Publish-NugetPackage",
-        "Get-ChocoPackage",
-        "Invoke-Parallel"
+    "Checkpoint-GitHubIssue",
+"Clear-NugetCache",
+"Clear-ProjectDirectories",
+"Close-GithubIssue",
+"Compress-Project",
+"ConvertTo-Object",
+"ConvertTo-PackageObject",
+"Disable-ExecutionPolicy",
+"Find-XpandNugetPackage",
+"Find-XpandPackage",
+"Get-AssemblyInfoVersion",
+"Get-CallerPreference",
+"Get-ChocoPackage",
+"Get-DevExpressVersion",
+"Get-Distinct",
+"Get-DotNetCoreVersion",
+"Get-DXNugets",
+"Get-GitHubCommitIssue",
+"Get-GitHubIssue",
+"Get-GitHubIssueComment",
+"Get-GitHubMilestone",
+"Get-GitHubRelease",
+"Get-GitHubRepositoryTag",
+"Get-GitLastSha",
+"Get-MsBuildPath",
+"Get-NugetPackage",
+"Get-NugetPackageDownloadsCount",
+"Get-NugetPackageMetadataVersion",
+"Get-NugetPackageSearchMetadata",
+"Get-NugetPath",
+"Get-PackageFeed",
+"Get-PackageSourceLocations",
+"Get-RelativePath",
+"Get-SymbolSources",
+"Get-XmlContent",
+"Get-XpandPackages",
+"Get-XpandPath",
+"Get-XpandReleaseChange",
+"Get-XpandVersion",
+"Install-Chocolatey",
+"Install-DebugOptimizationHook",
+"Install-DevExpress",
+"Install-SubModule",
+"Install-Xpand",
+"Invoke-AzureRestMethod",
+"Invoke-Parallel",
+"Invoke-Retry",
+"New-Assembly",
+"New-AssemblyResolver",
+"New-Command",
+"New-GithubReleaseNotes",
+"New-GithubReleaseNotesTemplate",
+"Publish-AssemblyToGac",
+"Publish-GitHubRelease",
+"Publish-NugetPackage",
+"Remove-ProjectLicenseFile",
+"Remove-ProjectNuget",
+"Resolve-AssemblyDependencies",
+"Set-VsoVariable",
+"Sort-PackageByDependencies",
+"Test-Symbol",
+"Uninstall-ProjectAllPackages",
+"UnInstall-Xpand",
+"UnPublish-NugetPackage",
+"Update-AssemblyInfo",
+"Update-AssemblyInfoVersion",
+"Update-GitHubIssue",
+"Update-HintPath",
+"Update-NugetPackage",
+"Update-NugetProjectVersion",
+"Update-OutputPath",
+"Update-ProjectAutoGenerateBindingRedirects",
+"Update-ProjectDebugSymbols",
+"Update-ProjectLanguageVersion",
+"Update-ProjectPackage",
+"Update-ProjectProperty",
+"Update-ProjectSign",
+"Update-ProjectTargetFramework",
+"Update-Symbols",
+"Use-MonoCecil",
+"Use-NugetAssembly"
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-CmdletsToExport = @()
+# CmdletsToExport = @()
 
 # Variables to export from this module
 VariablesToExport = '*'
@@ -155,7 +167,7 @@ AliasesToExport = @()
 # DscResourcesToExport = @()
 
 # List of all modules packaged with this module
-# ModuleList = @()
+# ModuleList = @("Cmdlets\bin\XpandPwsh.Cmdlets.dll")
 
 # List of all files packaged with this module
 # FileList = @()

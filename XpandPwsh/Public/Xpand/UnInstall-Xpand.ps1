@@ -13,7 +13,7 @@ function UnInstall-Xpand {
         [Net.ServicePointManager]::Expect100Continue=$true
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
         $c=New-Object System.Net.WebClient
-        $uri="https://raw.githubusercontent.com/eXpandFramework/XpandPosh/master/XpandPosh/Private/Xpand/UnInstallXpand.ps1"
+        $uri="https://raw.githubusercontent.com/eXpandFramework/XpandPwsh/master/XpandPwsh/Private/Xpand/UnInstallXpand.ps1"
         $scriptPath="$PSScriptRoot\UnInstallXpand.ps1"
         Write-Host "Downloading installation script from $uri into $scriptPath" -f Green
         $c.DownloadFile($uri,$scriptPath)

@@ -1,4 +1,4 @@
-$GitHubUser="apobekiaris"
+$GitHubUser="eXpandFramework"
 if (!(Get-Module XpandPwsh -ListAvailable)) {
     Install-Module XpandPwsh
 }

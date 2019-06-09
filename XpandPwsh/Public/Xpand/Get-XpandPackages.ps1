@@ -1,4 +1,4 @@
-function Get-XpandPackages {
+function Get-XpandPackages{
     [CmdletBinding()]
     param (
         [parameter()]
