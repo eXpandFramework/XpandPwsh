@@ -1,0 +1,4 @@
+#!/bin/sh
+
+powershell $PWD/.GitHooks/UpdateReadMe.ps1
+powershell $PWD/.GitHooks/UpdateVersion.ps1

@@ -1,0 +1,8 @@
+**/bin/
+*.csproj.nuget.cache
+*.csproj.nuget*
+**/obj/
+**/.suo
+**/.vs/
+/XpandPwsh/Cmdlets/bin/
+*.sln.DotSettings.user
