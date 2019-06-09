@@ -45,7 +45,7 @@ if ($needNewVersion) {
     $newVersion = "$($moduleVersion.Major).$newMinor.$newBuild"
     "newVersion=$newVersion"
     if ($manifest.ModuleVersion -ne $newVersion) {
-        Set-Content $file $data.Replace($manifest.ModuleVersion, $newVersion)
+        Set-Content $file $data.Replace($manifest.ModuleVersion, $newVersion).Trim()
         & git commit -a -m $newVersion
         & git tag $newVersion
         Write-Error "Version Changed" -ErrorAction Continue
