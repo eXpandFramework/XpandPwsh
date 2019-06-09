@@ -2,7 +2,7 @@ $GitHubUser="eXpandFramework"
 if (!(Get-Module XpandPwsh -ListAvailable)) {
     Install-Module XpandPwsh
 }
-
+$lastmessage = (git log -1 --pretty=%B)|Select-Object -First 1
 $v=((Get-Module XpandPwsh -ListAvailable).Version|Sort-Object -Descending |Select-Object -First 1)
 $version="$($v.Major).$($v.Minor).$($v.Build)"
 if ($version -eq $lastmessage){
@@ -15,7 +15,7 @@ $lastSha = Get-GitLastSha "https://github.com/$GitHubUser/XpandPwsh.git"
 $lastSha
 $diffs=git diff --name-only "$lastSha" HEAD 
 $diffs
-$needNewVersion = ($diffs| Where-Object { $_ -notlike ".githooks*" } ) | Where-Object { $_ -like "XpandPwsh/*" -and $_ -notlike "*.md" -and $_ -notlike "*.yml" }
+$needNewVersion = ($diffs| Where-Object { $_ -notlike ".githooks*" } ) | Where-Object { $_ -like "XpandPwsh/*" -and $_ -notlike "*.md" -and $_ -notlike "build-pipeline.yml" -and $_ -notlike "build-pipeline.ps1" }
 "needNewVersion=$needNewVersion"
 if ($needNewVersion) {
     $file = "$PSScriptRoot\..\XpandPwsh\XpandPwsh.psd1"
