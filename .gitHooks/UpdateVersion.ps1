@@ -1,15 +1,19 @@
+$profile
 if (!(Get-Module XpandPwsh -ListAvailable)) {
     Install-Module XpandPwsh
 }
-Import-Module XpandPwsh -Force
-$lastmessage = (git log -1 --pretty=%B)|Select-Object -First 1
+
+
 
 $v=((Get-Module XpandPwsh -ListAvailable).Version|Sort-Object -Descending |Select-Object -First 1)
 $version="$($v.Major).$($v.Minor).$($v.Build)"
 if ($version -eq $lastmessage){
     return
 }
-$lastSha = Get-GitLastSha "https://github.com/eXpandFramework/XpandPwsh.git"
+
+$lastSha = Get-GitLastSha "https://bitbucket.org/apostolis_bekiaris/xpandpwsh/src/master/"
+# $lastSha = Get-GitLastSha "https://github.com/eXpandFramework/XpandPwsh.git"
+
 $lastSha
 $diffs=git diff --name-only "$lastSha" HEAD 
 $diffs
