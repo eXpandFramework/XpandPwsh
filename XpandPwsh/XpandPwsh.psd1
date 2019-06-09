@@ -9,7 +9,7 @@
 @{
 
 # Script module or binary module file associated with this manifest.
-# RootModule = 'XpandPwsh'
+RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
 ModuleVersion = '0.0.2'
@@ -70,7 +70,76 @@ PowerShellVersion = '6.0.0'
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = @(
-    "Update-OutputPath"
+    "New-AssemblyResolver",
+        "Use-MonoCecil",
+        "Get-XpandReleaseChange",
+        "Update-OutputPath",
+        "Update-ProjectAutoGenerateBindingRedirects",
+        "Update-ProjectProperty",
+        "Remove-ProjectLicenseFile",
+        "Update-ProjectSign",
+        "Update-ProjectDebugSymbols",
+        "Update-ProjectLanguageVersion",
+        "Invoke-AzureRestMethod",
+        "Install-DebugOptimizationHook",
+        "Publish-AssemblyToGac",
+        "Compress-Project",
+        "Test-Symbol",
+        "Get-SymbolSources",
+        "Find-XpandPackage",
+        "Clear-NugetCache",
+        "Get-XmlContent",
+        "Update-ProjectTargetFramework",
+        "Get-MsBuildPath",
+        "Get-NugetPath",
+        "Get-GitLastSha", 
+        "Clear-ASPNETTemp", 
+        "Clear-ProjectDirectories", 
+        "Install-Chocolatey", 
+        "Remove-ProjectNuget", 
+        "Compress-Files", 
+        "Compress-ProjectFolder"
+        "Uninstall-ProjectAllPackages", 
+        "Uninstall-ProjectXAFPackages", 
+        "Update-ProjectPackage", 
+        "ConvertTo-Object", 
+        "Restore-ProjectPackages", 
+        "New-Command", 
+        "Get-AssemblyInfoVersion", 
+        "Disable-ExecutionPolicy", 
+        "Get-MsBuildLocation", 
+        "Get-AllParameters", 
+        "Get-ScriptVariables", 
+        "Write-HostHashtable", 
+        "Get-DXPath", 
+        "Get-DevExpressVersion", 
+        "Get-RelativePath", 
+        "Get-XpandVersion", 
+        "Update-AssemblyInfoVersion", 
+        "Update-AssemblyInfo", 
+        "Invoke-Retry", 
+        "Install-Devexpress",
+        "Get-PackageSourceLocations",
+        "Set-VsoVariable",
+        "Update-NugetPackage",
+        "UnPublish-NugetPackage",
+        "Update-Symbols",
+        "Get-PackageFeed",
+        "Get-CallerPreference",
+        "Update-HintPath",
+        "Get-DxNugets",
+        "Install-Xpand",
+        "UnInstall-Xpand",
+        "Get-XpandPath",
+        "Use-NugetAssembly",
+        "Install-SubModule",
+        "Get-NugetPackageVersion",
+        "Get-DotnetCoreVersion",
+        "Get-NUgetPackageMetadataVersion",
+        "ConvertTo-PackageObject",
+        "Publish-NugetPackage",
+        "Get-ChocoPackage",
+        "Invoke-Parallel"
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
