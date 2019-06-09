@@ -1,5 +1,6 @@
+$GitHubUser
 $ErrorActionPreference="Stop"
-Import-Module XpandPwsh -Force
+
 $lastmessage = (git log -1 --pretty=%B)|Select-Object -First 1
 
 $v=((Get-Module XpandPwsh -ListAvailable).Version|Sort-Object -Descending |Select-Object -First 1)
@@ -23,7 +24,7 @@ In this page you can see a list of all Cmdlets with a short description. For det
 )
 
 Set-Content $readMePath $readMeContent
-$wikiUrl="https://github.com/eXpandFramework/XpandPwsh/wiki"
+$wikiUrl="https://github.com/$GitHubUser/XpandPwsh/wiki"
 
 New-MarkdownHelp -Module XpandPwsh -OutputFolder "$PSSCriptRoot\..\..\XpandPwsh.wiki" -ErrorAction SilentlyContinue
 Update-MarkdownHelp -Path "$PSSCriptRoot\..\..\XpandPwsh.wiki"

@@ -3,8 +3,6 @@ if (!(Get-Module XpandPwsh -ListAvailable)) {
     Install-Module XpandPwsh
 }
 
-
-
 $v=((Get-Module XpandPwsh -ListAvailable).Version|Sort-Object -Descending |Select-Object -First 1)
 $version="$($v.Major).$($v.Minor).$($v.Build)"
 if ($version -eq $lastmessage){
