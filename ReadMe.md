@@ -93,10 +93,3 @@ Get-Command -Module XpandPwsh
 |[Update-Symbols](https://github.com/eXpandFramework/XpandPwsh/wiki/Update-Symbols)|Index symbols to local or remote locations.|
 |[Use-MonoCecil](https://github.com/eXpandFramework/XpandPwsh/wiki/Use-MonoCecil)|{{ Fill in the Synopsis }}|
 |[Use-NugetAssembly](https://github.com/eXpandFramework/XpandPwsh/wiki/Use-NugetAssembly)|{{ Fill in the Synopsis }}|
- 
-
-
-
-
-
-
