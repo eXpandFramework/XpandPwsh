@@ -130,7 +130,6 @@ FunctionsToExport = @(
 "Remove-ProjectNuget",
 "Resolve-AssemblyDependencies",
 "Set-VsoVariable",
-"Sort-PackageByDependencies",
 "Test-Symbol",
 "Uninstall-ProjectAllPackages",
 "UnInstall-Xpand",
