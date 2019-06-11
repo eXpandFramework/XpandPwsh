@@ -22,8 +22,8 @@ if ($needNewVersion) {
     $data = Get-Content $file -Raw
     $manifest = Invoke-Expression $data
     $moduleVersion = New-Object System.Version($manifest.ModuleVersion)
-    "moduleVersion=$moduleVersion"
     $c = New-Object System.Net.WebClient
+    "moduleVersion=$moduleVersion"
     $readme = $c.DownloadString("https://raw.githubusercontent.com/$GitHubUser/XpandPwsh/master/ReadMe.md")
     $needNewMinor = (Get-Command -Module XpandPwsh) | Where-Object { $readme -notmatch $_.Name } | Select-Object -First 1
     "needNewMinor=$needNewMinor"

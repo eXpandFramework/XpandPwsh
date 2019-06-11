@@ -84,9 +84,9 @@ namespace XpandPwsh.Cmdlets.GitHub.CheckpointGithubIssue{
             var objects = new object[] {
                 new{
                     Options = this,
-                    Commits = string.Join(",",
+                    Commits = string.Join(Environment.NewLine,
                         _.commits.Select(commit =>
-                            $@"[{commit.Commit.Message}](https://github.com/{Organization}/{repositoryName}/commit/{commit.Sha})"))
+                            $@"* [{commit.Commit.Message}](https://github.com/{Organization}/{repositoryName}/commit/{commit.Sha})"))
                 }
             };
             var comment = Smart.Format(Message, objects);
