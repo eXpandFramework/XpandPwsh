@@ -34,14 +34,14 @@ namespace XpandPwsh.Cmdlets.GitHub.PublishGitHubRelease{
                 var newRelease = new NewRelease(ReleaseName){Draft = Draft,Body = ReleaseNotes,Name = ReleaseName};
                 release = await repositoriesClient.Release.Create(repository.Id, newRelease);
                 WriteVerbose("Uploading assets");
-                var mime = new MimeSharp.Mime();
+                
                 if (Files != null){
                     await Files.ToObservable()
                         .Do(file => WriteVerbose($"Uploading {file}"))
                         .SelectMany(file => Observable.Using(() => File.OpenRead(file), stream => {
                             var fileName = Path.GetFileName(file);
                             var releaseAssetUpload = new ReleaseAssetUpload() {
-                                FileName = fileName, ContentType = mime.Lookup(fileName), RawData = stream
+                                FileName = fileName, ContentType = MimeSharp.Mime.Lookup(fileName), RawData = stream
                             };
                             return repositoriesClient.Release.UploadAsset(release, releaseAssetUpload).ToObservable();
                         }));

@@ -8,7 +8,6 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
-using ImpromptuInterface;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;
@@ -59,13 +58,12 @@ namespace XpandPwsh.Cmdlets.Nuget.GetNugetPackage{
                     .Where(s => AllFiles || Path.GetExtension(s) == ".dll")
                     .Select(s => {
                         var identity = result.PackageReader.NuspecReader.GetIdentity();
-                        return new{
+                        return new NugetPackageAssembly{
                                 Package = identity.Id,
                                 Version = identity.Version.Version.ToString(),
                                 DotNetFramework = group.TargetFramework.GetDotNetFrameworkName(DefaultFrameworkNameProvider.Instance),
                                 File = $@"{s.Replace(@"/", @"\")}"
-                            }
-                            .ActLike<INugetPackageAssembly>();
+                            };
                     }));
         }
 

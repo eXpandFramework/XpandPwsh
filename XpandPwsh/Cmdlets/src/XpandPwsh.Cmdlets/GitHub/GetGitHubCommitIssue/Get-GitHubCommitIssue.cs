@@ -4,7 +4,6 @@ using System.Management.Automation;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
-using ImpromptuInterface;
 using Octokit;
 using XpandPwsh.CmdLets;
 
@@ -41,7 +40,7 @@ namespace XpandPwsh.Cmdlets.GitHub.GetGitHubCommitIssue{
 
         protected override Task ProcessRecordAsync(){
             return GitHubClient.CommitIssues(Organization, Repository1, Repository2,Since,Branch,ItemStateFilter,Until)
-                .Select(_ => _.commitIssues.Select(tuple => (_.repoTuple.repo1,_.repoTuple.repo2,tuple.commit,tuple.issues).ToClass().ActLike<ICommitIssues>()))
+                .Select(_ => _.commitIssues.Select(tuple => new CommitIssues{Repository1 = _.repoTuple.repo1,Repository2 = _.repoTuple.repo2,GitHubCommit = tuple.commit,Issues = tuple.issues}))
                 .HandleErrors(this,Repository1)
                 .WriteObject(this)
                 .ToTask();
@@ -49,6 +48,13 @@ namespace XpandPwsh.Cmdlets.GitHub.GetGitHubCommitIssue{
         
 
         
+    }
+
+    public class CommitIssues:ICommitIssues{
+        public Repository Repository1{ get; set; }
+        public Repository Repository2{ get; set; }
+        public Issue[] Issues{ get; set; }
+        public GitHubCommit GitHubCommit{ get; set; }
     }
     public interface ICommitIssues{
         Repository Repository1{ get; }

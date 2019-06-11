@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net472</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <OutputPath>..\..\bin\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
@@ -12,16 +12,22 @@
     <PackageReference Include="DynamicExpressions" Version="1.1.0" />
     <PackageReference Include="Enums.NET" Version="2.3.2" />
     <PackageReference Include="Fasterflect.Netstandard" Version="1.0.9" />
-    <PackageReference Include="ImpromptuInterface" Version="7.0.1" />
+    <!-- <PackageReference Include="ImpromptuInterface" Version="7.0.1" /> -->
     <PackageReference Include="JetBrains.Annotations" Version="2019.1.1" />
-    <PackageReference Include="MimeSharp" Version="1.0.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+    <!-- <PackageReference Include="MimeSharp" Version="1.0.0" /> -->
     <PackageReference Include="morelinq" Version="3.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="NuGet.Protocol.Core.v3" Version="4.2.0" />
     <PackageReference Include="Octokit" Version="0.32.0" />
-    <PackageReference Include="PowerShellAsync" Version="0.1.0" />
+    <!-- <PackageReference Include="PowerShellAsync" Version="0.1.0" /> -->
     <PackageReference Include="PowerShellStandard.Library" Version="5.1.0" />
     <PackageReference Include="SmartFormat.NET" Version="2.4.2" />
     <PackageReference Include="System.Reactive" Version="4.1.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="MimeSharp">
+      <HintPath>..\..\..\Private\MimeSharp\MimeSharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
