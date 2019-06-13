@@ -103,6 +103,7 @@ FunctionsToExport = @(
 "Get-NugetPath",
 "Get-PackageFeed",
 "Get-PackageSourceLocations",
+"Get-PackageTargetFramework",
 "Get-RelativePath",
 "Get-SymbolSources",
 "Get-XmlContent",
