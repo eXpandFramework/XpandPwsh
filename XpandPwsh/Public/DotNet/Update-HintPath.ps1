@@ -10,8 +10,11 @@ function Update-HintPath {
         [string[]]$Exclude
 
     )
-    Get-ChildItem $sourcesPath "*.csproj" -Recurse|Invoke-Parallel -ActivityName "Updating HintPath" -VariablesToImport @("SourcesPath","OutputPath","Include","Exclude") -Script {
+    
+    # Get-ChildItem $sourcesPath "*.csproj" -Recurse|Invoke-Parallel -StepInterval 1 -ActivityName "Updating HintPath" -VariablesToImport @("SourcesPath","OutputPath","Include","Exclude") -Script {
+    Get-ChildItem $sourcesPath "*.csproj" -Recurse|foreach {
         $projectPath = $_.FullName
+        Write-Output $projectPath 
         $projectDir = (Get-Item $projectPath).DirectoryName
         [xml]$csproj = Get-Content $projectPath
         $csproj.Project.ItemGroup.Reference|Where-Object {
