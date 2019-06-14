@@ -1,5 +1,6 @@
 function Clear-DotNetSdkFallBackFolder() {
-    Get-ChildItem ${env:ProgramFiles(x86)}\dotnet\sdk\NugetFallbackFolder |ForEach-Object{
+    $path=(Get-DotNetCoreVersion|Select-Object -First 1).path
+    Get-ChildItem "$path\NugetFallbackFolder" |ForEach-Object{
         Remove-Item $_.FullName -Force -Recurse
     }
 }
