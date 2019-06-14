@@ -1,4 +1,4 @@
-function Find-NugetPackageLocally {
+function Find-NugetPackageInstallationFolder {
     [CmdletBinding()]
     param (
         [parameter(Mandatory)]
