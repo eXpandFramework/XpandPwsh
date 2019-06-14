@@ -4,14 +4,14 @@ function Get-PackageTargetFramework {
         $id,
         $version,
         $TargetFramework,
-        $TargetFrameworkVersion,
-        $PackagesFolder = "$env:USERPROFILE\.nuget\packages"
+        $TargetFrameworkVersion
     )
     
     begin {
     }
     
     process {
+        $packagesFolder=Find-NugetPackageInstallationFolder $id $version
         $targets = Get-ChildItem "$packagesFolder\$Id\$Version\lib" | ForEach-Object {
             $_.BaseName.Split("-")|ForEach-Object{$_.split("+")} | ForEach-Object {
                 $regex = [regex] '(?ix)([^\d]*)(.*)'
