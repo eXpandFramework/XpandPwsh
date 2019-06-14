@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.5.1'
+ModuleVersion = '0.6.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -72,6 +72,7 @@ NestedModules = @('Cmdlets\bin\XpandPwsh.Cmdlets.dll')
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = @(
     "Checkpoint-GitHubIssue",
+"Clear-DotNetSdkFallBackFolder",
 "Clear-NugetCache",
 "Clear-ProjectDirectories",
 "Close-GithubIssue",
