@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.7.1'
+ModuleVersion = '0.8.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -75,6 +75,7 @@ FunctionsToExport = @(
 "Clear-DotNetSdkFallBackFolder",
 "Clear-NugetCache",
 "Clear-ProjectDirectories",
+"Clear-TempFolders",
 "Close-GithubIssue",
 "Compress-Project",
 "ConvertTo-Object",
@@ -143,6 +144,7 @@ FunctionsToExport = @(
 "Update-HintPath",
 "Update-NugetPackage",
 "Update-NugetProjectVersion",
+"Update-Nuspec",
 "Update-OutputPath",
 "Update-ProjectAutoGenerateBindingRedirects",
 "Update-ProjectDebugSymbols",
