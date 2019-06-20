@@ -33,7 +33,7 @@ Copyright = '(c) 2019 eXpamdFramework. All rights reserved.'
 Description = 'Various functions working with DevExpress XAF, eXpandFramework and not only'
 
 # Minimum version of the PowerShell engine required by this module
-PowerShellVersion = '6.0.0'
+PowerShellVersion = '5.0.0'
 
 # Name of the PowerShell host required by this module
 # PowerShellHostName = ''
