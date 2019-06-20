@@ -9,27 +9,33 @@ function Update-NugetPackage {
         [string]$Filter = "*",
         [string]$sources = ((Get-PackageSourceLocations Nuget) -join ";")
     )
+    # write-host "PackagesConfig" -f Blue 
     # Update-NugetPackagesConfig $SourcePath $RepositoryPath $Filter $sources
-    
-    $projects=Get-ChildItem $SourcePath *.csproj -Recurse 
+    write-host "PackageReference" -f blu
+    $projects=Get-ChildItem $SourcePath *Xvideo*.csproj -Recurse 
+    write-host "projects:" -f blue
+    $projects|Write-Host
     $packages=$projects|ForEach-Object{
         [xml]$csproj=Get-Content $_.FullName
         $csproj.Project.ItemGroup.PackageReference.Include|Where-Object{$_ -and $_ -like $Filter}
     }|Sort-object -Unique
+    write-host "packages:" -f blue
+    $packages
     $metadata=$packages|ForEach-Object{
         Get-NugetPackageSearchMetadata $_ $sources
     }
     $projects|ForEach-Object{
         $csprojPath=$_.FullName
-        Write-host "Checking $csprojPath" -f blue
+        $csprojName=$_.BaseName
         [xml]$csproj=Get-Content $csprojPath
         $csproj.Project.ItemGroup.PackageReference|Where-Object{$_.Include -and $_.Include -like $Filter}|ForEach-Object{
             $p=$_.Include
             $m=$metadata|Where-Object{$_.Identity.Id -eq $p}
             $latestVersion = (Get-NugetPackageMetadataVersion $m).version
             $installedVersion=$_.Version
+            Write-Verbose "installedVersion=$installedVersion, latestVersion=$latestVersion"
             if ($latestVersion -ne $installedVersion){
-                Write-host "Updating $p $installedVersion to $latestVersion" -f Green
+                Write-host "Updating $csprojName $p $installedVersion to $latestVersion" -f Green
                 dotnet add $csprojPath package $p -v $latestVersion -s $sources|Write-Verbose
             }
         }
