@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "XpandPwsh.Cmdlets": {
-      "commandName": "Executable",
-      "executablePath": "pwsh"
-    }
-  }
-}
