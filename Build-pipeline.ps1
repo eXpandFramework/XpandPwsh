@@ -15,5 +15,5 @@ if ($manifest.ModuleVersion -ne $onlineVersion) {
         throw   "Fail to publish $assemblyName`r`n`r`n$publish"
     }
     $publish         
-    Publish-Module -Path $PSScriptRoot\XpandPwsh -verbose -NugetApiKey $ApiKey -ErrorAction Stop    
+    Publish-Module -Path $PSScriptRoot\XpandPwsh -verbose -NugetApiKey $ApiKey -ErrorAction Stop -SkipAutomaticTags
 }
