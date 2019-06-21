@@ -25,54 +25,63 @@ function Update-Nuspec {
             $dependency = $nuspec.CreateElement("dependency", $nuspec.DocumentElement.NamespaceURI)
             $dependency.SetAttribute("id", $psObj.id)
             $dependency.SetAttribute("version", $psObj.version)
-            $nuspec.SelectSingleNode("//ns:dependencies", $ns).AppendChild($dependency)
+            $nuspec.SelectSingleNode("//ns:dependencies", $ns).AppendChild($dependency)|Out-Null
         }
         $NuspecsDirectory = (Get-Item $NuspecFilename).DirectoryName
         $projectDirectory = ((Get-Item $ProjectFileName).DirectoryName)
+        $assemblyName = ((Get-Item $ProjectFileName).BaseName)
         $id = (get-item $ProjectFileName).BaseName.Trim()
         Push-Location $projectDirectory
-        $nuspecPath="$(Resolve-Path $csproj.Project.PropertyGroup.OutputPath)$id.dll"
+        $outputPath="$(Resolve-Path $csproj.Project.PropertyGroup.OutputPath)"
         Pop-Location
-        
+        $nuspecPath="$outputPath$id.dll"
+        $allDependencies = Resolve-AssemblyDependencies "$outputPath\$assemblyName.dll" -ErrorAction SilentlyContinue | ForEach-Object {
+            $_.GetName().Name
+        }
+
         $nuspec.package.metadata.version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($nuspecPath).FileVersion
-        $nuspec.Save($NuspecFilename)
+        
         $csproj.Project.ItemGroup.Reference | Where-Object { "$($_.Include)" -like $ReferenceToPackageFilter } | ForEach-Object {
             $packageName = $_.Include
             $comma = $packageName.IndexOf(",")
             if ($comma -ne -1 ) {
                 $packageName = $packageName.Substring(0, $comma)
             }
-            $packageName = Get-ChildItem $NuspecsDirectory *.nuspec | ForEach-Object {
-                [xml]$xml = Get-Content $_.FullName
-                $match = $xml.package.files.file.src | Select-String "$packageName.dll"
-                if ($match) {
-                    $xml.package.metaData.id
-                    break
-                }
-            } | Select-Object -First 1
-           
-            Push-Location $projectDirectory
-            $packagePath = Resolve-Path $_.HintPath
-            Pop-Location
-            $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$packagePath").FileVersion
-            $packageInfo = [PSCustomObject]@{
-                id              = $packageName
-                version         = $version
-            }       
-            Invoke-Command $AddDependency -ArgumentList $packageInfo
-            $nuspec.Save($NuspecFilename)
+            if ($packageName -in $allDependencies){
+                $packageName = Get-ChildItem $NuspecsDirectory *.nuspec | ForEach-Object {
+                    [xml]$xml = Get-Content $_.FullName
+                    $match = $xml.package.files.file.src | Select-String "$packageName.dll"
+                    if ($match) {
+                        $xml.package.metaData.id
+                        break
+                    }
+                } | Select-Object -First 1
+               
+                Push-Location $projectDirectory
+                $packagePath = Resolve-Path $_.HintPath
+                Pop-Location
+                $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$packagePath").FileVersion
+                $packageInfo = [PSCustomObject]@{
+                    id              = $packageName
+                    version         = $version
+                }       
+                Invoke-Command $AddDependency -ArgumentList $packageInfo
+                $nuspec.Save($NuspecFilename)
+            }
            
         }
-        $nuspec.Save($NuspecFilename)
+        
         $packageReference = $csproj.Project.ItemGroup.PackageReference
         $targetFrameworkVersion = ($csproj.Project.PropertyGroup.TargetFramework | Select-Object -First 1).Substring(3)
-        $projectpath
-        $packageReference | Where-Object { $_.Include } | ForEach-Object {
+        
+        $packageReference | Where-Object { $_.Include -and $_.PrivateAssets -ne "all" } | ForEach-Object {
             $packageInfo = [PSCustomObject]@{
                 Id              = $_.Include
                 Version         = $_.Version
             }
-            Invoke-Command $AddDependency -ArgumentList $packageInfo 
+            if ($_.Include -in $allDependencies){
+                Invoke-Command $AddDependency -ArgumentList $packageInfo 
+            }
         }
         
         "dll", "pdb" | ForEach-Object {
@@ -86,7 +95,6 @@ function Update-Nuspec {
         $csproj.Project.ItemGroup.Reference.HintPath | ForEach-Object {
             if ($_) {
                 $hintPath = [System.IO.Path]::GetFullPath($_)
-                $hintPath
                 if (Test-Path $hintPath) {
                     if ($libs | Select-Object -ExpandProperty FullName | Where-Object { $_ -eq $hintPath }) {
                         $file = $nuspec.CreateElement("file")
@@ -108,8 +116,10 @@ function Update-Nuspec {
             $nuspec.SelectSingleNode("//ns:files", $ns).AppendChild($file) | Out-Null
         }
     
-        $uniqueDependencies=$nuspec.package.metadata.dependencies.dependency|Sort-Object Id -Unique
+        $uniqueDependencies=$nuspec.package.metadata.dependencies.dependency|Where-Object{$_.id}|Sort-Object Id -Unique
         $nuspec.package.metadata.dependencies.RemoveAll()
+        "----$($nuspec.package.metadata.id) uniqueDependencies----"
+        $uniqueDependencies
         $uniqueDependencies|ForEach-Object{Invoke-Command $AddDependency -ArgumentList $_}
         $nuspec.Save($NuspecFilename)
     }
