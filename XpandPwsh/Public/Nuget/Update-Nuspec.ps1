@@ -30,8 +30,10 @@ function Update-Nuspec {
         $NuspecsDirectory = (Get-Item $NuspecFilename).DirectoryName
         $projectDirectory = ((Get-Item $ProjectFileName).DirectoryName)
         $id = (get-item $ProjectFileName).BaseName.Trim()
-
-        $nuspecPath=[System.IO.Path]::GetFullPath("$($csproj.Project.PropertyGroup.OutputPath)\$id.dll")
+        Push-Location $projectDirectory
+        $nuspecPath="$(Resolve-Path $csproj.Project.PropertyGroup.OutputPath)$id.dll"
+        Pop-Location
+        
         $nuspec.package.metadata.version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($nuspecPath).FileVersion
         $nuspec.Save($NuspecFilename)
         $csproj.Project.ItemGroup.Reference | Where-Object { "$($_.Include)" -like $ReferenceToPackageFilter } | ForEach-Object {
