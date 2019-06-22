@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.9.3'
+ModuleVersion = '0.9.4'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -182,7 +182,7 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags       = @("eXpandFramework", "DevExpress", "nuget","XAF","srcsrv","Invoke-Parallel")
+        Tags       = @("eXpandFramework", "DevExpress", "nuget","XAF","srcsrv")
 
         # A URL to the license for this module.
         LicenseUri = 'https://github.com/eXpandFramework/XpandPwsh/blob/master/LICENSE'

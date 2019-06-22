@@ -92,7 +92,7 @@ function Update-NugetPackagesConfig {
         } | Where-Object { $_.NewVersion -and ($_.Version -ne $_.NewVersion) }
         $sortedPackages = $packages | Group-Object Config | ForEach-Object {
             $p = [PSCustomObject]@{
-                Packages = ($_.Group | Sort-PackageByDependencies)
+                Packages = ($_.Group | Get-SortedPackageByDependencies)
             }
             $p
         } 
@@ -115,7 +115,7 @@ function Update-NugetPackagesConfig {
     }
 }
 
-function Sort-PackageByDependencies {
+function Get-SortedPackageByDependencies {
     [CmdletBinding()]
     param (
         [parameter(ValueFromPipeline, Mandatory)]

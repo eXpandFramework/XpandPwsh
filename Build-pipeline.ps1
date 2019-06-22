@@ -9,11 +9,19 @@ $manifest = Invoke-Expression $data
 "manifest.ModuleVersion=$($manifest.ModuleVersion)"
 "onlineVersion=$onlineVersion"
 if ($manifest.ModuleVersion -ne $onlineVersion) {
-    New-Item "$PSScriptRoot\XpandPwsh\Cmdlets\bin" -ItemType Directory
+    $binFolder="$PSScriptRoot\XpandPwsh\Cmdlets\bin"
+    if (!(Test-Path $binFolder)){
+        New-Item $binFolder -ItemType Directory
+    }
+    
     $publish=dotnet build "$PSScriptRoot\XpandPwsh\Cmdlets\src\XpandPwsh.CmdLets.sln"
     if ($LASTEXITCODE){
         throw   "Fail to publish $assemblyName`r`n`r`n$publish"
     }
     $publish         
-    Publish-Module -Path $PSScriptRoot\XpandPwsh -verbose -NugetApiKey $ApiKey -ErrorAction Stop -SkipAutomaticTags
+    $ErrorActionPreference="Stop"
+    
+    Import-Module $PSScriptRoot\XpandPwsh\XpandPwsh.psm1 -Verbose
+    $m=Get-Module XpandPwsh
+    Publish-Module -Path (Get-Item $m.Path).DirectoryName -verbose -NugetApiKey $ApiKey -SkipAutomaticTags -Repository PSGallery
 }
