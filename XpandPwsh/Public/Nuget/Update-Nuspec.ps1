@@ -9,7 +9,9 @@ function Update-Nuspec {
         [string]$PublishedSource,
         [switch]$Release,
         [switch]$ReadMe,
-        [string]$LibrariesFolder = "..\src\libs"
+        [string]$LibrariesFolder = "..\src\libs",
+        [switch]$KeepDependencies,
+        [switch]$KeepFiles
     )
     
     begin {
@@ -18,6 +20,17 @@ function Update-Nuspec {
     process {
         [xml]$csproj = Get-Content $ProjectFileName
         [xml]$nuspec = Get-Content $NuspecFilename
+        if (!$KeepDependencies){
+            if ($nuspec.package.metadata.dependencies) {
+                $nuspec.package.metadata.dependencies.RemoveAll()
+            }
+        }
+        if (!$KeepFiles){
+            if ($nuspec.package.files) {
+                $nuspec.package.files.RemoveAll()
+            }
+        }
+        $nuspec.Save($NuspecFilename)
         $ns = New-Object System.Xml.XmlNamespaceManager($nuspec.NameTable)
         $ns.AddNamespace("ns", $nuspec.DocumentElement.NamespaceURI)
         $AddDependency = {
@@ -29,17 +42,14 @@ function Update-Nuspec {
         }
         $NuspecsDirectory = (Get-Item $NuspecFilename).DirectoryName
         $projectDirectory = ((Get-Item $ProjectFileName).DirectoryName)
-        $assemblyName = ((Get-Item $ProjectFileName).BaseName)
         $id = (get-item $ProjectFileName).BaseName.Trim()
         Push-Location $projectDirectory
         $outputPath="$(Resolve-Path $csproj.Project.PropertyGroup.OutputPath)"
         Pop-Location
-        $nuspecPath="$outputPath$id.dll"
-        $allDependencies = Resolve-AssemblyDependencies "$outputPath\$assemblyName.dll" -ErrorAction SilentlyContinue | ForEach-Object {
-            $_.GetName().Name
-        }
+        $assemblyPath="$outputPath\$id.dll"
+        $allDependencies = Resolve-AssemblyDependencies $assemblyPath -ErrorAction SilentlyContinue | ForEach-Object {$_.GetName().Name}
 
-        $nuspec.package.metadata.version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($nuspecPath).FileVersion
+        $nuspec.package.metadata.version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($assemblyPath).FileVersion
         
         $csproj.Project.ItemGroup.Reference | Where-Object { "$($_.Include)" -like $ReferenceToPackageFilter } | ForEach-Object {
             $packageName = $_.Include
@@ -68,7 +78,6 @@ function Update-Nuspec {
                 Invoke-Command $AddDependency -ArgumentList $packageInfo
                 $nuspec.Save($NuspecFilename)
             }
-           
         }
         
         $packageReference = $csproj.Project.ItemGroup.PackageReference
@@ -83,23 +92,27 @@ function Update-Nuspec {
                 Invoke-Command $AddDependency -ArgumentList $packageInfo 
             }
         }
-        
+        $nuspec.Save($NuspecFilename)
         "dll", "pdb" | ForEach-Object {
             $file = $nuspec.CreateElement("file", $nuspec.DocumentElement.NamespaceURI)
             $file.SetAttribute("src", "$id.$_")
             $file.SetAttribute("target", "lib\net$targetFrameworkVersion\$id.$_")
             $nuspec.SelectSingleNode("//ns:files", $ns).AppendChild($file) | Out-Null
         }
-    
+        $nuspec.Save($NuspecFilename)
         [System.Environment]::CurrentDirectory = $projectDirectory
+        $libs=Get-ChildItem $LibrariesFolder *.dll
         $csproj.Project.ItemGroup.Reference.HintPath | ForEach-Object {
             if ($_) {
-                $hintPath = [System.IO.Path]::GetFullPath($_)
+                Push-Location $projectDirectory
+                $hintPath = Resolve-Path $_
+                Pop-Location
                 if (Test-Path $hintPath) {
                     if ($libs | Select-Object -ExpandProperty FullName | Where-Object { $_ -eq $hintPath }) {
                         $file = $nuspec.CreateElement("file")
                         $libName = (Get-item $hintpath).Name
-                        $file.SetAttribute("src", "$LibrariesFolder\$libName")
+                        $relativePath=Get-RelativePath "$outputPath\$libname" "$LibrariesFolder"
+                        $file.SetAttribute("src", "$relativePath\$libname")
                         
                         $file.SetAttribute("target", "lib\net$targetFrameworkVersion\$libName")
                         $nuspec.SelectSingleNode("//ns:files", $ns).AppendChild($file) | Out-Null    
@@ -108,7 +121,7 @@ function Update-Nuspec {
             }
             
         }
-    
+        $nuspec.Save($NuspecFilename)
         if ($ReadMe) {
             $file = $nuspec.CreateElement("file", $nuspec.DocumentElement.NamespaceURI)
             $file.SetAttribute("src", "Readme.txt")
