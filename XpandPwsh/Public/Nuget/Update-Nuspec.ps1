@@ -47,7 +47,7 @@ function Update-Nuspec {
         $outputPath = "$(Resolve-Path $csproj.Project.PropertyGroup.OutputPath)"
         Pop-Location
         $assemblyPath = "$outputPath\$id.dll"
-        $allDependencies = Resolve-AssemblyDependencies $assemblyPath -ErrorAction SilentlyContinue | ForEach-Object { $_.GetName().Name }
+        $allDependencies = [System.Collections.ArrayList]::new((Resolve-AssemblyDependencies $assemblyPath -ErrorAction SilentlyContinue | ForEach-Object { $_.GetName().Name }))
 
         $nuspec.package.metadata.version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($assemblyPath).FileVersion
         
@@ -133,7 +133,7 @@ function Update-Nuspec {
     
         $uniqueDependencies = $nuspec.package.metadata.dependencies.dependency | Where-Object { $_.id } | Sort-Object Id -Unique
         $nuspec.package.metadata.dependencies.RemoveAll()
-        "----$($nuspec.package.metadata.id) uniqueDependencies----"
+        
         $uniqueDependencies
         $uniqueDependencies | ForEach-Object { Invoke-Command $AddDependency -ArgumentList $_ }
         $nuspec.Save($NuspecFilename)
