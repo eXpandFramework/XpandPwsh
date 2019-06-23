@@ -20,7 +20,7 @@ namespace XpandPwsh.Cmdlets.Nuget.GetNugetPackage{
     [OutputType(typeof(INugetPackageAssembly))]
     [CmdletBinding]
     public class GetNugetPackage : NugetCmdlet{
-        [Parameter(ValueFromPipeline = true,Position = 0,Mandatory = true)]
+        [Parameter(ValueFromPipeline = true,Position = 0)]
         public string Name{ get; set; }
         [Parameter( Position = 2)]
         public string Source{ get; set; }
@@ -48,7 +48,7 @@ namespace XpandPwsh.Cmdlets.Nuget.GetNugetPackage{
             return GetDownloadResults()
                 .SelectMany(NugetPackageAssemblies)
                 .DefaultIfEmpty()
-                .HandleErrors(this,Name)
+                .HandleErrors(this,Name??OutputFolder)
                 .WriteObject(this)
                 .ToTask();
         }
