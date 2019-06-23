@@ -2,19 +2,23 @@
 function Update-NugetPackage {
     [cmdletbinding()]
     param(
-        [parameter(ValueFromPipeline)]
+        [parameter(ValueFromPipeline,ParameterSetName="SourcePath")]
         [string]$SourcePath = ".",
+        [parameter(ParameterSetName="projects")]
+        [System.IO.FileInfo[]]$projects,
         [string]$RepositoryPath,
         [parameter()]
         [string]$Filter = "*",
         [string]$sources = ((Get-PackageSourceLocations Nuget) -join ";")
     )
-    # write-host "PackagesConfig" -f Blue 
-    # Update-NugetPackagesConfig $SourcePath $RepositoryPath $Filter $sources
+    write-host "PackagesConfig" -f Blue 
+    Update-NugetPackagesConfig $SourcePath $RepositoryPath $Filter $sources
     write-host "PackageReference" -f blu
-    $projects=Get-ChildItem $SourcePath *.csproj -Recurse 
+    if (!$projects){
+        $projects=Get-ChildItem $SourcePath *.csproj -Recurse 
+    }
     write-host "projects:" -f blue
-    $projects|Write-Host
+    
     $packages=$projects|ForEach-Object{
         [xml]$csproj=Get-Content $_.FullName
         $csproj.Project.ItemGroup.PackageReference.Include|Where-Object{$_ -and $_ -like $Filter}
@@ -24,7 +28,8 @@ function Update-NugetPackage {
     $metadata=$packages|ForEach-Object{
         Get-NugetPackageSearchMetadata $_ $sources
     }
-    $projects|ForEach-Object{
+    
+    $packagesToAdd=$projects|ForEach-Object{
         $csprojPath=$_.FullName
         $csprojName=$_.BaseName
         [xml]$csproj=Get-Content $csprojPath
@@ -33,13 +38,28 @@ function Update-NugetPackage {
             $m=$metadata|Where-Object{$_.Identity.Id -eq $p}
             $latestVersion = (Get-NugetPackageMetadataVersion $m).version
             $installedVersion=$_.Version
-            Write-Verbose "installedVersion=$installedVersion, latestVersion=$latestVersion"
             if ($latestVersion -ne $installedVersion){
                 Write-host "Updating $csprojName $p $installedVersion to $latestVersion" -f Green
-                dotnet add $csprojPath package $p -v $latestVersion -s $sources|Write-Verbose
+                [PSCustomObject]@{
+                    ProjectPath = $csprojPath
+                    Package=$p
+                    Version=$latestVersion
+                    Sources=$sources
+                }
             }
         }
     }
+    $packagesToAdd|Write-Verbose
+    if ($packagesToAdd){
+        # $packagesToAdd|Invoke-Parallel -StepInterval 100 -Script{
+        $packagesToAdd|foreach{
+            dotnet add $_.ProjectPath package $_.Package -v $_.Version -s $_.Sources -n|Write-Verbose
+            IF ($LASTEXITCODE){
+                throw
+            }
+        }
+    }
+    
 }
 
 function Update-NugetPackagesConfig {
