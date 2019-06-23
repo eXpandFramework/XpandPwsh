@@ -12,7 +12,7 @@ function Update-NugetPackage {
     # write-host "PackagesConfig" -f Blue 
     # Update-NugetPackagesConfig $SourcePath $RepositoryPath $Filter $sources
     write-host "PackageReference" -f blu
-    $projects=Get-ChildItem $SourcePath *Xvideo*.csproj -Recurse 
+    $projects=Get-ChildItem $SourcePath *.csproj -Recurse 
     write-host "projects:" -f blue
     $projects|Write-Host
     $packages=$projects|ForEach-Object{
