@@ -5,11 +5,15 @@ function Update-Nuspec {
         [string]$NuspecFilename,
         [parameter(Mandatory)]
         [string]$ProjectFileName,
+        [parameter(Mandatory)]
+        [string]$ProjectsRoot,
         [string]$ReferenceToPackageFilter = "*",
         [string]$PublishedSource,
         [switch]$Release,
         [switch]$ReadMe,
+        [string]$NuspecMatchPattern,   
         [string]$LibrariesFolder ,
+        $customPackageLinks = @{ },
         [switch]$KeepDependencies,
         [switch]$KeepFiles
     )
@@ -44,7 +48,11 @@ function Update-Nuspec {
         $projectDirectory = ((Get-Item $ProjectFileName).DirectoryName)
         $id = (get-item $ProjectFileName).BaseName.Trim()
         Push-Location $projectDirectory
-        $outputPath = "$(Resolve-Path $csproj.Project.PropertyGroup.OutputPath)"
+        $outputPath = $csproj.Project.PropertyGroup.OutputPath | Select-Object -First 1
+        if (!$outputPath) {
+            throw "$ProjectFileName outputpath not set"
+        }
+        $outputPath = "$(Resolve-Path $outputPath)"
         Pop-Location
         $assemblyPath = "$outputPath\$id.dll"
         $allDependencies = [System.Collections.ArrayList]::new((Resolve-AssemblyDependencies $assemblyPath -ErrorAction SilentlyContinue | ForEach-Object { $_.GetName().Name }))
@@ -58,24 +66,30 @@ function Update-Nuspec {
                 $packageName = $packageName.Substring(0, $comma)
             }
             if ($packageName -in $allDependencies) {
-                $packageName = Get-ChildItem $NuspecsDirectory *.nuspec | ForEach-Object {
-                    [xml]$xml = Get-Content $_.FullName
-                    $match = $xml.package.files.file.src | Select-String "$packageName.dll"
-                    if ($match) {
-                        $xml.package.metaData.id
-                        break
+                $matchedPackageName = $customPackageLinks[$packageName]
+                if (!$matchedPackageName) {
+                    $projectName = Get-ChildItem $ProjectsRoot *.csproj -Recurse | Select-Object -ExpandProperty BaseName | Where-Object { $_ -eq $packageName } | Select-Object -First 1
+                    $regex = [regex] $NuspecMatchPattern
+                    $projectName = $regex.Replace($projectName, '') 
+                    $matchedPackageName = Get-ChildItem $NuspecsDirectory *.nuspec | Where-Object { $_.BaseName -eq $projectName }
+                    if (!$matchedPackageName) {
+                        throw "$packageName not matched in $NuspecFilename"
                     }
-                } | Select-Object -First 1
-               
-                Push-Location $projectDirectory
-                $packagePath = Resolve-Path $_.HintPath
-                Pop-Location
-                $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$packagePath").FileVersion
-                $packageInfo = [PSCustomObject]@{
-                    id      = $packageName
-                    version = $version
-                }       
-                Invoke-Command $AddDependency -ArgumentList $packageInfo
+                    [xml]$xml = Get-Content $matchedPackageName.FullName
+                    $matchedPackageName = $xml.package.metadata.id
+                }
+                if ($matchedPackageName -ne $nuspec.package.metadata.Id) {
+                    Push-Location $projectDirectory
+                    $packagePath = Resolve-Path $_.HintPath
+                    Pop-Location
+                    $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$packagePath").FileVersion
+                    $packageInfo = [PSCustomObject]@{
+                        id      = $matchedPackageName
+                        version = $version
+                    }       
+                    Invoke-Command $AddDependency -ArgumentList $packageInfo
+                }
+                
                 $nuspec.Save($NuspecFilename)
             }
         }
