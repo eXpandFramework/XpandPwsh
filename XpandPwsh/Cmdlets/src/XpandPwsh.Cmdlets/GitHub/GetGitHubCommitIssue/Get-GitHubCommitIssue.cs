@@ -25,11 +25,10 @@ namespace XpandPwsh.Cmdlets.GitHub.GetGitHubCommitIssue{
         [Parameter]
         public DateTimeOffset? Until{ get; set; }
         [Parameter]
-        public ItemStateFilter ItemStateFilter{ get; set; }
+        public ItemStateFilter ItemStateFilter{ get; set; }=ItemStateFilter.All;
         protected override async Task BeginProcessingAsync(){
             await base.BeginProcessingAsync();
             if (!Since.HasValue){
-                ItemStateFilter=ItemStateFilter.All;
                 var release = await GitHubClient.Repository.GetForOrg(Organization, Repository1)
                     .SelectMany(repository => GitHubClient.Repository.Release.GetAll(repository.Id))
                     .Select(list => list.First(_ => !_.Draft));
