@@ -15,7 +15,8 @@ function Update-Nuspec {
         [string]$LibrariesFolder ,
         $customPackageLinks = @{ },
         [switch]$KeepDependencies,
-        [switch]$KeepFiles
+        [switch]$KeepFiles,
+        [bool]$ResolveNugetDependecies
     )
     
     begin {
@@ -55,7 +56,10 @@ function Update-Nuspec {
         $outputPath = "$(Resolve-Path $outputPath)"
         Pop-Location
         $assemblyPath = "$outputPath\$id.dll"
-        $allDependencies = [System.Collections.ArrayList]::new((Resolve-AssemblyDependencies $assemblyPath -ErrorAction SilentlyContinue | ForEach-Object { $_.GetName().Name }))
+        $allDependencies=@()
+        if ($ResolveNugetDependecies){
+            $allDependencies = [System.Collections.ArrayList]::new((Resolve-AssemblyDependencies $assemblyPath -ErrorAction SilentlyContinue | ForEach-Object { $_.GetName().Name }))
+        }
 
         $nuspec.package.metadata.version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($assemblyPath).FileVersion
         
@@ -65,7 +69,7 @@ function Update-Nuspec {
             if ($comma -ne -1 ) {
                 $packageName = $packageName.Substring(0, $comma)
             }
-            if ($packageName -in $allDependencies) {
+            if (!$ResolveNugetDependecies -or $packageName -in $allDependencies) {
                 $matchedPackageName = $customPackageLinks[$packageName]
                 if (!$matchedPackageName) {
                     $projectName = Get-ChildItem $ProjectsRoot *.csproj -Recurse | Select-Object -ExpandProperty BaseName | Where-Object { $_ -eq $packageName } | Select-Object -First 1
@@ -102,7 +106,7 @@ function Update-Nuspec {
                 Id      = $_.Include
                 Version = $_.Version
             }
-            if ($_.Include -in $allDependencies) {
+            if (!$ResolveNugetDependecies -or $_.Include -in $allDependencies) {
                 Invoke-Command $AddDependency -ArgumentList $packageInfo 
             }
         }
