@@ -9,7 +9,7 @@ namespace XpandPwsh.Cmdlets.GitHub.PublishGitHubRelease{
         public static ReleaseNotesTemplate Default{
             get{
                 var instance = new ReleaseNotesTemplate();
-                instance.Parts.Add(new TemplatePart(){Labels = {"Enhancements"}, Header = @"### Enhacements"});
+                instance.Parts.Add(new TemplatePart(){Labels = {"Enhancement"}, Header = @"### Enhacements"});
                 instance.Parts.Add(new TemplatePart(){Labels = {"Bug"}, Header = @"### Bugs"});
                 instance.Parts.Add(new TemplatePart(){Labels = {"BreakingChange"}, Header = @"### Breaking Changes"});
                 return instance;
