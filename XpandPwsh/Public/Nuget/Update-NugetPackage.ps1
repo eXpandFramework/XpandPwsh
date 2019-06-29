@@ -51,8 +51,9 @@ function Update-NugetPackage {
     }
     $packagesToAdd|Write-Verbose
     if ($packagesToAdd){
-        $packagesToAdd|Invoke-Parallel -StepInterval 100 -Script{
-            dotnet add $_.ProjectPath package $_.Package -v $_.Version -s $_.Sources -n|Write-Verbose
+        # $packagesToAdd|Invoke-Parallel -StepInterval 100 -Script{
+        $packagesToAdd|foreach{
+            dotnet add $_.ProjectPath package $_.Package -v $_.Version -s $_.Sources|Write-Verbose
             IF ($LASTEXITCODE){
                 throw
             }
