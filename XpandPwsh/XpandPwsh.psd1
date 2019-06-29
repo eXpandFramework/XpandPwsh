@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.9.13'
+ModuleVersion = '0.10.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -85,6 +85,7 @@ FunctionsToExport = @(
 "Find-XpandNugetPackage",
 "Find-XpandPackage",
 "Get-AssemblyInfoVersion",
+"Get-AssemblyPublicKey",
 "Get-CallerPreference",
 "Get-ChocoPackage",
 "Get-DevExpressVersion",
@@ -109,6 +110,7 @@ FunctionsToExport = @(
 "Get-PackageTargetFramework",
 "Get-RelativePath",
 "Get-SymbolSources",
+"Get-VSPath",
 "Get-XmlContent",
 "Get-XpandPackages",
 "Get-XpandPath",
