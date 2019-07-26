@@ -10,7 +10,7 @@ function Switch-DevExpress {
     New-Item "$dxNugetPackagesPath\Nupkg" -ItemType Directory -ErrorAction SilentlyContinue
     Get-ChildItem $dxNugetPackagesPath *.nupkg|ForEach-Object{
         if (!(Test-Path "$dxNugetPackagesPath\Nupkg\$($_.BaseName).zip")){
-            Move-Item $_.FullName "$dxNugetPackagesPath\Nupkg\$($_.BaseName).zip"
+            Copy-Item $_.FullName "$dxNugetPackagesPath\Nupkg\$($_.BaseName).zip"
             Expand-Archive "$dxNugetPackagesPath\Nupkg\$($_.BaseName).zip" "$dxNugetPackagesPath\Nupkg\$($_.BaseName)"
             Remove-Item "$dxNugetPackagesPath\Nupkg\$($_.BaseName).zip"
         }
@@ -21,16 +21,16 @@ function Switch-DevExpress {
         [xml]$project = Get-XmlContent $projectPath
         $dxReferences = $project.project.ItemGroup.Reference | Where-Object{$_.Include -like "DevExpress*"}
         if ($dxReferences) {
-            $packageReferences = $project.project.ItemGroup.PackageReference
+            $packageReferences = $project.project.ItemGroup.PackageReference|Where-Object{$_}
             if (!$packageReferences) {
-                $group = $project.DocumentElement.CreateElement("ItemGroup")
-                $project.project.AppendChild($group)
+                $group = $project.CreateElement("ItemGroup")
+                $project.project.AppendChild($group)|Out-Null
             }
             else{
                 $group=$packageReferences.ParentNode
             }
             $dxReferences |ForEach-Object {
-                $_.ParentNode.RemoveChild($_)
+                $_.ParentNode.RemoveChild($_)|Out-Null
                 $name=$_.Include
                 $package=get-childItem "$dxNugetPackagesPath\Nupkg\" "$name.dll" -Recurse|Select-Object -First 1
                 
@@ -48,9 +48,10 @@ function Switch-DevExpress {
                 $group.AppendChild($project.CreateTextNode("    "))|Out-Null
                 $group.AppendChild($packageReference)|Out-Null
                 $group.AppendChild($project.CreateTextNode([System.Environment]::NewLine))|Out-Null
-                $project.Save($projectPath)
                 $projectPath|Remove-BlankLines
             }
+            $project.Save($projectPath)
+            "Saved $projectPath"
         }
     }
 }
