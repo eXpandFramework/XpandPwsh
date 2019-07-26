@@ -8,7 +8,6 @@ using System.Reactive.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Octokit;
 using XpandPwsh.CmdLets;
 using XpandPwsh.Cmdlets.GitHub;
 
@@ -22,6 +21,8 @@ namespace XpandPwsh.Cmdlets.Nuget.UpdateNugetProjectVersion{
         public string Branch{ get; set; } 
         [Parameter(Mandatory = true)]
         public string SourcePath{ get; set; }
+        [Parameter(Mandatory = true)]
+        public string ExcludeFilter{ get; set; }
         [Parameter(Mandatory=true)]
         public PSObject[] Packages{ get; set; }
         [Parameter(Mandatory=true)]
@@ -34,7 +35,7 @@ namespace XpandPwsh.Cmdlets.Nuget.UpdateNugetProjectVersion{
             await commits.WriteVerboseObject(this,commit => commit.Commit.Message);
             var changedPackages = ExistingPackages(this).ToObservable()
                 .WriteVerboseObject(this,_ => $"Existing: {_.name}, {_.nextVersion} ")
-                .SelectMany(tuple => commits.Where(commit => commit.Files.Any(file => file.Filename.Contains(tuple.directory.Name))).Select(_=>tuple)).Distinct()
+                .SelectMany(tuple => commits.SelectMany(commit => commit.Files).Where(file => file.Filename.Contains(tuple.directory.Name)).Select(_=>tuple)).Distinct()
                 .Replay().RefCount();
             await changedPackages.WriteVerboseObject(this);
             var subject = new Subject<string>();
@@ -45,6 +46,7 @@ namespace XpandPwsh.Cmdlets.Nuget.UpdateNugetProjectVersion{
                     .GetForOrg(Organization, Repository)
 //                    .SelectMany(_ => CreateTagReference(this, GitHubClient, _, tuple, subject,synchronizationContext))
                     .Select(tag => tuple))
+                .ObserveOn(synchronizationContext)
                 .Select(UpdateAssemblyInfo)
                 .HandleErrors(this)
                 .WriteObject(this)
@@ -65,33 +67,34 @@ namespace XpandPwsh.Cmdlets.Nuget.UpdateNugetProjectVersion{
         }
 
 
-        private IObservable<Reference> CreateTagReference(IParameter parameter, GitHubClient appClient,
-            Repository repository, (string name, string nextVersion, DirectoryInfo directory) tuple,
-            IObserver<string> observer, SynchronizationContext synchronizationContext){
-            observer.OnNext($"Lookup {tuple.name} heads");
-            return appClient.Git.Reference.Get(repository.Id, $"heads/{parameter.Branch}")
-                .ToObservable()
-                .ObserveOn(synchronizationContext)
-                .SelectMany(reference => {
-                    var tag = $"{tuple.directory.Name}_{tuple.nextVersion}";
-                    var description = $"Creating {tag} tag on repo {repository.Name}";
-                    if (ShouldProcess(description)){
-                        observer.OnNext(description);
-                        return appClient.Git.Reference.Create(repository.Id,new NewReference($@"refs/tags/{tag}",reference.Object.Sha))
-                            .ToObservable().Catch<Reference, ApiValidationException>(ex =>
-                                ex.ApiError.Message=="Reference already exists"? Observable.Return<Reference>(null): Observable.Throw<Reference>(ex));
-                    }
+//        private IObservable<Reference> CreateTagReference(IParameter parameter, GitHubClient appClient,
+//            Repository repository, (string name, string nextVersion, DirectoryInfo directory) tuple,
+//            IObserver<string> observer, SynchronizationContext synchronizationContext){
+//            observer.OnNext($"Lookup {tuple.name} heads");
+//            return appClient.Git.Reference.Get(repository.Id, $"heads/{parameter.Branch}")
+//                .ToObservable()
+//                .ObserveOn(synchronizationContext)
+//                .SelectMany(reference => {
+//                    var tag = $"{tuple.directory.Name}_{tuple.nextVersion}";
+//                    var description = $"Creating {tag} tag on repo {repository.Name}";
+//                    if (ShouldProcess(description)){
+//                        observer.OnNext(description);
+//                        return appClient.Git.Reference.Create(repository.Id,new NewReference($@"refs/tags/{tag}",reference.Object.Sha))
+//                            .ToObservable().Catch<Reference, ApiValidationException>(ex =>
+//                                ex.ApiError.Message=="Reference already exists"? Observable.Return<Reference>(null): Observable.Throw<Reference>(ex));
+//                    }
+//
+//                    return Observable.Return(default(Reference));
+//
+//                });
+//        }
 
-                    return Observable.Return(default(Reference));
-
-                });
-        }
-
-        private static (string name, string nextVersion, DirectoryInfo directory)[] ExistingPackages(IParameter parameter){
+        private  (string name, string nextVersion, DirectoryInfo directory)[] ExistingPackages(IParameter parameter){
             var packageArgs = parameter.Packages.Select(_ => (name: $"{_.Properties["Id"].Value}",
                 nextVersion: $"{_.Properties["nextVersion"].Value}", directory: (DirectoryInfo) null)).ToArray();
 
             var existingPackages = Directory.GetFiles(parameter.SourcePath, "*.csproj", SearchOption.AllDirectories)
+                .Where(s => !s.ToLower().Contains(ExcludeFilter.ToLower()))
                 .Where(s => packageArgs.Select(_ => _.name).Any(s.Contains)).ToArray()
                 .Select(s => {
                     var valueTuple = packageArgs.First(_ => _.name == Path.GetFileNameWithoutExtension(s));
