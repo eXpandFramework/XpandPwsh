@@ -19,6 +19,8 @@ namespace XpandPwsh.Cmdlets.GitHub.CloseGitHubIssue{
         public string Message{ get; set; } ="Closing issue for age. Feel free to reopen it at any time.\r\n\r\n.Thank you for your contribution.";
         [Parameter]
         public int DaysUntilClose{ get; set; } = 60;
+        [Parameter]
+        public bool KeepWhenAssignees{ get; set; }
 
         protected override Task ProcessRecordAsync(){
             var repository = GitHubClient.Repository.GetAllForOrg(Organization).ToObservable()
@@ -62,7 +64,10 @@ namespace XpandPwsh.Cmdlets.GitHub.CloseGitHubIssue{
             return appClient.Issue.Update(_.repo.Id, _.issue.Number, issueUpdate).ToObservable().Select(issue => issue);
         }
 
-        private static bool NeedsClosing(Issue issue, int daysUntilClose){
+        private  bool NeedsClosing(Issue issue, int daysUntilClose){
+            if (issue.Assignees.Any() && KeepWhenAssignees){
+                return false;
+            }
             var totalDays = DateTimeOffset.UtcNow.Subtract(issue.CreatedAt.DateTime).TotalDays;
             if (issue.UpdatedAt.HasValue){
                 totalDays = DateTimeOffset.UtcNow.Subtract(issue.UpdatedAt.Value.DateTime).TotalDays;
@@ -70,6 +75,8 @@ namespace XpandPwsh.Cmdlets.GitHub.CloseGitHubIssue{
 
             return totalDays - daysUntilClose > 0;
         }
+
+        
     }
 
 }
