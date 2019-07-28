@@ -20,7 +20,7 @@ namespace XpandPwsh.Cmdlets.GitHub.CloseGitHubIssue{
         [Parameter]
         public int DaysUntilClose{ get; set; } = 60;
         [Parameter]
-        public bool KeepWhenAssignees{ get; set; }
+        public SwitchParameter KeepWhenAssignees{ get; set; }
 
         protected override Task ProcessRecordAsync(){
             var repository = GitHubClient.Repository.GetAllForOrg(Organization).ToObservable()
