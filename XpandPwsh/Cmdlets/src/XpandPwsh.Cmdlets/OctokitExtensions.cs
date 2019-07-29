@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
+using System.Text.RegularExpressions;
 using Octokit;
 
 namespace XpandPwsh.CmdLets{
@@ -20,20 +21,20 @@ namespace XpandPwsh.CmdLets{
                 .Select(list => list.First(repository => repository.Name == repositoryName));
         }
 
-        public static IObservable<((GitHubCommit commit, Issue[] issues)[] commitIssues, (Repository repo1, Repository repo2) repoTuple)> CommitIssues(
-            this GitHubClient appClient, string organization, string repository1,string repository2, DateTimeOffset? since,string branch=null,ItemStateFilter state=ItemStateFilter.All,DateTimeOffset? until=null){
+        public static IObservable<((GitHubCommit commit, Issue[] issues)[] commitIssues, (Repository repo1, Repository repo2) repoTuple)> CommitIssues(this GitHubClient appClient, 
+            string organization, string repository1, string repository2,DateTimeOffset? since, string branch = null, ItemStateFilter state = ItemStateFilter.All,DateTimeOffset? until = null){
 
             var allRepos = appClient.Repository.GetAllForOrg(organization).ToObservable().Replay().RefCount();
             return allRepos.Select(list => list.First(repository => repository.Name==repository1))
                 .Zip(allRepos.Select(list => list.First(repository => repository.Name==repository2)),(repo1, repo2) =>(repo1, repo2) )
                 .Select(repoTuple => {
                     var allIssues = appClient.Issue
-                        .GetAllForRepository(repoTuple.repo1.Id,new RepositoryIssueRequest{Since = since, State = state}).ToObservable()
-                        .SelectMany(list => list).ToEnumerable().ToArray();
+                        .GetAllForRepository(repoTuple.repo1.Id,new RepositoryIssueRequest{ Since = since, State = state}).ToObservable()
+                        .SelectMany(list => list).Distinct(issue => issue.Number).ToEnumerable().OrderBy(issue => issue.Number).ToArray();
                     var commits = appClient.Repository.Commit.GetAll(repoTuple.repo2.Id, new CommitRequest{Since = since, Sha = branch, Until = until})
                         .ToObservable().SelectMany(list => list).ToEnumerable().ToArray();
                     var commitIssues = commits.Select(commit => {
-                            var issues = allIssues.Where(issue => commit.Commit.Message.Contains($"#{issue.Number}")).ToArray();
+                            var issues = allIssues.Where(issue =>  new Regex($@"\#{issue.Number}\b").IsMatch(commit.Commit.Message)).ToArray();
                             return (commit, issues);
                         })
                         .Where(_ => _.issues.Any())
