@@ -34,7 +34,7 @@ namespace XpandPwsh.Cmdlets.Nuget.GetNugetPackageSearchMetadata{
 
 
         protected override async Task ProcessRecordAsync(){
-            var listPackages = Name != null ? Observable.Return(Name):Providers.ListPackages(Source);
+            var listPackages = Name != null ? Observable.Return(Name):Providers.ListPackages(Source).Select(_ => _.Id);
             var metaData = listPackages
                 .SelectMany(package => SelectPackages(package, Providers))
                 .Where(metadata => metadata!=null)
