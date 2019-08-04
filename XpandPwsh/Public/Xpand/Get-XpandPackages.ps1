@@ -12,10 +12,10 @@ function Get-XpandPackages{
     process {
         $nuget=Get-Nugetpath
         if (($Source -eq "Release") -or !$Source){
-            & $nuget List author:eXpandFramework -source (Get-PackageFeed -Nuget)|Where-Object{$_ -like "eXpand*"}|ConvertTo-PackageObject|Select-Object -ExpandProperty Name
+            & $nuget List author:eXpandFramework -source (Get-PackageFeed -Nuget)|Where-Object{$_ -like "eXpand*"}|ConvertTo-PackageObject
         }
         else{
-            & $nuget List eXpand -source (Get-PackageFeed -Xpand)|Where-Object{$_ -like "eXpand*"}|ConvertTo-PackageObject|Select-Object -ExpandProperty Name
+            & $nuget List eXpand -source (Get-PackageFeed -Xpand)|Where-Object{$_ -like "eXpand*"}|ConvertTo-PackageObject
         }
     }
     

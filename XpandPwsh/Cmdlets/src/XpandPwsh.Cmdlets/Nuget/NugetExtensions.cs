@@ -9,7 +9,7 @@ using NuGet.Protocol.Core.Types;
 
 namespace XpandPwsh.Cmdlets.Nuget{
     internal static class NugetExtensions{
-        public static IObservable<string> ListPackages(this List<Lazy<INuGetResourceProvider>> providers, string source,string searchTerm=null){
+        public static IObservable<(string Id, Version Version)> ListPackages(this List<Lazy<INuGetResourceProvider>> providers, string source,string searchTerm=null){
             var sourceRepository = new SourceRepository(new PackageSource(source), providers);
             return sourceRepository.GetResourceAsync<ListResource>().ToObservable()
                 .Select(resource =>
@@ -17,7 +17,7 @@ namespace XpandPwsh.Cmdlets.Nuget{
                         .ToObservable()).Concat()
                 .Select(async => async.GetEnumeratorAsync().ToObservable()).Concat()
                 .Where(metadata => metadata != null)
-                .Select(metadata => metadata.Identity.Id);
+                .Select(metadata => (metadata.Identity.Id,metadata.Identity.Version.Version));
         }
     }
 }
