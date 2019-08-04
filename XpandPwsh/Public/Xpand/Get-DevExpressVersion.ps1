@@ -23,7 +23,7 @@ function Get-DevExpressVersion {
             }
         }
         else{
-            Find-Package DevExpress.ExpressApp* -Source $LatestVersionFeed |Select-Object -ExpandProperty Version -First 1
+            Find-Package DevExpress.ExpressApp* -Source $LatestVersionFeed|Sort-Object Version -Descending |Select-Object -ExpandProperty Version -First 1
         }
         
     }
