@@ -3,7 +3,8 @@ function Update-AssemblyInfo() {
         [parameter(Mandatory)]
         $path,
         [switch]$Build,
-        [switch]$Minor
+        [switch]$Minor,
+        [switch]$Revision
 
     )
     if (!$path) {
@@ -24,7 +25,11 @@ function Update-AssemblyInfo() {
                 $newBuild=0
             }
         }
-        $newVersion = new-object System.Version ($version.Major, $newMinor, $newBuild, 0)
+        $newRevision=$version.Revision
+        if ($Revision){
+            $newRevision+=1
+        }
+        $newVersion = new-object System.Version ($version.Major, $newMinor, $newBuild, $newRevision)
         $parentDir=(Get-Item $_.DirectoryName).Parent.Name
         "$parentDir new version is $newVersion "
         $result = $c -creplace 'Version\("([^"]*)', "Version(""$newVersion"
