@@ -1,18 +1,26 @@
 function Switch-DevExpress {
     [alias("Switch-DX")]
     param(
-        [parameter(Mandatory)]
         [string[]]$dxNugetPackagesPath ,
         [parameter(Mandatory)]
         [string]$sourcePath 
         
     )
-    New-Item "$dxNugetPackagesPath\Nupkg" -ItemType Directory -ErrorAction SilentlyContinue
-    Get-ChildItem $dxNugetPackagesPath *.nupkg|ForEach-Object{
-        if (!(Test-Path "$dxNugetPackagesPath\Nupkg\$($_.BaseName).zip")){
-            Copy-Item $_.FullName "$dxNugetPackagesPath\Nupkg\$($_.BaseName).zip"
-            Expand-Archive "$dxNugetPackagesPath\Nupkg\$($_.BaseName).zip" "$dxNugetPackagesPath\Nupkg\$($_.BaseName)"
-            Remove-Item "$dxNugetPackagesPath\Nupkg\$($_.BaseName).zip"
+    $dxPath=Get-DevExpressPath
+    if (!$dxNugetPackagesPath){
+        $dxNugetPackagesPath=$dxPath|ForEach-Object{"$($_.Directory)\System\Components\packages"}
+    }
+    $dxNugetPackagesPath|ForEach-Object{
+        if (!(Test-Path "$_\Nupkg")){
+            New-Item "$_\Nupkg" -ItemType Directory -ErrorAction SilentlyContinue
+            Get-ChildItem $_ *.nupkg|ForEach-Object{
+                if (!(Test-Path "$_\Nupkg\$($_.BaseName).zip")){
+                    $zipFile="$($_.DirectoryName)\Nupkg\$($_.BaseName).zip"
+                    Copy-Item $_.FullName $zipFile
+                    Expand-Archive $zipFile "$($_.DirectoryName)\Nupkg\$($_.BaseName)"
+                    Remove-Item $zipFile
+                }
+            }
         }
     }
     
@@ -31,8 +39,11 @@ function Switch-DevExpress {
             }
             $dxReferences |ForEach-Object {
                 $_.ParentNode.RemoveChild($_)|Out-Null
-                $name=$_.Include
-                $package=get-childItem "$dxNugetPackagesPath\Nupkg\" "$name.dll" -Recurse|Select-Object -First 1
+                $name=([regex] '([^,]*)').Match($_.Include).Value
+                
+                $package=$dxNugetPackagesPath|ForEach-Object{
+                    get-childItem "$_\Nupkg\" "$name.dll" -Recurse
+                }|Select-Object -First 1
                 
                 if (!$package){
                     throw "$name not found in $($projectPath)"
