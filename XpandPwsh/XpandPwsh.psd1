@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.14.0'
+ModuleVersion = '0.15.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -89,6 +89,7 @@ FunctionsToExport = @(
 "Get-AssemblyPublicKey",
 "Get-CallerPreference",
 "Get-ChocoPackage",
+"Get-DevExpressPath",
 "Get-DevExpressVersion",
 "Get-Distinct",
 "Get-DotNetCoreVersion",
@@ -139,6 +140,8 @@ FunctionsToExport = @(
 "Remove-ProjectNuget",
 "Resolve-AssemblyDependencies",
 "Set-VsoVariable",
+"Sign-Assembly",
+"Start-SelfElevate",
 "Start-VsTest",
 "Start-XpandProjectConverter",
 "Switch-DevExpress",
