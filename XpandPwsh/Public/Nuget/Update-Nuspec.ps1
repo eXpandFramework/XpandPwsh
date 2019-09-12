@@ -55,7 +55,11 @@ function Update-Nuspec {
         }
         $outputPath = "$(Resolve-Path $outputPath)"
         Pop-Location
-        $assemblyPath = "$outputPath\$id.dll"
+        $extension="dll"
+        if ($csproj.Project.PropertyGroup.OutputType -eq "WinExe"){
+            $extension="exe"
+        }
+        $assemblyPath = "$outputPath\$id.$extension"
         $allDependencies=@()
         if ($ResolveNugetDependecies){
             $allDependencies = [System.Collections.ArrayList]::new((Resolve-AssemblyDependencies $assemblyPath -ErrorAction SilentlyContinue | ForEach-Object { $_.GetName().Name }))
@@ -111,12 +115,16 @@ function Update-Nuspec {
             }
         }
         $nuspec.Save($NuspecFilename)
-        "dll", "pdb" | ForEach-Object {
-            $file = $nuspec.CreateElement("file", $nuspec.DocumentElement.NamespaceURI)
-            $file.SetAttribute("src", "$id.$_")
-            $file.SetAttribute("target", "lib\net$targetFrameworkVersion\$id.$_")
-            $nuspec.SelectSingleNode("//ns:files", $ns).AppendChild($file) | Out-Null
-        }
+        
+        $file = $nuspec.CreateElement("file", $nuspec.DocumentElement.NamespaceURI)
+        $file.SetAttribute("src", "$id.$extension")
+        $file.SetAttribute("target", "lib\net$targetFrameworkVersion\$id.$_")
+        $nuspec.SelectSingleNode("//ns:files", $ns).AppendChild($file) | Out-Null
+        $file = $nuspec.CreateElement("file", $nuspec.DocumentElement.NamespaceURI)
+        $file.SetAttribute("src", "$id.pdb")
+        $file.SetAttribute("target", "lib\net$targetFrameworkVersion\$id.$_")
+        $nuspec.SelectSingleNode("//ns:files", $ns).AppendChild($file) | Out-Null
+
         $nuspec.Save($NuspecFilename)
         if ($LibrariesFolder) {
             [System.Environment]::CurrentDirectory = $projectDirectory
