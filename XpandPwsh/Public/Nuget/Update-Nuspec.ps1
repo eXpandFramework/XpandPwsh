@@ -118,11 +118,11 @@ function Update-Nuspec {
         
         $file = $nuspec.CreateElement("file", $nuspec.DocumentElement.NamespaceURI)
         $file.SetAttribute("src", "$id.$extension")
-        $file.SetAttribute("target", "lib\net$targetFrameworkVersion\$id.$_")
+        $file.SetAttribute("target", "lib\net$targetFrameworkVersion\$id.$extension")
         $nuspec.SelectSingleNode("//ns:files", $ns).AppendChild($file) | Out-Null
         $file = $nuspec.CreateElement("file", $nuspec.DocumentElement.NamespaceURI)
         $file.SetAttribute("src", "$id.pdb")
-        $file.SetAttribute("target", "lib\net$targetFrameworkVersion\$id.$_")
+        $file.SetAttribute("target", "lib\net$targetFrameworkVersion\$id.pdb")
         $nuspec.SelectSingleNode("//ns:files", $ns).AppendChild($file) | Out-Null
 
         $nuspec.Save($NuspecFilename)
