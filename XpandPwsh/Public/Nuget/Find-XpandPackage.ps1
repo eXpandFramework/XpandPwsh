@@ -24,7 +24,8 @@ function Find-XpandPackage {
             $p = $(Find-XpandPackage -Filter $Filter -PackageSource Lab) , $(Find-XpandPackage -Filter $Filter -PackageSource Release)
         }
         elseif ($PackageSource -eq "Release") {
-            $p = & $nuget list author:eXpandFramework -Source (Get-PackageFeed -Nuget)|ConvertTo-PackageObject | Where-Object { $_.Id -like $Filter }
+            $p=& (Get-NugetPath) list author:expandframework -source (Get-PackageFeed -Nuget)
+            $p = $p|ConvertTo-PackageObject | Where-Object { $_.Id -like $Filter }
         }
         $p 
     }
