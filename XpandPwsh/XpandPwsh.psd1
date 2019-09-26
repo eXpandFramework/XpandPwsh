@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.15.4'
+ModuleVersion = '0.16.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -130,6 +130,7 @@ FunctionsToExport = @(
 "New-Assembly",
 "New-AssemblyResolver",
 "New-Command",
+"New-GitHubComment",
 "New-GithubReleaseNotes",
 "New-GithubReleaseNotesTemplate",
 "Publish-AssemblyToGac",
