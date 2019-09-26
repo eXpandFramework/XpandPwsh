@@ -9,7 +9,7 @@ function Get-XpandVersion {
         $OfficialPackages,
         $LabPackages,
         $DXVersion,
-        [string]$Module="eXpand"
+        [string]$Module="eXpand*"
     )
     if ($Next) {
         $official = ($OfficialPackages|where-object{$_.Name -eq $Module}).Version
@@ -18,7 +18,7 @@ function Get-XpandVersion {
         Write-Verbose "lab=$labVersion"
         $revision = 0
         $baseVersion=$DXVersion
-        if ($Module -ne "eXpand" ){
+        if ($Module -ne "eXpand*" ){
             if ($labVersion -lt $official){
                 $baseVersion=$official
             }
@@ -59,7 +59,7 @@ function Get-XpandVersion {
     if ($XpandPath) {
         $assemblyIndoName="AssemblyInfo"
         $pattern='AssemblyVersion\("([^"]*)'
-        if ($Module -eq "eXpand"){
+        if ($Module -eq "eXpand*"){
             $assemblyInfoPath="Xpand\Xpand.Utils"
             $assemblyIndoName="XpandAssemblyInfo"
             $pattern='public const string Version = \"([^\"]*)'
@@ -87,9 +87,9 @@ function Get-XpandVersion {
         return
     }
     if ($Lab) {
-        return (Find-XpandPackage -Name $Module -PackageSource Lab).Version
+        return (Find-XpandPackage $Module -PackageSource lab|Sort-Object Version -Descending |Select-Object -First 1).Version
     }
     if ($Release) {        
-        return (Find-XpandPackage -Name $Module -PackageSource Release).Version
+        return (Find-XpandPackage $Module -PackageSource  Release  |Sort-Object Version -Descending |Select-Object -First 1).Version
     }
 }

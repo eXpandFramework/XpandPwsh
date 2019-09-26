@@ -118,6 +118,7 @@ FunctionsToExport = @(
 "Get-XpandPackages",
 "Get-XpandPath",
 "Get-XpandReleaseChange",
+"Get-XpandRepository",
 "Get-XpandVersion",
 "Install-Chocolatey",
 "Install-DebugOptimizationHook",
