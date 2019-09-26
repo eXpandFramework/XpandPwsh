@@ -6,17 +6,19 @@ function Get-XpandVersion {
         [switch]$Release,
         [switch]$Lab,
         [switch]$Next,
-        [string]$Module="eXpand*"
+        $OfficialPackages,
+        $LabPackages,
+        $DXVersion,
+        [string]$Module="eXpand"
     )
     if ($Next) {
-        
-        $official = Get-XpandVersion -Release -Module $Module
+        $official = ($OfficialPackages|where-object{$_.Name -eq $Module}).Version
         Write-Verbose "Release=$official"
-        $labVersion = Get-XpandVersion -Lab -Module $Module
+        $labVersion = ($labPackages|where-object{$_.Name -eq $Module}).Version
         Write-Verbose "lab=$labVersion"
         $revision = 0
-        [version]$baseVersion=Get-DevExpressVersion 
-        if ($Module -notlike "eXpand*" ){
+        $baseVersion=$DXVersion
+        if ($Module -ne "eXpand" ){
             if ($labVersion -lt $official){
                 $baseVersion=$official
             }
@@ -24,16 +26,16 @@ function Get-XpandVersion {
                 $baseVersion=$labVersion
             }
             $build=$baseVersion.Build
+            if (!$official -and !$baseVersion){
+                return
+            }
         }
         else{
             $build="$($baseVersion.Build)00"
         }
         Write-Verbose "baseVersion=$baseVersion"
         
-        if (!$official -and !$baseVersion){
-            return
-        }
-        elseif ((($official.Build -like "$($baseVersion.build)*"))){
+        if ((($official.Build -like "$($baseVersion.build)*"))){
             if ($official.Build -eq $labVersion.Build) {
                 $revision = $labVersion.Revision + 1
                 if ($labVersion.Revision -eq -1) {
@@ -46,21 +48,18 @@ function Get-XpandVersion {
                 $revision=1
             }
         }
-        elseif ((($labVersion.Build -like "$($baseVersion.build)*"))){
-            $revision = $labVersion.Revision + 1
-            if ($baseVersion.Minor -ne $labVersion.Minor -or $labVersion.Revision -eq -1){
-                $revision=1
-            }
-        }
         else{
-            $revision=1
+            $revision = $labVersion.Revision + 1
+            if ($labVersion.Revision -eq -1) {
+                $revision = 1
+            }
         }
         return New-Object System.Version($baseVersion.Major, $baseVersion.Minor, $build, $revision)
     }
     if ($XpandPath) {
         $assemblyIndoName="AssemblyInfo"
         $pattern='AssemblyVersion\("([^"]*)'
-        if ($Module -like "eXpand*"){
+        if ($Module -eq "eXpand"){
             $assemblyInfoPath="Xpand\Xpand.Utils"
             $assemblyIndoName="XpandAssemblyInfo"
             $pattern='public const string Version = \"([^\"]*)'
@@ -88,9 +87,9 @@ function Get-XpandVersion {
         return
     }
     if ($Lab) {
-        return (Find-XpandPackage $Module -PackageSource lab|Sort-Object Version -Descending |Select-Object -First 1).Version
+        return (Find-XpandPackage -Name $Module -PackageSource Lab).Version
     }
-    if ($Release) {
-        return (Find-XpandPackage $Module -PackageSource  Release  |Sort-Object Version -Descending |Select-Object -First 1).Version
+    if ($Release) {        
+        return (Find-XpandPackage -Name $Module -PackageSource Release).Version
     }
 }
