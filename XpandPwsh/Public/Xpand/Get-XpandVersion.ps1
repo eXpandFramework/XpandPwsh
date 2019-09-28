@@ -7,18 +7,27 @@ function Get-XpandVersion {
         [switch]$Lab,
         [parameter(ParameterSetName="Next")]
         [switch]$Next,
-        [parameter(ParameterSetName="Next",Mandatory)]
+        [parameter(ParameterSetName="Next")]
         $OfficialPackages,
-        [parameter(ParameterSetName="Next",Mandatory)]
+        [parameter(ParameterSetName="Next")]
         $LabPackages,
-        $DXVersion,
+        [parameter(ParameterSetName="Next")]
+        [version]$DXVersion,
         [string]$Module="eXpand*"
     )
+    $official = ($OfficialPackages|where-object{$_.Id -like $Module}).Version
+    $labVersion = ($labPackages|where-object{$_.Id -like $Module}).Version
+    if ($Module -eq "eXpand*"){
+        $official=$official|ForEach-Object{
+            [version]$_
+        }|Sort-Object -Descending -Top 1
+        $labVersion=$labVersion|ForEach-Object{
+            [version]$_
+        }|Sort-Object -Descending -Top 1
+    }
+    Write-Verbose "Release=$official"
+    Write-Verbose "lab=$labVersion"
     if ($Next) {
-        $official = ($OfficialPackages|where-object{$_.Name -eq $Module}).Version
-        Write-Verbose "Release=$official"
-        $labVersion = ($labPackages|where-object{$_.Name -eq $Module}).Version
-        Write-Verbose "lab=$labVersion"
         $revision = 0
         $baseVersion=$DXVersion
         if ($Module -ne "eXpand*" ){
