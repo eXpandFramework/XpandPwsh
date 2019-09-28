@@ -5,8 +5,11 @@ function Get-XpandVersion {
         [switch]$Latest,
         [switch]$Release,
         [switch]$Lab,
+        [parameter(ParameterSetName="Next")]
         [switch]$Next,
+        [parameter(ParameterSetName="Next",Mandatory)]
         $OfficialPackages,
+        [parameter(ParameterSetName="Next",Mandatory)]
         $LabPackages,
         $DXVersion,
         [string]$Module="eXpand*"

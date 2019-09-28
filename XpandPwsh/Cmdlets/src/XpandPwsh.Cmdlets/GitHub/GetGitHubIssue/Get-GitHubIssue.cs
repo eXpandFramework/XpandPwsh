@@ -18,13 +18,18 @@ namespace XpandPwsh.Cmdlets.GitHub.GetGitHubIssue{
         public IssueFilter IssueFilter{ get; set; }=IssueFilter.All;
         [Parameter]
         public ItemStateFilter State{ get; set; }=ItemStateFilter.Open;
-
+        [Parameter]
+        public int IssueNumber{ get; set; }
         protected override Task ProcessRecordAsync(){
             return GitHubClient.Repository.GetForOrg(Organization, Repository)
-                .SelectMany(repository => GitHubClient.Issue.GetAllForRepository(repository.Id,
-                    new RepositoryIssueRequest(){
-                        Since = Since, Filter = IssueFilter,State = State
-                    }))
+                .SelectMany(repository => {
+                    return IssueNumber > 0
+                        ? GitHubClient.Issue.Get(repository.Id, IssueNumber).ToObservable()
+                        : GitHubClient.Issue.GetAllForRepository(repository.Id,
+                            new RepositoryIssueRequest(){
+                                Since = Since, Filter = IssueFilter, State = State
+                            }).ToObservable().SelectMany(list => list);
+                })
                 .WriteObject(this)
                 .ToTask();
         }
