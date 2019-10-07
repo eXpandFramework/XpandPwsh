@@ -6,7 +6,7 @@ trigger:
      include:
        - master
 pool:
-  vmImage: latest
+  vmImage: windows-2019
 steps:
 - checkout: self
   clean: true
