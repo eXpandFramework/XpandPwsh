@@ -60,6 +60,7 @@ function Update-Nuspec {
             $extension="exe"
         }
         $assemblyPath = "$outputPath\$id.$extension"
+        $assemblyPath
         $allDependencies=@()
         if ($ResolveNugetDependecies){
             $allDependencies = [System.Collections.ArrayList]::new((Resolve-AssemblyDependencies $assemblyPath -ErrorAction SilentlyContinue | ForEach-Object { $_.GetName().Name }))
@@ -69,6 +70,7 @@ function Update-Nuspec {
         
         $csproj.Project.ItemGroup.Reference | Where-Object { "$($_.Include)" -like $ReferenceToPackageFilter } | ForEach-Object {
             $packageName = $_.Include
+            $packageName
             $comma = $packageName.IndexOf(",")
             if ($comma -ne -1 ) {
                 $packageName = $packageName.Substring(0, $comma)

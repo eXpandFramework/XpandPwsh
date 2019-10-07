@@ -31,7 +31,9 @@ namespace XpandPwsh.Cmdlets.Nuget.UpdateNugetProjectVersion{
         protected override async Task ProcessRecordAsync(){
             var commits =  GitHubClient.Commits(Organization, Repository,
                 CommitsSince, Branch).Replay().RefCount();
-            
+            if (!commits.ToEnumerable().Any()){
+                return;
+            }
             await commits.WriteVerboseObject(this,commit => commit.Commit.Message);
             var changedPackages = ExistingPackages(this).ToObservable()
                 .WriteVerboseObject(this,_ => $"Existing: {_.name}, {_.nextVersion} ")
