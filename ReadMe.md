@@ -58,7 +58,7 @@ Get-Command -Module XpandPwsh
 |[Get-SymbolSources](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-SymbolSources)|List the sources of a symbol (*.pdb)|
 |[Get-VSPath](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-VSPath)|{{ Fill in the Synopsis }}|
 |[Get-XmlContent](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-XmlContent)|{{ Fill in the Synopsis }}|
-|[Get-XpandPackages](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-XpandPackages)|{{ Fill in the Synopsis }}|
+|[Get-XpandPackages](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-XpandPackages)|Lists all Xpand Nuget package (Release/Lab)|
 |[Get-XpandPath](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-XpandPath)|{{ Fill in the Synopsis }}|
 |[Get-XpandReleaseChange](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-XpandReleaseChange)|Query all eXpandFramework releases.|
 |[Get-XpandRepository](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-XpandRepository)|{{ Fill in the Synopsis }}|
@@ -80,14 +80,14 @@ Get-Command -Module XpandPwsh
 |[Publish-AssemblyToGac](https://github.com/eXpandFramework/XpandPwsh/wiki/Publish-AssemblyToGac)|Publish assemblies to Gac.|
 |[Publish-GitHubRelease](https://github.com/eXpandFramework/XpandPwsh/wiki/Publish-GitHubRelease)|{{ Fill in the Synopsis }}|
 |[Publish-NugetPackage](https://github.com/eXpandFramework/XpandPwsh/wiki/Publish-NugetPackage)|Publishes a NuGet package.|
-|[Remove-BlankLines](https://github.com/eXpandFramework/XpandPwsh/wiki/Remove-BlankLines)|{{ Fill in the Synopsis }}|
+|[Remove-BlankLines](https://github.com/eXpandFramework/XpandPwsh/wiki/Remove-BlankLines)|Removes blank lines from a files|
 |[Remove-ProjectLicenseFile](https://github.com/eXpandFramework/XpandPwsh/wiki/Remove-ProjectLicenseFile)|Removes licx files from a VS project.|
 |[Remove-ProjectNuget](https://github.com/eXpandFramework/XpandPwsh/wiki/Remove-ProjectNuget)|{{ Fill in the Synopsis }}|
 |[Resolve-AssemblyDependencies](https://github.com/eXpandFramework/XpandPwsh/wiki/Resolve-AssemblyDependencies)|Resolve all referenced assemblies for a given assembly, reclusively.|
 |[Set-VsoVariable](https://github.com/eXpandFramework/XpandPwsh/wiki/Set-VsoVariable)|{{ Fill in the Synopsis }}|
-|[Start-SelfElevate](https://github.com/eXpandFramework/XpandPwsh/wiki/Start-SelfElevate)|{{ Fill in the Synopsis }}|
-|[Start-XpandProjectConverter](https://github.com/eXpandFramework/XpandPwsh/wiki/Start-XpandProjectConverter)|{{ Fill in the Synopsis }}|
-|[Switch-DevExpress](https://github.com/eXpandFramework/XpandPwsh/wiki/Switch-DevExpress)|{{ Fill in the Synopsis }}|
+|[Start-SelfElevate](https://github.com/eXpandFramework/XpandPwsh/wiki/Start-SelfElevate)|Elevates the current powershell session|
+|[Start-XpandProjectConverter](https://github.com/eXpandFramework/XpandPwsh/wiki/Start-XpandProjectConverter)|Updates versions of eXpandFramework assemblies in csproj files when the eXpandFramework installer is used|
+|[Switch-DevExpress](https://github.com/eXpandFramework/XpandPwsh/wiki/Switch-DevExpress)|Switch csproj DevExpress references to Nuget packages|
 |[Test-Symbol](https://github.com/eXpandFramework/XpandPwsh/wiki/Test-Symbol)|Checks if the symbol is valid for a given assembly.|
 |[Uninstall-ProjectAllPackages](https://github.com/eXpandFramework/XpandPwsh/wiki/Uninstall-ProjectAllPackages)|Uninstall all NuGet and their dependencies from a project.|
 |[UnInstall-Xpand](https://github.com/eXpandFramework/XpandPwsh/wiki/UnInstall-Xpand)|Uninstall eXpandFramework project.|
