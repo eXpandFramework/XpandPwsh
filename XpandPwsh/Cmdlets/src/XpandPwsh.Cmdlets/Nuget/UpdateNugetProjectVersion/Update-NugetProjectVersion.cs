@@ -39,7 +39,10 @@ namespace XpandPwsh.Cmdlets.Nuget.UpdateNugetProjectVersion{
                 .WriteVerboseObject(this,_ => $"Existing: {_.name}, {_.nextVersion} ")
                 .SelectMany(tuple => commits.SelectMany(commit => commit.Files).Where(file => file.Filename.Contains(tuple.directory.Name)).Select(_=>tuple)).Distinct()
                 .Replay().RefCount();
-            await changedPackages.WriteVerboseObject(this);
+            var valueTuple = await changedPackages.WriteVerboseObject(this).FirstOrDefaultAsync();
+            if (valueTuple == default){
+                return;
+            }
             var subject = new Subject<string>();
             subject.WriteObject(this).Subscribe();
             var synchronizationContext = SynchronizationContext.Current;
