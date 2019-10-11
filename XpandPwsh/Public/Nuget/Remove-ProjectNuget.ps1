@@ -5,11 +5,15 @@ function Remove-ProjectNuget {
         [string]$projectPath = (Get-Location),
         [parameter(Mandatory)]
         [string]$nugetAssembliesBin,
-        [string]$ProjectFilter = "*"
+        [string]$ProjectFilter = "*",
+        [switch]$SkipRestore
     )
     Get-ChildItem $projectPath "$ProjectFilter.csproj" -Recurse | ForEach-Object { 
         $path = $_.FullName
-        dotnet restore $path
+        if(!$SkipRestore){
+            dotnet restore $path
+        }
+        
         [xml]$project = Get-XmlContent $path
         
         if ($project.Project.ItemGroup.packageReference) {
