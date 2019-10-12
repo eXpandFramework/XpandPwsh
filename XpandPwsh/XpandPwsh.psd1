@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.17.7'
+ModuleVersion = '0.18.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -145,6 +145,7 @@ FunctionsToExport = @(
 "Start-SelfElevate",
 "Start-XpandProjectConverter",
 "Switch-DevExpress",
+"Swtch-XpandToNugets",
 "Test-Symbol",
 "Uninstall-ProjectAllPackages",
 "UnInstall-Xpand",
