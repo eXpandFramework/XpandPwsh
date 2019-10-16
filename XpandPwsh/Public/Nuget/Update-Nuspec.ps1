@@ -60,13 +60,14 @@ function Update-Nuspec {
             $extension="exe"
         }
         $assemblyPath = "$outputPath\$id.$extension"
-        $assemblyPath
+        "assemblyPath=$assemblyPath"
         $allDependencies=@()
         if ($ResolveNugetDependecies){
             $allDependencies = [System.Collections.ArrayList]::new((Resolve-AssemblyDependencies $assemblyPath -ErrorAction SilentlyContinue | ForEach-Object { $_.GetName().Name }))
         }
-
-        $nuspec.package.metadata.version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($assemblyPath).FileVersion
+        $fileVersion=[System.Diagnostics.FileVersionInfo]::GetVersionInfo($assemblyPath).FileVersion
+        "fileVersion=$fileVersion"
+        $nuspec.package.metadata.version = $fileVersion
         
         $csproj.Project.ItemGroup.Reference | Where-Object { "$($_.Include)" -like $ReferenceToPackageFilter } | ForEach-Object {
             $packageName = $_.Include
