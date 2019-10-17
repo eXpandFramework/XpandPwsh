@@ -59,18 +59,21 @@ namespace XpandPwsh.Cmdlets{
 
         public static IObservable<T> WriteVerboseObject<T>(this IObservable<T> source, Cmdlet cmdlet,Func<T,string> text=null,SynchronizationContext synchronizationContext=null){
             synchronizationContext = synchronizationContext ?? SynchronizationContext.Current;
-            text = text ?? (arg => $"{arg}");
+            text = text ?? (arg => $"{arg.GetType().Name}{arg}");
             return source.ObserveOn(synchronizationContext).Select((arg1, i) => {
                 if (arg1 != null){
-                    cmdlet.WriteVerbose($"{arg1.GetType().Name}: {text(arg1)}");
+                    cmdlet.WriteVerbose($"{text(arg1)}");
                 }
                 return arg1;
             });
         }
 
-        public static IObservable<T> WriteObject<T>(this IObservable<T> source,Cmdlet cmdlet,int? progressItemsTotalCount=null,bool enumerateCollection=true){
-            var writeObject = source.ObserveOn(SynchronizationContext.Current).Select(obj => {
-                cmdlet.WriteObject(obj, enumerateCollection);
+        public static IObservable<T> WriteObject<T>(this IObservable<T> source,Cmdlet cmdlet,int? progressItemsTotalCount=null,bool enumerateCollection=true,Func<T,object> output=null){
+            var writeObject = source
+                .ObserveOn(SynchronizationContext.Current)
+                .Select(obj => {
+                var o = output?.Invoke(obj)??obj;
+                cmdlet.WriteObject(o, enumerateCollection);
                 return obj;
             });
             return progressItemsTotalCount.HasValue ? writeObject.WriteProgress((IProgressCmdlet) cmdlet, progressItemsTotalCount.Value) : writeObject;
