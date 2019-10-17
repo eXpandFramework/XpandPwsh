@@ -4,7 +4,7 @@ function Get-XpandPackages {
         [parameter()]
         [ValidateSet("Release","Lab")]
         $Source,
-        [ValidateSet("All","eXpand","XAF")]
+        [ValidateSet("All","eXpand","XAF","XAFAll")]
         $PackageType="eXpand"
     )
     
@@ -18,16 +18,25 @@ function Get-XpandPackages {
         elseif ($PackageType -eq "eXpand") {
             $Filter="eXpand*"
         }
-        else{
+        elseif ($PackageType -eq "XAF"){
             $Filter="Xpand.XAF.Modules*"
+        }
+        elseif ($PackageType -eq "XAFAll"){
+            $Filter="Xpand.XAF.Modules*;Xpand.Extensions*"
         }
         $nuget=Get-Nugetpath
         if (($Source -eq "Release") -or !$Source){
-            & $nuget List author:eXpandFramework -source (Get-PackageFeed -Nuget)|Where-Object{$_ -like $Filter}|ConvertTo-PackageObject
+            $query=& $nuget List author:eXpandFramework -source (Get-PackageFeed -Nuget)
+            
         }
         else{
-            & $nuget List -source (Get-PackageFeed -Xpand)|Where-Object{$_ -like $Filter}|ConvertTo-PackageObject
+            $query=& $nuget List -source (Get-PackageFeed -Xpand)
         }
+        $filter.split(";")|ForEach-Object{
+            $f=$_
+            $query|Where-Object{$_ -like $f}|ConvertTo-PackageObject
+        }
+        
     }
     
     end {
