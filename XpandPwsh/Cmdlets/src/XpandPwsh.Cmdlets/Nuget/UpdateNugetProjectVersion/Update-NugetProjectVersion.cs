@@ -35,11 +35,13 @@ namespace XpandPwsh.Cmdlets.Nuget.UpdateNugetProjectVersion{
                 return;
             }
             await commits.WriteVerboseObject(this,commit => commit.Commit.Message);
+            
             var changedPackages = ExistingPackages(this).ToObservable()
                 .WriteVerboseObject(this,_ => $"Existing: {_.name}, {_.nextVersion} ")
                 .SelectMany(tuple => commits.SelectMany(commit => commit.Files).Where(file => file.Filename.Contains(tuple.directory.Name)).Select(_=>tuple)).Distinct()
                 .Replay().RefCount();
-            var valueTuple = await changedPackages.WriteVerboseObject(this).FirstOrDefaultAsync();
+            WriteVerbose("ChangedPackages:");
+            var valueTuple = await changedPackages.WriteVerboseObject(this,_ => $"Changed: {_.name}, {_.nextVersion} ");
             if (valueTuple == default){
                 return;
             }

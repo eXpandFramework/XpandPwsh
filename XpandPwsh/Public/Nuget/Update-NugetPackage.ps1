@@ -12,12 +12,13 @@ function Update-NugetPackage {
         [string]$ExcludeFilter ,
         [string]$sources = ((Get-PackageSourceLocations Nuget) -join ";")
     )
-    Write-Host "PackagesConfig" -f Blue 
+    
     if ($RepositoryPath) {
+        Write-Host "PackagesConfig:" -f Blue 
         Update-NugetPackagesConfig $SourcePath $RepositoryPath $Filter $ExcludeFilter $sources
     }
     
-    Write-Host "PackageReference" -f blue
+    
     if (!$projects) {
         $projects = Get-ChildItem $SourcePath *.csproj -Recurse 
     }
@@ -33,57 +34,81 @@ function Update-NugetPackage {
             $p
         }
     } | Sort-Object -Unique
+
 Write-Host "packages:" -f blue
 $packages
 $metadata = $packages | ForEach-Object {
     Get-NugetPackageSearchMetadata $_ $sources
-}
-    
-$packagesToAdd = $projects | ForEach-Object {
-    $csprojPath = $_.FullName
-    $csprojName = $_.BaseName
-    [xml]$csproj = Get-Content $csprojPath
-    $csproj.Project.ItemGroup.PackageReference | Where-Object {
-        $r=$_.Include -and $_.Include -match $Filter
-        if ($ExcludeFilter -and $r){
-            $_.Include -notmatch $ExcludeFilter
-        }
-        else {
-            $r
-        }
-    } | ForEach-Object {
-        $p = $_.Include
-        $m = $metadata | Where-Object { $_.Identity.Id -eq $p }
-        $latestVersion = (Get-NugetPackageMetadataVersion $m).version
-        $installedVersion = $_.Version
-        if ($latestVersion -ne $installedVersion) {
-            Write-Host "Updating $csprojName $p $installedVersion to $latestVersion" -f Green
-            [PSCustomObject]@{
-                ProjectPath = $csprojPath
-                Package     = $p
-                Version     = $latestVersion
-                Sources     = $sources
-            }
-        }
-    }
-}
-$packagesToAdd | Write-Verbose
-if ($packagesToAdd) {
-    # $packagesToAdd|Invoke-Parallel -StepInterval 100 -Script{
-    $packagesToAdd | ForEach-Object {
+} | Get-SortedPackageByDependencies
+        
+$packagesToAdd = GetPackagesToAdd $projects $Filter $ExcludeFilter
+Write-Host "packagesToAdd:$($packagesToAdd.Count)" -ForegroundColor Blue
+$packagesToAdd 
+Write-Host "`r`n`r`n"
+$concurrencyLimit = [System.Environment]::ProcessorCount-2
+while ($packagesToAdd) {
+    $notPackagesToAdd = $packagesToAdd | Invoke-Parallel -LimitConcurrency $concurrencyLimit -Script {
         $projectPath = $_.ProjectPath
         $p = $_.Package
         $s = $_.Sources
         $v = $_.Version
-        dotnet add $projectPath package $p -v $v -s $s 
-        IF ($LASTEXITCODE) {
-            throw
+        $nuget = Get-NugetPath
+        $output = "dotnet add $projectPath package $p -v $v -s $s`r`n"
+        try {
+            $output = dotnet add $projectPath package $p -v $v -s $s 
+            if ($output -like "*error*") {
+                [PSCustomObject]@{
+                    Package = $_
+                    Error   = $output
+                }
+            }
+        }
+        catch {
+                
         }
     }
-}
-    
+        
+        
+    Write-Host "Not-PackagesToAdd: $($notPackagesToAdd.Count)" -ForegroundColor Red
+    $notPackagesToAdd
+    Write-Host "`r`n`r`n"
+    Start-Sleep 1
+    $packagesToAdd = GetPackagesToAdd $projects $Filter $ExcludeFilter
+    Write-Host "packagesToAdd:$($packagesToAdd.Count)" -ForegroundColor Blue
+    $packagesToAdd 
 }
 
+}
+function GetPackagesToAdd($projects, $Filter, $ExcludeFilter) {
+    $projects | ForEach-Object {
+        $csprojPath = $_.FullName
+        $csprojName = $_.BaseName
+        [xml]$csproj = Get-Content $csprojPath
+        $csproj.Project.ItemGroup.PackageReference | Where-Object {
+            $r = $_.Include -and $_.Include -match $Filter
+            if ($ExcludeFilter -and $r) {
+                $_.Include -notmatch $ExcludeFilter
+            }
+            else {
+                $r
+            }
+        } | ForEach-Object {
+            $p = $_.Include
+            $m = $metadata | Where-Object { $_.Identity.Id -eq $p }
+            $latestVersion = (Get-NugetPackageMetadataVersion $m).version
+            $installedVersion = $_.Version
+            if ($latestVersion -ne $installedVersion) {
+                Write-Host "Updating $csprojName $p $installedVersion to $latestVersion" -f Green
+                [PSCustomObject]@{
+                    ProjectPath = $csprojPath
+                    Package     = $p
+                    Version     = $latestVersion
+                    Sources     = $sources
+                }
+            }
+        }
+}
+}
 function Update-NugetPackagesConfig {
     [CmdletBinding()]
     param (
@@ -178,8 +203,8 @@ function Get-SortedPackageByDependencies {
         while ($all.Count) {
             $all | ForEach-Object {
                 $obj = $_
-                $deps = $obj.Metadata.Metadata.DependencySets.Packages | Select-Object -ExpandProperty Id
-                $exist = $all | Select-Object -ExpandProperty Id | Where-Object { $deps -contains $_ }
+                $deps = $obj.DependencySets.Packages | Select-Object -ExpandProperty Id
+                $exist = $all | Select-Object -ExpandProperty Identity | Where-Object { $deps -contains $_.Id }
                 if (!$exist) {
                     $list.Add($obj) | Out-Null
                 }
