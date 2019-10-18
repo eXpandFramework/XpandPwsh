@@ -70,7 +70,10 @@ while ($packagesToAdd) {
         
         
     Write-Host "Not-PackagesToAdd: $($notPackagesToAdd.Count)" -ForegroundColor Red
-    $notPackagesToAdd
+    $notPackagesToAdd.Package|Out-String
+    Write-Host "Error:" -ForegroundColor Red
+    $notPackagesToAdd.Error|Out-String
+
     Write-Host "`r`n`r`n"
     Start-Sleep 1
     $packagesToAdd = GetPackagesToAdd $projects $Filter $ExcludeFilter
