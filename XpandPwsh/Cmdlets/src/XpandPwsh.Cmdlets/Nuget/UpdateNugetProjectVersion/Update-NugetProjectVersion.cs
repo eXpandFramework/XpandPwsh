@@ -41,7 +41,7 @@ namespace XpandPwsh.Cmdlets.Nuget.UpdateNugetProjectVersion{
                 .SelectMany(tuple => commits.SelectMany(commit => commit.Files).Where(file => file.Filename.Contains(tuple.directory.Name)).Select(_=>tuple)).Distinct()
                 .Replay().RefCount();
             WriteVerbose("ChangedPackages:");
-            var valueTuple = await changedPackages.WriteVerboseObject(this,_ => $"Changed: {_.name}, {_.nextVersion} ");
+            var valueTuple = await changedPackages.WriteVerboseObject(this,_ => $"Changed: {_.name}, {_.nextVersion} ").LastOrDefaultAsync();
             if (valueTuple == default){
                 return;
             }
