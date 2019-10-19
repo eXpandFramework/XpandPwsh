@@ -101,6 +101,7 @@ FunctionsToExport = @(
 "Get-GitHubRelease",
 "Get-GitHubRepositoryTag",
 "Get-GitLastSha",
+"Get-LatestMinorVersion",
 "Get-MsBuildPath",
 "Get-NugetPackage",
 "Get-NugetPackageDownloadsCount",
