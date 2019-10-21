@@ -1,7 +1,7 @@
 function Get-NugetInstallationFolder {
     param(
-        [ValidateSet("NuGetFallbackFolder", "GlobalPackagesFolder", "HttpCache", "TempCache", "PlugindCache")]
-        [string[]]$Locations = @("NuGetFallbackFolder", "GlobalPackagesFolder", "HttpCache", "TempCache", "PlugindCache")
+        [ValidateSet("NuGetFallbackFolder", "GlobalPackagesFolder", "HttpCache", "TempCache", "PluginCache")]
+        [string[]]$Locations = @("NuGetFallbackFolder", "GlobalPackagesFolder", "HttpCache", "TempCache", "PluginCache")
     )
 
     [System.Collections.ArrayList]$folders = @()
@@ -18,7 +18,7 @@ function Get-NugetInstallationFolder {
     if ($Locations -contains "TempCache") {
         $folders.Add("$env:LOCALAPPDATA\Temp\NugetScratch") | Out-Null
     }
-    if ($Locations -contains "PlugindCache") {
+    if ($Locations -contains "PluginCache") {
         $folders.Add("$env:LOCALAPPDATA\Nuget\plugins-cache") | Out-Null
     }
     $folders
