@@ -15,7 +15,7 @@ function Get-XpandVersion {
         [version]$DXVersion,
         [string]$Module="eXpand*"
     )
-    if (!$OfficialPackages){
+    if (!$OfficialPackages -and !$XpandPath){
         $OfficialPackages=Find-XpandPackage $Module -PackageSource Release
         $labPackages=Find-XpandPackage $Module -PackageSource Lab
     }
