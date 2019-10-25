@@ -2,6 +2,7 @@ $GitHubUser="eXpandFramework"
 if (!(Get-Module XpandPwsh -ListAvailable)) {
     Install-Module XpandPwsh
 }
+Update-XpandPwsh
 $lastmessage = (git log -1 --pretty=%B)|Select-Object -First 1
 $v=((Get-Module XpandPwsh -ListAvailable).Version|Sort-Object -Descending |Select-Object -First 1)
 $version="$($v.Major).$($v.Minor).$($v.Build)"
