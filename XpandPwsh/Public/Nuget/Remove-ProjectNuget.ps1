@@ -10,7 +10,7 @@ function Remove-ProjectNuget {
     )
     Get-ChildItem $projectPath "$ProjectFilter.csproj" -Recurse | ForEach-Object { 
         $path = $_.FullName
-        if(!$SkipRestore){
+        if (!$SkipRestore) {
             dotnet restore $path
         }
         
@@ -20,7 +20,7 @@ function Remove-ProjectNuget {
             $refNode = ($project.Project.ItemGroup.Reference | Select-Object -First 1).ParentNode
             $project.Project.ItemGroup.packageReference | Where-Object { $_.Include -match "$id" } | ForEach-Object {
                 $_.ParentNode.RemoveChild($_)
-                $targetFramework = $project.Project.PropertyGroup.TargetFramework | Where-Object { $_ } | Select-Object -First 1
+                $targetFramework = $project | Get-ProjectTargetFramework
                 FindLibraries $_.Include $_.Version $targetFramework | ForEach-Object {
                     $r = $project.CreateElement("Reference")
                     $r.SetAttribute("Include", $_)
@@ -57,7 +57,7 @@ function FindLibraries {
         $version,
         $TargetFramework    
     )
-    $TargetFramework = $TargetFramework.Replace("net", "")
+    
     $path = "$env:USERPROFILE\.nuget\packages\$id\$version\lib\"
     $item = Get-ChildItem $path | ForEach-Object {
         if ($_.GetType().Name -eq "DirectoryInfo") {
@@ -66,9 +66,9 @@ function FindLibraries {
     } | Sort-Object -Descending | Where-Object {
         $_.BaseName.Replace("net", "") -le $TargetFramework 
     } | Select-Object -First 1
-    Push-Location $item.FullName
-    Get-ChildItem *.dll | ForEach-Object {
-        $_.BaseName
-    }
-    Pop-Location
+Push-Location $item.FullName
+Get-ChildItem *.dll | ForEach-Object {
+    $_.BaseName
+}
+Pop-Location
 }
