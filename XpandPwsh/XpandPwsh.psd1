@@ -78,6 +78,7 @@ FunctionsToExport = @(
 "Clear-ProjectDirectories",
 "Clear-TempFolders",
 "Close-GithubIssue",
+"Compress-Files",
 "Compress-Project",
 "ConvertTo-Object",
 "ConvertTo-PackageObject",
