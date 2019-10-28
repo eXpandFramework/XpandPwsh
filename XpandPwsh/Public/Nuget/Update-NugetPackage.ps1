@@ -55,7 +55,7 @@ while ($packagesToAdd) {
         $nuget = Get-NugetPath
         $output = "dotnet add $projectPath package $p -v $v -s $s`r`n"
         try {
-            $output = dotnet add $projectPath package $p -v $v -s $s 
+            $output = dotnet add $projectPath package $p -v $v -s $s -n
             if ($output -like "*error*") {
                 [PSCustomObject]@{
                     Package = $_
