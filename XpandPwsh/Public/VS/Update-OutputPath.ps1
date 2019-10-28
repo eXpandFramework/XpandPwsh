@@ -14,7 +14,9 @@ function Update-OutputPath {
     
     process {
         $path = Get-RelativePath $projectPath $outputPath
-        Update-ProjectProperty $CSProj OutputPath $path
+        $outputPathSuffix=$CSProj.project.PropertyGroup.OutputPathSuffix
+        $path+="\$outputPathSuffix"
+        Update-ProjectProperty $CSProj OutputPath $path.Trim("\").Trim()
     }
     
     end {
