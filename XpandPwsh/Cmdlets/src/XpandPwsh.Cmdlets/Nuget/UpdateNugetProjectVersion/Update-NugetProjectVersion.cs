@@ -32,6 +32,7 @@ namespace XpandPwsh.Cmdlets.Nuget.UpdateNugetProjectVersion{
             var commits =  GitHubClient.Commits(Organization, Repository,
                 CommitsSince, Branch).Replay().RefCount();
             if (!commits.ToEnumerable().Any()){
+                WriteVerbose("No commits found");
                 return;
             }
             await commits.WriteVerboseObject(this,commit => commit.Commit.Message);
