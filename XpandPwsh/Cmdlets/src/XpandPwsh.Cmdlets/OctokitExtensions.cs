@@ -72,8 +72,9 @@ namespace XpandPwsh.CmdLets{
             return array.FirstOrDefault(_ => millestone == null ? _.Title == version.ToString() : _.Title == millestone);
         }
 
-        public static GitHubClient CreateClient(string owner,string pass,string githubAApp){
-            return new GitHubClient(new ProductHeaderValue(githubAApp)){Credentials = new Credentials(owner, pass)}; 
+        public static GitHubClient CreateClient(string owner,string pass,string githubAApp,string token){
+            var credentials =token==null? new Credentials(owner, pass):new Credentials(token,AuthenticationType.Oauth);
+            return new GitHubClient(new ProductHeaderValue(githubAApp)){Credentials = credentials};
         }
 
         public static IObservable<GitHubCommit> Commits(this GitHubClient appClient, string organization,

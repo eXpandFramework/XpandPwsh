@@ -6,16 +6,18 @@ using XpandPwsh.CmdLets;
 namespace XpandPwsh.Cmdlets.GitHub{
     public abstract class GitHubCmdlet:XpandCmdlet{
         
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true,ParameterSetName = nameof(Owner))]
         public string Owner{ get; set; } 
         [Parameter(Mandatory = true)]
         public string Organization{ get; set; } 
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true,ParameterSetName = nameof(Token))]
+        public string Token{ get; set; } 
+        [Parameter(Mandatory = true,ParameterSetName = nameof(Owner))]
         public string Pass{ get; set; }
 
         protected override Task BeginProcessingAsync(){
             var task = base.BeginProcessingAsync();
-            GitHubClient = OctokitExtensions.CreateClient(Owner, Pass, ActivityName);
+            GitHubClient = OctokitExtensions.CreateClient(Owner, Pass, ActivityName,Token);
             return task;
         }
 
