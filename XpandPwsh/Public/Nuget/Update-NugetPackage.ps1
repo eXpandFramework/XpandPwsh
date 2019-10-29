@@ -45,7 +45,7 @@ $packagesToAdd = GetPackagesToAdd $projects $Filter $ExcludeFilter
 Write-Host "packagesToAdd:$($packagesToAdd.Count)" -ForegroundColor Blue
 $packagesToAdd 
 Write-Host "`r`n`r`n"
-$concurrencyLimit = [System.Environment]::ProcessorCount-2
+$concurrencyLimit = [System.Environment]::ProcessorCount - 2
 while ($packagesToAdd) {
     $notPackagesToAdd = $packagesToAdd | Invoke-Parallel -LimitConcurrency $concurrencyLimit -Script {
         $projectPath = $_.ProjectPath
@@ -70,9 +70,9 @@ while ($packagesToAdd) {
         
         
     Write-Host "Not-PackagesToAdd: $($notPackagesToAdd.Count)" -ForegroundColor Red
-    $notPackagesToAdd.Package|Out-String
+    $notPackagesToAdd.Package | Out-String
     Write-Host "Error:" -ForegroundColor Red
-    $notPackagesToAdd.Error|Out-String
+    $notPackagesToAdd.Error | Out-String
 
     Write-Host "`r`n`r`n"
     Start-Sleep 1

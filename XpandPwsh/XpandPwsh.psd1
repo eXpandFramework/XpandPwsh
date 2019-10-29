@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.25.0'
+ModuleVersion = '0.25.1'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -173,7 +173,8 @@ FunctionsToExport = @(
 "Update-ProjectTargetFramework",
 "Update-Symbols",
 "Use-MonoCecil",
-"Use-NugetAssembly"
+"Use-NugetAssembly",
+"Wait-Action"
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
