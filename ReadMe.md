@@ -1,6 +1,6 @@
 [![Build Status](https://dev.azure.com/eXpandDevOps/eXpandFramework/_apis/build/status/XpandPwsh?branchName=master)](https://dev.azure.com/eXpandDevOps/eXpandFramework/_build/latest?definitionId=45&branchName=master) [![](https://img.shields.io/powershellgallery/v/XpandPwsh.svg?style=flat)](https://www.powershellgallery.com/packages/XpandPwsh) [![](https://img.shields.io/powershellgallery/dt/XpandPwsh.svg?style=flat)](https://www.powershellgallery.com/packages/XpandPwsh)
 # About
-The module exports 96 Cmdlets that can help you automate your every day tasks. The module is used in production from the eXpandFramework [build scripts](https://github.com/eXpandFramework/eXpand/blob/master/Support/Build/Build.ps1) and [Azure Tasks](https://github.com/eXpandFramework/Azure-Tasks).
+The module exports 102 Cmdlets that can help you automate your every day tasks. The module is used in production from the eXpandFramework [build scripts](https://github.com/eXpandFramework/eXpand/blob/master/Support/Build/Build.ps1) and [Azure Tasks](https://github.com/eXpandFramework/Azure-Tasks).
 
 In this page you can see a list of all Cmdlets with a short description. For details and real world examples search the [Wiki](https://github.com/eXpandFramework/XpandPwsh/wiki).
 ## Installation
@@ -15,12 +15,14 @@ Get-Command -Module XpandPwsh
 ```
 |Cmdlet|Synopsis|
 |---|---|
+|[Add-NuspecDependency](https://github.com/eXpandFramework/XpandPwsh/wiki/Add-NuspecDependency)|{{ Fill in the Synopsis }}|
 |[Checkpoint-GitHubIssue](https://github.com/eXpandFramework/XpandPwsh/wiki/Checkpoint-GitHubIssue)|Adds unique comments to a GitHub issue containing templated info from related commits.|
 |[Clear-DotNetSdkFallBackFolder](https://github.com/eXpandFramework/XpandPwsh/wiki/Clear-DotNetSdkFallBackFolder)|Clears the NugetFallbackFolder|
 |[Clear-NugetCache](https://github.com/eXpandFramework/XpandPwsh/wiki/Clear-NugetCache)|Clears all local nuget caches.|
 |[Clear-ProjectDirectories](https://github.com/eXpandFramework/XpandPwsh/wiki/Clear-ProjectDirectories)|Removes recursively common directories like bin, obj, .vs, packages|
 |[Clear-TempFolders](https://github.com/eXpandFramework/XpandPwsh/wiki/Clear-TempFolders)|Clears Windows Temp folder|
 |[Close-GithubIssue](https://github.com/eXpandFramework/XpandPwsh/wiki/Close-GithubIssue)|Close a GitHub Issue based on its last update.|
+|[Compress-Files](https://github.com/eXpandFramework/XpandPwsh/wiki/Compress-Files)|{{ Fill in the Synopsis }}|
 |[Compress-Project](https://github.com/eXpandFramework/XpandPwsh/wiki/Compress-Project)|Compress all files for a VS Solution|
 |[ConvertTo-Object](https://github.com/eXpandFramework/XpandPwsh/wiki/ConvertTo-Object)|{{ Fill in the Synopsis }}|
 |[ConvertTo-PackageObject](https://github.com/eXpandFramework/XpandPwsh/wiki/ConvertTo-PackageObject)|Converts nuget.exe commands output.|
@@ -30,6 +32,7 @@ Get-Command -Module XpandPwsh
 |[Find-XpandPackage](https://github.com/eXpandFramework/XpandPwsh/wiki/Find-XpandPackage)|Find eXpandFrameoWork only packages.|
 |[Format-Xml](https://github.com/eXpandFramework/XpandPwsh/wiki/Format-Xml)|Pretty-print formatted XML source|
 |[Get-AssemblyInfoVersion](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-AssemblyInfoVersion)|Returns the version of an AssemblyInfo.cs|
+|[Get-AssemblyMetadata](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-AssemblyMetadata)|{{ Fill in the Synopsis }}|
 |[Get-AssemblyPublicKey](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-AssemblyPublicKey)|{{ Fill in the Synopsis }}|
 |[Get-CallerPreference](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-CallerPreference)|Fetches "Preference" variable values from the caller's scope.|
 |[Get-ChocoPackage](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-ChocoPackage)|{{ Fill in the Synopsis }}|
@@ -45,7 +48,9 @@ Get-Command -Module XpandPwsh
 |[Get-GitHubRelease](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-GitHubRelease)|Returns github repository releases.|
 |[Get-GitHubRepositoryTag](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-GitHubRepositoryTag)|Returns GitHub repository tags.|
 |[Get-GitLastSha](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-GitLastSha)|Returns the Sha of the last git commit.|
+|[Get-LatestMinorVersion](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-LatestMinorVersion)|{{ Fill in the Synopsis }}|
 |[Get-MsBuildPath](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-MsBuildPath)|Returns the MSBuild path.|
+|[Get-NugetInstallationFolder](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-NugetInstallationFolder)|{{ Fill in the Synopsis }}|
 |[Get-NugetPackage](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-NugetPackage)|Download and extract a NuGet package without installing it.|
 |[Get-NugetPackageDownloadsCount](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-NugetPackageDownloadsCount)|Get the downloads of a NuGet packages|
 |[Get-NugetPackageMetadataVersion](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-NugetPackageMetadataVersion)|{{ Fill in the Synopsis }}|
@@ -54,6 +59,7 @@ Get-Command -Module XpandPwsh
 |[Get-PackageFeed](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-PackageFeed)|Returns common package feeds like Nuget.org and Xpand.|
 |[Get-PackageSourceLocations](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-PackageSourceLocations)|Returns the locations of the registered in the system package feeds.|
 |[Get-PackageTargetFramework](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-PackageTargetFramework)|{{ Fill in the Synopsis }}|
+|[Get-ProjectTargetFramework](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-ProjectTargetFramework)|{{ Fill in the Synopsis }}|
 |[Get-ReferenceConflict](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-ReferenceConflict)|{{ Fill in the Synopsis }}|
 |[Get-RelativePath](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-RelativePath)|Returns the relative path needed to move from one location to another.|
 |[Get-SymbolSources](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-SymbolSources)|List the sources of a symbol (*.pdb)|
