@@ -40,7 +40,13 @@ function Start-XpandProjectConverter {
         else {
             [version]$systemversion = $version
             $dxversion = "$($systemversion.Major).$($systemversion.Minor).$($systemversion.Build)"
-            & "$PSScriptRoot\..\..\Private\projectconverter-console.exe" $Path /b /d:skipped /xv:$dxversion
+            Get-ChildItem $Path *.csproj -Recurse | ForEach-Object {
+                [xml]$csproj = Get-Content $_
+                $csproj.Project.ItemGroup.PackageReference | Where-Object { $_.include -like "DevExpress*" } | ForEach-Object {
+                    $_.Version = $dxVersion
+                }
+                $csproj.Save($_)
+            }
             if ($Packagepath){
                 Switch-XpandToNugets -Path $Path -PackageSource $Packagepath
             }
