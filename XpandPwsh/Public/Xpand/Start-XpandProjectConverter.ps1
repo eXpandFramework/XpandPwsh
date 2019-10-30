@@ -8,16 +8,14 @@ function Start-XpandProjectConverter {
         [string]$Path = (Get-Location),
         [parameter()]
         [ValidateSet("csproj", "vbproj")]
-        [string]$ProjectType = "csproj",
-        [ValidateSet("Installer", "XAFPackages")]
-        [string]$Mode = "Installer"
+        [string]$ProjectType = "csproj"
     )
     
     begin {
     }
     
     process {
-        if ($Mode -eq "Installer") {
+        if (!$Version) {
             $xpandPath = Get-XpandPath
             $packages = Get-ChildItem $xpandPath "Xpand*.dll" | ForEach-Object {
                 $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($_.FullName).FileVersion
