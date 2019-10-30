@@ -40,7 +40,7 @@ function Start-XpandProjectConverter {
         else {
             [version]$systemversion = $version
             $dxversion = "$($systemversion.Major).$($systemversion.Minor).$($systemversion.Build)"
-            & "..\..\Private\projectconverter-console.exe" $Path /b /d:skipped /xv:$dxversion
+            & "$PSScriptRoot..\..\Private\projectconverter-console.exe" $Path /b /d:skipped /xv:$dxversion
             if ($Packagepath){
                 Switch-XpandToNugets -Path $Path -PackageSource $Packagepath
             }
