@@ -19,9 +19,6 @@ function Start-XpandProjectConverter {
     process {
         if ($Mode -eq "Installer") {
             $xpandPath = Get-XpandPath
-            if (!(Test-Path $xpandPath)) {
-                throw "This cmdlet works only for eXpandFramework installer and is not found installed"
-            }
             $packages = Get-ChildItem $xpandPath "Xpand*.dll" | ForEach-Object {
                 $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($_.FullName).FileVersion
                 [PSCustomObject]@{
@@ -43,13 +40,7 @@ function Start-XpandProjectConverter {
         else {
             [version]$systemversion = $version
             $dxversion = "$($systemversion.Major).$($systemversion.Minor).$($systemversion.Build)"
-            Get-ChildItem $Path *.csproj -Recurse | ForEach-Object {
-                [xml]$csproj = Get-Content $_
-                $csproj.Project.ItemGroup.PackageReference | Where-Object { $_.include -like "DevExpress*" } | ForEach-Object {
-                    $_.Version = $dxVersion
-                }
-                $csproj.Save($_)
-            }
+            & "..\..\Private\projectconverter-console.exe" $Path /b /d:skipped /xv:$dxversion
             if ($Packagepath){
                 Switch-XpandToNugets -Path $Path -PackageSource $Packagepath
             }
