@@ -21,7 +21,7 @@ function Get-XpandRepository {
         }
         New-Item $Location -ItemType Directory -Force 
         Set-Location $Location
-        $url = "https://$GithubUserName`:$GithubPass@github.com/eXpandFramework/$Name.git"
+        $url = "https://$GithubUserName`:$GithubUserPass@github.com/eXpandFramework/$Name.git"
         git clone $url -q
         Set-Location "$Location\$Name"
     }
