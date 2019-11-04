@@ -9,7 +9,8 @@ function Invoke-AzureRestMethod {
         [string]$Project,
         [parameter(Mandatory)]
         [string]$Resource,
-        [string]$Version = "5.0"
+        [string]$Version = "5.0",
+        [object]$Body
     )
     
     begin {
@@ -18,7 +19,7 @@ function Invoke-AzureRestMethod {
     process {
         $encodedPat = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(":$Token"))
         $uri="https://dev.azure.com/$Organization/$Project/_apis/$Resource`?api-version=$Version"
-        $resp = Invoke-RestMethod -Uri $uri -Headers @{Authorization = "Basic $encodedPat" }
+        $resp = Invoke-RestMethod -Uri $uri -Headers @{Authorization = "Basic $encodedPat" } -Body $Body 
         $resp.value|ForEach-Object{$_}
     }
     

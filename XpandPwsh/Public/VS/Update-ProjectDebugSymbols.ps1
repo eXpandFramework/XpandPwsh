@@ -2,7 +2,9 @@ function Update-ProjectDebugSymbols {
     [CmdletBinding()]
     param (
         [parameter(Mandatory)]
-        [xml]$CSProj
+        [xml]$CSProj,
+        [ValidateSet("pdbonly","full")]
+        $DebugType    
     )
     
     begin {

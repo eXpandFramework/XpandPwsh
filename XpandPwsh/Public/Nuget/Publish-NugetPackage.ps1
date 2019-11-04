@@ -25,13 +25,16 @@ function Publish-NugetPackage {
         Write-Verbose "Published packages:"
         $published=$published|Get-NugetPackageMetadataVersion
         $published|Write-Verbose 
-        
-        $needPush=$packages|Where-Object{
-            $p=$_
-            $published |Where-Object{
-                $_.Name -eq $p.Id -and $_.Version -eq $_.Version
+        $needPush=$packages
+        if ($published){
+            $needPush=$packages|Where-Object{
+                $p=$_
+                $published |Where-Object{
+                    $_.Name -eq $p.Id -and $_.Version -eq $_.Version
+                }
             }
         }
+        
         Write-Verbose "NeedPush"
         $needPush|Write-Verbose 
         $NupkgPath=$NupkgPath.TrimEnd("\")
