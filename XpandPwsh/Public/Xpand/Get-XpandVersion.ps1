@@ -65,6 +65,8 @@ function Get-XpandVersion {
             }
         }
         else{
+            $baseVersion=$labVersion
+            $build=$baseVersion.Build
             $revision = $labVersion.Revision + 1
             if ($labVersion.Revision -eq -1) {
                 $revision = 1
