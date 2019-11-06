@@ -25,8 +25,7 @@ function Update-NugetPackage {
     Write-Host "projects:" -f blue
     $projects | Select-Object -expandProperty baseName
     $packages = $projects | ForEach-Object {
-        [xml]$csproj = Get-Content $_.FullName
-        $p = $csproj.Project.ItemGroup.PackageReference.Include | Where-Object { $_ -and $_ -match $Filter }
+        $p = (Get-PackageReference $_.FullName).Include | Where-Object { $_ -and $_ -match $Filter }
         if ($ExcludFilter) {
             $p | Where-Object { $_ -notmatch $ExcludeFilter }
         }
@@ -86,8 +85,7 @@ function GetPackagesToAdd($projects, $Filter, $ExcludeFilter) {
     $projects | ForEach-Object {
         $csprojPath = $_.FullName
         $csprojName = $_.BaseName
-        [xml]$csproj = Get-Content $csprojPath
-        $csproj.Project.ItemGroup.PackageReference | Where-Object {
+        Get-PackageReference $csprojPath | Where-Object {
             $r = $_.Include -and $_.Include -match $Filter
             if ($ExcludeFilter -and $r) {
                 $_.Include -notmatch $ExcludeFilter

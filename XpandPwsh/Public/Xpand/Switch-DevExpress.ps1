@@ -29,7 +29,7 @@ function Switch-DevExpress {
         [xml]$project = Get-XmlContent $projectPath
         $dxReferences = $project.project.ItemGroup.Reference | Where-Object{$_.Include -like "DevExpress*"}
         if ($dxReferences) {
-            $packageReferences = $project.project.ItemGroup.PackageReference|Where-Object{$_}
+            $packageReferences = Get-PackageReference $projectPath|Where-Object{$_}
             if (!$packageReferences) {
                 $group = $project.CreateElement("ItemGroup")
                 $project.project.AppendChild($group)|Out-Null

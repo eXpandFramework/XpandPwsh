@@ -1,3 +1,4 @@
+
 function Get-PaketReferences {
     [CmdletBinding()]
     param (
@@ -12,12 +13,7 @@ function Get-PaketReferences {
         $paketDirectoryInfo = Get-Item $Path
         $paketReferencesFile = "$($paketDirectoryInfo.FullName)\paket.references"
         if (Test-Path $paketReferencesFile) {
-            $paketDirectoryInfo = $paketDirectoryInfo.Parent
-            $paketDependeciesFile = "$($paketDirectoryInfo.FullName)\paket.dependecies"
-            while (!(Test-Path $paketDependeciesFile)) {
-                $paketDirectoryInfo = $paketDirectoryInfo.Parent
-                $paketDependeciesFile = "$($paketDirectoryInfo.FullName)\paket.dependecies"
-            }
+            $paketDependeciesFile = "$((Get-PaketPath $path).DirectoryName)\..\paket.dependencies"
             $dependencies = Get-Content $paketDependeciesFile | ForEach-Object {
                 $regex = [regex] 'nuget ([^ ]*) ([^ ]*)'
                 $result = $regex.Match($_);
@@ -26,9 +22,14 @@ function Get-PaketReferences {
                     Version = $result.Groups[2].Value
                 }
             }
-            Get-Content $paketReferencesFile|ForEach-Object{
-                $dependencies|Where-Object{$_.Name -eq $_}
+            $c=Get-Content $paketReferencesFile|ForEach-Object{
+                $ref=$_
+                $d=$dependencies|Where-Object{
+                    $ref-eq $_.Include
+                }
+                $d
             }
+            Write-Output $c
         }
     }
     

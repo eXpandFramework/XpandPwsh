@@ -15,10 +15,10 @@ function Remove-ProjectNuget {
         }
         
         [xml]$project = Get-XmlContent $path
-        
-        if ($project.Project.ItemGroup.packageReference) {
+        $packageReferences=Get-PackageReference $Path
+        if ($packageReferences) {
             $refNode = ($project.Project.ItemGroup.Reference | Select-Object -First 1).ParentNode
-            $project.Project.ItemGroup.packageReference | Where-Object { $_.Include -match "$id" } | ForEach-Object {
+            $packageReferences | Where-Object { $_.Include -match "$id" } | ForEach-Object {
                 $_.ParentNode.RemoveChild($_)
                 $targetFramework = $project | Get-ProjectTargetFramework
                 FindLibraries $_.Include $_.Version $targetFramework | ForEach-Object {

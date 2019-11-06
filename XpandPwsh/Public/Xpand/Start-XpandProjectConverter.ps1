@@ -39,8 +39,7 @@ function Start-XpandProjectConverter {
             [version]$systemversion = $version
             $dxversion = "$($systemversion.Major).$($systemversion.Minor).$($systemversion.Build)"
             Get-ChildItem $Path *.csproj -Recurse | ForEach-Object {
-                [xml]$csproj = Get-Content $_
-                $csproj.Project.ItemGroup.PackageReference | Where-Object { $_.include -like "DevExpress*" } | ForEach-Object {
+                Get-PackageReference $_.FullName | Where-Object { $_.include -like "DevExpress*" } | ForEach-Object {
                     $_.Version = $dxVersion
                 }
                 $csproj.Save($_)

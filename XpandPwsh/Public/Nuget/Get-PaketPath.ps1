@@ -1,7 +1,7 @@
 function Get-PaketPath {
     [CmdletBinding()]
     param (
-        
+        [string]$Path="."
     )
     
     begin {
@@ -9,8 +9,13 @@ function Get-PaketPath {
     }
     
     process {
-        $directoryName=(Get-Item (Get-Module XpandPwsh -ListAvailable).Path).DirectoryName
-        "$directoryName\private\.paket\paket.exe"
+        $paketDirectoryInfo = Get-Item $Path
+        $paketDependeciesFile = "$($paketDirectoryInfo.FullName)\.paket\paket.exe"
+        while (!(Test-Path $paketDependeciesFile)) {
+            $paketDirectoryInfo = $paketDirectoryInfo.Parent
+            $paketDependeciesFile = "$($paketDirectoryInfo.FullName)\.paket\paket.exe"
+        }
+        Get-Item $paketDependeciesFile
     }
     
     end {

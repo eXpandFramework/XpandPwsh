@@ -105,7 +105,8 @@ function Update-Nuspec {
             }
         }
         
-        $packageReference = $csproj.Project.ItemGroup.PackageReference
+        $packageReference = Get-PackageReference $ProjectFileName
+        
         $targetFrameworkVersion = ($csproj.Project.PropertyGroup.TargetFramework | Select-Object -First 1).Substring(3)
         
         $packageReference | Where-Object { $_.Include -and $_.PrivateAssets -ne "all" } | ForEach-Object {
