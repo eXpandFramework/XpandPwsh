@@ -1,6 +1,6 @@
 $GitHubUser="eXpandFramework"
 $ErrorActionPreference="Stop"
-
+return
 $lastmessage = (git log -1 --pretty=%B)|Select-Object -First 1
 
 $v=((Get-Module XpandPwsh -ListAvailable).Version|Sort-Object -Descending |Select-Object -First 1)

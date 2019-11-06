@@ -9,7 +9,7 @@ $version="$($v.Major).$($v.Minor).$($v.Build)"
 if ($version -eq $lastmessage){
     return
 }
-
+return
 
 $lastSha = Get-GitLastSha "https://github.com/$GitHubUser/XpandPwsh.git"
 
