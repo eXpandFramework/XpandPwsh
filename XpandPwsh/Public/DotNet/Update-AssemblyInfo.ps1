@@ -29,6 +29,9 @@ function Update-AssemblyInfo() {
         if ($Revision){
             $newRevision+=1
         }
+        if ($newRevision -eq -1){
+            $newRevision++
+        }
         $newVersion = new-object System.Version ($version.Major, $newMinor, $newBuild, $newRevision)
         $parentDir=(Get-Item $_.DirectoryName).Parent.Name
         "$parentDir new version is $newVersion "
