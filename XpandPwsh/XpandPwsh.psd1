@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.26.0'
+ModuleVersion = '0.27.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -84,6 +84,7 @@ FunctionsToExport = @(
 "ConvertTo-PackageObject",
 "Disable-ExecutionPolicy",
 "Find-NugetPackageInstallationFolder",
+"Find-PaketRefs",
 "Find-XpandNugetPackage",
 "Find-XpandPackage",
 "Format-Xml",
@@ -116,8 +117,8 @@ FunctionsToExport = @(
 "Get-PackageReference",
 "Get-PackageSourceLocations",
 "Get-PackageTargetFramework",
+"Get-PaketPackageReference",
 "Get-PaketPath",
-"Get-PaketReferences",
 "Get-ProjectTargetFramework",
 "Get-ReferenceConflict",
 "Get-RelativePath",
@@ -135,6 +136,11 @@ FunctionsToExport = @(
 "Install-SubModule",
 "Install-Xpand",
 "Invoke-AzureRestMethod",
+"Invoke-PaketAdd",
+"Invoke-PaketConvertFromNuget",
+"Invoke-PaketInit",
+"Invoke-PaketInstall",
+"Invoke-PaketRestore",
 "Invoke-Parallel",
 "Invoke-Retry",
 "New-Assembly",
@@ -175,6 +181,7 @@ FunctionsToExport = @(
 "Update-ProjectSign",
 "Update-ProjectTargetFramework",
 "Update-Symbols",
+"Update-Version",
 "Use-MonoCecil",
 "Use-NugetAssembly"
 )
