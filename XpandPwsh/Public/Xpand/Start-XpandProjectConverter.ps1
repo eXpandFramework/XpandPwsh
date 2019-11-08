@@ -40,7 +40,10 @@ function Start-XpandProjectConverter {
             $dxversion = "$($systemversion.Major).$($systemversion.Minor).$($systemversion.Build)"
             Get-ChildItem $Path *.csproj -Recurse | ForEach-Object {
                 Get-PackageReference $_.FullName | Where-Object { $_.include -like "DevExpress*" } | ForEach-Object {
-                    $_.Version = $dxVersion
+                    if ($_.Version -ne $dxversion){
+                        $_.Version = $dxVersion
+                        invoke-paketAdd $_.Include $_.Version
+                    }
                 }
                 $csproj.Save($_)
             }

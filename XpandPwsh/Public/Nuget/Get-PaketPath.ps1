@@ -9,13 +9,18 @@ function Get-PaketPath {
     }
     
     process {
-        $paketDirectoryInfo = Get-Item $Path
+        $paketDirectoryInfo = (Get-Item $Path).Directory
+        if (!$paketDirectoryInfo){
+            $paketDirectoryInfo = Get-Item $Path
+        }
         $paketDependeciesFile = "$($paketDirectoryInfo.FullName)\.paket\paket.exe"
         while (!(Test-Path $paketDependeciesFile)) {
             $paketDirectoryInfo = $paketDirectoryInfo.Parent
             $paketDependeciesFile = "$($paketDirectoryInfo.FullName)\.paket\paket.exe"
         }
-        Get-Item $paketDependeciesFile
+        $item=Get-Item $paketDependeciesFile
+        Set-Location $item.Directory.Parent.FullName
+        $item
     }
     
     end {

@@ -6,7 +6,7 @@ function Update-Nuspec {
         [parameter(Mandatory)]
         [string]$ProjectFileName,
         [parameter(Mandatory)]
-        [string]$ProjectsRoot,
+        [string[]]$allProjects,
         [string]$ReferenceToPackageFilter = "*",
         [string]$PublishedSource,
         [switch]$Release,
@@ -79,7 +79,7 @@ function Update-Nuspec {
             if (!$ResolveNugetDependecies -or $packageName -in $allDependencies) {
                 $matchedPackageName = $customPackageLinks[$packageName]
                 if (!$matchedPackageName) {
-                    $projectName = Get-ChildItem $ProjectsRoot *.csproj -Recurse | Select-Object -ExpandProperty BaseName | Where-Object { $_ -eq $packageName } | Select-Object -First 1
+                    $projectName = $allProjects | Where-Object { $_ -eq $packageName } | Select-Object -First 1
                     $regex = [regex] $NuspecMatchPattern
                     $projectName = $regex.Replace($projectName, '') 
                     $matchedPackageName = Get-ChildItem $NuspecsDirectory *.nuspec | Where-Object { $_.BaseName -eq $projectName }
