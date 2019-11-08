@@ -12,17 +12,18 @@ function Update-Version {
     }
     
     process {
+        $newVersion=[version]$Version
         $versionBuild=$newVersion.Build
+        $versionRevision=$newVersion.Revision
         if ($Build){
             $versionBuild++
+            $versionRevision=0
         }
-        $versionRevision=$newRevision.Revision
-        if ($Revision){
+        
+        if ($Revision -and !$Build){
             $versionRevision++
         }
-        $newVersion="$($Version.Major).$($Version.Minor).$versionBuild.$versionRevision"
-        
-        
+        [version]"$($newVersion.Major).$($newVersion.Minor).$versionBuild.$versionRevision"
     }
     
     end {
