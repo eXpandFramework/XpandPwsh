@@ -22,6 +22,9 @@ function Move-PaketSource {
                 if ($_ -like "source *"){
                     if ($Index -eq $i){
                         "source $Target"
+                        $lock=Get-Content $depsDir\paket.lock
+                        $lock=$lock.Replace($_.Replace("source ",""),$Target)
+                        Set-Content $depsDir\paket.lock $lock
                     }
                     else{
                         $_
@@ -32,6 +35,8 @@ function Move-PaketSource {
                     $_
                 }
             }) -join "`r`n"
+            $Path
+            $deps
             Set-Content $depsDir\paket.dependencies $deps
         }
     }

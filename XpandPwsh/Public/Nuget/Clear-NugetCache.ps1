@@ -4,7 +4,9 @@ function Clear-NugetCache {
         [ValidateSet("XpandPackages")]
         $Filter,
         [switch]$SkipVersionConverter,
-        [switch]$SkipPaket
+        [parameter(ParameterSetName="paket")]
+        [switch]$SkipPaket,
+        [switch]$Recurse
     )
     
     if ($Filter) {
@@ -19,7 +21,7 @@ function Clear-NugetCache {
     }
     else { 
         if (!$SkipPaket) {
-            Invoke-PaketClearCache
+            Invoke-PaketClearCache 
         }
         & (Get-NugetPath) locals all -clear
     }

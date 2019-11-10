@@ -16,7 +16,7 @@ function Invoke-PaketInstall {
         if ($paketExe){
             $xtraArgs = @();
             if ($Force) {
-                $xtraArgs = "--Force"
+                $xtraArgs += "--force"
             }
             & $paketExe install @xtraArgs
         }

@@ -34,13 +34,13 @@ function Start-XpandProjectConverter {
     }
     else {
         [version]$version = Get-DevExpressVersion $version -Build
-        $paketInstalls = Get-ChildItem $Path ".paket" -Recurse
+        $paketInstalls = Get-ChildItem $Path ".paket"  -Recurse
         $shortVersion = Get-DevExpressVersion $version 
         if ($paketInstalls) { 
             $paketInstalls | Select-Object -ExpandProperty Parent | ForEach-Object {
                 Push-Location $_
-                Invoke-PaketShowInstalled $_ | Where-Object { $_.include -like "DevExpress*" } | ForEach-Object {
-                    "Change $($_.Include) $($_.Version) to $version"
+                Invoke-PaketShowInstalled| Where-Object { $_.Id -like "DevExpress*" } | ForEach-Object {
+                    "Change $($_.Id) $($_.Version) to $version"
                     $v = New-Object System.Version
                     if ([version]::TryParse($_.version, [ref]$v)) {
                         Invoke-PaketAdd $_.Id $version

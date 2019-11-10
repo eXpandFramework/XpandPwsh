@@ -2,23 +2,32 @@
 function Invoke-PaketShowInstalled {
     [CmdletBinding()]
     param (
-        [parameter(Mandatory)]
+        [parameter(ParameterSetName="Project")]
         [string]$Project,
-        [switch]$OnlyDirect
+        [switch]$OnlyDirect,
+        [string]$Path="."
     )
     
     begin {
-        
+        if ($PSCmdlet.ParameterSetName -eq "Project"){
+            $Path =$Project
+        }
     }
     
     process {
-        $paketExe = (Get-PaketPath $Project)
+        $paketExe = (Get-PaketPath $Path)
         if ($paketExe) {
             $xtraArgs = @("--project `"$Project`"", "--silent");
             if (!$OnlyDirect) {
                 $xtraArgs += "--all"
             }
-            & $paketExe show-installed-packages --project $Project --silent --all| ForEach-Object {
+            if ($Project){
+                $pakets=& $paketExe show-installed-packages --project $Project --silent --all
+            }
+            else{
+                $pakets=& $paketExe show-installed-packages --silent --all
+            }
+            $pakets| ForEach-Object {
                 $parts = $_.split(" ")
                 [PSCustomObject]@{
                     Group   = $parts[0]
