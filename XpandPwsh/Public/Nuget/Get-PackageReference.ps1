@@ -12,7 +12,7 @@ function Get-PackageReference {
     process {
         [xml]$Proj=Get-Content $Path
         $packageReferences=$Proj.project.ItemGroup.PackageReference|Where-Object{$_}
-        $paketReferences=Invoke-PaketShowInstalled $Path
+        $paketReferences=Invoke-PaketShowInstalled -Project $Path
         if ($packageReferences -and $packageReferences){
             $packageReferences
             throw "$Path has packageReferences and paketreferences"
