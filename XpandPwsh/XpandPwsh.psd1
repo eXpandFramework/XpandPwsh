@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.27.0'
+ModuleVersion = '0.28.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -72,6 +72,7 @@ NestedModules = @('Cmdlets\bin\XpandPwsh.Cmdlets.dll')
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = @(
     "Add-NuspecDependency",
+"Approve-LastExitCode",
 "Checkpoint-GitHubIssue",
 "Clear-DotNetSdkFallBackFolder",
 "Clear-NugetCache",
@@ -91,9 +92,6 @@ FunctionsToExport = @(
 "Get-AssemblyInfoVersion",
 "Get-AssemblyMetadata",
 "Get-AssemblyPublicKey",
-"Invoke-PaketShowInstalled",
-"Invoke-PaketFindVersions",
-"Approve-LastExitCode",
 "Get-CallerPreference",
 "Get-ChocoPackage",
 "Get-DevExpressPath",
@@ -139,12 +137,16 @@ FunctionsToExport = @(
 "Install-Xpand",
 "Invoke-AzureRestMethod",
 "Invoke-PaketAdd",
+"Invoke-PaketAdd",
+"Invoke-PaketClearCache",
 "Invoke-PaketConvertFromNuget",
+"Invoke-PaketFindVersions",
 "Invoke-PaketInit",
 "Invoke-PaketInstall",
 "Invoke-PaketRestore",
+"Invoke-PaketShowInstalled",
 "Invoke-Parallel",
-"Invoke-Retry",
+"Invoke-Script",
 "New-Assembly",
 "New-AssemblyResolver",
 "New-Command",
@@ -171,9 +173,7 @@ FunctionsToExport = @(
 "Update-AssemblyInfoVersion",
 "Update-GitHubIssue",
 "Update-HintPath",
-"Invoke-Script",
 "Update-NugetPackage",
-"Invoke-PaketClearCache",
 "Update-NugetProjectVersion",
 "Update-Nuspec",
 "Update-OutputPath",
