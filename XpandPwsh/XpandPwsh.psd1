@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.28.0'
+ModuleVersion = '0.29.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -147,6 +147,7 @@ FunctionsToExport = @(
 "Invoke-PaketShowInstalled",
 "Invoke-Parallel",
 "Invoke-Script",
+"Move-PaketSource",
 "New-Assembly",
 "New-AssemblyResolver",
 "New-Command",
