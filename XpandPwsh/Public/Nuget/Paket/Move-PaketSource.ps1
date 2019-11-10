@@ -25,8 +25,6 @@ function Move-PaketSource {
                         $lock=Get-Content $depsDir\paket.lock
                         $lock=$lock.Replace($_.Replace("source ",""),$Target)
                         Set-Content $depsDir\paket.lock $lock
-                        "LOCK"
-                        $lock
                     }
                     else{
                         $_
@@ -40,6 +38,8 @@ function Move-PaketSource {
             $Path
             "DEPS"
             $deps
+            "LOCK"
+            "$depsDir\paket.lock"
             Set-Content $depsDir\paket.dependencies $deps
         }
     }
