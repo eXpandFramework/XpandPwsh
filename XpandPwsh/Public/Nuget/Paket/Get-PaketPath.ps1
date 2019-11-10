@@ -16,6 +16,9 @@ function Get-PaketPath {
         $paketDependeciesFile = "$($paketDirectoryInfo.FullName)\.paket\paket.exe"
         while (!(Test-Path $paketDependeciesFile)) {
             $paketDirectoryInfo = $paketDirectoryInfo.Parent
+            if (!$paketDirectoryInfo){
+                return
+            }
             $paketDependeciesFile = "$($paketDirectoryInfo.FullName)\.paket\paket.exe"
         }
         $item=Get-Item $paketDependeciesFile

@@ -1,11 +1,11 @@
-function Invoke-Retry {
+function Invoke-Script {
     [CmdletBinding()]
     Param(
         [Parameter(Position=0, Mandatory=$true)]
-        [scriptblock]$ScriptBlock,
+        [scriptblock]$Script,
 
         [Parameter(Position=1, Mandatory=$false)]
-        [int]$Maximum = 5,
+        [int]$Maximum = 1,
         [int]$RetryInterval=1
     )
 
@@ -17,13 +17,17 @@ function Invoke-Retry {
         do {
             $cnt++
             try {
-                $ScriptBlock.Invoke()
+                & $Script
+                Approve-LastExitCode
                 return
             } catch {
+                Write-Warning $_
+                Write-Error "Error: Retrying in $RetryInterval seconds, attempt$cnt out of $Maximum" -ErrorAction Continue
                 [System.Threading.Thread]::Sleep([System.TimeSpan]::FromSeconds($RetryInterval))
-                Write-Error $_.Exception.InnerException.Message -ErrorAction Continue
+
+                
             }
         } while ($cnt -lt $Maximum)
-        throw 'Execution failed.'
+        exit 1
     }
 }

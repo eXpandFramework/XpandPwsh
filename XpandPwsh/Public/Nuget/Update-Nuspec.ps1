@@ -105,7 +105,7 @@ function Update-Nuspec {
             }
         }
         
-        $packageReference = Get-PackageReference $ProjectFileName
+        $packageReference = Get-PackageReference $ProjectFileName 
         
         $targetFrameworkVersion = ($csproj.Project.PropertyGroup.TargetFramework | Select-Object -First 1).Substring(3)
         

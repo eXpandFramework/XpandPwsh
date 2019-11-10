@@ -1,10 +1,10 @@
 
-function Invoke-PaketRestore {
+function Invoke-PaketInstall {
     [CmdletBinding()]
     param (
-        [switch]$Force,
-        [string]$Group,
-        [string]$Path="." 
+        [parameter(ValueFromPipeline)]
+        [string]$Path = ".",
+        [switch]$Force
     )
     
     begin {
@@ -16,10 +16,9 @@ function Invoke-PaketRestore {
         if ($paketExe){
             $xtraArgs = @();
             if ($Force) {
-                $xtraArgs += "--Force"
-                $xtraArgs += "--group $group"
+                $xtraArgs = "--Force"
             }
-            & $paketExe restore @xtraArgs
+            & $paketExe install @xtraArgs
         }
     }
     

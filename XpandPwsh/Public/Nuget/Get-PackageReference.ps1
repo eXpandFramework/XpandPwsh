@@ -12,13 +12,18 @@ function Get-PackageReference {
     process {
         [xml]$Proj=Get-Content $Path
         $packageReferences=$Proj.project.ItemGroup.PackageReference|Where-Object{$_}
-        $paketReferences=Get-PaketPackageReference (Get-Item $Path).DirectoryName
+        $paketReferences=Invoke-PaketShowInstalled $Path
         if ($packageReferences -and $packageReferences){
             $packageReferences
             throw "$Path has packageReferences and paketreferences"
         }
-        $packageReferences
-        $paketReferences
+        $paketReferences|ForEach-Object{
+            [PSCustomObject]@{
+                Include = $_.Id
+                id = $_.Id
+                Version=$_.Version
+            }
+        }
     }
     
     end {

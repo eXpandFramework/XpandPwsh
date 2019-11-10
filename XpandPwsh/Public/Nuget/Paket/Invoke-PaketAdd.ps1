@@ -22,7 +22,7 @@ function Invoke-PaketAdd {
             if ($Force) {
                 $forceArgs = "--no-install", "--no-resolve"
             }
-            $add=($ProjectPath -and !(Invoke-PaketShowInstalled $ProjectPath|Where-Object{$_.Id -eq $id} ))
+            $add=($ProjectPath -and !(Invoke-PaketShowInstalled $ProjectPath)|Where-Object{$_.Include -eq $id} )
             if ($add){
                 & $paketExe add $Id --project $ProjectPath --version $Version @forceArgs
             }

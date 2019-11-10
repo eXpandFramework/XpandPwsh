@@ -2,24 +2,52 @@ function Clear-NugetCache {
     [CmdletBinding()]
     param (
         [ValidateSet("XpandPackages")]
-        $Filter
+        $Filter,
+        [switch]$SkipVersionConverter,
+        [switch]$SkipPaket
     )
     
-    begin {
-    }
-    
-    process {
-        if ($Filter) {
-            $path = (Get-NugetInstallationFolder GlobalPackagesFolder)
-            $folders=Get-ChildItem $path 
-            $folders|Where-Object{$_.BaseName -like "Xpand*" -or $_.BaseName -like "eXpand*" -and $_.BaseName -notlike "*VersionConverter"}|Remove-Item -Recurse -Force 
+    if ($Filter) {
+        $path = (Get-NugetInstallationFolder GlobalPackagesFolder)
+        RemovePackages $path $SkipVersionConverter
+        if (!$SkipPaket) {
+            $paketPath = Get-PaketPath
+            if ($paketPath) {
+                RemovePackages "$((Get-Item $paketPath).DirectoryName)\..\packages" $SkipVersionConverter
+            }
         }
-        else {
-            & (Get-NugetPath) locals all -clear
-        }
-        
     }
-    
-    end {
+    else { 
+        if (!$SkipPaket) {
+            Invoke-PaketClearCache
+        }
+        & (Get-NugetPath) locals all -clear
     }
 }
+
+function RemovePackages {
+    param (
+        $Path,
+        $SkipVersionConverter
+    )
+    $folders = Get-ChildItem $path 
+    $folders | Where-Object {
+        if (!($SkipVersionConverter -and $_.BaseName -notlike "*VersionConverter")) {
+            $_.BaseName -like "Xpand*" -or $_.BaseName -like "eXpand*" 
+        }
+    } | Remove-Item -Recurse -Force 
+}
+
+function RemovePackages {
+    param (
+        $Path,
+        $SkipVersionConverter
+    )
+    $folders = Get-ChildItem $path 
+    $folders | Where-Object {
+        if (!($SkipVersionConverter -and $_.BaseName -notlike "*VersionConverter")) {
+            $_.BaseName -like "Xpand*" -or $_.BaseName -like "eXpand*" 
+        }
+    } | Remove-Item -Recurse -Force 
+}
+

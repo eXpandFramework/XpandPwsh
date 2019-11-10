@@ -1,8 +1,8 @@
 
-function Invoke-PaketInstall {
+function Invoke-PaketClearCache {
     [CmdletBinding()]
     param (
-        [switch]$Force,
+        [switch]$SkipLocal,
         [string]$Path = "."
     )
     
@@ -13,11 +13,11 @@ function Invoke-PaketInstall {
     process {
         $paketExe=(Get-PaketPath $path)
         if ($paketExe){
-            $xtraArgs = @();
-            if ($Force) {
-                $xtraArgs = "--Force"
+            $commandArgs = @();
+            if (!$SkipLocal) {
+                $commandArgs = @("--clear-local")
             }
-            & $paketExe install @xtraArgs
+            & $paketExe clear-cache @commandArgs
         }
     }
     
