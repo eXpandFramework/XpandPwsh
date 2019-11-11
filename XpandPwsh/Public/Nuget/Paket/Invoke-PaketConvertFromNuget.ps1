@@ -11,13 +11,14 @@ function Invoke-PaketConvertFromNuget {
     }
     
     process {
-        $paketExe=(Get-PaketPath $path)
+        $paketExe=(Get-PaketDependenciesPath $path)
         if ($paketExe){
             $xtraArgs = @();
             if ($Force) {
                 $xtraArgs += "--force"
             }
-            & $paketExe convert-from-nuget @xtraArgs
+            Set-Location (Get-Item $paketExe).DirectoryName
+            dotnet paket convert-from-nuget @xtraArgs
         }
     }
     

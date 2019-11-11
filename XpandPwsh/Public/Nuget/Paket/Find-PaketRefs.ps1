@@ -12,13 +12,14 @@ function Find-PaketRefs {
     }
     
     process {
-        $paketExe=(Get-PaketPath $path)
+        $paketExe=(Get-PaketDependenciesPath $path)
         if ($paketExe){
             $xtraArgs = @();
             if ($Force) {
                 $xtraArgs = "--Force"
             }
-            & $paketExe find-refs $Id @xtraArgs
+            Set-Location (Get-Item $paketExe).DirectoryName
+            dotnet paket find-refs $Id @xtraArgs
         }
     }
     

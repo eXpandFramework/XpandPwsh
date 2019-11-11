@@ -12,13 +12,14 @@ function Invoke-PaketInstall {
     }
     
     process {
-        $paketExe=(Get-PaketPath $path)
+        $paketExe=(Get-PaketDependenciesPath $path)
         if ($paketExe){
             $xtraArgs = @();
             if ($Force) {
                 $xtraArgs += "--force"
             }
-            & $paketExe install @xtraArgs
+            Set-Location (Get-Item $paketExe).DirectoryName
+            dotnet paket install @xtraArgs
         }
     }
     

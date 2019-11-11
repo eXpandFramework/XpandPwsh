@@ -11,13 +11,14 @@ function Invoke-PaketInit {
     }
     
     process {
-        $paketExe=(Get-PaketPath $path)
+        $paketExe=(Get-PaketDependenciesPath $path)
         if ($paketExe){
             $xtraArgs = @();
             if ($Force) {
                 $xtraArgs = "--Force"
             }
-            & $paketExe init @xtraArgs
+            Set-Location (Get-Item $paketExe).DirectoryName
+            dotnet paket init @xtraArgs
         }
     }
     

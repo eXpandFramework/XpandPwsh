@@ -13,7 +13,7 @@ function Clear-NugetCache {
         $path = (Get-NugetInstallationFolder GlobalPackagesFolder)
         RemovePackages $path $SkipVersionConverter
         if (!$SkipPaket) {
-            $paketPath = Get-PaketPath
+            $paketPath = Get-PaketDependenciesPath
             if ($paketPath) {
                 RemovePackages "$((Get-Item $paketPath).DirectoryName)\..\packages" $SkipVersionConverter
             }

@@ -11,13 +11,14 @@ function Invoke-PaketClearCache {
     }
     
     process {
-        $paketExe=(Get-PaketPath $path)
-        if ($paketExe){
+        $paketExe = (Get-PaketDependenciesPath $path)
+        if ($paketExe) {
             $commandArgs = @();
             if (!$SkipLocal) {
                 $commandArgs = @("--clear-local")
             }
-            & $paketExe clear-cache @commandArgs
+            Set-Location (Get-Item $paketExe).DirectoryName
+            dotnet paket clear-cache @commandArgs
         }
     }
     

@@ -47,11 +47,11 @@ function Start-XpandProjectConverter {
             }
             $paketInstalls | Select-Object -ExpandProperty Parent | ForEach-Object {
                 Push-Location $_
-                Invoke-PaketShowInstalled| Where-Object { $_.Id -like "DevExpress*" } | ForEach-Object {
+                Invoke-PaketShowInstalled -OnlyDirect -Path $Path| Where-Object { $_.Id -like "DevExpress*" } | ForEach-Object {
                     "Change $($_.Id) $($_.Version) to $version"
                     $v = New-Object System.Version
                     if ([version]::TryParse($_.version, [ref]$v)) {
-                        Invoke-PaketAdd $_.Id $version
+                        Invoke-PaketAdd $_.Id $version -Path $Path
                     }
                 }
                 $regex = [regex] '(source .*)(DevExpress \d{2}\.\d)'
@@ -59,7 +59,7 @@ function Start-XpandProjectConverter {
                 $result = $regex.Replace($deps, "`$1\DevExpress $shortVersion")
                 Set-Content "$($_.FullName)\paket.dependencies" $result
                 if (!$SkipInstall) {
-                    Invoke-PaketInstall $_
+                    Invoke-PaketInstall $_ 
                 }
                 Pop-Location
             }

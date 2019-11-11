@@ -16,15 +16,16 @@ function Invoke-PaketAdd {
     }
     
     process {
-        $paketExe=(Get-PaketPath $path)
+        $paketExe=(Get-PaketDependenciesPath $path)
         if ($paketExe){
             $forceArgs = @();
             if ($Force) {
                 $forceArgs = "--no-install", "--no-resolve"
             }
             $add=($ProjectPath -and !(Invoke-PaketShowInstalled $ProjectPath)|Where-Object{$_.Include -eq $id} )
-            if ($add){
-                & $paketExe add $Id --project $ProjectPath --version $Version @forceArgs
+            if (
+                Set-Location (Get-Item $paketExe).DirectoryName$add){
+                dotnet paket add $Id --project $ProjectPath --version $Version @forceArgs
             }
             else{
                 $depFile="$((Get-Item $paketExe).DirectoryName)\..\paket.dependencies"

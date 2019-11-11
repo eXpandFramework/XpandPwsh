@@ -14,13 +14,14 @@ function Invoke-PaketFindVersions {
     }
     
     process {
-        $paketExe = (Get-PaketPath $path)
+        $paketExe = (Get-PaketDependenciesPath $path)
         if ($paketExe) {
             $xtraArgs = @();
             if ($Max) {
                 $xtraArgs += "--max $Max"
             }
-            & $paketExe find-package-versions $Id --max $Max | Select-Object -skip 1 -first $Max
+            Set-Location (Get-Item $paketExe).DirectoryName
+            dotnet paket find-package-versions $Id --max $Max | Select-Object -skip 1 -first $Max
         }
     }
     

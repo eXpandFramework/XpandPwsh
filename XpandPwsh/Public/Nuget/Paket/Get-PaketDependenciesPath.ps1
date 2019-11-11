@@ -1,4 +1,4 @@
-function Get-PaketPath {
+function Get-PaketDependenciesPath {
     [CmdletBinding()]
     param (
         [string]$Path="."
@@ -13,13 +13,13 @@ function Get-PaketPath {
         if (!$paketDirectoryInfo){
             $paketDirectoryInfo = Get-Item $Path
         }
-        $paketDependeciesFile = "$($paketDirectoryInfo.FullName)\.paket\paket.exe"
+        $paketDependeciesFile = "$($paketDirectoryInfo.FullName)\paket.dependencies"
         while (!(Test-Path $paketDependeciesFile)) {
             $paketDirectoryInfo = $paketDirectoryInfo.Parent
             if (!$paketDirectoryInfo){
                 return
             }
-            $paketDependeciesFile = "$($paketDirectoryInfo.FullName)\.paket\paket.exe"
+            $paketDependeciesFile = "$($paketDirectoryInfo.FullName)\paket.dependencies"
         }
         $item=Get-Item $paketDependeciesFile
         Set-Location $item.Directory.Parent.FullName

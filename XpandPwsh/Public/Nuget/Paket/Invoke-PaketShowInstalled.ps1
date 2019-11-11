@@ -15,17 +15,18 @@ function Invoke-PaketShowInstalled {
     }
     
     process {
-        $paketExe = (Get-PaketPath $Path)
+        $paketExe = (Get-PaketDependenciesPath $Path)
         if ($paketExe) {
-            $xtraArgs = @("--project `"$Project`"", "--silent");
+            $xtraArgs = @( "--silent");
             if (!$OnlyDirect) {
                 $xtraArgs += "--all"
             }
+            Set-Location (Get-Item $paketExe).DirectoryName
             if ($Project){
-                $pakets=& $paketExe show-installed-packages --project $Project --silent --all
+                $pakets=dotnet paket show-installed-packages --project $Project @xtraArgs
             }
             else{
-                $pakets=& $paketExe show-installed-packages --silent --all
+                $pakets=dotnet paket show-installed-packages @xtraArgs
             }
             $pakets| ForEach-Object {
                 $parts = $_.split(" ")

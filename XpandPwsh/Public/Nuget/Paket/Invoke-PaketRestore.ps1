@@ -13,11 +13,12 @@ function Invoke-PaketRestore {
     }
     
     process {
-        $paketExe=(Get-PaketPath $path)
+        [System.IO.Path]::GetFullPath(".")
+        $paketExe=(Get-PaketDependenciesPath $path)
         if ($paketExe){
             $xtraArgs = @();
             if ($Force) {
-                $xtraArgs += "--Force"
+                $xtraArgs += "--force"
             }
             if ($Group) {
                 $xtraArgs += "--group $group"
@@ -29,7 +30,8 @@ function Invoke-PaketRestore {
                 $root=(Get-Item $paketExe).Directory.Parent.FullName
                 Remove-Item "$root\paket-files\paket.restore.cached" -ErrorAction SilentlyContinue
             }
-            & $paketExe restore @xtraArgs
+            Set-Location (Get-Item $paketExe).DirectoryName
+            dotnet paket restore @xtraArgs
         }
     }
     

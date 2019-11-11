@@ -14,7 +14,7 @@ function Move-PaketSource {
     }
     
     process {
-        $paketExe=(Get-PaketPath $path)
+        $paketExe=(Get-PaketDependenciesPath $path)
         if ($paketExe){
             $depsDir=(Get-item $paketExe).Directory.Parent.FullName
             $i=0;
