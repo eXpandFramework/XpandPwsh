@@ -14,33 +14,18 @@ function Move-PaketSource {
     }
     
     process {
-        $paketExe=(Get-PaketDependenciesPath $path)
-        if ($paketExe){
-            $depsDir=(Get-item $paketExe).Directory.Parent.FullName
-            $i=0;
-            $deps=(Get-Content $depsDir\paket.dependencies|ForEach-Object{
-                if ($_ -like "source *"){
-                    if ($Index -eq $i){
-                        "source $Target"
-                        $lock=Get-Content $depsDir\paket.lock
-                        $lock=$lock.Replace($_.Replace("source ",""),$Target)
-                        Set-Content $depsDir\paket.lock $lock
-                    }
-                    else{
-                        $_
-                    }
-                    $i++
-                }
-                else{
-                    $_
-                }
-            }) -join "`r`n"
-            $Path
-            "DEPS"
-            $deps
-            "LOCK"
-            "$depsDir\paket.lock"
-            Set-Content $depsDir\paket.dependencies $deps
+        $depsFile=(Get-PaketDependenciesPath $path)
+        if ($depsFile){
+            $match=Get-Content $depsFile|Where-Object{$_ -like "source *"}|Select-Object -First ($Index+1)
+            $raw=(Get-Content $depsFile -Raw)
+            $value=$raw.Replace($match,"source $Target")
+            Set-Content  $depsFile $value
+            
+            $lockFile="$($depsFile.DirectoryName)\paket.lock"
+            $raw=(Get-Content $lockFile -Raw)
+            $match=$match.Replace("source ","")
+            $value=$raw.Replace($match,$Target)
+            Set-Content  $lockFile $value
         }
     }
     

@@ -24,7 +24,6 @@ function Invoke-PaketAdd {
             }
             $add = ($ProjectPath -and !(Invoke-PaketShowInstalled -project $ProjectPath | Where-Object { $_.Id -eq $id } ))
             if ($add) {
-                Set-Location (Get-Item $depFile).DirectoryName
                 dotnet paket add $Id --project $ProjectPath --version $Version @forceArgs
             }
             else {

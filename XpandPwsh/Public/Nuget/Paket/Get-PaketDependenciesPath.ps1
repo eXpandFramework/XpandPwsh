@@ -22,7 +22,6 @@ function Get-PaketDependenciesPath {
             $paketDependeciesFile = "$($paketDirectoryInfo.FullName)\paket.dependencies"
         }
         $item=Get-Item $paketDependeciesFile
-        Set-Location $item.Directory.Parent.FullName
         $item
     }
     
