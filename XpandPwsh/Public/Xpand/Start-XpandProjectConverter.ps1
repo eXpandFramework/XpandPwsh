@@ -37,6 +37,14 @@ function Start-XpandProjectConverter {
         $paketInstalls = Get-ChildItem $Path ".paket"  -Recurse
         $shortVersion = Get-DevExpressVersion $version 
         if ($paketInstalls) { 
+            Get-ChildItem $Path "packages.config"  -Recurse|ForEach-Object{
+                "Update DX version in $($_.FullName)"
+                [xml]$xml=Get-Content $_
+                $xml.packages.package|Where-Object{$_.id -like "DevExpress*"}|ForEach-Object{
+                    $_.version=$version
+                }
+                $xml.Save($_)
+            }
             $paketInstalls | Select-Object -ExpandProperty Parent | ForEach-Object {
                 Push-Location $_
                 Invoke-PaketShowInstalled| Where-Object { $_.Id -like "DevExpress*" } | ForEach-Object {
@@ -53,9 +61,9 @@ function Start-XpandProjectConverter {
                 if (!$SkipInstall) {
                     Invoke-PaketInstall $_
                 }
-                
                 Pop-Location
             }
+
         }
         else {
             Get-ChildItem $Path *.csproj -Recurse | ForEach-Object {
