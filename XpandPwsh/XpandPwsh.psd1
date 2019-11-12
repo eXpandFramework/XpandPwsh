@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.29.6'
+ModuleVersion = '0.29.7'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -119,7 +119,6 @@ FunctionsToExport = @(
 "Get-PackageSourceLocations",
 "Get-PackageTargetFramework",
 "Get-PaketDependenciesPath",
-"Invoke-PaketSimplify",
 "Get-ProjectTargetFramework",
 "Get-ReferenceConflict",
 "Get-RelativePath",
@@ -146,6 +145,7 @@ FunctionsToExport = @(
 "Invoke-PaketInstall",
 "Invoke-PaketRestore",
 "Invoke-PaketShowInstalled",
+"Invoke-PaketSimplify",
 "Invoke-Parallel",
 "Invoke-Script",
 "Move-PaketSource",
