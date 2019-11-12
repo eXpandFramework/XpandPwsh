@@ -2,14 +2,15 @@ function Update-ProjectAutoGenerateBindingRedirects {
     [CmdletBinding()]
     param (
         [parameter(Mandatory)]
-        [xml]$CSProj
+        [xml]$CSProj,
+        [bool]$value=$true
     )
     
     begin {
     }
     
     process {
-        Update-ProjectProperty $CSProj AutoGenerateBindingRedirects true
+        Update-ProjectProperty $CSProj AutoGenerateBindingRedirects "$value".ToLower()
     }
     
     end {

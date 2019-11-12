@@ -16,7 +16,7 @@ function Invoke-PaketAdd {
     }
     
     process {
-        $depFile = (Get-PaketDependenciesPath $path)
+        $depFile = (Get-PaketDependenciesPath -Strict)
         if ($depFile) {
             $forceArgs = @();
             if ($Force) {

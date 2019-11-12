@@ -11,7 +11,7 @@ function Invoke-PaketConvertFromNuget {
     }
     
     process {
-        $paketExe=(Get-PaketDependenciesPath $path)
+        $paketExe=(Get-PaketDependenciesPath -Strict)
         if ($paketExe){
             $xtraArgs = @();
             if ($Force) {

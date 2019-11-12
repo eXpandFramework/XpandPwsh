@@ -119,6 +119,7 @@ FunctionsToExport = @(
 "Get-PackageSourceLocations",
 "Get-PackageTargetFramework",
 "Get-PaketDependenciesPath",
+"Invoke-PaketSimplify",
 "Get-ProjectTargetFramework",
 "Get-ReferenceConflict",
 "Get-RelativePath",

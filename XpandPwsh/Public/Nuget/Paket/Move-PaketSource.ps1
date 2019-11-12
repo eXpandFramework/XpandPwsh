@@ -14,7 +14,7 @@ function Move-PaketSource {
     }
     
     process {
-        $depsFile=(Get-PaketDependenciesPath $path)
+        $depsFile=(Get-PaketDependenciesPath -Strict)
         if ($depsFile){
             $match=Get-Content $depsFile|Where-Object{$_ -like "source *"}|Select-Object -First ($Index+1)
             $raw=(Get-Content $depsFile -Raw)

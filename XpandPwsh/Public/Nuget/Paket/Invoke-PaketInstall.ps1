@@ -3,8 +3,9 @@ function Invoke-PaketInstall {
     [CmdletBinding()]
     param (
         [parameter(ValueFromPipeline)]
-        [string]$Path = ".",
-        [switch]$Force
+        [switch]$Force,
+        [switch]$Strict,
+        [switch]$NotInteractive
     )
     
     begin {
@@ -12,14 +13,18 @@ function Invoke-PaketInstall {
     }
     
     process {
-        $paketExe=(Get-PaketDependenciesPath $path)
-        if ($paketExe){
+        $depArgs=@{
+            Strict=$Strict
+        }
+        Get-PaketDependenciesPath @depArgs |ForEach-Object{
             $xtraArgs = @();
             if ($Force) {
                 $xtraArgs += "--force"
             }
-            Set-Location (Get-Item $paketExe).DirectoryName
+            Write-Host "Installing Paket at $($_.DirectoryName)" -f Blue
+            Push-Location $dir
             dotnet paket install @xtraArgs
+            Pop-Location
         }
     }
     

@@ -5,19 +5,12 @@ function Clear-NugetCache {
         $Filter,
         [switch]$SkipVersionConverter,
         [parameter(ParameterSetName="paket")]
-        [switch]$SkipPaket,
         [switch]$Recurse
     )
     
     if ($Filter) {
         $path = (Get-NugetInstallationFolder GlobalPackagesFolder)
         RemovePackages $path $SkipVersionConverter
-        if (!$SkipPaket) {
-            $paketPath = Get-PaketDependenciesPath
-            if ($paketPath) {
-                RemovePackages "$((Get-Item $paketPath).DirectoryName)\..\packages" $SkipVersionConverter
-            }
-        }
     }
     else { 
         if (!$SkipPaket) {
@@ -32,7 +25,11 @@ function RemovePackages {
         $Path,
         $SkipVersionConverter
     )
+    
     $folders = Get-ChildItem $path 
+    if (Test-Path "$path/packages"){
+        $folders+=Get-ChildItem "$path/packages"
+    }
     $folders | Where-Object {
         if (!($SkipVersionConverter -and $_.BaseName -notlike "*VersionConverter")) {
             $_.BaseName -like "Xpand*" -or $_.BaseName -like "eXpand*" 

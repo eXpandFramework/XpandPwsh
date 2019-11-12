@@ -4,7 +4,6 @@ function Invoke-PaketRestore {
     param (
         [switch]$Force,
         [string]$Group,
-        [string]$Path="." ,
         [switch]$WarnOnChecks 
     )
     
@@ -13,9 +12,7 @@ function Invoke-PaketRestore {
     }
     
     process {
-        [System.IO.Path]::GetFullPath(".")
-        $paketExe=(Get-PaketDependenciesPath $path)
-        if ($paketExe){
+        Get-PaketDependenciesPath|ForEach-Object{
             $xtraArgs = @();
             if ($Force) {
                 $xtraArgs += "--force"
@@ -27,10 +24,10 @@ function Invoke-PaketRestore {
                 $xtraArgs += "--fail-on-checks"
             }
             if ($Force){
-                $root=(Get-Item $paketExe).Directory.Parent.FullName
+                $root=$_.DirectoryName
                 Remove-Item "$root\paket-files\paket.restore.cached" -ErrorAction SilentlyContinue
             }
-            Set-Location (Get-Item $paketExe).DirectoryName
+            Write-Host "Paket Restore $($_.Fullname)" -f Blue
             dotnet paket restore @xtraArgs
         }
     }

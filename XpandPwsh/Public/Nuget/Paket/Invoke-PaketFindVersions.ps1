@@ -14,7 +14,7 @@ function Invoke-PaketFindVersions {
     }
     
     process {
-        $paketExe = (Get-PaketDependenciesPath $path)
+        $paketExe = (Get-PaketDependenciesPath -Strict)
         if ($paketExe) {
             $xtraArgs = @();
             if ($Max) {

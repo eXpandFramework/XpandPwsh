@@ -1,7 +1,7 @@
 function Get-PaketDependenciesPath {
     [CmdletBinding()]
     param (
-        [string]$Path="."
+        [switch]$Strict
     )
     
     begin {
@@ -9,10 +9,7 @@ function Get-PaketDependenciesPath {
     }
     
     process {
-        $paketDirectoryInfo = (Get-Item $Path).Directory
-        if (!$paketDirectoryInfo){
-            $paketDirectoryInfo = Get-Item $Path
-        }
+        $paketDirectoryInfo = Get-Item .
         $paketDependeciesFile = "$($paketDirectoryInfo.FullName)\paket.dependencies"
         while (!(Test-Path $paketDependeciesFile)) {
             $paketDirectoryInfo = $paketDirectoryInfo.Parent
@@ -22,7 +19,14 @@ function Get-PaketDependenciesPath {
             $paketDependeciesFile = "$($paketDirectoryInfo.FullName)\paket.dependencies"
         }
         $item=Get-Item $paketDependeciesFile
-        $item
+        
+        if (!$Strict -and $item){
+            [System.IO.FileInfo[]]$items=Get-ChildItem $item.DirectoryName paket.dependencies -Recurse
+            $items
+        }
+        else {
+            $item
+        }
     }
     
     end {
