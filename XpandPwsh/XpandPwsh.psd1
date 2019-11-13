@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.29.7'
+ModuleVersion = '0.30.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -82,11 +82,9 @@ FunctionsToExport = @(
 "Compress-Files",
 "Compress-Project",
 "ConvertTo-Object",
-"Invoke-PaketUpdate",
-"Get-DotNetTool",
-"Find-NugetPackage",
 "ConvertTo-PackageObject",
 "Disable-ExecutionPolicy",
+"Find-NugetPackage",
 "Find-NugetPackageInstallationFolder",
 "Find-PaketRefs",
 "Find-XpandNugetPackage",
@@ -101,6 +99,7 @@ FunctionsToExport = @(
 "Get-DevExpressVersion",
 "Get-Distinct",
 "Get-DotNetCoreVersion",
+"Get-DotNetTool",
 "Get-DXNugets",
 "Get-GitHubCommitIssue",
 "Get-GitHubIssue",
@@ -149,6 +148,7 @@ FunctionsToExport = @(
 "Invoke-PaketRestore",
 "Invoke-PaketShowInstalled",
 "Invoke-PaketSimplify",
+"Invoke-PaketUpdate",
 "Invoke-Parallel",
 "Invoke-Script",
 "Move-PaketSource",
