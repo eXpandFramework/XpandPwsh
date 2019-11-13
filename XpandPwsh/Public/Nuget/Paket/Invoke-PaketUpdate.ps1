@@ -1,5 +1,5 @@
 
-function Invoke-PaketInstall {
+function Invoke-PaketUpdate {
     [CmdletBinding()]
     param (
         [parameter(ValueFromPipeline)]
@@ -21,9 +21,9 @@ function Invoke-PaketInstall {
             if ($Force) {
                 $xtraArgs += "--force"
             }
-            Write-Host "Paket Install at $($_.DirectoryName)" -f Blue
-            Push-Location $_.DirectoryName
-            dotnet paket install @xtraArgs
+            Write-Host "Paket Update at $($_.DirectoryName)" -f Blue
+            Push-Location $dir
+            dotnet paket update @xtraArgs
             Pop-Location
         }
     }

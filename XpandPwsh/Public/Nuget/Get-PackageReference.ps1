@@ -5,28 +5,26 @@ function Get-PackageReference {
         [string]$Path = "."
     )
     
-    begin {
         
+    [xml]$Proj = Get-Content $Path
+    $packageReferences = $Proj.project.ItemGroup.PackageReference | Where-Object { $_ }
+        
+    if ($packageReferences -and $packageReferences) {
+        $packageReferences
+        throw "$Path has packageReferences and paketreferences"
     }
-    
-    process {
-        [xml]$Proj=Get-Content $Path
-        $packageReferences=$Proj.project.ItemGroup.PackageReference|Where-Object{$_}
-        $paketReferences=Invoke-PaketShowInstalled -Project $Path
-        if ($packageReferences -and $packageReferences){
-            $packageReferences
-            throw "$Path has packageReferences and paketreferences"
-        }
-        $paketReferences|ForEach-Object{
+    $refsPath = "$((Get-Item $Path).DirectoryName)\paket.references"
+    if (Test-Path $refsPath) {
+        $installedPakets = Invoke-PaketShowInstalled -Project $Path
+        Get-Content $refsPath | ForEach-Object {
+            $ref = $_
+            $installedPakets | Where-Object { $_.Id -eq $ref }
+        } | ForEach-Object {
             [PSCustomObject]@{
                 Include = $_.Id
-                id = $_.Id
-                Version=$_.Version
-            }
+                id      = $_.Id
+                Version = $_.Version
+            }        
         }
-    }
-    
-    end {
-        
-    }
+    }      
 }

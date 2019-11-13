@@ -5,9 +5,7 @@ function Find-XpandPackage {
         [string]$Filter,
         [parameter(Position = 1)]
         [ValidateSet("All", "Release", "Lab")]
-        [string]$PackageSource = "Release",
-        [switch]$AllVersions,
-        [int]$First = 3
+        [string]$PackageSource = "Release"
     )
     
     begin {
