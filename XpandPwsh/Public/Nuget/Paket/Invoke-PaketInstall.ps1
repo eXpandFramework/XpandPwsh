@@ -21,6 +21,7 @@ function Invoke-PaketInstall {
             if ($Force) {
                 $xtraArgs += "--force"
             }
+            
             Write-Host "Paket Install at $($_.DirectoryName)" -f Blue
             Push-Location $_.DirectoryName
             dotnet paket install @xtraArgs

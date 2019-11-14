@@ -164,9 +164,11 @@ function Update-Nuspec {
         $uniqueDependencies = $nuspec.package.metadata.dependencies.dependency | Where-Object { $_.id } | Sort-Object Id -Unique
         $nuspec.package.metadata.dependencies.RemoveAll()
         
-        $uniqueDependencies
+        
         $uniqueDependencies | ForEach-Object { Invoke-Command $AddDependency -ArgumentList $_ }
+        Write-Host (get-item $NuspecFilename).DirectoryName -f Green
         $nuspec.Save($NuspecFilename)
+        Get-Content $NuspecFilename -Raw
     }
     
     end {
