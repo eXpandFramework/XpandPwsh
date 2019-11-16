@@ -4,7 +4,7 @@ function Invoke-PaketRestore {
     param (
         [switch]$Force,
         [string]$Group,
-        [switch]$WarnOnChecks 
+        [switch]$WarnOnChecks ,
         [switch]$Strict 
     )
     
