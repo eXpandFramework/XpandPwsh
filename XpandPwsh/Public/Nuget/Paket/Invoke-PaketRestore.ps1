@@ -5,6 +5,7 @@ function Invoke-PaketRestore {
         [switch]$Force,
         [string]$Group,
         [switch]$WarnOnChecks 
+        [switch]$Strict 
     )
     
     begin {
@@ -12,7 +13,10 @@ function Invoke-PaketRestore {
     }
     
     process {
-        Get-PaketDependenciesPath|ForEach-Object{
+        $a=@{
+            Strict=$Strict
+        }
+        Get-PaketDependenciesPath @a |ForEach-Object{
             $xtraArgs = @();
             if ($Force) {
                 $xtraArgs += "--force"
