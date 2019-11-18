@@ -2,7 +2,7 @@ function Clear-NugetCache {
     [CmdletBinding()]
     param (
         [ValidateSet("XpandPackages")]
-        $Filter,
+        [string]$Filter,
         [switch]$SkipVersionConverter,
         [parameter(ParameterSetName="paket")]
         [switch]$Recurse

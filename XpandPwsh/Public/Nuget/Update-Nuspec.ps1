@@ -5,8 +5,8 @@ function Update-Nuspec {
         [string]$NuspecFilename,
         [parameter(Mandatory)]
         [string]$ProjectFileName,
-        # [parameter(Mandatory)]
-        # [string[]]$allProjects,
+        [parameter(Mandatory)]
+        [string[]]$allProjects,
         [string]$ReferenceToPackageFilter = "*",
         [string]$PublishedSource,
         [switch]$Release,
@@ -69,41 +69,41 @@ function Update-Nuspec {
         "fileVersion=$fileVersion"
         $nuspec.package.metadata.version = $fileVersion
         
-        # $csproj.Project.ItemGroup.Reference | Where-Object { "$($_.Include)" -like $ReferenceToPackageFilter } | ForEach-Object {
-        #     $packageName = $_.Include
-        #     $packageName
-        #     $comma = $packageName.IndexOf(",")
-        #     if ($comma -ne -1 ) {
-        #         $packageName = $packageName.Substring(0, $comma)
-        #     }
-        #     if (!$ResolveNugetDependecies -or $packageName -in $allDependencies) {
-        #         $matchedPackageName = $customPackageLinks[$packageName]
-        #         if (!$matchedPackageName) {
-        #             $projectName = $allProjects | Where-Object { $_ -eq $packageName } | Select-Object -First 1
-        #             $regex = [regex] $NuspecMatchPattern
-        #             $projectName = $regex.Replace($projectName, '') 
-        #             $matchedPackageName = Get-ChildItem $NuspecsDirectory *.nuspec | Where-Object { $_.BaseName -eq $projectName }
-        #             if (!$matchedPackageName) {
-        #                 throw "$packageName not matched in $NuspecFilename"
-        #             }
-        #             [xml]$xml = Get-Content $matchedPackageName.FullName
-        #             $matchedPackageName = $xml.package.metadata.id
-        #         }
-        #         if ($matchedPackageName -ne $nuspec.package.metadata.Id) {
-        #             Push-Location $projectDirectory
-        #             $packagePath = Resolve-Path $_.HintPath
-        #             Pop-Location
-        #             $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$packagePath").FileVersion
-        #             $packageInfo = [PSCustomObject]@{
-        #                 id      = $matchedPackageName
-        #                 version = $version
-        #             }       
-        #             Invoke-Command $AddDependency -ArgumentList $packageInfo
-        #         }
+        $csproj.Project.ItemGroup.Reference | Where-Object { "$($_.Include)" -like $ReferenceToPackageFilter } | ForEach-Object {
+            $packageName = $_.Include
+            $packageName
+            $comma = $packageName.IndexOf(",")
+            if ($comma -ne -1 ) {
+                $packageName = $packageName.Substring(0, $comma)
+            }
+            if (!$ResolveNugetDependecies -or $packageName -in $allDependencies) {
+                $matchedPackageName = $customPackageLinks[$packageName]
+                if (!$matchedPackageName) {
+                    $projectName = $allProjects | Where-Object { $_ -eq $packageName } | Select-Object -First 1
+                    $regex = [regex] $NuspecMatchPattern
+                    $projectName = $regex.Replace($projectName, '') 
+                    $matchedPackageName = Get-ChildItem $NuspecsDirectory *.nuspec | Where-Object { $_.BaseName -eq $projectName }
+                    if (!$matchedPackageName) {
+                        throw "$packageName not matched in $NuspecFilename"
+                    }
+                    [xml]$xml = Get-Content $matchedPackageName.FullName
+                    $matchedPackageName = $xml.package.metadata.id
+                }
+                if ($matchedPackageName -ne $nuspec.package.metadata.Id) {
+                    Push-Location $projectDirectory
+                    $packagePath = Resolve-Path $_.HintPath
+                    Pop-Location
+                    $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$packagePath").FileVersion
+                    $packageInfo = [PSCustomObject]@{
+                        id      = $matchedPackageName
+                        version = $version
+                    }       
+                    Invoke-Command $AddDependency -ArgumentList $packageInfo
+                }
                 
-        #         $nuspec.Save($NuspecFilename)
-        #     }
-        # }
+                $nuspec.Save($NuspecFilename)
+            }
+        }
         
         $packageReference = Get-PackageReference $ProjectFileName 
         
