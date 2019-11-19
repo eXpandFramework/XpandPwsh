@@ -7,7 +7,9 @@ function Invoke-PaketAdd {
         [parameter()]
         [string]$Version,
         [System.IO.FileInfo]$ProjectPath,
+        [parameter(ParameterSetName="Force")]
         [switch]$Force,
+        [switch]$NoResolve,
         [string]$Path = "."
     )
     
@@ -18,14 +20,18 @@ function Invoke-PaketAdd {
     process {
         $depFile = (Get-PaketDependenciesPath -Strict)
         if ($depFile) {
-            $forceArgs = @();
+            $forceArgs = @("--project $ProjectPath");
             if ($Force) {
                 $forceArgs = "--no-install", "--no-resolve"
+            }
+            if ($NoResolve) {
+                $forceArgs += "--no-resolve"
             }
             if ($Version){
                 $forceArgs+="--version $Version"
             }
-            dotnet paket add $Id --project $ProjectPath @forceArgs
+            $forceArgs+=$Id
+            Invoke-Expression "dotnet paket add $($forceArgs -join ' ')"
             return
             $add = ($ProjectPath -and !(Invoke-PaketShowInstalled -project $ProjectPath | Where-Object { $_.Id -eq $id } ))
             if ($add) {

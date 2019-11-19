@@ -57,7 +57,7 @@ namespace XpandPwsh.Cmdlets.Nuget.GetNugetPackageSearchMetadata{
         }
 
         private bool VersionMatch(IPackageSearchMetadata metadata){
-            if (Versions == null)
+            if (Versions == null||Versions.All(string.IsNullOrWhiteSpace))
                 return true;
             return Versions.Contains(metadata.Identity.Version.ToString());
         }

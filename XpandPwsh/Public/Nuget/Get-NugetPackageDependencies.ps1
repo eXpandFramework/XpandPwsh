@@ -3,6 +3,8 @@ function Get-NugetPackageDependencies {
     param (
         [parameter(Mandatory)]
         [string]$Id,
+        [string]$Version,
+        [switch]$AllVersions,
         [string]$Source=(get-feed -Nuget)
     )
     
@@ -11,7 +13,13 @@ function Get-NugetPackageDependencies {
     }
     
     process {
-        (Get-NugetPackageSearchMetadata $Id -Source $Source).DependencySets.Packages
+        $a=@{
+            Name=$Id
+            Source=$Source
+            # Versions=$Version
+            AllVersions=$AllVersions
+        }
+        (Get-NugetPackageSearchMetadata @a).DependencySets.Packages
     }
     
     end {

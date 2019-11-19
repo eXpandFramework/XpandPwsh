@@ -3,7 +3,8 @@ function Find-NugetPackage {
     param (
         [parameter(ValueFromPipeline,Mandatory)]
         [string]$Name,
-        [string]$Source=(Get-PackageFeed -Nuget)
+        [string]$Source=(Get-PackageFeed -Nuget),
+        [switch]$AllVersions
     )
     
     begin {
@@ -11,8 +12,17 @@ function Find-NugetPackage {
     }
     
     process {
-        paket find-packages $Name -s --source $Source|ForEach-Object{
-            Get-NugetPackageSearchMetadata $_ -Source $Source|Get-NugetPackageMetadataVersion
+        $pakets=paket find-packages $Name -s --source $Source
+        if ($AllVersions){
+            $pakets=$pakets|Select-Object -First 1
+        }
+        $pakets|ForEach-Object{
+            $a=@{
+                Name=$_
+                Source=$Source
+                AllVersions=$AllVersions
+            }
+            Get-NugetPackageSearchMetadata @a|Get-NugetPackageMetadataVersion
         }
         
     }
