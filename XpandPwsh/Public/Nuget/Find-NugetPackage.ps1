@@ -2,7 +2,8 @@ function Find-NugetPackage {
     [CmdletBinding()]
     param (
         [parameter(ValueFromPipeline,Mandatory)]
-        [string]$Name
+        [string]$Name,
+        [string]$Source=(Get-PackageFeed -Nuget)
     )
     
     begin {
@@ -10,11 +11,8 @@ function Find-NugetPackage {
     }
     
     process {
-        
-        $nugetFeed=Get-PackageFeed -Nuget
-        
-        paket find-packages $Name -s --source $nugetFeed|foreach{
-            Get-NugetPackageSearchMetadata $_ -Source $nugetFeed|Get-NugetPackageMetadataVersion
+        paket find-packages $Name -s --source $Source|ForEach-Object{
+            Get-NugetPackageSearchMetadata $_ -Source $Source|Get-NugetPackageMetadataVersion
         }
         
     }
