@@ -4,14 +4,11 @@ function Invoke-PaketShowInstalled {
     param (
         [parameter(ParameterSetName="Project")]
         [string]$Project,
-        [switch]$OnlyDirect,
-        [string]$Path="."
+        [switch]$OnlyDirect
     )
     
     begin {
-        if ($PSCmdlet.ParameterSetName -eq "Project"){
-            $Path =$Project
-        }
+        
     }
     
     process {

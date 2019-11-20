@@ -52,7 +52,12 @@ function Start-XpandProjectConverter {
                     if ([version]::TryParse($_.version, [ref]$v)) {
                         if ($version -ne $_.version){
                             "Change $($_.Id) $($_.Version) to $version"
-                            Invoke-PaketAdd $_.Id $version
+                            $a=@{
+                                Id=$_.Id
+                                Version=$version
+                                Force=$SkipInstall
+                            }
+                            Invoke-PaketUpdate @a
                         }
                     }
                 }

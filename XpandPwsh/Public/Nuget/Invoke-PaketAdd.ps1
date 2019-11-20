@@ -9,8 +9,7 @@ function Invoke-PaketAdd {
         [System.IO.FileInfo]$ProjectPath,
         [parameter(ParameterSetName="Force")]
         [switch]$Force,
-        [switch]$NoResolve,
-        [string]$Path = "."
+        [switch]$NoResolve
     )
     
     begin {
@@ -20,9 +19,12 @@ function Invoke-PaketAdd {
     process {
         $depFile = (Get-PaketDependenciesPath -Strict)
         if ($depFile) {
-            $forceArgs = @("--project $ProjectPath");
+            $forceArgs = @();
+            if ($ProjectPath){
+                $forceArgs+="--project $ProjectPath"
+            }
             if ($Force) {
-                $forceArgs = "--no-install", "--no-resolve"
+                $forceArgs += "--no-install", "--no-resolve"
             }
             if ($NoResolve) {
                 $forceArgs += "--no-resolve"
