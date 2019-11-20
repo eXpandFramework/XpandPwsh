@@ -51,7 +51,7 @@ function Start-XpandProjectConverter {
                     $v = New-Object System.Version
                     if ([version]::TryParse($_.version, [ref]$v)) {
                         if ($version -ne $_.version){
-                            "Change $($_.Id) $($_.Version) to $version"
+                            Write-host "Change $($_.Id) $($_.Version) to $version" -f Green
                             $a=@{
                                 Id=$_.Id
                                 Version=$version

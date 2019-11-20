@@ -19,7 +19,7 @@ function Get-DevExpressVersion {
                 "$($v.Major).$($v.Minor)"
             }    
             else {
-                "$($v.Major).$($v.Minor).$($v.Build.ToString().Substring(0,1))"
+                "$($v.Major).$($v.Minor).$($v.Build)"
             }
         }
         else{
