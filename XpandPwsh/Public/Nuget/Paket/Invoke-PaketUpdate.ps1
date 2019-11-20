@@ -8,7 +8,7 @@ function Invoke-PaketUpdate {
         [switch]$NotInteractive,
         [parameter(ParameterSetName="id")]
         [string]$ID,
-        [parameter(ParameterSetName="id",Mandatory)]
+        [parameter(ParameterSetName="id")]
         [string]$Version
     )
     

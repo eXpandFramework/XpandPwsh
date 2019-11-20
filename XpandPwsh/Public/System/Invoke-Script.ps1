@@ -7,8 +7,7 @@ function Invoke-Script {
         [Parameter(Position=1, Mandatory=$false)]
         [int]$Maximum = 1,
         [int]$RetryInterval=1,
-        [string]$retryTriggerErrorPattern = $null,
-        [switch]$ContinueExecution
+        [string]$retryTriggerErrorPattern = $null
     )
 
     Begin {
@@ -41,11 +40,7 @@ function Invoke-Script {
                 
             }
         } while ($cnt -lt $Maximum)
-        if (!$ContinueExecution){
-            exit 1
-        }else{
-            throw
-        }
+        throw
         
     }
 }
