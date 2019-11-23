@@ -19,10 +19,12 @@ function Write-HostFormatted {
             Write-HostFormatted -Object $Object -ForegroundColor Green -Style Frame
             return
         }
-        if ($env:Build_DefinitionName ){
-            $directive="##[section]"    
+        if ($env:Build_DefinitionName ){  
             if ($ForegroundColor -eq "Blue"){
                 $directive="##[command]"    
+            }
+            elseif ($ForegroundColor -eq "Green"){
+                $directive="##[section]"    
             }
             elseif ($ForegroundColor -eq "Purple"){
                 $directive="##[debug]"    
@@ -32,9 +34,6 @@ function Write-HostFormatted {
             }
             elseif ($ForegroundColor -eq "red"){
                 $directive="##[error]"    
-            }
-            else{
-                $directive=$null
             }
             $directive+=$Object
             if ($Style -eq "Frame"){
