@@ -85,6 +85,7 @@ FunctionsToExport = @(
 "ConvertTo-Object",
 "ConvertTo-PackageObject",
 "Disable-ExecutionPolicy",
+"Find-History",
 "Find-NugetPackage",
 "Find-NugetPackageInstallationFolder",
 "Find-PaketRefs",
@@ -195,7 +196,8 @@ FunctionsToExport = @(
 "Update-Symbols",
 "Update-Version",
 "Use-MonoCecil",
-"Use-NugetAssembly"
+"Use-NugetAssembly",
+"Write-HostFormatted"
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
