@@ -1,4 +1,4 @@
-function Write-Format {
+function Write-HostFormattted {
     [CmdletBinding()]
     param(
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromRemainingArguments = $true)]
