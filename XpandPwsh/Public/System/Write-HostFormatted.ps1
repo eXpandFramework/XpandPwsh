@@ -9,11 +9,16 @@ function Write-HostFormatted {
         [Alias('bg')] [string] $BackgroundColor,
         [validateSet("Bold", "Inverted","Underline","Frame")]
         [string[]]$Style,
-        [Alias('nnl')] [switch] $NoNewline
+        [Alias('nnl')] [switch] $NoNewline,
+        [switch]$Section
     )    
     begin {
     }
     process {
+        if ($Section){
+            Write-HostFormatted -Object $Object -ForegroundColor Green -Style Frame
+            return
+        }
         if ($env:Build_DefinitionName ){
             $directive="##[section]"    
             if ($ForegroundColor -eq "Blue"){
