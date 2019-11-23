@@ -82,6 +82,7 @@ FunctionsToExport = @(
 "Close-GithubIssue",
 "Compress-Files",
 "Compress-Project",
+"ConvertTo-FramedText",
 "ConvertTo-Object",
 "ConvertTo-PackageObject",
 "Disable-ExecutionPolicy",

@@ -3,22 +3,55 @@ function Write-HostFormatted {
     param(
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromRemainingArguments = $true)]
         [System.Object] $Object,
-        [Alias('fg')] [System.ConsoleColor] $ForegroundColor,
-        [Alias('bg')] [System.ConsoleColor] $BackgroundColor,
-        [validateSet("Bold", "Inverted")]
+        [validateSet("Green","Blue","Purple","Yellow","Red")]
+        [Alias('fg')] [string] $ForegroundColor,
+        [validateSet("Green","Blue","Purple","Yellow","Red")]
+        [Alias('bg')] [string] $BackgroundColor,
+        [validateSet("Bold", "Inverted","Underline","Frame")]
         [string[]]$Style,
         [Alias('nnl')] [switch] $NoNewline
     )    
     begin {
     }
     process {
-        
+        if ($env:Build_DefinitionName ){
+            $directive="##[section]"    
+            if ($ForegroundColor -eq "Blue"){
+                $directive="##[command]"    
+            }
+            elseif ($ForegroundColor -eq "Purple"){
+                $directive="##[debug]"    
+            }
+            elseif ($ForegroundColor -eq "Yellow"){
+                $directive="##[warning]"    
+            }
+            elseif ($ForegroundColor -eq "red"){
+                $directive="##[error]"    
+            }
+            else{
+                $directive=$null
+            }
+            $directive+=$Object
+            if ($Style -eq "Frame"){
+                $directive|ConvertTo-FramedText
+            }
+            else {
+                $directive
+            }
+            return
+        }
         $code = GetAnsiCode $ForegroundColor
         $code += GetAnsiCode $BackgroundColor 10
         $code += ($Style | ForEach-Object { GetAnsiCode $_ }) -join ""
         $code += $Object
         $code += GetAnsiCode "Default"
-        $code
+        if ($Style -eq "Frame"){
+            $code|ConvertTo-FramedText
+        }
+        else {
+            $code
+        }
+        
     }
     end {
  
