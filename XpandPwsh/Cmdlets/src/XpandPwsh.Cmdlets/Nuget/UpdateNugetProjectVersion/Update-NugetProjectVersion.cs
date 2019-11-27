@@ -68,10 +68,11 @@ namespace XpandPwsh.Cmdlets.Nuget.UpdateNugetProjectVersion{
                 var text = File.ReadAllText(path);
                 text = Regex.Replace(text, @"Version\(""([^""]*)", $"Version(\"{info.nextVersion}");
                 File.WriteAllText(path, text);
-                return $"{info.name} version raised to {info.nextVersion} ";
+                WriteVerbose($"{info.name} version raised to {info.nextVersion} ");
+                return info.name;
             }
 
-            return null;
+            return default;
         }
 
 

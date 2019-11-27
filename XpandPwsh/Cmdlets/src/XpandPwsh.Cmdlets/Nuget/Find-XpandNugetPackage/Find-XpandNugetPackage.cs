@@ -28,7 +28,7 @@ namespace XpandPwsh.Cmdlets.Nuget{
             var allLabPackages = Providers.ListPackages(xpandFeed)
                 .Where(tuple => FilterMatch(tuple,filter));
             if (packageSource == XpandPackageSource.Nuget){
-                allLabPackages = allLabPackages.SelectMany(id => Providers.ListPackages(nugetFeed, id.Id));
+                allLabPackages = allLabPackages.SelectMany(id => Providers.SearchPackages(nugetFeed, id.Id));
             }
             
             return allLabPackages.Distinct().Select(_ => PSObject.AsPSObject(new{_.Id, _.Version}));

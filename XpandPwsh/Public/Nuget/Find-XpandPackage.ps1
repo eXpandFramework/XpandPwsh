@@ -13,17 +13,14 @@ function Find-XpandPackage {
     
     process {
         
-        Write-Verbose ($fArgs | Out-String)
-        $nuget = (Get-NugetPath)
-        if ($PackageSource -eq "Lab") {
-            $p = & ($nuget) list -Source (Get-PackageFeed -Xpand)| ConvertTo-PackageObject | Where-Object { $_.Id -like $Filter }
+        if ($PackageSource -ne "all") {
+            $packages=Get-XpandPackages -Source $PackageSource 
+            $p=$packages| Where-Object { 
+                $_.Id -like $Filter 
+            }
         }
-        elseif ($PackageSource -eq "All") {
+        else{
             $p = $(Find-XpandPackage -Filter $Filter -PackageSource Lab) , $(Find-XpandPackage -Filter $Filter -PackageSource Release)
-        }
-        elseif ($PackageSource -eq "Release") {
-            $p=& (Get-NugetPath) list author:expandframework -source (Get-PackageFeed -Nuget)
-            $p = $p|ConvertTo-PackageObject | Where-Object { $_.Id -like $Filter }
         }
         $p 
     }

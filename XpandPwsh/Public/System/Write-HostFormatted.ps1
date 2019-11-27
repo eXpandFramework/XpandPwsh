@@ -44,17 +44,23 @@ function Write-HostFormatted {
             }
             return
         }
-        $code = GetAnsiCode $ForegroundColor
+        $fc=$ForegroundColor
+        if ($ForegroundColor -eq "Purple"){
+            $fc="BrightMagenta"
+        }
+        $code = GetAnsiCode $fc
         $code += GetAnsiCode $BackgroundColor 10
-        $code += ($Style | ForEach-Object { GetAnsiCode $_ }) -join ""
-        $code += $Object
-        $code += GetAnsiCode "Default"
-        if ($Style -eq "Frame"){
-            $code|ConvertTo-FramedText
+        if ($Style -ne "Frame"){
+            $code += ($Style | ForEach-Object { GetAnsiCode $_ }) -join ""
+        }else{
+            $Object=$Object|ConvertTo-FramedText
         }
-        else {
-            $code
+        $Object|ForEach-Object{
+            $newcode = "$($code)$_"
+            $newcode += GetAnsiCode "Default"
+            $newcode
         }
+        
         
     }
     end {

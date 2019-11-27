@@ -29,7 +29,7 @@ function Invoke-Script {
                         throw $_
                     }
                 }
-                if ($Maximum -gt $cnt) {
+                if ($cnt -gt $Maximum ) {
                     throw $_
                 }
     

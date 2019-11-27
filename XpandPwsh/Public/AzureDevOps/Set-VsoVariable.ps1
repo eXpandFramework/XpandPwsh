@@ -11,7 +11,7 @@ function Set-VsoVariable {
     }
     
     process {
-        Write-Host "##vso[task.setvariable variable=$Name;]$Value"
+        Write-Verbose -Verbose "##vso[task.setvariable variable=$Name;]$Value"
     }
     
     end {

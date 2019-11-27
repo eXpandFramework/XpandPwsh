@@ -83,11 +83,10 @@ function Update-Nuspec {
                     $regex = [regex] $NuspecMatchPattern
                     $projectName = $regex.Replace($projectName, '') 
                     $matchedPackageName = Get-ChildItem $NuspecsDirectory *.nuspec | Where-Object { $_.BaseName -eq $projectName }
-                    if (!$matchedPackageName) {
-                        throw "$packageName not matched in $NuspecFilename"
+                    if ($matchedPackageName) {
+                        [xml]$xml = Get-Content $matchedPackageName.FullName
+                        $matchedPackageName = $xml.package.metadata.id    
                     }
-                    [xml]$xml = Get-Content $matchedPackageName.FullName
-                    $matchedPackageName = $xml.package.metadata.id
                 }
                 if ($matchedPackageName -ne $nuspec.package.metadata.Id) {
                     Push-Location $projectDirectory

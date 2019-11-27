@@ -13,18 +13,21 @@ function Invoke-PaketShowInstalled {
     
     process {
         (Get-PaketDependenciesPath -strict)|ForEach-Object{
-            Write-Host "DependencyFile: $($_.FullName)" -f Blue
+            $depsFile=$_
+            Write-Host "DependencyFile: $($depsFile.FullName)" -f Blue
             $xtraArgs = @( );
             if (!$OnlyDirect) {
                 $xtraArgs += "--all"
             }
             Push-Location (Get-Item $_).DirectoryName
             $pakets=Invoke-Script {
-                if ($Project){
-                    dotnet paket show-installed-packages --project $Project --silent @xtraArgs
-                }
-                else{
-                    dotnet paket show-installed-packages @xtraArgs
+                if (Test-Path "$($depsFile.DirectoryName)\paket.lock"){
+                    if ($Project){
+                        dotnet paket show-installed-packages --project $Project --silent @xtraArgs
+                    }
+                    else{
+                        dotnet paket show-installed-packages @xtraArgs
+                    }
                 }
             }
             Pop-Location
