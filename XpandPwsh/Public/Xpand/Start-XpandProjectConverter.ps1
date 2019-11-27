@@ -46,7 +46,7 @@ function Start-XpandProjectConverter {
                 $xml.Save($_)
             }
             $paketInstalls | Select-Object -ExpandProperty Parent | ForEach-Object {
-                Push-Location $_
+                Push-Location $_.FullName
                 Invoke-PaketShowInstalled -OnlyDirect| Where-Object { $_.Id -like "DevExpress*" } | ForEach-Object {
                     $v = New-Object System.Version
                     if ([version]::TryParse($_.version, [ref]$v)) {
@@ -72,18 +72,29 @@ function Start-XpandProjectConverter {
             }
 
         }
-        else {
-            Get-ChildItem $Path *.csproj -Recurse | ForEach-Object {
-                $projectPath = $_.FullName
+        Get-ChildItem $Path *.csproj -Recurse | ForEach-Object {
+            $projectPath = $_.FullName
+            if (!(Test-path "$($_.DirectoryName)\paket.references")){
                 Get-PackageReference $_.FullName | Where-Object { $_.include -like "DevExpress*" } | ForEach-Object {
                     if ($_.Version -ne $version) {
                         "Change $($_.Include) $($_.Version) to $version"
-                        $_.Version = $Version
+                        $_.Version = $Version.ToString()
                         $element = [System.Xml.XmlElement]$_
                         $element.OwnerDocument.Save($projectPath)
                     }
                 }
             }
+        }
+        $shortDxVersion = Get-DevExpressVersion $Version
+        $newVersion=$version.ToString()
+        if (($newVersion.ToCharArray() | Where-Object { $_ -eq "." }).Count -eq 2) {
+            $newVersion+= ".0"
+        }
+        Get-ChildItem $Path -Include "*.aspx", "*.config" -Recurse -File | ForEach-Object {
+            $xml = Get-Content $_.FullName -Raw
+            $regex = [regex] '(?<name>DevExpress.*)v\d{2}\.\d{1,2}(.*)Version=([.\d]*)'
+            $result = $regex.Replace($xml, "`${name}v$shortDxVersion`$1Version=$newVersion")
+            Set-Content $_.FullName $result.Trim()
         }
         if ($Packagepath) {
             Switch-XpandToNugets -Path $Path -PackageSource $Packagepath

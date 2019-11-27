@@ -29,7 +29,8 @@ function Invoke-Script {
                         throw $_
                     }
                 }
-                if ($cnt -gt $Maximum ) {
+                if (!($cnt -lt $Maximum )) {
+                    Write-Warning ($_.InvocationInfo)
                     throw $_
                 }
     
