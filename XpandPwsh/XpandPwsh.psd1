@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.33.0'
+ModuleVersion = '0.34.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -171,6 +171,7 @@ FunctionsToExport = @(
 "Remove-BlankLines",
 "Remove-ProjectLicenseFile",
 "Remove-ProjectNuget",
+"Remove-VersionConverterFlags",
 "Resolve-AssemblyDependencies",
 "Set-VsoVariable",
 "Start-SelfElevate",
