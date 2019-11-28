@@ -18,7 +18,10 @@ function Write-HostFormatted {
     }
     process {
         if ($Section){
-            $ForegroundColor="Green"
+            if (!$ForegroundColor){
+                $ForegroundColor="Green"
+            }
+            
             $Style="Frame"
             
         }
@@ -83,9 +86,6 @@ function Write-HostFormatted {
                     }
                     if ($BackGroundColor){
                         $a.Add("BackGroundColor",$BackGroundColor)
-                    }
-                    if ($Section){
-                        $a.ForegroundColor="Green"
                     }
                     Write-Host @a 
                 }

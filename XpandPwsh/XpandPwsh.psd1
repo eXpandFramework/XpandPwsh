@@ -177,7 +177,6 @@ FunctionsToExport = @(
 "Start-SelfElevate",
 "Start-XpandProjectConverter",
 "Switch-DevExpress",
-"Switch-ReferencesVersion",
 "Swtch-XpandToNugets",
 "Test-Symbol",
 "Uninstall-ProjectAllPackages",

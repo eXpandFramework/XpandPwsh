@@ -30,8 +30,11 @@ function Invoke-Script {
                     }
                 }
                 if (!($cnt -lt $Maximum )) {
-                    Write-Warning ($_.InvocationInfo)
-                    throw $_
+                    Write-HostFormatted "Exception:" -ForegroundColor Red -Section
+                    $_
+                    Write-HostFormatted "InvokcationInfo:" -ForegroundColor Yellow -Section
+                    $_.InvocationInfo
+                    throw 
                 }
     
                 Write-Warning $_
