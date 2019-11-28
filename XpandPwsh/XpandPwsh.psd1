@@ -71,7 +71,9 @@ NestedModules = @('Cmdlets\bin\XpandPwsh.Cmdlets.dll')
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = @(
-    "Add-NuspecDependency",
+    "Add-AssemblyBindingRedirect",
+"Add-AzBuild",
+"Add-NuspecDependency",
 "Approve-LastExitCode",
 "Checkpoint-GitHubIssue",
 "Clear-AzStorageBlob",
@@ -96,6 +98,7 @@ FunctionsToExport = @(
 "Get-AssemblyInfoVersion",
 "Get-AssemblyMetadata",
 "Get-AssemblyPublicKey",
+"Get-AzBuilds",
 "Get-AzDefinition",
 "Get-CallerPreference",
 "Get-ChocoPackage",
@@ -168,6 +171,7 @@ FunctionsToExport = @(
 "Publish-AssemblyToGac",
 "Publish-GitHubRelease",
 "Publish-NugetPackage",
+"Remove-AzBuild",
 "Remove-BlankLines",
 "Remove-ProjectLicenseFile",
 "Remove-ProjectNuget",

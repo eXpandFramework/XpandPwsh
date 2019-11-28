@@ -1,7 +1,8 @@
-function Get-AzDefinition {
+function Remove-AzBuild {
     [CmdletBinding()]
     param (
-        $FilterName="*",
+        [parameter(Mandatory,ValueFromPipelineByPropertyName)]
+        [int]$Id,
         [string]$Project=$env:AzProject,
         [string]$Organization=$env:AzOrganization
     )
@@ -11,7 +12,7 @@ function Get-AzDefinition {
     }
     
     process {
-        Invoke-AzureRestMethod "Build/definitions" -Organization $Organization -Project $Project
+        Invoke-AzureRestMethod "build/builds/$Id" -Organization $Organization -Project $Project -Method Delete
     }
     
     end {
