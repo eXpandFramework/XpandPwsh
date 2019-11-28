@@ -3,11 +3,15 @@ Function ConvertTo-FramedText{
     param(
         [Parameter(Mandatory = $true, Position = 0, valueFromPipeline = $true)]
         [string]$stringIN,
-        [string]$char = "-"
+        [string]$char = "-",
+        [switch]$NoRoof
     )
 
     $underLine = $char * $stringIn.length
-    $underLine
+    if (!$NoRoof){
+        $underLine
+    }
+    
     $stringIn
 
     $underLine

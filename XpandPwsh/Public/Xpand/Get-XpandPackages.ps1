@@ -4,7 +4,7 @@ function Get-XpandPackages {
         [parameter()]
         [ValidateSet("Release", "Lab")]
         $Source,
-        [ValidateSet("All", "eXpand", "XAF", "XAFAll")]
+        [ValidateSet("All", "eXpand", "XAF")]
         $PackageType = "All"
     )
     
@@ -20,9 +20,6 @@ function Get-XpandPackages {
         }
         elseif ($PackageType -eq "XAF") {
             $Filter = "Xpand.XAF.Modules*"
-        }
-        elseif ($PackageType -eq "XAFAll") {
-            $Filter = "Xpand.XAF.Modules*;Xpand.Extensions*"
         }
         try {
             $c=New-Object System.Net.WebClient
