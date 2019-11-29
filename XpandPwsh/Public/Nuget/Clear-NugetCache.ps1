@@ -20,7 +20,7 @@ function Clear-NugetCache {
             Invoke-PaketClearCache 
         }
         & (Get-NugetPath) locals all -clear
-        dotnet tool restore
+        dotnet tool restore  
     }
 }
 

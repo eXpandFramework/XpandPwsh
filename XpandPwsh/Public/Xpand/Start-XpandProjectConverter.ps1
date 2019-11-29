@@ -66,7 +66,7 @@ function Start-XpandProjectConverter {
                 $result = $regex.Replace($deps, "`$1\DevExpress $shortVersion")
                 Set-Content "$($_.FullName)\paket.dependencies" $result
                 if (!$SkipInstall) {
-                    Invoke-PaketInstall $_ 
+                    Invoke-PaketInstall 
                 }
                 Pop-Location
             }
@@ -75,13 +75,19 @@ function Start-XpandProjectConverter {
         Get-ChildItem $Path *.csproj -Recurse | ForEach-Object {
             $projectPath = $_.FullName
             if (!(Test-path "$($_.DirectoryName)\paket.references")){
-                Get-PackageReference $_.FullName | Where-Object { $_.include -like "DevExpress*" } | ForEach-Object {
+                $change=Get-PackageReference $_.FullName | Where-Object { $_.include -like "DevExpress*" } | ForEach-Object {
                     if ($_.Version -ne $version) {
                         "Change $($_.Include) $($_.Version) to $version"
                         $_.Version = $Version.ToString()
                         $element = [System.Xml.XmlElement]$_
                         $element.OwnerDocument.Save($projectPath)
                     }
+                }
+                if ($change){
+                    $change
+                    Push-Location $_.DirectoryName
+                    Clear-ProjectDirectories
+                    Pop-Location
                 }
             }
         }
