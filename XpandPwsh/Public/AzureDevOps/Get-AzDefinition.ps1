@@ -11,7 +11,7 @@ function Get-AzDefinition {
         $cred=@{
             Project=$Project
             Organization=$Organization
-            $Token=$Token
+            Token=$Token
         }   
     }
     

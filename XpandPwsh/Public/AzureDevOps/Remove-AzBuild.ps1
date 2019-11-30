@@ -12,7 +12,7 @@ function Remove-AzBuild {
         $cred=@{
             Project=$Project
             Organization=$Organization
-            $Token=$Token
+            Token=$Token
         }        
     }
     
