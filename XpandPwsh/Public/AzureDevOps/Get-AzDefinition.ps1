@@ -4,7 +4,7 @@ function Get-AzDefinition {
         $FilterName="*",
         [string]$Project=$env:AzProject,
         [string]$Organization=$env:AzOrganization,
-        [string]$Token=$env:AzureToken
+        [string]$Token=$env:AzDevopsToken
     )
     
     begin {

@@ -9,15 +9,20 @@ function Add-AzBuild {
         [string[]]$Definition,
         [switch]$StopOthers,
         [string]$Organization=$env:AzOrganization,
-        [string]$Project=$env:AzProject
+        [string]$Project=$env:AzProject,
+        [string]$Token=$env:AzDevopsToken
     )
     
     begin {
-        
+        $cred=@{
+            Project=$Project
+            Organization=$Organization
+            Token=$Token
+        }   
     }
     
     process {
-        $builds=(Get-AzDefinition | Where-Object { $_.name -in $Definition }).id | ForEach-Object {
+        $builds=(Get-AzDefinition @cred| Where-Object { $_.name -in $Definition }).id | ForEach-Object {
             $body = @"
             {
                 "definition": {
@@ -25,11 +30,11 @@ function Add-AzBuild {
                 }
             }
 "@
-            $resp=Invoke-AzureRestMethod "build/builds" -Organization $Organization -Project $Project -Method Post -Body $body    
+            $resp=Invoke-AzureRestMethod "build/builds" -Method Post -Body $body @cred
             Write-Output $resp
         }
         if ($StopOthers) {
-            Get-AzBuilds -Status inProgress, notStarted, postponed|Where-Object{$_.id -notin $builds.id} | Remove-AzBuild
+            Get-AzBuilds -Status inProgress, notStarted, postponed @cred|Where-Object{$_.id -notin $builds.id} | Remove-AzBuild @cred
         }
     }
     end {
