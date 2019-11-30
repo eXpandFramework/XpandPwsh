@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
-using System.Threading;
 using System.Threading.Tasks;
-using NuGet.Common;
-using NuGet.Configuration;
 using NuGet.Protocol.Core.Types;
 
 namespace XpandPwsh.Cmdlets.Nuget.GetNugetPackageSearchMetadata{
@@ -34,7 +30,7 @@ namespace XpandPwsh.Cmdlets.Nuget.GetNugetPackageSearchMetadata{
 
 
         protected override async Task ProcessRecordAsync(){
-            var listPackages = Name != null ? Observable.Return(Name):Providers.ListPackages(Source).Select(_ => _.Id);
+            var listPackages = Name != null ? Observable.Return(Name):Providers.ListPackages(Source).ToPackageObject().Select(_ => _.Id);
             var metaData = listPackages
                 .SelectMany(package => SelectPackages(package, Providers))
                 .Where(metadata => metadata!=null)
@@ -73,21 +69,11 @@ namespace XpandPwsh.Cmdlets.Nuget.GetNugetPackageSearchMetadata{
         }
 
         private IObservable<IPackageSearchMetadata> SelectPackages(string s, List<Lazy<INuGetResourceProvider>> providers){
-            return Source.Split(';').ToObservable().SelectMany(source => PackageSourceSearchMetadatas(source, s,providers));
+            return Source.Split(';').ToObservable().SelectMany(source => providers.PackageMetadata(source, s));
         }
 
         
 
-        private IObservable<IPackageSearchMetadata> PackageSourceSearchMetadatas(string source,string name,
-            List<Lazy<INuGetResourceProvider>> providers){
-            var metadatas = new SourceRepository(new PackageSource(source), providers)
-                .GetResourceAsync<PackageMetadataResource>().ToObservable()
-                .SelectMany(resource => resource
-                    .GetMetadataAsync(name, IncludePrerelease, IncludeUnlisted, NullLogger.Instance,CancellationToken.None).ToObservable()
-                    .SelectMany(enumerable => enumerable.ToArray())
-                );
-            return metadatas;
-        }
 
     }
 }

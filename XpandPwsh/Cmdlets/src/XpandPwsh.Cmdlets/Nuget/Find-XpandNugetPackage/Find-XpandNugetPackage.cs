@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Management.Automation;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using XpandPwsh.CmdLets;
@@ -25,10 +26,14 @@ namespace XpandPwsh.Cmdlets.Nuget{
         }
 
         public static IObservable<PSObject> GetPackages(XpandPackageSource packageSource,string xpandFeed,string nugetFeed,XpandPackageFilter filter){
-            var allLabPackages = Providers.ListPackages(xpandFeed)
+            var allLabPackages = Providers.ListPackages(xpandFeed).ToPackageObject()
                 .Where(tuple => FilterMatch(tuple,filter));
+
             if (packageSource == XpandPackageSource.Nuget){
-                allLabPackages = allLabPackages.SelectMany(id => Providers.SearchPackages(nugetFeed, id.Id));
+                IObservable<(string Id, Version Version)> Metadata((string Id, Version Version) tuple) => 
+                    Providers.PackageMetadata(nugetFeed, tuple.Id).ToPackageObject()
+                        .GroupBy(_ => _.Id).SelectMany(obs => obs.LastAsync());
+                allLabPackages = allLabPackages.SelectMany(Metadata);
             }
             
             return allLabPackages.Distinct().Select(_ => PSObject.AsPSObject(new{_.Id, _.Version}));
