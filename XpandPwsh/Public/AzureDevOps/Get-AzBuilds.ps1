@@ -22,7 +22,7 @@ function Get-AzBuilds {
         $cred=@{
             Project=$Project
             Organization=$Organization
-            $Token=$Token
+            Token=$Token
         }
     }
     
