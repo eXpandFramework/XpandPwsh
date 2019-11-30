@@ -14,7 +14,8 @@ function Get-AzBuilds {
         [parameter()][ValidateSet( "all", "batchedCI", "buildCompletion", "checkInShelveset", "individualCI", "manual", "pullRequest", "schedule", "triggered", "userCreated", "validateShelveset")]
         [string[]]$Reason,
         [string]$Project=$env:AzProject,
-        [string]$Organization=$env:AzOrganization
+        [string]$Organization=$env:AzOrganization,
+        [string]$Token=$env:AzureToken
     )
     
     begin {
@@ -23,7 +24,7 @@ function Get-AzBuilds {
     
     process {
         $DefinitionIds=(Get-AzDefinition|Where-Object{$_.Name -in $Definition}).id
-        (Invoke-AzureRestMethod "build/builds" -Organization $Organization -Project $Project)|Where-Object{
+        (Invoke-AzureRestMethod "build/builds" -Organization $Organization -Project $Project -Token $token)|Where-Object{
             !$Status -or $_.Status -in $Status -and
             !$reason -or $_.reason -in $reason -and
             !$Result -or $_.Result -in $Result -and

@@ -12,6 +12,15 @@ function Invoke-AzureRestMethod {
     )
     
     begin {
+        if (!$Token){
+            throw "Token is null"
+        }
+        if (!$Organization){
+            throw "Organization is null"
+        }
+        if (!$Project){
+            throw "Project is null"
+        }
     }
     
     process {
