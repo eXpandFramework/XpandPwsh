@@ -19,12 +19,16 @@ function Get-AzBuilds {
     )
     
     begin {
-        
+        $cred=@{
+            Project=$Project
+            Organization=$Organization
+            $Token=$Token
+        }
     }
     
     process {
-        $DefinitionIds=(Get-AzDefinition|Where-Object{$_.Name -in $Definition}).id
-        (Invoke-AzureRestMethod "build/builds" -Organization $Organization -Project $Project -Token $token)|Where-Object{
+        $DefinitionIds=(Get-AzDefinition @cred|Where-Object{$_.Name -in $Definition}).id
+        (Invoke-AzureRestMethod "build/builds" @cred)|Where-Object{
             !$Status -or $_.Status -in $Status -and
             !$reason -or $_.reason -in $reason -and
             !$Result -or $_.Result -in $Result -and

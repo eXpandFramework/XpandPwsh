@@ -3,15 +3,20 @@ function Get-AzDefinition {
     param (
         $FilterName="*",
         [string]$Project=$env:AzProject,
-        [string]$Organization=$env:AzOrganization
+        [string]$Organization=$env:AzOrganization,
+        [string]$Token=$env:AzureToken
     )
     
     begin {
-        
+        $cred=@{
+            Project=$Project
+            Organization=$Organization
+            $Token=$Token
+        }   
     }
     
     process {
-        Invoke-AzureRestMethod "Build/definitions" -Organization $Organization -Project $Project
+        Invoke-AzureRestMethod "Build/definitions" @cred
     }
     
     end {
