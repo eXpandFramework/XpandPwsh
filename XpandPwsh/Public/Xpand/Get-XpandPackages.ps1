@@ -4,7 +4,7 @@ function Get-XpandPackages {
         [parameter()]
         [ValidateSet("Release", "Lab")]
         $Source,
-        [ValidateSet("All", "eXpand", "XAF")]
+        [ValidateSet("All", "eXpand", "XAFModules","XAFAll")]
         $PackageType = "All"
     )
     
@@ -13,13 +13,18 @@ function Get-XpandPackages {
     
     process {
         if ($PackageType -eq "All") {
-            $Filter = "*"
+            $Filter = {$true}
         }
         elseif ($PackageType -eq "eXpand") {
-            $Filter = "eXpand*"
+            $Filter = {$_.Id -like "eXpand*"}
         }
-        elseif ($PackageType -eq "XAF") {
-            $Filter = "Xpand.XAF.Modules*"
+        elseif ($PackageType -eq "XAFModules") {
+            $Filter = {$_.Id -like "Xpand.XAF.Modules*"}
+        }
+        elseif ($PackageType -eq "XAFAll") {
+            $Filter = {
+                $_.Id -notlike "eXpand*"
+            }
         }
         try {
             $c=New-Object System.Net.WebClient
@@ -39,7 +44,9 @@ function Get-XpandPackages {
                         Source="Release"
                     }
                 }
-            })|Where-Object{$_.id -like $Filter -and $_.Source -eq $Source}
+            })|Where-Object{
+                (& $Filter) -and $_.Source -eq $Source
+            }
             $c.Dispose()
         }
         catch {

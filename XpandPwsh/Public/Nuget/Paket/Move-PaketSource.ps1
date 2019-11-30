@@ -19,13 +19,13 @@ function Move-PaketSource {
             $match=Get-Content $depsFile|Where-Object{$_ -like "source *"}|Select-Object -First ($Index+1)
             $raw=(Get-Content $depsFile -Raw)
             $value=$raw.Replace($match,"source $Target")
-            Set-Content  $depsFile $value
+            Set-Content  $depsFile $value.Trim()
             
             $lockFile="$($depsFile.DirectoryName)\paket.lock"
             $raw=(Get-Content $lockFile -Raw)
             $match=$match.Replace("source ","")
             $value=$raw.Replace($match,$Target)
-            Set-Content  $lockFile $value
+            Set-Content  $lockFile $value.Trim()
         }
     }
     

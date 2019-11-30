@@ -15,12 +15,11 @@ function Add-NuspecDependency {
     }
     
     process {
-        $ns = New-Object System.Xml.XmlNamespaceManager($nuspec.NameTable)
-        $ns.AddNamespace("ns", $nuspec.DocumentElement.NamespaceURI)
-        $dependency = $nuspec.CreateElement("dependency", $nuspec.DocumentElement.NamespaceURI)
-        $dependency.SetAttribute("id", $id)
-        $dependency.SetAttribute("version", $version)
-        $nuspec.SelectSingleNode("//ns:dependencies", $ns).AppendChild($dependency) | Out-Null
+        $attributes = @{
+            id = $id
+            version = $version
+        }
+        Add-XmlElement $Nuspec "dependency" "dependencies" $attributes 
     }
     
     end {
