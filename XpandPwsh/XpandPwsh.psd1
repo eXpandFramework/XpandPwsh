@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.36.3'
+ModuleVersion = '0.36.8'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -73,6 +73,7 @@ NestedModules = @('Cmdlets\bin\XpandPwsh.Cmdlets.dll')
 FunctionsToExport = @(
     "Add-AssemblyBindingRedirect",
 "Add-AzBuild",
+"Add-AzBuildTag",
 "Add-GitDiff",
 "Add-NuspecDependency",
 "Add-XmlElement",
@@ -177,6 +178,7 @@ FunctionsToExport = @(
 "Publish-NugetPackage",
 "Push-GitSSH",
 "Remove-AzBuild",
+"Remove-AzBuildInProgress",
 "Remove-BlankLines",
 "Remove-ProjectLicenseFile",
 "Remove-ProjectNuget",

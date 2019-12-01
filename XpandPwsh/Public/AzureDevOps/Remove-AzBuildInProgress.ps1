@@ -1,10 +1,8 @@
-function Remove-AzBuild {
+function Remove-AzBuildInProgress {
     [CmdletBinding()]
     param (
-        [parameter(Mandatory,ValueFromPipelineByPropertyName,ParameterSetName="id")]
+        [parameter(Mandatory,ValueFromPipelineByPropertyName)]
         [int]$Id,
-        [parameter(ParameterSetName="switch")]
-        [switch]$InProgress,
         [string]$Project=$env:AzProject,
         [string]$Organization=$env:AzOrganization,
         [string]$Token=$env:AzDevopsToken
@@ -19,12 +17,7 @@ function Remove-AzBuild {
     }
     
     process {
-        if($InProgress){
-            Get-AzBuilds -Status inProgress|Remove-AzBuild
-        }
-        else{
-            Invoke-AzureRestMethod "build/builds/$Id" @cred -Method Delete
-        }
+        Invoke-AzureRestMethod "build/builds/$Id" @cred -Method Delete
     }
     
     end {
