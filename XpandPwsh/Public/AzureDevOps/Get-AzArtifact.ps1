@@ -9,10 +9,10 @@ function Get-AzArtifact {
         [string[]]$Definition,
         [parameter(Mandatory,ParameterSetName="BuildId")]
         [int]$BuildId,
-        [parameter(Mandatory)]
+        [parameter()]
         [string]$ArtifactName,
         [parameter()]
-        [string]$Outpath=".",
+        [string]$Outpath,
         [string]$Organization=$env:AzOrganization,
         [string]$Project=$env:AzProject,
         [string]$Token=$env:AzDevopsToken
@@ -31,7 +31,7 @@ function Get-AzArtifact {
             $buildId=(Get-AzBuilds -Definition $Definition -Result succeeded -Status completed |Select-Object -First 1).Id
         }
         $endpoint="build/builds/$buildId/artifacts"
-        Invoke-AzureRestMethod $endpoint @cred|Where-Object{$_.name -eq $ArtifactName}|ForEach-Object{
+        Invoke-AzureRestMethod $endpoint @cred|Where-Object{!$ArtifactName -or $_.name -eq $ArtifactName}|ForEach-Object{
             $_
             if ($Outpath){
                 $zip="$Outpath\$ArtifactName.zip"
