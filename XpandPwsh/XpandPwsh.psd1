@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.35.6'
+ModuleVersion = '0.35.7'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -73,6 +73,7 @@ NestedModules = @('Cmdlets\bin\XpandPwsh.Cmdlets.dll')
 FunctionsToExport = @(
     "Add-AssemblyBindingRedirect",
 "Add-AzBuild",
+"Add-GitDiff",
 "Add-NuspecDependency",
 "Add-XmlElement",
 "Approve-LastExitCode",
@@ -100,6 +101,7 @@ FunctionsToExport = @(
 "Get-AssemblyInfoVersion",
 "Get-AssemblyMetadata",
 "Get-AssemblyPublicKey",
+"Get-AzArtifact",
 "Get-AzBuilds",
 "Get-AzDefinition",
 "Get-CallerPreference",
@@ -173,6 +175,7 @@ FunctionsToExport = @(
 "Publish-AssemblyToGac",
 "Publish-GitHubRelease",
 "Publish-NugetPackage",
+"Push-GitSSH",
 "Remove-AzBuild",
 "Remove-BlankLines",
 "Remove-ProjectLicenseFile",
@@ -182,9 +185,11 @@ FunctionsToExport = @(
 "Set-VsoVariable",
 "Start-SelfElevate",
 "Start-XpandProjectConverter",
+"Submit-GitStage",
 "Switch-DevExpress",
 "Swtch-XpandToNugets",
 "Test-Symbol",
+"Uninstall-AllModules",
 "Uninstall-ProjectAllPackages",
 "UnInstall-Xpand",
 "UnPublish-NugetPackage",
@@ -207,6 +212,7 @@ FunctionsToExport = @(
 "Update-Version",
 "Use-MonoCecil",
 "Use-NugetAssembly",
+"Use-Object",
 "Write-HostFormatted"
 )
 

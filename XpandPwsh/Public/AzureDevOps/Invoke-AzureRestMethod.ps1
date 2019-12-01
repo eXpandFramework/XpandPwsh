@@ -26,10 +26,10 @@ function Invoke-AzureRestMethod {
     process {
         $encodedPat = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(":$Token"))
         $uri="https://dev.azure.com/$Organization/$Project/_apis/$Resource"
-        if ($uri.Contains("*")){
+        if ($uri.Contains("*") -or $uri.Contains("?")){
             $uri+="&"
         }
-        else{
+        elseif (!$uri.Contains("?")){
             $uri+="?"
         }
         $uri+="api-version=$Version"
@@ -38,6 +38,12 @@ function Invoke-AzureRestMethod {
             Headers=@{Authorization = "Basic $encodedPat" }
             Method=$Method
         }
+        # if ($OutFile){
+        #     Use-Object ($c=[System.Net.WebClient]::new()){
+
+        #         $c.DownloadFile($uri,$OutFile)
+        #     }
+        # }
         if ($Body){
             $bodyJson = $body | ConvertFrom-Json
             $body = $bodyJson | ConvertTo-Json -Depth 100
