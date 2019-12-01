@@ -35,7 +35,9 @@ function Get-AzArtifact {
             $_
             if ($Outpath){
                 $zip="$Outpath\$ArtifactName.zip"
-                Invoke-RestMethod $_.resource.downloadUrl -OutFile $zip
+                Use-Object($c=[System.Net.WebClient]::new()){
+                    $c.DownloadFile($_.resource.downloadUrl,$zip)
+                }
                 Expand-Archive -DestinationPath "$Outpath\$ArtifactName" -Path $zip
                 Remove-Item $zip
             }
