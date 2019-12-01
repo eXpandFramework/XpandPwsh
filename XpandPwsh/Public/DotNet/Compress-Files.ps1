@@ -4,7 +4,7 @@ function Compress-Files {
         [string]$path =".",
         [parameter(Mandatory)]
         [string]$zipfileName,
-        $compressionLevel = [System.IO.Compression.CompressionLevel]::Optimal
+        [System.IO.Compression.CompressionLevel]$compressionLevel = [System.IO.Compression.CompressionLevel]::Optimal
     )
     
     begin {

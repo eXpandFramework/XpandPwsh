@@ -6,12 +6,14 @@ function Submit-GitStage($message) {
         if (!$message){
             $message = Read-Host "Enter Commit message(Enter for default message):"
         }
+        $a="-m","$message"
         if (!$message){
             $message="minor update"
+            $a+="--amend"
         }
-        git commit -m $message
+        git commit -m $message --amend
     }else{
-        Write-Error "Git stage is empty" 
+        Write-Warning "Git stage is empty" 
     }
     
 }
