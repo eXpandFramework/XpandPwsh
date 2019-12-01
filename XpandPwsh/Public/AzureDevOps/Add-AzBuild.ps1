@@ -8,6 +8,7 @@ function Add-AzBuild {
             })]
         [string[]]$Definition,
         [switch]$StopOthers,
+        [switch]$StopIfRunning,
         [string]$Organization=$env:AzOrganization,
         [string]$Project=$env:AzProject,
         [string]$Token=$env:AzDevopsToken
@@ -33,8 +34,14 @@ function Add-AzBuild {
             $resp=Invoke-AzureRestMethod "build/builds" -Method Post -Body $body @cred
             Write-Output $resp
         }
+        if ($StopOthers -or $StopIfRunning){
+            $allBuilds=Get-AzBuilds -Status inProgress, notStarted, postponed @cred
+        }
         if ($StopOthers) {
-            Get-AzBuilds -Status inProgress, notStarted, postponed @cred|Where-Object{$_.id -notin $builds.id} | Remove-AzBuild @cred
+            $allBuilds|Where-Object{$_.id -notin $builds.id} | Remove-AzBuild @cred
+        }
+        if ($StopIfRunning){
+            $allBuilds|Where-Object{$_.id -in $builds.id}|Remove-AzBuild @cred
         }
     }
     end {
