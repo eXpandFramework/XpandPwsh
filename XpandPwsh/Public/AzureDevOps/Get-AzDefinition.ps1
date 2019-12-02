@@ -1,7 +1,9 @@
 function Get-AzDefinition {
     [CmdletBinding()]
     param (
-        $FilterName="*",
+        [parameter(ValueFromPipelineByPropertyName,ValueFromPipeline)]
+        [string]$Name,
+        [int]$Top,
         [string]$Project=$env:AzProject,
         [string]$Organization=$env:AzOrganization,
         [string]$Token=$env:AzDevopsToken
@@ -16,7 +18,9 @@ function Get-AzDefinition {
     }
     
     process {
-        Invoke-AzureRestMethod "Build/definitions" @cred
+        $query=ConvertTo-HttpQueryString -Variables Name,Top
+        $resource="Build/definitions$query"
+        Invoke-AzureRestMethod $resource @cred
     }
     
     end {

@@ -27,9 +27,9 @@ function Add-AzBuild {
     
     process {
         if ($StopIfRunning) {
-            Get-AzBuilds -Status inProgress, notStarted, postponed @cred | Where-Object { $_.definition.name -eq $Definition } | Remove-AzBuild @cred
+            $Definition|Get-AzBuilds -Status inProgress, notStarted, postponed @cred | Remove-AzBuild @cred
         }
-        $builds = (Get-AzDefinition @cred | Where-Object { $_.name -in $Definition }).id | ForEach-Object {
+        $builds = ($Definition|Get-AzDefinition).id | ForEach-Object {
             $body = @{
                 definition  = @{id = $_ }
                 parameters  = $Parameters | ConvertTo-Json
