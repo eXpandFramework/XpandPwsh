@@ -3,7 +3,7 @@ function Add-AzBuildTag {
     [CmdletBinding()]
     param (
         [parameter(Mandatory,ValueFromPipelineByPropertyName)]
-        [int]$Id,
+        [string]$Id,
         [parameter(Mandatory,ValueFromPipelineByPropertyName)]
         [string]$Tag,
         [string]$Organization = $env:AzOrganization,

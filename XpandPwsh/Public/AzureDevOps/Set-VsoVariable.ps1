@@ -15,7 +15,11 @@ function Set-VsoVariable {
     }
     
     process {
-        Write-Verbose -Verbose "##vso[$Name]$Value"
+        $messgae="##vso[task.setvariable variable=$Name]$Value"
+        if ($Name -eq "build.updatebuildnumber"){
+            $messgae="##vso[$Name]$Value"
+        }
+        Write-Verbose -Verbose $messgae
     }
     
     end {
