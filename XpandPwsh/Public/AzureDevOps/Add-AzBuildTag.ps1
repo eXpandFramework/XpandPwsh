@@ -3,9 +3,9 @@ function Add-AzBuildTag {
     [CmdletBinding()]
     param (
         [parameter(Mandatory,ValueFromPipelineByPropertyName)]
-        [string]$Id,
-        [parameter(Mandatory,ValueFromPipelineByPropertyName)]
         [string]$Tag,
+        [parameter(ValueFromPipelineByPropertyName)]
+        [string]$Id=$env:Build_BuildId,
         [string]$Organization = $env:AzOrganization,
         [string]$Project = $env:AzProject,
         [string]$Token = $env:AzDevopsToken
