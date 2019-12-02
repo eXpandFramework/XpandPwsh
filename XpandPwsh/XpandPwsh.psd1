@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.38.7'
+ModuleVersion = '0.38.8'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -82,7 +82,6 @@ FunctionsToExport = @(
 "Clear-AzStorageBlob",
 "Clear-DotNetSdkFallBackFolder",
 "Clear-NugetCache",
-"Get-AzTestRuns",
 "Clear-ProjectDirectories",
 "Clear-TempFolders",
 "Close-GithubIssue",
@@ -107,6 +106,7 @@ FunctionsToExport = @(
 "Get-AzArtifact",
 "Get-AzBuilds",
 "Get-AzDefinition",
+"Get-AzTestRuns",
 "Get-CallerPreference",
 "Get-ChocoPackage",
 "Get-DevExpressPath",
