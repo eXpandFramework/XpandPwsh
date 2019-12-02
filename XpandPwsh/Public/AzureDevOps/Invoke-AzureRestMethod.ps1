@@ -38,12 +38,6 @@ function Invoke-AzureRestMethod {
             Headers=@{Authorization = "Basic $encodedPat" }
             Method=$Method
         }
-        # if ($OutFile){
-        #     Use-Object ($c=[System.Net.WebClient]::new()){
-
-        #         $c.DownloadFile($uri,$OutFile)
-        #     }
-        # }
         if ($Body){
             $bodyJson = $body | ConvertFrom-Json
             $body = $bodyJson | ConvertTo-Json -Depth 100
@@ -51,7 +45,7 @@ function Invoke-AzureRestMethod {
             $a.Add("Body",$body)
         }
         $resp = Invoke-RestMethod @a
-        if ($resp.value){
+        if ($resp.value -is [array]){
             $resp.value|ForEach-Object{$_}
         }
         else{

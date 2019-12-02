@@ -1,8 +1,8 @@
 function Remove-AzBuild {
     [CmdletBinding()]
     param (
-        [parameter(Mandatory,ValueFromPipelineByPropertyName,ParameterSetName="id")]
-        [int]$Id,
+        [parameter(ValueFromPipelineByPropertyName,ParameterSetName="id")]
+        [string]$Id,
         [parameter(ParameterSetName="switch")]
         [switch]$InProgress,
         [string]$Project=$env:AzProject,
@@ -23,7 +23,9 @@ function Remove-AzBuild {
             Get-AzBuilds -Status inProgress|Remove-AzBuild
         }
         else{
-            Invoke-AzureRestMethod "build/builds/$Id" @cred -Method Delete
+            if ($Id){
+                Invoke-AzureRestMethod "build/builds/$Id" @cred -Method Delete
+            }
         }
     }
     

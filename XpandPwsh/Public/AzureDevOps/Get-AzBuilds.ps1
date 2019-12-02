@@ -37,7 +37,7 @@ function Get-AzBuilds {
             tagFilters  = ($Tag -join ",")
             definitions  = (($Definition | Get-AzDefinition).id -join ",")
         }
-        (Invoke-AzureRestMethod "build/builds$query" @cred) 
+        Invoke-AzureRestMethod "build/builds$query" @cred
     }
     
     end {
