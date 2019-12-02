@@ -32,7 +32,7 @@ function Get-AzBuilds {
         $query =ConvertTo-HttpQueryString @{
             top          = $top
             reasonFilter = $Reason
-            statusFilter = $Status
+            statusFilter = ($Status-join ",")
             resultFilter = $Result
             tagFilters  = ($Tag -join ",")
             definitions  = (($Definition | Get-AzDefinition).id -join ",")
