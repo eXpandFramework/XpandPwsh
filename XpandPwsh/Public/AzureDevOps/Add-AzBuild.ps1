@@ -8,7 +8,7 @@ function Add-AzBuild {
             })]
         [string[]]$Definition,
         [string[]]$Tag,
-        [hashtable]$Parameters=@{},
+        [hashtable]$Parameters,
         [switch]$KeepForEver,
         [switch]$StopOthers,
         [switch]$StopIfRunning,
@@ -34,7 +34,7 @@ function Add-AzBuild {
                 definition  = @{id = $_ }
                 parameters  = $Parameters | ConvertTo-Json
                 keepForEver = $KeepForEver.IsPresent
-            }
+            }| Remove-DefaultValueKeys 
             Invoke-AzureRestMethod "build/builds" -Method Post -Body ($body | ConvertTo-Json) @cred
         }
         

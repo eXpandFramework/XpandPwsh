@@ -20,7 +20,7 @@ function Remove-AzBuild {
     
     process {
         if($InProgress){
-            Get-AzBuilds -Status inProgress|Remove-AzBuild
+            Get-AzBuilds -Status inProgress,notStarted|Remove-AzBuild
         }
         else{
             if ($Id){
