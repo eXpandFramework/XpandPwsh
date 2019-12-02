@@ -6,7 +6,7 @@ function Invoke-AzureRestMethod {
         [string]$Token=$env:AzDevopsToken,
         [string]$Organization=$env:AzOrganization,
         [string]$Project=$env:AzProject,
-        [string]$Version = "5.0",
+        [string]$Version = "5.1",
         [object]$Body,
         [Microsoft.PowerShell.Commands.WebRequestMethod]$Method=[Microsoft.PowerShell.Commands.WebRequestMethod]::Get
     )

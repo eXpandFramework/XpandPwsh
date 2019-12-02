@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.38.6'
+ModuleVersion = '0.38.7'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -74,7 +74,6 @@ FunctionsToExport = @(
     "Add-AssemblyBindingRedirect",
 "Add-AzBuild",
 "Add-AzBuildTag",
-"Get-XAFLatestMinors",
 "Add-GitDiff",
 "Add-NuspecDependency",
 "Add-XmlElement",
@@ -83,6 +82,7 @@ FunctionsToExport = @(
 "Clear-AzStorageBlob",
 "Clear-DotNetSdkFallBackFolder",
 "Clear-NugetCache",
+"Get-AzTestRuns",
 "Clear-ProjectDirectories",
 "Clear-TempFolders",
 "Close-GithubIssue",
@@ -141,6 +141,7 @@ FunctionsToExport = @(
 "Get-RelativePath",
 "Get-SymbolSources",
 "Get-VSPath",
+"Get-XAFLatestMinors",
 "Get-XmlContent",
 "Get-XpandPackages",
 "Get-XpandPath",

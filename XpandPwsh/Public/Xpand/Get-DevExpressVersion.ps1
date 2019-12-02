@@ -1,7 +1,7 @@
 function Get-DevExpressVersion {
     [CmdletBinding()]
     param (
-        [parameter(Mandatory, ParameterSetName = "version",Position=0)]
+        [parameter(Mandatory, ParameterSetName = "version",Position=0,ValueFromPipeline)]
         [string]$Version,
         [parameter(ParameterSetName = "version")]
         [switch]$Build,

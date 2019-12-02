@@ -14,6 +14,7 @@ function Get-AzBuilds {
         [parameter()][ValidateSet( "all", "batchedCI", "buildCompletion", "checkInShelveset", "individualCI", "manual", "pullRequest", "schedule", "triggered", "userCreated", "validateShelveset")]
         [string[]]$Reason,
         [int]$Top,
+        [int]$Skip,
         [string[]]$Tag,
         [string]$Project = $env:AzProject,
         [string]$Organization = $env:AzOrganization,
@@ -29,12 +30,13 @@ function Get-AzBuilds {
     }
     
     process {
-        $query =ConvertTo-HttpQueryString @{
-            top          = $top
+        $query = ConvertTo-HttpQueryString @{
+            '$top'       = $top
+            '$skip'      = $Skip
             reasonFilter = $Reason
-            statusFilter = ($Status-join ",")
+            statusFilter = ($Status -join ",")
             resultFilter = $Result
-            tagFilters  = ($Tag -join ",")
+            tagFilters   = ($Tag -join ",")
             definitions  = (($Definition | Get-AzDefinition).id -join ",")
         }
         Invoke-AzureRestMethod "build/builds$query" @cred
