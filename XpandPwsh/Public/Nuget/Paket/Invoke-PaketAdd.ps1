@@ -25,7 +25,7 @@ function Invoke-PaketAdd {
             $add=($ProjectPath -and !(Invoke-PaketShowInstalled $ProjectPath)|Where-Object{$_.Include -eq $id} )
             if (
                 Set-Location (Get-Item $paketExe).DirectoryName$add){
-                dotnet paket add $Id --project $ProjectPath --version $Version @forceArgs
+                invoke-script {dotnet paket add $Id --project $ProjectPath --version $Version @forceArgs}
             }
             else{
                 $depFile="$((Get-Item $paketExe).DirectoryName)\..\paket.dependencies"

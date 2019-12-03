@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.38.10'
+ModuleVersion = '0.38.11'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -74,8 +74,11 @@ FunctionsToExport = @(
     "Add-AssemblyBindingRedirect",
 "Add-AzBuild",
 "Add-AzBuildTag",
-"Get-AssemblyReference",
 "Add-GitDiff",
+"Find-Alias",
+"Get-XafPackages",
+"New-XAFProject",
+"Test-AssemblyReference",
 "Add-NuspecDependency",
 "Add-XmlElement",
 "Approve-LastExitCode",
@@ -104,6 +107,7 @@ FunctionsToExport = @(
 "Get-AssemblyInfoVersion",
 "Get-AssemblyMetadata",
 "Get-AssemblyPublicKey",
+"Get-AssemblyReference",
 "Get-AzArtifact",
 "Get-AzBuilds",
 "Get-AzDefinition",

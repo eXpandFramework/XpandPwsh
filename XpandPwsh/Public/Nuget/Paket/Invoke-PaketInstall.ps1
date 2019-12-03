@@ -24,7 +24,7 @@ function Invoke-PaketInstall {
             
             Write-Host "Paket Install at $($_.DirectoryName)" -f Blue
             Push-Location $_.DirectoryName
-            dotnet paket install @xtraArgs
+            Invoke-Script{dotnet paket install @xtraArgs}
             Pop-Location
         }
     }

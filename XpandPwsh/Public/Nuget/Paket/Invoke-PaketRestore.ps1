@@ -32,7 +32,7 @@ function Invoke-PaketRestore {
                 Remove-Item "$root\paket-files\paket.restore.cached" -ErrorAction SilentlyContinue
             }
             Write-Host "Paket Restore $($_.Fullname)" -f Blue
-            dotnet paket restore @xtraArgs
+            Invoke-Script{dotnet paket restore @xtraArgs}
         }
     }
     

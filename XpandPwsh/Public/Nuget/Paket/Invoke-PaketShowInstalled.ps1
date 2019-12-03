@@ -23,10 +23,10 @@ function Invoke-PaketShowInstalled {
             $pakets=Invoke-Script {
                 if (Test-Path "$($depsFile.DirectoryName)\paket.lock"){
                     if ($Project){
-                        dotnet paket show-installed-packages --project $Project --silent @xtraArgs
+                        Invoke-Script {dotnet paket show-installed-packages --project $Project --silent @xtraArgs}
                     }
                     else{
-                        dotnet paket show-installed-packages @xtraArgs
+                        Invoke-Script {dotnet paket show-installed-packages @xtraArgs}
                     }
                 }
             }

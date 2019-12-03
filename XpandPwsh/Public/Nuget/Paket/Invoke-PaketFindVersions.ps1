@@ -21,7 +21,7 @@ function Invoke-PaketFindVersions {
                 $xtraArgs += "--max $Max"
             }
             Set-Location (Get-Item $paketExe).DirectoryName
-            dotnet paket find-package-versions $Id --max $Max | Select-Object -skip 1 -first $Max
+            Invoke-Script{dotnet paket find-package-versions $Id --max $Max | Select-Object -skip 1 -first $Max}
         }
     }
     

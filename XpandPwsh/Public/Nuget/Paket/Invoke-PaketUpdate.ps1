@@ -35,7 +35,7 @@ function Invoke-PaketUpdate {
                 Set-Content $_ $result.Trim()
             }
             else{
-                dotnet paket update @xtraArgs
+                Invoke-Script {dotnet paket update @xtraArgs}
             }
             Pop-Location
         }

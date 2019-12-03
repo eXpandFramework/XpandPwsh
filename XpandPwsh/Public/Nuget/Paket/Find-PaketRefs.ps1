@@ -18,7 +18,7 @@ function Find-PaketRefs {
             if ($Force) {
                 $xtraArgs = "--Force"
             }
-            dotnet paket find-refs $Id @xtraArgs
+            invoke-script {dotnet paket find-refs $Id @xtraArgs}
         }
     }
     
