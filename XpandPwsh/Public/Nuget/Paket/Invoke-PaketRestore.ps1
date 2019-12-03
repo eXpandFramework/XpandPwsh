@@ -2,7 +2,7 @@
 function Invoke-PaketRestore {
     [CmdletBinding()]
     param (
-        [switch]$Force,
+        [switch]$UseCache,
         [string]$Group,
         [switch]$WarnOnChecks ,
         [switch]$Strict 
@@ -27,7 +27,7 @@ function Invoke-PaketRestore {
             if (!$WarnOnChecks) {
                 $xtraArgs += "--fail-on-checks"
             }
-            if ($Force){
+            if (!$UseCache){
                 $root=$_.DirectoryName
                 Remove-Item "$root\paket-files\paket.restore.cached" -ErrorAction SilentlyContinue
             }
