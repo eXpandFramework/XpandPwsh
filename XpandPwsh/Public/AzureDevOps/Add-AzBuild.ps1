@@ -41,7 +41,7 @@ function Add-AzBuild {
         if ($StopOthers) {
             Get-AzBuilds -Status inProgress, notStarted, postponed @cred | Where-Object { $_.id -notin $builds.id } | Remove-AzBuild @cred
         }
-        
+        $builds
     }
     end {
         

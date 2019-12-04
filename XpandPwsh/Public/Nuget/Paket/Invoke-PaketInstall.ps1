@@ -4,8 +4,7 @@ function Invoke-PaketInstall {
     param (
         [parameter(ValueFromPipeline)]
         [switch]$Force,
-        [switch]$Strict,
-        [switch]$NotInteractive
+        [switch]$Strict
     )
     
     begin {

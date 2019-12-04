@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.38.11'
+ModuleVersion = '0.38.12'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -75,10 +75,6 @@ FunctionsToExport = @(
 "Add-AzBuild",
 "Add-AzBuildTag",
 "Add-GitDiff",
-"Find-Alias",
-"Get-XafPackages",
-"New-XAFProject",
-"Test-AssemblyReference",
 "Add-NuspecDependency",
 "Add-XmlElement",
 "Approve-LastExitCode",
@@ -97,6 +93,7 @@ FunctionsToExport = @(
 "ConvertTo-Object",
 "ConvertTo-PackageObject",
 "Disable-ExecutionPolicy",
+"Find-Alias",
 "Find-History",
 "Find-NugetPackage",
 "Find-NugetPackageInstallationFolder",
@@ -147,6 +144,7 @@ FunctionsToExport = @(
 "Get-SymbolSources",
 "Get-VSPath",
 "Get-XAFLatestMinors",
+"Get-Xafpackages",
 "Get-XmlContent",
 "Get-XpandPackages",
 "Get-XpandPath",
@@ -181,6 +179,7 @@ FunctionsToExport = @(
 "New-GitHubComment",
 "New-GithubReleaseNotes",
 "New-GithubReleaseNotesTemplate",
+"New-XAFProject",
 "Publish-AssemblyToGac",
 "Publish-GitHubRelease",
 "Publish-NugetPackage",
@@ -199,6 +198,7 @@ FunctionsToExport = @(
 "Submit-GitStage",
 "Switch-DevExpress",
 "Swtch-XpandToNugets",
+"Test-AssemblyReference",
 "Test-Symbol",
 "Uninstall-AllModules",
 "Uninstall-ProjectAllPackages",
