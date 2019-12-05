@@ -5,7 +5,8 @@ function Invoke-PaketRestore {
         [switch]$UseCache,
         [string]$Group,
         [switch]$WarnOnChecks ,
-        [switch]$Strict 
+        [switch]$Strict, 
+        [switch]$Install 
     )
     
     begin {
@@ -32,7 +33,17 @@ function Invoke-PaketRestore {
                 Remove-Item "$root\paket-files\paket.restore.cached" -ErrorAction SilentlyContinue
             }
             Write-Host "Paket Restore $($_.Fullname)" -f Blue
-            Invoke-Script{dotnet paket restore @xtraArgs}
+            try {
+                Invoke-Script{dotnet paket restore @xtraArgs}
+            }
+            catch {
+                if ($Install){
+                    Invoke-Script{dotnet paket install}
+                }
+                else{
+                    throw $_
+                }
+            }
         }
     }
     

@@ -4,7 +4,11 @@ function Find-NugetPackage {
         [parameter(ValueFromPipeline,Mandatory)]
         [string]$Name,
         [string]$Source=(Get-PackageFeed -Nuget),
-        [switch]$AllVersions
+        [switch]$AllVersions,
+        [int]$Skip,
+        [int]$Take,
+        [switch]$Prelease,
+        [switch]$OriginalFormat
     )
     
     begin {
@@ -12,19 +16,23 @@ function Find-NugetPackage {
     }
     
     process {
-        $pakets=paket find-packages $Name -s --source $Source
-        if ($AllVersions){
-            $pakets=$pakets|Select-Object -First 1
+        $q = ConvertTo-HttpQueryString @{
+            q = $name
+            skip=$Skip
+            take=$Take
+            Prelease=$Prelease.IsPresent
         }
-        $pakets|ForEach-Object{
-            $a=@{
-                Name=$_
-                Source=$Source
-                AllVersions=$AllVersions
+        (Invoke-RestMethod "https://azuresearch-usnc.nuget.org/query$q").data|ForEach-Object{
+            if (!$OriginalFormat){
+                [PSCustomObject]@{
+                    Id = $_.id
+                    Version=$_.Version
+                }
             }
-            Get-NugetPackageSearchMetadata @a|Get-NugetPackageMetadataVersion
+            else{
+                $_
+            }
         }
-        
     }
     
     end {

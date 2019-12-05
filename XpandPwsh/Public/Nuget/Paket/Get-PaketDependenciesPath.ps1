@@ -22,7 +22,7 @@ function Get-PaketDependenciesPath {
         
         if (!$Strict -and $item){
             [System.IO.FileInfo[]]$items=Get-ChildItem $item.DirectoryName paket.dependencies -Recurse|Where-Object{
-                $_.Length -gt 0 -and (Get-ChildItem $_.DirectoryName|Where-Object{ $_ -is [System.IO.DirectoryInfo] -and (Get-ChildItem $_)})
+                $_.Length -gt 0 -and (Get-ChildItem $_.DirectoryName|Where-Object{ $_ -is [System.IO.DirectoryInfo] -and (Get-ChildItem $_.FullName)})
             }
             $items
         }
