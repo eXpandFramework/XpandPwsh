@@ -62,12 +62,9 @@ function Get-XpandVersion {
         }
         else{
             $baseVersion=$labVersion
-            if ($labVersion.build -ne $DXVersion.Build){
-                $baseVersion=$DXVersion
-            }
             $build=$baseVersion.Build
-            $revision = $baseVersion.Revision + 1
-            if ($baseVersion.Revision -eq -1) {
+            $revision = $labVersion.Revision + 1
+            if ($labVersion.Revision -eq -1) {
                 $revision = 1
             }
         }

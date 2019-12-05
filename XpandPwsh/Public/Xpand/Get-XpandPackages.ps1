@@ -32,7 +32,7 @@ function Get-XpandPackages {
                 $_|ForEach-Object{
                     [PSCustomObject]@{
                         Id = $_.Id
-                        Version=$_.Version
+                        Version=[version]$_.Version
                         Source="Lab"
                     }
                 }
@@ -40,7 +40,7 @@ function Get-XpandPackages {
                 $_|ForEach-Object{
                     [PSCustomObject]@{
                         Id = $_.Id
-                        Version=$_.Version
+                        Version=[version]$_.Version
                         Source="Release"
                     }
                 }
