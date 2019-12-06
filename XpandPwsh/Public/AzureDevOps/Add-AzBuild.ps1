@@ -12,7 +12,7 @@ function Add-AzBuild {
         [switch]$KeepForEver,
         [switch]$StopOthers,
         [switch]$StopIfRunning,
-        [string]$Branch,
+        [string]$Branch=$env:Build_SourceBranchName,
         [string]$Organization = $env:AzOrganization,
         [string]$Project = $env:AzProject,
         [string]$Token = $env:AzDevopsToken
