@@ -11,14 +11,16 @@ function Get-AzArtifact {
         [int]$BuildId,
         [parameter()]
         [string]$ArtifactName,
+        [ValidateScript({Test-path $_ -pathtype Container})]
         [parameter()]
-        [string]$Outpath,
+        [System.IO.DirectoryInfo]$Outpath,
         [string]$Organization=$env:AzOrganization,
         [string]$Project=$env:AzProject,
         [string]$Token=$env:AzDevopsToken
     )
     
     begin {
+        
         $cred=@{
             Project=$Project
             Organization=$Organization
@@ -32,14 +34,21 @@ function Get-AzArtifact {
         }
         $endpoint="build/builds/$buildId/artifacts"
         Invoke-AzureRestMethod $endpoint @cred|Where-Object{!$ArtifactName -or $_.name -eq $ArtifactName}|ForEach-Object{
-            $_
             if ($Outpath){
-                $zip="$Outpath\$ArtifactName.zip"
+                $name=$ArtifactName
+                if (!$ArtifactName){
+                    $name=$_.name
+                }
+                $zip="$Outpath\$name.zip"
                 Use-Object($c=[System.Net.WebClient]::new()){
                     $c.DownloadFile($_.resource.downloadUrl,$zip)
                 }
-                Expand-Archive -DestinationPath "$Outpath\$ArtifactName" -Path $zip -Force
+                Expand-Archive -DestinationPath "$Outpath\$name" -Path $zip -Force
                 Remove-Item $zip
+                Get-Item "$Outpath\$name"
+            }
+            else{
+                $_
             }
         }
     }
