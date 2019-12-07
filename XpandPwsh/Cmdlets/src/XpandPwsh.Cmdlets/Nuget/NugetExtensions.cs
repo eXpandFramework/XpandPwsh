@@ -4,17 +4,34 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Protocol.Core.Types;
 
 namespace XpandPwsh.Cmdlets.Nuget{
-    internal static class NugetExtensions{
+    public static class NugetExtensions{
+        public static async Task<Version[]> GetLatestMinors(this  List<Lazy<INuGetResourceProvider>> providers, string source, string name,int? top=3){
+            var packageMetadata = providers.PackageMetadata(source, name).Replay().RefCount();
+            await packageMetadata;
+            var versions = packageMetadata.ToEnumerable().GroupBy(metadata => {
+                    var version = metadata.Identity.Version.Version;
+                    return (version.Major, version.Minor);
+                })
+                .SelectMany(_ => _.OrderByDescending(metadata => metadata.Identity.Version.Version)
+                    .Take(1).Select(metadata => metadata.Identity.Version.Version));
+            if (top.HasValue){
+                versions = versions.Take(top.Value);
+            }
+
+            return versions.ToArray();
+        }
+
         public static IObservable<IPackageSearchMetadata> PackageMetadata(this  List<Lazy<INuGetResourceProvider>> providers,string source,string name){
             var metadatas = new SourceRepository(new PackageSource(source), providers)
                 .GetResourceAsync<PackageMetadataResource>().ToObservable()
                 .SelectMany(resource => resource
-                    .GetMetadataAsync(name, false, false, NullLogger.Instance,CancellationToken.None).ToObservable()
+                    .GetMetadataAsync(name, false, false,NullSourceCacheContext.Instance, NullLogger.Instance,CancellationToken.None).ToObservable()
                     .SelectMany(enumerable => enumerable.ToArray())
                 );
             return metadatas;

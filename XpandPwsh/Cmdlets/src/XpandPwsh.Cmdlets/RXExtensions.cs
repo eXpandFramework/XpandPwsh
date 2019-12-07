@@ -4,6 +4,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 using NuGet.Common;
 using XpandPwsh.CmdLets;
 
@@ -66,6 +67,11 @@ namespace XpandPwsh.Cmdlets{
                 }
                 return arg1;
             });
+        }
+
+        public static Task<T> WriteObject<T>(this Task<T> source, Cmdlet cmdlet,
+            int? progressItemsTotalCount = null, bool enumerateCollection = true, Func<T, object> output = null){
+            return source.ToObservable().WriteObject(cmdlet, progressItemsTotalCount, enumerateCollection, output).ToTask();
         }
 
         public static IObservable<T> WriteObject<T>(this IObservable<T> source,Cmdlet cmdlet,int? progressItemsTotalCount=null,bool enumerateCollection=true,Func<T,object> output=null){

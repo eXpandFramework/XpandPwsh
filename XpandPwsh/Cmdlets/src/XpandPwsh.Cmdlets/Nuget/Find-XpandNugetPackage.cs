@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Management.Automation;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using XpandPwsh.CmdLets;

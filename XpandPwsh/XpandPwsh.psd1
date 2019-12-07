@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.38.18'
+ModuleVersion = '0.38.19'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -72,6 +72,8 @@ NestedModules = @('Cmdlets\bin\XpandPwsh.Cmdlets.dll')
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = @(
     "Add-AssemblyBindingRedirect",
+"UnInstall-DotnetCoreSdk",
+"Install-DotnetCore",
 "Add-AzBuild",
 "Add-AzBuildTag",
 "Add-GitDiff",

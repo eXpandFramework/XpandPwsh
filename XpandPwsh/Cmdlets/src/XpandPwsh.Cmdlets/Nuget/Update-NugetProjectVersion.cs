@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using XpandPwsh.CmdLets;
 using XpandPwsh.Cmdlets.GitHub;
 
-namespace XpandPwsh.Cmdlets.Nuget.UpdateNugetProjectVersion{
+namespace XpandPwsh.Cmdlets.Nuget{
     [CmdletBinding(SupportsShouldProcess = true)]
     [Cmdlet(VerbsData.Update,"NugetProjectVersion",SupportsShouldProcess = true)]
     public class UpdateNugetProjectVersion:GitHubCmdlet,IParameter{

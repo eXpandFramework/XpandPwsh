@@ -6,7 +6,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using NuGet.Protocol.Core.Types;
 
-namespace XpandPwsh.Cmdlets.Nuget.GetNugetPackageSearchMetadata{
+namespace XpandPwsh.Cmdlets.Nuget{
     [Cmdlet(VerbsCommon.Get, "NugetPackageSearchMetadata")]
     [CmdletBinding()]
     public  class GetNugetPackageSearchMetadata : NugetCmdlet{

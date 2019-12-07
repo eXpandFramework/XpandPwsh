@@ -15,7 +15,7 @@ using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using XpandPwsh.CmdLets;
 
-namespace XpandPwsh.Cmdlets.Nuget.GetNugetPackage{
+namespace XpandPwsh.Cmdlets.Nuget{
     [Cmdlet(VerbsCommon.Get, "NugetPackage")]
     [OutputType(typeof(INugetPackageAssembly))]
     [CmdletBinding]
@@ -105,13 +105,24 @@ namespace XpandPwsh.Cmdlets.Nuget.GetNugetPackage{
                 name = null;
             }
 
-            var cmdletName = CmdletExtensions.GetCmdletName<GetNugetPackageSearchMetadata.GetNugetPackageSearchMetadata>();
+            var cmdletName = CmdletExtensions.GetCmdletName<GetNugetPackageSearchMetadata>();
             var script = $"{cmdletName} {sources} {allVersions} {name} {versions}";
             var sourceSearchMetadatas = this.Invoke<IPackageSearchMetadata>(script);
             return sourceSearchMetadatas;
         }
     }
 
-
+    public class NugetPackageAssembly:INugetPackageAssembly{
+        public string Package{ get; set; }
+        public string Version{ get; set; }
+        public string DotNetFramework{ get; set; }
+        public string File{ get; set; }
+    }
+    public interface INugetPackageAssembly{
+        string Package{ get; set; }
+        string Version{ get; set; }
+        string DotNetFramework{ get; set; }
+        string File{ get; set; }
+    }
 }
 

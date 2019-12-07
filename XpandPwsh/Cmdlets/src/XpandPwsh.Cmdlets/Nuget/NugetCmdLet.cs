@@ -14,12 +14,12 @@ namespace XpandPwsh.Cmdlets.Nuget{
             Providers.AddRange(Repository.Provider.GetCoreV3());
         }
 
-        protected static List<Lazy<INuGetResourceProvider>> Providers{ get; }
+        public static List<Lazy<INuGetResourceProvider>> Providers{ get; }
 
         private static Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args){
             if (args.Name.Contains("Newton")){
                 return Assembly.LoadFile(
-                    $@"{Path.GetDirectoryName(typeof(GetNugetPackageSearchMetadata.GetNugetPackageSearchMetadata).Assembly.Location)}\Newtonsoft.Json.dll");
+                    $@"{Path.GetDirectoryName(typeof(GetNugetPackageSearchMetadata).Assembly.Location)}\Newtonsoft.Json.dll");
             }
             return null;
         }
