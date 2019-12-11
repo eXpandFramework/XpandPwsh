@@ -23,9 +23,9 @@ function Test-AssemblyReference {
                 $refs
             }
         }
-        $missMatch
+        $missMatch|ft FullName, Version|Write-Output
         if ($missMatch) {
-            throw "Multiple DevExpress version dependencies"
+            throw "Multiple $ReferenceFilter version dependencies"
         }
     }
     
