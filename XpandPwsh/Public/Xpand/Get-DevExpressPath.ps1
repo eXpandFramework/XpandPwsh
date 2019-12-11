@@ -1,3 +1,18 @@
+<#
+.SYNOPSIS
+    Retrieves DevExpressInstallation folders from Regitry or from $env:DXFolder which should contain subfolders for each version 
+.DESCRIPTION
+    Long description
+.EXAMPLE
+    PS C:\> <example usage>
+    Explanation of what the example does
+.INPUTS
+    Inputs (if any)
+.OUTPUTS
+    Output (if any)
+.NOTES
+    General notes
+#>
 function Get-DevExpressPath {
     [CmdletBinding()]
     param (

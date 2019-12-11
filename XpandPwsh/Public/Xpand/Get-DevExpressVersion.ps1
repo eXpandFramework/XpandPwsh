@@ -23,7 +23,7 @@ function Get-DevExpressVersion {
             }
         }
         else{
-            (Get-NugetPackageSearchMetadata -Name DevExpress.ExpressApp.Reports -Source $LatestVersionFeed).identity.Version.version
+            (Get-NugetPackageSearchMetadata -Name DevExpress.ExpressApp.Reports -Source $LatestVersionFeed).identity.Version.OriginalVersion
             
         }
         
