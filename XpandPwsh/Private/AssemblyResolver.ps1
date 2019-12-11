@@ -3,6 +3,9 @@ class AssemblyResolver : DefaultAssemblyResolver{
     [System.IO.FileInfo[]] $Assemblies
     [AssemblyDefinition[]] $ResolvedDefinitions=@()
     AssemblyResolver([String] $Path) {
+        if (Test-Path $Path -PathType Leaf){
+            $Path=(get-item $Path).DirectoryName
+        }
         $this.assemblies=Get-ChildItem $Path *.dll -Recurse
     }
     AssemblyResolver([System.IO.FileInfo[]] $AssemblyList) {
@@ -24,7 +27,7 @@ class AssemblyResolver : DefaultAssemblyResolver{
                 $assemblyName=$assemblyName.Substring(0,$comma)
             }
             $assembly=($this.assemblies|Where-Object{$_.Name -eq "$assemblyName.dll"}).FullName|Select-Object -First 1
-            $definition=[AssemblyDefinition]::ReadAssembly($assembly)
+            $definition=Read-AssemblyDefinition $assembly
             $this.resolvedDefinitions+=$definition
             return $definition
         }
