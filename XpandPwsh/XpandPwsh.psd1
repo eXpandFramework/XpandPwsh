@@ -76,6 +76,7 @@ FunctionsToExport = @(
 "Add-AzBuildTag",
 "Add-GitDiff",
 "Add-NuspecDependency",
+"Add-PackageReference",
 "Add-XmlElement",
 "Approve-LastExitCode",
 "Checkpoint-GitHubIssue",
@@ -88,6 +89,7 @@ FunctionsToExport = @(
 "Compress-Files",
 "Compress-Project",
 "ConvertTo-Dictionary",
+"ConvertTo-Directory",
 "ConvertTo-FramedText",
 "ConvertTo-HttpQueryString",
 "ConvertTo-Object",
@@ -144,14 +146,18 @@ FunctionsToExport = @(
 "Get-SymbolSources",
 "Get-VSPath",
 "Get-XAFLatestMinors",
-"Get-Xafpackages",
+"Get-XAFModule",
+"Get-XafPackageNames",
 "Get-XmlContent",
+"Get-XpandPackageNames",
 "Get-XpandPackages",
 "Get-XpandPath",
 "Get-XpandPublicKeyToken",
+"Get-XpandPwshDirectoryName",
 "Get-XpandReleaseChange",
 "Get-XpandRepository",
 "Get-XpandVersion",
+"Get-XPwshCommand",
 "Import-Class",
 "Install-Chocolatey",
 "Install-DebugOptimizationHook",
@@ -185,6 +191,7 @@ FunctionsToExport = @(
 "Publish-GitHubRelease",
 "Publish-NugetPackage",
 "Push-GitSSH",
+"Read-AssemblyDefinition",
 "Remove-AzBuild",
 "Remove-AzBuildInProgress",
 "Remove-BlankLines",
@@ -236,7 +243,7 @@ FunctionsToExport = @(
 VariablesToExport = '*'
 
 # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-AliasesToExport = @()
+AliasesToExport = @("*")
 
 # DSC resources to export from this module
 # DscResourcesToExport = @()
