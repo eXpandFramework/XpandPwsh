@@ -9,7 +9,7 @@ function Get-XpandPwshDirectoryName {
     }
     
     process {
-        (get-item (Get-Module XpandPwsh).Path).DirectoryName
+        (get-item (Get-Module XpandPwsh -ListAvailable).Path).DirectoryName
     }
     
     end {

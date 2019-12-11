@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.38.21'
+ModuleVersion = '0.39.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -205,7 +205,7 @@ FunctionsToExport = @(
 "Start-XpandProjectConverter",
 "Submit-GitStage",
 "Switch-DevExpress",
-"Swtch-XpandToNugets",
+"Switch-XpandToNugets",
 "Test-AssemblyReference",
 "Test-Symbol",
 "Uninstall-AllModules",
@@ -249,7 +249,7 @@ AliasesToExport = @("*")
 # DscResourcesToExport = @()
 
 # List of all modules packaged with this module
-# ModuleList = @("Cmdlets\bin\XpandPwsh.Cmdlets.dll")
+ModuleList = @("Cmdlets\bin\XpandPwsh.Cmdlets.dll")
 
 # List of all files packaged with this module
 # FileList = @()

@@ -62,7 +62,7 @@ function Start-XpandProjectConverter {
                     $element.OwnerDocument.Save($projectPath)
                 }
             }
-            if ($change) {^
+            if ($change) {
                 Push-Location $_.DirectoryName
                 Clear-ProjectDirectories
                 Pop-Location

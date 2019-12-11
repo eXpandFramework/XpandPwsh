@@ -1,4 +1,4 @@
-function Add-AssemblyBindindRedirect {
+function Add-AssemblyBindingRedirect {
     [CmdletBinding()]
     param (
         [parameter(ValueFromPipelineByPropertyName,Mandatory)]

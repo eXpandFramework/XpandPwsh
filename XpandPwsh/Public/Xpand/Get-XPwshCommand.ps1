@@ -2,15 +2,19 @@ function Get-XPwshCommand {
     [CmdletBinding()]
     [alias("gxcm")]
     param (
-        [object[]]$ArgumentList
+        [string]$ArgumentList
     )
     
     begin {
-        
+        $dir=Get-XpandPwshDirectoryName
+        Import-Module "$dir\Cmdlets\bin\XpandPwsh.Cmdlets.dll"
     }
     
     process {
-        get-command "*$ArgumentList*" -Module XpandPwsh
+        
+        "XpandPwsh","XpandPwsh.CmdLets"|ForEach-Object{
+            Get-Command "*$ArgumentList*" -Module $_ 
+        }
     }
     
     end {
