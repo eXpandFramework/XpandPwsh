@@ -27,6 +27,9 @@ class AssemblyResolver : DefaultAssemblyResolver{
                 $assemblyName=$assemblyName.Substring(0,$comma)
             }
             $assembly=($this.assemblies|Where-Object{$_.Name -eq "$assemblyName.dll"}).FullName|Select-Object -First 1
+            if (!$assembly){
+                throw "Cannot resolve $assemblyName.dll"
+            }
             $definition=Read-AssemblyDefinition $assembly
             $this.resolvedDefinitions+=$definition
             return $definition

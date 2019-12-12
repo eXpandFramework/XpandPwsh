@@ -2,8 +2,9 @@
 function Read-AssemblyDefinition {
     [CmdletBinding()]
     param (
-        [parameter(ValueFromPipeline,Mandatory)]
-        [string]$Path
+        [parameter(ValueFromPipeline)]
+        [string]$Path,
+        [System.IO.FileInfo[]]$AssemblyList
     )
     
     begin {
@@ -13,7 +14,13 @@ function Read-AssemblyDefinition {
     process {
         
         $p=[Mono.Cecil.ReaderParameters]::new()
-        $p.AssemblyResolver=[AssemblyResolver]::new($Path)
+        if ($AssemblyList){
+            $p.AssemblyResolver=[AssemblyResolver]::new($AssemblyList)
+        }
+        else{
+            $p.AssemblyResolver=[AssemblyResolver]::new($Path)
+        }
+        
         [Mono.Cecil.AssemblyDefinition]::ReadAssembly($Path,$p)
     }
     

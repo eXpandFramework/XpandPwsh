@@ -16,8 +16,13 @@ function Use-NugetAssembly {
             $v = [version]$_.Version
             $version = "$($v.Major).$($v.Minor).$($v.Build)"
             $fullName = "$OutputFolder\$packagename\$version\$($_.File)"
-            $bytes = [System.IO.File]::ReadAllBytes($fullName)
-            [System.Reflection.Assembly]::Load($bytes)
+            if ($PSVersionTable.Psedition -eq "Core"){
+                [System.Runtime.Loader.AssemblyLoadContext]::Default.LoadFromAssemblyPath($fullName)
+            }
+            else{
+                $bytes = [System.IO.File]::ReadAllBytes($fullName)
+                [System.Reflection.Assembly]::Load($bytes)
+            }
         }
     }
     

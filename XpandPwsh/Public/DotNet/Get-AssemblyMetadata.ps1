@@ -1,7 +1,9 @@
 function Get-AssemblyMetadata{
     [CmdletBinding()]
     param (
-        [string]$AssemblyPath
+        [parameter(Mandatory)]
+        [string]$AssemblyPath,
+        [string[]]$Key
     )
     
     begin {
@@ -11,13 +13,20 @@ function Get-AssemblyMetadata{
     process {
         [Mono.Cecil.AssemblyDefinition]$assembly=[Mono.Cecil.AssemblyDefinition]::ReadAssembly($AssemblyPath)
         
-        $assembly.CustomAttributes | 
+        $metadata=$assembly.CustomAttributes | 
             Where-Object { $_.AttributeType -like "System.Reflection.AssemblyMetadataAttribute" } | ForEach-Object { 
                 [PSCustomObject]@{
                     Key = $_.ConstructorArguments[0].Value
                     Value =$_.ConstructorArguments[1].Value
                 }
+        }|Where-Object{
+            $mKey=$_.Key
+            !$Key -or ($Key|Where-Object{$_ -eq $mKey})
         }
+        if (!$Key -and !$metadata){
+            throw "$Key metatada not found"
+        }
+        $metadata
         $assembly.dispose()
     }
     
