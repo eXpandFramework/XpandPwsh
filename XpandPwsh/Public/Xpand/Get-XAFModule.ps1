@@ -2,41 +2,47 @@ function Get-XAFModule {
     [CmdletBinding()]
     param (
         [parameter(ValueFromPipeline)]
-        [string]$Path=".",
-        [string[]]$Include=@("DevExpress.Express*.dll","Xpand.XAF.Modules.*.dll","Xpand.ExpressApp.*.dll")
+        [string]$Path = ".",
+        [System.IO.FileInfo[]]$AssemblyList=@(),
+        [string[]]$Include = @("DevExpress.Express*.dll", "Xpand.XAF.Modules*.dll", "Xpand.ExpressApp*.dll"),
+        [string[]]$Exclude=@("*Tests*")
     )
     
     begin {
-        $Path=ConvertTo-Directory $Path
+        $Path = ConvertTo-Directory $Path
         Use-MonoCecil | Out-Null
-        Use-NugetAssembly Xpand.Extensions.Mono.Cecil|Out-Null
+        Use-NugetAssembly Xpand.Extensions.Mono.Cecil | Out-Null
+        $Include=$Include|ForEach-Object{
+            if ($_ -notlike "*.dll"){
+                "$_.dll"
+            }
+            else{
+                $_
+            }
+        }
     }
     
     process {
         Push-Location $Path
-        $dxAssembly=Get-ChildItem "DevExpress.ExpressApp.v*.dll" -Recurse|Select-Object -First 1
-        if (!$dxAssembly){
-            throw "DevExpress.ExpressApp assembly not found in $Path"
-        }
-        Use-Object($a=Read-AssemblyDefinition $dxAssembly.FullName){
-            $moduleBaseType=$a.MainModule.Types|Where-Object{$_.FullName -eq "DevExpress.ExpressApp.ModuleBase"}
-            Get-ChildItem -include $Include -recurse|ForEach-Object{
-                $assemblyPath=$_.FullName
-                Use-Object($ma=Read-AssemblyDefinition $assemblyPath){
-                    $ma.MainModule.Types|Where-Object{
-                        [Xpand.Extensions.Cecil.MonoCecilExtensions]::BaseClasses($_)|Where-Object{$_.FullName -eq $moduleBaseType.FullName}
-                    }|Where-Object{
-                        !$_.IsAbstract -and $_.FullName -ne $moduleBaseType.FullName
-                    }|ForEach-Object{
-                        [PSCustomObject]@{
-                            Name = $_.Name
-                            FullName=$_.FullName
-                            Assembly=$assemblyPath
-                        }
+        $assemblies=Get-ChildItem -include $Include -Exclude $Exclude -recurse -file|Sort-Object BaseName -Unique
+        # $assemblies| ForEach-Object {
+        $assemblies| Invoke-Parallel -variablesToimport "AssemblyList" -LimitConcurrency ([System.Environment]::ProcessorCount) -Script {
+            $moduleBaseType = "DevExpress.ExpressApp.ModuleBase"
+            $assemblyPath = $_.FullName
+            Use-Object($ma = Read-AssemblyDefinition $assemblyPath $AssemblyList) {
+                $ma.MainModule.Types | Where-Object {
+                    [Xpand.Extensions.Cecil.MonoCecilExtensions]::BaseClasses($_) | Where-Object { $_.FullName -eq $moduleBaseType }
+                } | Where-Object {
+                    !$_.IsAbstract -and $_.FullName -ne $moduleBaseType
+                } | ForEach-Object {
+                    [PSCustomObject]@{
+                        Name     = $_.Name
+                        FullName = $_.FullName
+                        Assembly = $assemblyPath
                     }
                 }
             }
-        }
+        }|Where-Object{$_}|sort-object FullName
         Pop-Location
     }
     
