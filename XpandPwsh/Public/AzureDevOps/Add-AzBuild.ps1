@@ -35,10 +35,13 @@ function Add-AzBuild {
                 definition   = @{id = $_ }
                 parameters   = $Parameters | ConvertTo-Json
                 keepForEver  = $KeepForEver.IsPresent
-                tags         = ($Tag -join ",")
                 sourceBranch = $Branch
             } | Remove-DefaultValueKeys 
-            Invoke-AzureRestMethod "build/builds" -Method Post -Body ($body | ConvertTo-Json) @cred
+            (Invoke-AzureRestMethod "build/builds" -Method Post -Body ($body | ConvertTo-Json) @cred)|ForEach-Object{
+                $id=$_.id
+                $Tag|ForEach-Object{Add-AzBuildTag -Tag $_ -Id $id}|Out-Null
+                $_
+            }
         }
         
         if ($StopOthers) {

@@ -16,6 +16,8 @@ function Get-AzBuilds {
         [int]$Top,
         [int]$Skip,
         [string[]]$Tag,
+        [parameter(ParameterSetName="Id")]
+        [int]$Id,
         [string]$Project = $env:AzProject,
         [string]$Organization = $env:AzOrganization,
         [string]$Token = $env:AzDevopsToken
@@ -30,16 +32,20 @@ function Get-AzBuilds {
     }
     
     process {
-        $query = ConvertTo-HttpQueryString @{
-            '$top'       = $top
-            '$skip'      = $Skip
-            reasonFilter = $Reason
-            statusFilter = ($Status -join ",")
-            resultFilter = $Result
-            tagFilters   = ($Tag -join ",")
-            definitions  = (($Definition|Where-Object{$_} | Get-AzDefinition).id -join ",")
+        $resource="build/builds/$id"
+        if (!$Id){
+            $query = ConvertTo-HttpQueryString @{
+                '$top'       = $top
+                '$skip'      = $Skip
+                reasonFilter = $Reason
+                statusFilter = ($Status -join ",")
+                resultFilter = $Result
+                tagFilters   = ($Tag -join ",")
+                definitions  = (($Definition|Where-Object{$_} | Get-AzDefinition).id -join ",")
+            }
+            $resource="build/builds$query"
         }
-        Invoke-AzureRestMethod "build/builds$query" @cred
+        Invoke-AzureRestMethod $resource @cred
     }
     
     end {

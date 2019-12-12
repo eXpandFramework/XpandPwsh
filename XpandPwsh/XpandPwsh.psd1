@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.39.1'
+ModuleVersion = '1.192.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -21,7 +21,7 @@ ModuleVersion = '0.39.1'
 GUID = '17acbc1d-68d3-42a0-a2da-c4bf6a9bca07'
 
 # Author of this module
-Author = 'eXpandFramework'
+Author = 'Apostolis Bekiaris'
 
 # Company or vendor of this module
 CompanyName = 'eXpandFramework'
