@@ -39,7 +39,10 @@ function Add-AzBuild {
             } | Remove-DefaultValueKeys 
             (Invoke-AzureRestMethod "build/builds" -Method Post -Body ($body | ConvertTo-Json) @cred)|ForEach-Object{
                 $id=$_.id
-                $Tag|ForEach-Object{Add-AzBuildTag -Tag $_ -Id $id}|Out-Null
+                if ($Tag){
+                    $Tag|ForEach-Object{Add-AzBuildTag -Tag $_ -Id $id}|Out-Null
+                }
+                
                 $_
             }
         }
