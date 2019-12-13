@@ -3,7 +3,6 @@ function Find-NugetPackage {
     param (
         [parameter(ValueFromPipeline,Mandatory)]
         [string]$Name,
-        [string]$Source=(Get-PackageFeed -Nuget),
         [switch]$AllVersions,
         [int]$Skip,
         [int]$Take,
