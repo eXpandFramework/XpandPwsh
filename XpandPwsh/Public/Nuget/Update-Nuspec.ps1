@@ -38,13 +38,7 @@ function Update-Nuspec {
         $nuspec.Save($NuspecFilename)
         $ns = New-Object System.Xml.XmlNamespaceManager($nuspec.NameTable)
         $ns.AddNamespace("ns", $nuspec.DocumentElement.NamespaceURI)
-        $AddDependency = {
-            param($psObj)
-            $dependency = $nuspec.CreateElement("dependency", $nuspec.DocumentElement.NamespaceURI)
-            $dependency.SetAttribute("id", $psObj.id)
-            $dependency.SetAttribute("version", $psObj.version)
-            $nuspec.SelectSingleNode("//ns:dependencies", $ns).AppendChild($dependency) | Out-Null
-        }
+        
         $NuspecsDirectory = (Get-Item $NuspecFilename).DirectoryName
         $projectDirectory = ((Get-Item $ProjectFileName).DirectoryName)
         $id = (get-item $ProjectFileName).BaseName.Trim()
@@ -93,11 +87,7 @@ function Update-Nuspec {
                     $packagePath = Resolve-Path $_.HintPath
                     Pop-Location
                     $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$packagePath").FileVersion
-                    $packageInfo = [PSCustomObject]@{
-                        id      = $matchedPackageName
-                        version = $version
-                    }       
-                    Invoke-Command $AddDependency -ArgumentList $packageInfo
+                    Add-NuspecDependency $matchedPackageName $version $nuspec
                 }
                 
                 $nuspec.Save($NuspecFilename)
@@ -109,12 +99,8 @@ function Update-Nuspec {
         $targetFrameworkVersion = ($csproj.Project.PropertyGroup.TargetFramework | Select-Object -First 1).Substring(3)
         
         $packageReference | Where-Object { $_.Include -and $_.PrivateAssets -ne "all" } | ForEach-Object {
-            $packageInfo = [PSCustomObject]@{
-                Id      = $_.Include
-                Version = $_.Version
-            }
             if (!$ResolveNugetDependecies -or $_.Include -in $allDependencies) {
-                Invoke-Command $AddDependency -ArgumentList $packageInfo 
+                Add-NuspecDependency $_.Include $_.version $nuspec 
             }
         }
         $nuspec.Save($NuspecFilename)
@@ -164,7 +150,7 @@ function Update-Nuspec {
         if ($packageReference){
             $nuspec.package.metadata.dependencies.RemoveAll()
         }
-        $uniqueDependencies | ForEach-Object { Invoke-Command $AddDependency -ArgumentList $_ }
+        $uniqueDependencies | ForEach-Object { Add-NuspecDependency $_.id $_.version $nuspec }
         Write-Host (get-item $NuspecFilename).DirectoryName -f Green
         $nuspec.Save($NuspecFilename)
         Get-Content $NuspecFilename -Raw
