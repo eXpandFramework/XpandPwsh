@@ -41,9 +41,11 @@ function Add-AzBuild {
                 $id=$_.id
                 if ($Tag){
                     $Tag|ForEach-Object{Add-AzBuildTag -Tag $_ -Id $id}|Out-Null
+                    Get-AzBuilds -Id $id
                 }
-                
-                $_
+                else{
+                    $_
+                }
             }
         }
         

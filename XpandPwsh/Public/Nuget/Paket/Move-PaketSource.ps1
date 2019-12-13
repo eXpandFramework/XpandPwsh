@@ -22,10 +22,12 @@ function Move-PaketSource {
             Set-Content  $depsFile $value.Trim()
             
             $lockFile="$($depsFile.DirectoryName)\paket.lock"
-            $raw=(Get-Content $lockFile -Raw)
-            $match=$match.Replace("source ","")
-            $value=$raw.Replace($match,$Target)
-            Set-Content  $lockFile $value.Trim()
+            if (Test-Path $lockFile){
+                $raw=(Get-Content $lockFile -Raw)
+                $match=$match.Replace("source ","")
+                $value=$raw.Replace($match,$Target)
+                Set-Content  $lockFile $value.Trim()
+            }
         }
     }
     
