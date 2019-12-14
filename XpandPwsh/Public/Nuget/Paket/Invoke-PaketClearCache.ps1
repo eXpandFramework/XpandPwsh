@@ -17,8 +17,9 @@ function Invoke-PaketClearCache {
             if (!$SkipLocal) {
                 $commandArgs = @("--clear-local")
             }
-            Set-Location (Get-Item $paketExe).DirectoryName
+            Push-Location (Get-Item $paketExe).DirectoryName
             dotnet paket clear-cache @commandArgs
+            Pop-Location
         }
     }
     

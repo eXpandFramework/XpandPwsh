@@ -13,14 +13,16 @@ function Clear-NugetCache {
         if (Test-Path ".\packages"){
             RemovePackages ".\packages" $SkipVersionConverter    
         }
-        RemovePackages $path $SkipVersionConverter
+        if (Test-Path $path){
+            RemovePackages $path $SkipVersionConverter
+        }
     }
     else { 
         if (!$SkipPaket) {
             Invoke-PaketClearCache 
         }
         & (Get-NugetPath) locals all -clear
-        dotnet tool restore  
+         
     }
 }
 
