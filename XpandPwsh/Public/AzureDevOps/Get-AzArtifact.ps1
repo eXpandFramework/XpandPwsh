@@ -44,13 +44,13 @@ function Get-AzArtifact {
                     $c.DownloadFile($_.resource.downloadUrl,$zip)
                 }
                 Expand-Archive -DestinationPath "$Outpath\$name" -Path $zip -Force
-                Remove-Item $zip
-                Get-Item "$Outpath\$name"
+                Remove-Item $zip|Out-Null
+                (Get-Item "$Outpath\$name").FullName
             }
             else{
                 $_
             }
-        }
+        }|Where-Object{$_}
     }
     end {
         
