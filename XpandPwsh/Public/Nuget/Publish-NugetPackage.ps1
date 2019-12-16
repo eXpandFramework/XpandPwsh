@@ -39,7 +39,8 @@ function Publish-NugetPackage {
         $needPush|Write-Verbose 
         $NupkgPath=$NupkgPath.TrimEnd("\")
         
-        $needPush|Invoke-Parallel -ActivityName "Publishing Nugets" -VariablesToImport @("ApiKey","NupkgPath","Source","Nuget") -Script {
+        # $needPush|Invoke-Parallel -ActivityName "Publishing Nugets" -VariablesToImport @("ApiKey","NupkgPath","Source","Nuget") -Script {
+        $needPush|foreach {
             $package="$NupkgPath\$($_.Id).$($_.Version).nupkg"
             Write-Output "Pushing $package in $Source "
             & $Nuget Push "$package" -ApiKey $ApiKey -source $Source
