@@ -48,7 +48,7 @@ function Update-Nuspec {
             throw "$ProjectFileName outputpath not set"
         }
         $outputPath = "$(Resolve-Path $outputPath)"
-        Pop-Location
+        
         $extension="dll"
         if ($csproj.Project.PropertyGroup.OutputType -eq "WinExe"){
             $extension="exe"
@@ -154,6 +154,8 @@ function Update-Nuspec {
         Write-Host (get-item $NuspecFilename).DirectoryName -f Green
         $nuspec.Save($NuspecFilename)
         Get-Content $NuspecFilename -Raw
+
+        Pop-Location
     }
     
     end {
