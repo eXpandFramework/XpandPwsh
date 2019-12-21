@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
@@ -60,17 +61,19 @@ namespace XpandPwsh.Cmdlets.InvokeParallel{
 
         protected override Task EndProcessingAsync(){
             if (!_values.Any()) return Task.CompletedTask;
-            
+            if (_values.Count > Environment.ProcessorCount){
+                StepInterval = 50;
+            }
             var values = _values.ToObservable();
             if (StepInterval > 0){
                 var eventLoopScheduler = new EventLoopScheduler(start => new Thread(start));
                 values = values.StepInterval(TimeSpan.FromMilliseconds(StepInterval), eventLoopScheduler);
             }
+            
 
             var retrySignal = Enumerable.Range(0, RetryOnError).ToObservable()
                 .Delay(TimeSpan.FromMilliseconds(RetryDelay)).Publish().AutoConnect();
             values = LimitConcurrency > 0 ? InvokeWithLimit(values, retrySignal) : values.SelectMany(o => Start(o, retrySignal));
-
             return values
                 .WriteObject(this, _values.Count)
                 .HandleErrors(this, ActivityName,SynchronizationContext.Current)
