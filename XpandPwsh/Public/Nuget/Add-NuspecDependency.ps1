@@ -1,9 +1,9 @@
 function Add-NuspecDependency {
     [CmdletBinding()]
     param (
-        [parameter(Mandatory)]
+        [parameter(Mandatory,ValueFromPipelineByPropertyName)]
         $Id,
-        [parameter(Mandatory)]
+        [parameter(Mandatory,ValueFromPipelineByPropertyName)]
         $Version,
         [parameter(Mandatory)]
         $Nuspec
@@ -16,8 +16,8 @@ function Add-NuspecDependency {
     
     process {
         $attributes = @{
-            version = $version
             id = $id
+            version = $version
         }
         Add-XmlElement $Nuspec "dependency" "dependencies" $attributes 
     }
