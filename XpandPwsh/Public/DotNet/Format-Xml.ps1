@@ -44,6 +44,10 @@ function Format-Xml {
         $xml.WriteContentTo($XmlWriter)
         $XmlWriter.Flush()
         $StringWriter.Flush()
-        Write-Output $StringWriter.ToString()
+        $xmlString=$StringWriter.ToString()
+        Write-Output $xmlString
+        if ($Path){
+            Set-Content $Path $xmlString
+        }
     }
 }
