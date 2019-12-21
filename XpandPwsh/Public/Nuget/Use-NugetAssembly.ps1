@@ -12,17 +12,12 @@ function Use-NugetAssembly {
     }
     
     process {
-        Get-NugetPackage -name $packageName -OutputFolder $OutputFolder -Source $Source | where-object { $_.DotnetFramework -like $framework } | ForEach-Object {
+        $package=Get-NugetPackage -name $packageName -OutputFolder $OutputFolder -Source $Source
+        $package | where-object { $_.DotnetFramework -like $framework } | ForEach-Object {
             $v = [version]$_.Version
             $version = "$($v.Major).$($v.Minor).$($v.Build)"
             $fullName = "$OutputFolder\$packagename\$version\$($_.File)"
-            if ($PSVersionTable.Psedition -eq "Core"){
-                [System.Runtime.Loader.AssemblyLoadContext]::Default.LoadFromAssemblyPath($fullName)
-            }
-            else{
-                $bytes = [System.IO.File]::ReadAllBytes($fullName)
-                [System.Reflection.Assembly]::Load($bytes)
-            }
+            Mount-Assembly $fullName
         }
     }
     

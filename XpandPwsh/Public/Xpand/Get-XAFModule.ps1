@@ -23,9 +23,10 @@ function Get-XAFModule {
     }
     
     process {
+        
         Push-Location $Path
         $assemblies=Get-ChildItem -include $Include -Exclude $Exclude -recurse -file|Sort-Object BaseName -Unique
-        # $assemblies| ForEach-Object {
+        $assemblies.Name|Write-Verbose 
         $assemblies| Invoke-Parallel -variablesToimport "AssemblyList" -Script {
             $moduleBaseType = "DevExpress.ExpressApp.ModuleBase"
             $assemblyPath = $_.FullName
