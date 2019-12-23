@@ -15,9 +15,9 @@ function Add-NuspecDependency {
     }
     
     process {
-        $attributes = @{
-            version = $version
+        $attributes = [ordered]@{
             id = $id
+            version = $version
         }
         Add-XmlElement $Nuspec "dependency" "dependencies" $attributes 
     }

@@ -9,6 +9,7 @@ function Add-XmlElement {
         [string]$Parent,
         [parameter(Mandatory)]
         [hashtable]$Attributes
+        
     )
     
     begin {

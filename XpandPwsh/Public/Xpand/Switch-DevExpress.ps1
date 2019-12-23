@@ -61,10 +61,10 @@ function Switch-DevExpress {
                 $Version = $regex.Match($packageName).Value.Trim(".")
                 $packageName = $regex.Replace($packageName, "")
                 
-                Add-XmlElement $project PackageReference ItemGroup @{
+                Add-XmlElement $project PackageReference ItemGroup ([ordered]@{
                     Include = $packageName
                     Version = $version
-                }
+                })
             }
             $project.Save($projectPath)
             $projectPath | Remove-BlankLines
