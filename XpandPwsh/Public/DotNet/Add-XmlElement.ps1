@@ -1,7 +1,7 @@
 function Add-XmlElement {
     [CmdletBinding()]
     param (
-        [parameter(Mandatory)]
+        [parameter()]
         [System.Xml.XmlDocument]$Owner,
         [parameter(Mandatory)]
         [string]$ElementName,

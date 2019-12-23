@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
     <e p="A:\.idea\extResources" t="IncludeRecursive" />
-    <e p="A:\Resharper\_XpandPwsh.CmdLets.1681520945.RD.00" t="ExcludeRecursive" />
+    <e p="A:\Resharper\ReSharperHost193._XpandPwsh.CmdLets.1681520945.RD.00" t="ExcludeRecursive" />
     <e p="C:\Work\eXpandFramework\XpandPwsh\XpandPwsh\Cmdlets\bin" t="ExcludeRecursive" />
     <e p="C:\Work\eXpandFramework\XpandPwsh\XpandPwsh\Cmdlets\src" t="IncludeFlat">
       <e p="packages" t="ExcludeRecursive" />

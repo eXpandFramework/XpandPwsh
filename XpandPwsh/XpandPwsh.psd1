@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.192.20'
+ModuleVersion = '1.192.21'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -85,6 +85,8 @@ FunctionsToExport = @(
 "Clear-NugetCache",
 "Clear-ProjectDirectories",
 "Clear-TempFolders",
+"New-AssemblyResolver",
+"Get-Assembly",
 "Close-GithubIssue",
 "Compress-Files",
 "Compress-Project",

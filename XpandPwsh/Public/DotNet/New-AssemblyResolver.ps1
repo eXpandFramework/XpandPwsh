@@ -1,8 +1,15 @@
 function New-AssemblyResolver{
     param(
-        [parameter(Mandatory)]
-        $Path
+        [parameter(ValueFromPipeline)]
+        [string]$Path,
+        [System.IO.FileInfo[]]$AssemblyList
     )
-    . "$PSScriptRoot\..\..\Private\AssemblyResolver.ps1"
-    [AssemblyResolver]::new($Path)
+    . "$(Get-XpandPwshDirectoryName)\Private\AssemblyResolver.ps1"
+    
+    if ($AssemblyList){
+        [AssemblyResolver]::new($AssemblyList)
+    }
+    else{
+        [AssemblyResolver]::new($Path)
+    }
 }

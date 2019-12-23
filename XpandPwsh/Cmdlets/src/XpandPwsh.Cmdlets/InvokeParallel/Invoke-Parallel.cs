@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
@@ -49,7 +48,7 @@ namespace XpandPwsh.Cmdlets.InvokeParallel{
         protected override Task BeginProcessingAsync(){
             _values = new ConcurrentBag<object>();
             _psVariables = this.Invoke<PSVariable>("Get-Variable")
-                .Where(variable => VariablesToImport.Contains(variable.Name)).ToArray();
+                .Where(variable => VariablesToImport.Select(s => s.ToLower()).Contains(variable.Name.ToLower())).ToArray();
 
             return base.BeginProcessingAsync();
         }

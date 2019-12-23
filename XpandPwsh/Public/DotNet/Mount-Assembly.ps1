@@ -10,13 +10,20 @@ function Mount-Assembly {
     }
     
     process {
-        if ($PSVersionTable.Psedition -eq "Core"){
-            [System.Runtime.Loader.AssemblyLoadContext]::Default.LoadFromAssemblyPath($Assembly)
+        $name=(Get-Item $Assembly).BaseName
+        $loaded=Get-Assembly $name
+        if (!$loaded){
+            if ($PSVersionTable.Psedition -eq "Core"){
+                [System.Runtime.Loader.AssemblyLoadContext]::Default.LoadFromAssemblyPath($Assembly)
+            }
+            else{
+                $bytes = [System.IO.File]::ReadAllBytes($Assembly)
+                [System.Reflection.Assembly]::Load($bytes)
+            }    
         }
         else{
-            $bytes = [System.IO.File]::ReadAllBytes($Assembly)
-            [System.Reflection.Assembly]::Load($bytes)
-        }    
+            $loaded
+        }
     }
     
     end {

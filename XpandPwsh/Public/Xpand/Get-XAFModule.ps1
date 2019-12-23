@@ -9,6 +9,7 @@ function Get-XAFModule {
     )
     
     begin {
+        
         $Path = ConvertTo-Directory $Path
         Use-MonoCecil | Out-Null
         Use-NugetAssembly Xpand.Extensions.Mono.Cecil | Out-Null
@@ -29,7 +30,8 @@ function Get-XAFModule {
         if ($assemblies.Name){
             $assemblies.Name|Write-Verbose 
         }
-        $assemblies| foreach {
+        
+        $assemblies| Invoke-Parallel -VariablesToImport "assemblyList" -Script {
             $moduleBaseType = "DevExpress.ExpressApp.ModuleBase"
             $assemblyPath = $_.FullName
             Write-Verbose "Reading assembly $assemblyPath"
@@ -43,6 +45,7 @@ function Get-XAFModule {
                         Name     = $_.Name
                         FullName = $_.FullName
                         Assembly = $assemblyPath
+                        Platform = (Get-AssemblyMetadata $assemblyPath -key platform).value
                     }
                 }
             }
