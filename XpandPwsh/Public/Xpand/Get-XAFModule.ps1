@@ -30,6 +30,7 @@ function Get-XAFModule {
         $assemblies| Invoke-Parallel -variablesToimport "AssemblyList" -Script {
             $moduleBaseType = "DevExpress.ExpressApp.ModuleBase"
             $assemblyPath = $_.FullName
+            Write-Verbose "Reading assembly $assemblyPath"
             Use-Object($ma = Read-AssemblyDefinition $assemblyPath $AssemblyList) {
                 $ma.MainModule.Types | Where-Object {
                     [Xpand.Extensions.Cecil.MonoCecilExtensions]::BaseClasses($_) | Where-Object { $_.FullName -eq $moduleBaseType }
