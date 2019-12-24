@@ -19,7 +19,11 @@ function Get-DevExpressVersion {
                 "$($v.Major).$($v.Minor)"
             }    
             else {
-                "$($v.Major).$($v.Minor).$($v.Build)"
+                $vbuild=$v.Build
+                if ($vbuild.ToString().Length -gt 2){
+                    $vbuild=$vbuild.ToString().Substring(0,$vbuild.ToString().Length-2)
+                }
+                "$($v.Major).$($v.Minor).$($vBuild)"
             }
         }
         else{
