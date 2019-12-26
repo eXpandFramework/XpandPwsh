@@ -31,7 +31,6 @@ function InstallXpand {
         Write-Host ""$InstallationPath\UnInstall-Xpand.ps1" exists, unistalling." -f "Red"
         Read-Host "Press a key to uninstall."
         . "$InstallationPath\UnInstall-Xpand.ps1"
-        UnInstall-Xpand $InstallationPath    
     }
     Write-Host "Installing $($Assets -join ', ') into $InstallationPath."-f Green
     Write-Host "Additional parameters: Version, Latest, Assets, InstallationPath" -f Yellow

@@ -1,0 +1,2955 @@
+0Harmony
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: 0Harmony, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: 0Harmony, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+AForge
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL
+Uninstalled: AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+AForge.Imaging
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: AForge.Imaging, Version=2.2.5.0, Culture=neutral, PublicKeyToken=ba8ddea9676ca48b, processorArchitecture=MSIL
+Uninstalled: AForge.Imaging, Version=2.2.5.0, Culture=neutral, PublicKeyToken=ba8ddea9676ca48b, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+AForge.Math
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: AForge.Math, Version=2.2.5.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL
+Uninstalled: AForge.Math, Version=2.2.5.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+AForge.Video
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: AForge.Video, Version=2.2.5.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL
+Uninstalled: AForge.Video, Version=2.2.5.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+AForge.Video.FFMPEG
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: AForge.Video.FFMPEG, Version=2.2.5.0, Culture=neutral, PublicKeyToken=03563089b1be05dd, processorArchitecture=AMD64
+Uninstalled: AForge.Video.FFMPEG, Version=2.2.5.0, Culture=neutral, PublicKeyToken=03563089b1be05dd, processorArchitecture=AMD64
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+AppDomainToolkit
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: AppDomainToolkit, Version=1.0.4.1, Culture=neutral, PublicKeyToken=f2fc7ab5180cf5c4, processorArchitecture=MSIL
+Uninstalled: AppDomainToolkit, Version=1.0.4.1, Culture=neutral, PublicKeyToken=f2fc7ab5180cf5c4, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+AutoMapper
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: AutoMapper, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL
+Uninstalled: AutoMapper, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+AutoMapper.Net4
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: AutoMapper.Net4, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL
+Uninstalled: AutoMapper.Net4, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+CommandLine
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: CommandLine, Version=1.9.71.2, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL
+Uninstalled: CommandLine, Version=1.9.71.2, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Common.Logging
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Common.Logging, Version=2.1.2.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL
+Uninstalled: Common.Logging, Version=2.1.2.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL
+
+Assembly: Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <WINDOWS_INSTALLER>  ID: <MSI>  DESCRIPTION : <Windows Installer>  
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+ConcurrentCollections
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: ConcurrentCollections, Version=1.1.0.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: ConcurrentCollections, Version=1.1.0.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+DocumentFormat.OpenXml
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL
+Uninstalled: DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+DotNetZip
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: DotNetZip, Version=1.11.0.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL
+Uninstalled: DotNetZip, Version=1.11.0.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Enums.NET
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Enums.NET, Version=3.0.0.0, Culture=neutral, PublicKeyToken=7ea1c1650d506225, processorArchitecture=MSIL
+Uninstalled: Enums.NET, Version=3.0.0.0, Culture=neutral, PublicKeyToken=7ea1c1650d506225, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+ExcelDataReader.DataSet
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL
+Uninstalled: ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+ExcelDataReader
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL
+Uninstalled: ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Fasterflect
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Fasterflect, Version=2.0.7.0, Culture=neutral, PublicKeyToken=38d18473284c1ca7, processorArchitecture=MSIL
+Uninstalled: Fasterflect, Version=2.0.7.0, Culture=neutral, PublicKeyToken=38d18473284c1ca7, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+ICSharpCode.SharpZipLib
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: ICSharpCode.SharpZipLib, Version=1.1.0.145, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL
+Uninstalled: ICSharpCode.SharpZipLib, Version=1.1.0.145, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+JetBrains.Annotations
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: JetBrains.Annotations, Version=2019.1.3.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL
+Uninstalled: JetBrains.Annotations, Version=2019.1.3.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Microsoft.Bcl.AsyncInterfaces
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Uninstalled: Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Microsoft.mshtml
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Removed reference:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <WINDOWS_INSTALLER>  ID: <MSI>  DESCRIPTION : <Windows Installer>  
+Number of assemblies uninstalled = 0 
+Number of failures = 0
+
+Microsoft.Web.Administration
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL
+Removed reference:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <WINDOWS_INSTALLER>  ID: <MSI>  DESCRIPTION : <Windows Installer>  
+Number of assemblies uninstalled = 0 
+Number of failures = 0
+
+Microsoft.Win32.Primitives
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Microsoft.Win32.Primitives, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: Microsoft.Win32.Primitives, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: Microsoft.Win32.Primitives, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Microsoft.Win32.Registry
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Microsoft.Win32.Registry, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: Microsoft.Win32.Registry, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Mono.Cecil
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Mono.Cecil, Version=0.11.1.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL
+Uninstalled: Mono.Cecil, Version=0.11.1.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Mono.Cecil.Mdb
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Mono.Cecil.Mdb, Version=0.11.1.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL
+Uninstalled: Mono.Cecil.Mdb, Version=0.11.1.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Mono.Cecil.Pdb
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Mono.Cecil.Pdb, Version=0.11.1.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL
+Uninstalled: Mono.Cecil.Pdb, Version=0.11.1.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Mono.Cecil.Rocks
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Mono.Cecil.Rocks, Version=0.11.1.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL
+Uninstalled: Mono.Cecil.Rocks, Version=0.11.1.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+netstandard
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Removed reference:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+Number of assemblies uninstalled = 0 
+Number of failures = 0
+
+Quartz
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Quartz, Version=2.2.4.400, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL
+Uninstalled: Quartz, Version=2.2.4.400, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL
+
+Assembly: Quartz, Version=2.4.1.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <WINDOWS_INSTALLER>  ID: <MSI>  DESCRIPTION : <Windows Installer>  
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+RazorEngine
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: RazorEngine, Version=3.10.0.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL
+Uninstalled: RazorEngine, Version=3.10.0.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Ryder
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Ryder, Version=0.8.0.0, Culture=neutral, PublicKeyToken=68842a7a5e601e6b, processorArchitecture=MSIL
+Uninstalled: Ryder, Version=0.8.0.0, Culture=neutral, PublicKeyToken=68842a7a5e601e6b, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Swordfish.NET.CollectionsV3
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Swordfish.NET.CollectionsV3, Version=3.0.0.1, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Swordfish.NET.CollectionsV3, Version=3.0.0.1, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.AppContext
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.AppContext, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.AppContext, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Buffers
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Uninstalled: System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.CodeDom
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.CodeDom, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Uninstalled: System.CodeDom, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Collections.Concurrent
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Collections.Concurrent, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Collections.Concurrent, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Collections.Concurrent, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Collections
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Collections, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Collections, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Collections.NonGeneric
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Collections.NonGeneric, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Collections.NonGeneric, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Collections.NonGeneric, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Collections.Specialized
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Collections.Specialized, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Collections.Specialized, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Collections.Specialized, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.ComponentModel
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.ComponentModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.ComponentModel, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.ComponentModel, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.ComponentModel.EventBasedAsync
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.ComponentModel.EventBasedAsync, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.ComponentModel.EventBasedAsync, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.ComponentModel.EventBasedAsync, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.ComponentModel.Primitives
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.ComponentModel.Primitives, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.ComponentModel.Primitives, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.ComponentModel.Primitives, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.ComponentModel.TypeConverter
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.ComponentModel.TypeConverter, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.ComponentModel.TypeConverter, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.ComponentModel.TypeConverter, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Configuration.ConfigurationManager
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Configuration.ConfigurationManager, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Uninstalled: System.Configuration.ConfigurationManager, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Console
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Console, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Console, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Console, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Data.Common
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Data.Common, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Data.Common, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Data.Common, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Diagnostics.Contracts
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Diagnostics.Contracts, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Diagnostics.Contracts, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Diagnostics.Contracts, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Diagnostics.Debug
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Diagnostics.Debug, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Diagnostics.Debug, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Diagnostics.Debug, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Diagnostics.FileVersionInfo
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Diagnostics.FileVersionInfo, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Diagnostics.FileVersionInfo, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Diagnostics.FileVersionInfo, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Diagnostics.Process
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Diagnostics.Process, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Diagnostics.Process, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Diagnostics.Process, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Diagnostics.StackTrace
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Diagnostics.StackTrace, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Diagnostics.StackTrace, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Diagnostics.StackTrace, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Diagnostics.TextWriterTraceListener
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Diagnostics.TextWriterTraceListener, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Diagnostics.TextWriterTraceListener, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Diagnostics.TextWriterTraceListener, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Diagnostics.Tools
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Diagnostics.Tools, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Diagnostics.Tools, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Diagnostics.Tools, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Diagnostics.TraceSource
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Diagnostics.TraceSource, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Diagnostics.TraceSource, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Diagnostics.TraceSource, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Diagnostics.Tracing
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Diagnostics.Tracing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Diagnostics.Tracing, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Diagnostics.Tracing, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Drawing.Common
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Uninstalled: System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Drawing.Primitives
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Drawing.Primitives, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Drawing.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Drawing.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Dynamic.Runtime
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Dynamic.Runtime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Dynamic.Runtime, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Dynamic.Runtime, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Globalization.Calendars
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Globalization.Calendars, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Globalization.Calendars, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Globalization.Calendars, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Globalization
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Globalization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Globalization, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Globalization, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Globalization.Extensions
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Globalization.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Globalization.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Globalization.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Interactive
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Interactive, Version=4.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL
+Uninstalled: System.Interactive, Version=4.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.IO.Compression
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.IO.Compression, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.IO.Compression, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL
+Uninstalled: System.IO.Compression, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.IO.Compression.ZipFile
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.IO.Compression.ZipFile, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.IO.Compression.ZipFile, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL
+Uninstalled: System.IO.Compression.ZipFile, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.IO
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.IO, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.IO, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.IO, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.IO.FileSystem
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.IO.FileSystem, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.IO.FileSystem, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.IO.FileSystem, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.IO.FileSystem.DriveInfo
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.IO.FileSystem.DriveInfo, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.IO.FileSystem.DriveInfo, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.IO.FileSystem.DriveInfo, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.IO.FileSystem.Primitives
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.IO.FileSystem.Primitives, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.IO.FileSystem.Primitives, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.IO.FileSystem.Primitives, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.IO.FileSystem.Watcher
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.IO.FileSystem.Watcher, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.IO.FileSystem.Watcher, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.IO.FileSystem.Watcher, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.IO.IsolatedStorage
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.IO.IsolatedStorage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.IO.IsolatedStorage, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.IO.IsolatedStorage, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.IO.MemoryMappedFiles
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.IO.MemoryMappedFiles, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.IO.MemoryMappedFiles, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.IO.MemoryMappedFiles, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.IO.Packaging
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.IO.Packaging, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.IO.Packaging, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.IO.Pipes
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.IO.Pipes, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.IO.Pipes, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.IO.Pipes, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.IO.UnmanagedMemoryStream
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.IO.UnmanagedMemoryStream, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.IO.UnmanagedMemoryStream, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.IO.UnmanagedMemoryStream, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Linq
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Linq, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Linq, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Linq, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Linq.Expressions
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Linq.Expressions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Linq.Expressions, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Linq.Expressions, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Linq.Parallel
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Linq.Parallel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Linq.Parallel, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Linq.Parallel, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Linq.Queryable
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Linq.Queryable, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Linq.Queryable, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Linq.Queryable, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Memory
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Uninstalled: System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Net.Http
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Net.Http, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Net.Http, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Net.NameResolution
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Net.NameResolution, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Net.NameResolution, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Net.NameResolution, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Net.NetworkInformation
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Net.NetworkInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Net.NetworkInformation, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Net.NetworkInformation, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Net.Ping
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Net.Ping, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Net.Ping, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Net.Ping, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Net.Primitives
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Net.Primitives, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Net.Primitives, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Net.Primitives, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Net.Requests
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Net.Requests, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Net.Requests, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Net.Requests, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Net.Security
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Net.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Net.Security, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Net.Security, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Net.Sockets
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Net.Sockets, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Net.Sockets, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Net.Sockets, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Net.WebHeaderCollection
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Net.WebHeaderCollection, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Net.WebHeaderCollection, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Net.WebHeaderCollection, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Net.WebSockets.Client
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Net.WebSockets.Client, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Net.WebSockets.Client, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Net.WebSockets.Client, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Net.WebSockets
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Net.WebSockets, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Net.WebSockets, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Net.WebSockets, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Numerics.Vectors
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Numerics.Vectors, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.ObjectModel
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.ObjectModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.ObjectModel, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.ObjectModel, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Reactive
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Reactive, Version=4.2.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL
+Uninstalled: System.Reactive, Version=4.2.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Reflection
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Reflection, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Reflection, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Reflection, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Reflection.Extensions
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Reflection.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Reflection.Extensions, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Reflection.Extensions, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Reflection.Primitives
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Reflection.Primitives, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Reflection.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Reflection.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Resources.Extensions
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Resources.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Uninstalled: System.Resources.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Resources.Reader
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Resources.Reader, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Resources.Reader, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Resources.Reader, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Resources.ResourceManager
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Resources.ResourceManager, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Resources.ResourceManager, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Resources.ResourceManager, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Resources.Writer
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Resources.Writer, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Resources.Writer, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Resources.Writer, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Runtime.CompilerServices.Unsafe
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Runtime.CompilerServices.VisualC
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Runtime.CompilerServices.VisualC, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Runtime.CompilerServices.VisualC, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Runtime.CompilerServices.VisualC, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Runtime
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Runtime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Runtime, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Runtime, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Runtime.Extensions
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Runtime.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Runtime.Extensions, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Runtime.Extensions, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Runtime.Handles
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Runtime.Handles, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Runtime.Handles, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Runtime.Handles, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Runtime.InteropServices
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Runtime.InteropServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Runtime.InteropServices, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Runtime.InteropServices, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Runtime.InteropServices.RuntimeInformation
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Runtime.InteropServices.RuntimeInformation, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Runtime.InteropServices.RuntimeInformation, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Runtime.Numerics
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Runtime.Numerics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Runtime.Numerics, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Runtime.Numerics, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Runtime.Serialization.Formatters
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Runtime.Serialization.Formatters, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Runtime.Serialization.Formatters, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Runtime.Serialization.Formatters, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Runtime.Serialization.Json
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Runtime.Serialization.Json, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Runtime.Serialization.Json, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Runtime.Serialization.Json, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Runtime.Serialization.Primitives
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Runtime.Serialization.Primitives, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Runtime.Serialization.Primitives, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Runtime.Serialization.Primitives, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Runtime.Serialization.Xml
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Runtime.Serialization.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Runtime.Serialization.Xml, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Runtime.Serialization.Xml, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Security.AccessControl
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Security.AccessControl, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Security.AccessControl, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Security.Claims
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Security.Claims, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Security.Claims, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Security.Claims, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Security.Cryptography.Algorithms
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Security.Cryptography.Algorithms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Security.Cryptography.Algorithms, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Security.Cryptography.Algorithms, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Security.Cryptography.Csp
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Security.Cryptography.Csp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Security.Cryptography.Csp, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Security.Cryptography.Csp, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Security.Cryptography.Encoding
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Security.Cryptography.Encoding, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Security.Cryptography.Encoding, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Security.Cryptography.Encoding, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Security.Cryptography.Primitives
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Security.Cryptography.Primitives, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Security.Cryptography.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Security.Cryptography.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Security.Cryptography.X509Certificates
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Security.Cryptography.X509Certificates, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Security.Cryptography.X509Certificates, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Security.Cryptography.X509Certificates, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Security.Permissions
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Security.Permissions, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Uninstalled: System.Security.Permissions, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Security.Principal
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Security.Principal, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Security.Principal, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Security.Principal, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Security.Principal.Windows
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Security.Principal.Windows, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Security.Principal.Windows, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Security.SecureString
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Security.SecureString, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Security.SecureString, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Security.SecureString, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Text.Encoding
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Text.Encoding, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Text.Encoding, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Text.Encoding, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Text.Encoding.Extensions
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Text.Encoding.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Text.Encoding.Extensions, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Text.Encoding.Extensions, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Text.RegularExpressions
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Text.RegularExpressions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Text.RegularExpressions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Text.RegularExpressions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Threading
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Threading, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Threading, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Threading, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Threading.Overlapped
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Threading.Overlapped, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Threading.Overlapped, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Threading.Overlapped, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Threading.Tasks
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Threading.Tasks, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Threading.Tasks, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Threading.Tasks, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Threading.Tasks.Extensions
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Uninstalled: System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Threading.Tasks.Parallel
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Threading.Tasks.Parallel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Threading.Tasks.Parallel, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Threading.Tasks.Parallel, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Threading.Thread
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Threading.Thread, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Threading.Thread, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Threading.Thread, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Threading.ThreadPool
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Threading.ThreadPool, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Threading.ThreadPool, Version=4.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Threading.ThreadPool, Version=4.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Threading.Timer
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Threading.Timer, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Threading.Timer, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Threading.Timer, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.ValueTuple
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.ValueTuple, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Uninstalled: System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Web.Razor
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL
+Removed reference:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <WINDOWS_INSTALLER>  ID: <MSI>  DESCRIPTION : <Windows Installer>  
+Number of assemblies uninstalled = 0 
+Number of failures = 0
+
+System.Xml.ReaderWriter
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Xml.ReaderWriter, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Xml.ReaderWriter, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Xml.ReaderWriter, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Xml.XDocument
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Xml.XDocument, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Xml.XDocument, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Xml.XDocument, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Xml.XmlDocument
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Xml.XmlDocument, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Xml.XmlDocument, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Xml.XmlDocument, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Xml.XmlSerializer
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Xml.XmlSerializer, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Xml.XmlSerializer, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Xml.XmlSerializer, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Xml.XPath
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Xml.XPath, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Xml.XPath, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Xml.XPath, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+System.Xml.XPath.XDocument
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: System.Xml.XPath.XDocument, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: System.Xml.XPath.XDocument, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Uninstalled: System.Xml.XPath.XDocument, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Topshelf
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Topshelf, Version=3.1.135.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL
+Uninstalled: Topshelf, Version=3.1.135.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+WindowsBase
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: WindowsBase, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+
+Assembly: WindowsBase, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL
+Reference not found:
+              SCHEME: <UNINSTALL_KEY>  ID: <eXpandFramework>  DESCRIPTION : <eXpandFramework>  
+Pending references:
+              SCHEME: <OPAQUE>  ID: <{71F8EFBF-09AF-418D-91F1-52707CDFA274}>  DESCRIPTION : <.NET Framework Redist Setup>  
+Number of assemblies uninstalled = 0 
+Number of failures = 0
+
+WindowsInput
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: WindowsInput, Version=1.0.4.0, Culture=neutral, PublicKeyToken=9b287f7dc5073cad, processorArchitecture=MSIL
+Uninstalled: WindowsInput, Version=1.0.4.0, Culture=neutral, PublicKeyToken=9b287f7dc5073cad, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.EasyTest
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.EasyTest, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.EasyTest, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.AdditionalViewControlsProvider
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.AdditionalViewControlsProvider, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.AdditionalViewControlsProvider, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.AdditionalViewControlsProvider.Web
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.AdditionalViewControlsProvider.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.AdditionalViewControlsProvider.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.AdditionalViewControlsProvider.Win
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.AdditionalViewControlsProvider.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.AdditionalViewControlsProvider.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.AuditTrail
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.AuditTrail, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.AuditTrail, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.Chart.Win
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.Chart.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.Chart.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.Dashboard
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.Dashboard, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.Dashboard, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.EasyTest.WebAdapter
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.EasyTest.WebAdapter, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.EasyTest.WebAdapter, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.EasyTest.WinAdapter
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.EasyTest.WinAdapter, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.EasyTest.WinAdapter, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.Email
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.Email, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.Email, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.ExcelImporter
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.ExcelImporter, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.ExcelImporter, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.ExcelImporter.Web
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.ExcelImporter.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.ExcelImporter.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.ExcelImporter.Win
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.ExcelImporter.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.ExcelImporter.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.FileAttachment
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.FileAttachment, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.FileAttachment, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.FileAttachment.Web
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.FileAttachment.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.FileAttachment.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.HtmlPropertyEditor.Web
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.HtmlPropertyEditor.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.HtmlPropertyEditor.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.ImportWizard
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.ImportWizard, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.ImportWizard, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.ImportWizard.Win
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.ImportWizard.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.ImportWizard.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.IO
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.IO, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.IO, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.IO.Web
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.IO.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.IO.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.IO.Win
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.IO.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.IO.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.JobScheduler
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.JobScheduler, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.JobScheduler, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.JobScheduler.Jobs
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.JobScheduler.Jobs, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.JobScheduler.Jobs, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.Logic
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.Logic, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.Logic, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.MapView
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.MapView, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.MapView, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.MapView.Web
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.MapView.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.MapView.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.MasterDetail
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.MasterDetail, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.MasterDetail, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.MasterDetail.Win
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.MasterDetail.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.MasterDetail.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.ModelArtifactState
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.ModelArtifactState, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.ModelArtifactState, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.ModelDifference
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.ModelDifference, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.ModelDifference, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.ModelDifference.Web
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.ModelDifference.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.ModelDifference.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.ModelDifference.Win
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.ModelDifference.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.ModelDifference.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.NCarousel.Web
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.NCarousel.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.NCarousel.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.PivotChart
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.PivotChart, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.PivotChart, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.PivotChart.Web
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.PivotChart.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.PivotChart.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.PivotChart.Win
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.PivotChart.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.PivotChart.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.PivotGrid.Win
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.PivotGrid.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.PivotGrid.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.Reports
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.Reports, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.Reports, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.Reports.Win
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.Reports.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.Reports.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.ReportsV2.Win
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.ReportsV2.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.ReportsV2.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.Scheduler
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.Scheduler, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.Scheduler, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.Scheduler.Web
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.Scheduler.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.Scheduler.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.Scheduler.Win
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.Scheduler.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.Scheduler.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.Security
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.Security, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.Security, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.Security.Web
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.Security.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.Security.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.Security.Win
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.Security.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.Security.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.StateMachine
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.StateMachine, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.StateMachine, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.TreeListEditors
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.TreeListEditors, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.TreeListEditors, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.TreeListEditors.Web
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.TreeListEditors.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.TreeListEditors.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.TreeListEditors.Win
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.TreeListEditors.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.TreeListEditors.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.Validation
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.Validation, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.Validation, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.Validation.Web
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.Validation.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.Validation.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.Validation.Win
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.Validation.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.Validation.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.ViewVariants
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.ViewVariants, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.ViewVariants, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.Web
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.Win
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.WizardUI.Win
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.WizardUI.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.WizardUI.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.Workflow
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.Workflow, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.Workflow, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.WorldCreator.DBMapper
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.WorldCreator.DBMapper, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.WorldCreator.DBMapper, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.WorldCreator
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.WorldCreator, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.WorldCreator, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.WorldCreator.Web
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.WorldCreator.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.WorldCreator.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.WorldCreator.Win
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.WorldCreator.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.WorldCreator.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.XtraDashboard.Web
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.XtraDashboard.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.XtraDashboard.Web, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.ExpressApp.XtraDashboard.Win
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.ExpressApp.XtraDashboard.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.ExpressApp.XtraDashboard.Win, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.Extensions
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.Extensions, Version=2.192.21.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.Extensions, Version=2.192.21.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.Extensions.Reactive
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.Extensions.Reactive, Version=2.192.14.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.Extensions.Reactive, Version=2.192.14.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.Extensions.XAF
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.Extensions.XAF, Version=2.192.20.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.Extensions.XAF, Version=2.192.20.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.NCarousel
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.NCarousel, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.NCarousel, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.Persistent.Base
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.Persistent.Base, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.Persistent.Base, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.Persistent.BaseImpl
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.Persistent.BaseImpl, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.Persistent.BaseImpl, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.Utils
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.Utils, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.Utils, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.XAF.Modules.AutoCommit
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.XAF.Modules.AutoCommit, Version=2.192.29.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.XAF.Modules.AutoCommit, Version=2.192.29.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.XAF.Modules.CloneMemberValue
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.XAF.Modules.CloneMemberValue, Version=2.192.4.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.XAF.Modules.CloneMemberValue, Version=2.192.4.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.XAF.Modules.CloneModelView
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.XAF.Modules.CloneModelView, Version=2.192.27.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.XAF.Modules.CloneModelView, Version=2.192.27.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.XAF.Modules.GridListEditor
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.XAF.Modules.GridListEditor, Version=2.192.4.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.XAF.Modules.GridListEditor, Version=2.192.4.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.XAF.Modules.HideToolBar
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.XAF.Modules.HideToolBar, Version=2.192.28.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.XAF.Modules.HideToolBar, Version=2.192.28.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.XAF.Modules.MasterDetail
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.XAF.Modules.MasterDetail, Version=2.192.28.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.XAF.Modules.MasterDetail, Version=2.192.28.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.XAF.Modules.ModelMapper
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.XAF.Modules.ModelMapper, Version=2.192.4.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.XAF.Modules.ModelMapper, Version=2.192.4.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.XAF.Modules.ModelViewInheritance
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.XAF.Modules.ModelViewInheritance, Version=2.192.4.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.XAF.Modules.ModelViewInheritance, Version=2.192.4.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.XAF.Modules.ProgressBarViewItem
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.XAF.Modules.ProgressBarViewItem, Version=2.192.28.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.XAF.Modules.ProgressBarViewItem, Version=2.192.28.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.XAF.Modules.Reactive
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.XAF.Modules.Reactive, Version=2.192.4.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.XAF.Modules.Reactive, Version=2.192.4.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.XAF.Modules.Reactive.Logger
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.XAF.Modules.Reactive.Logger, Version=2.192.4.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.XAF.Modules.Reactive.Logger, Version=2.192.4.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.XAF.Modules.RefreshView
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.XAF.Modules.RefreshView, Version=2.192.4.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.XAF.Modules.RefreshView, Version=2.192.4.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.XAF.Modules.SuppressConfirmation
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.XAF.Modules.SuppressConfirmation, Version=2.192.28.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.XAF.Modules.SuppressConfirmation, Version=2.192.28.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.XAF.Modules.ViewEditMode
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.XAF.Modules.ViewEditMode, Version=2.192.4.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.XAF.Modules.ViewEditMode, Version=2.192.4.2, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
+Xpand.Xpo
+Microsoft (R) .NET Global Assembly Cache Utility.  Version 4.0.30319.33440
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+
+Assembly: Xpand.Xpo, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Uninstalled: Xpand.Xpo, Version=19.2.501.0, Culture=neutral, PublicKeyToken=c52ffed5d5ff0958, processorArchitecture=MSIL
+Number of assemblies uninstalled = 1 
+Number of failures = 0
+
