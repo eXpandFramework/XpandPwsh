@@ -17,9 +17,9 @@ function Install-Xpand {
     Write-Host "Downloading installation script from $uri into $scriptPath" -f Green
     New-Item $InstallationPath -ItemType Directory -Force -ErrorAction Continue
     if (Test-Path $scriptPath){
-        # Remove-Item $scriptPath
+        Remove-Item $scriptPath
     }
-    # $c.DownloadFile($uri,$scriptPath)
+    $c.DownloadFile($uri,$scriptPath)
     . $scriptPath
     $instalationParameters=@{
         Version=$Version
