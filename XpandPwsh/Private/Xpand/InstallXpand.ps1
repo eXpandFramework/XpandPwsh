@@ -34,10 +34,6 @@ function InstallXpand {
     }
     Write-Host "Installing $($Assets -join ', ') into $InstallationPath."-f Green
     Write-Host "Additional parameters: Version, Latest, Assets, InstallationPath" -f Yellow
-
-    $nuget = "$InstallationPath\nuget.exe"
-    Write-Host "Downloading Nuget at $nuget" -f Green
-    $client.DownloadFile("https://dist.nuget.org/win-x86-commandline/latest/nuget.exe", $nuget)
     
     $repo = "eXpand"
     $release = $Version
@@ -46,7 +42,7 @@ function InstallXpand {
         Write-Host "Finding latest Xpand version" -f Green
         $release = (Invoke-RestMethod "https://azuresearch-usnc.nuget.org/query?q=eXpandLib&take=1").data.version
         Write-Host "Latest official:$release" -f Yellow
-        $lab = New-Object System.Version((& $nuget list eXpandlib -source "https://xpandnugetserver.azurewebsites.net/nuget").Split(" ")[1])
+        $lab = ((Invoke-RestMethod "https://xpandnugetstats.azurewebsites.net/api/totals/packages?packagesource=xpand")|where-object{$_.id -eq "expandlib"}).version
         Write-Host "Latest lab:$lab" -f Green
         if ($lab -gt $release) {
             $repo = "eXpand.lab"
