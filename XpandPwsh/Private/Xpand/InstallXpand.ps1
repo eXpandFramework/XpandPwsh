@@ -21,16 +21,14 @@ function InstallXpand {
     if (!(Get-Module 7Zip4Powershell -ListAvailable)) {
         Install-Module 7Zip4Powershell -Scope CurrentUser -Force
     }
-    if (!(Test-Path "$InstallationPath\UnInstall-Xpand.ps1")) {
-        if (!(Test-Path $InstallationPath)) {
-            Write-Host "Creating $InstallationPath" -f Green
-            New-Item $InstallationPath -ItemType Directory|Out-Null
-        }
-    }
-    else {
+    if ((Test-Path "$InstallationPath\UnInstall-Xpand.ps1")) {
         Write-Host ""$InstallationPath\UnInstall-Xpand.ps1" exists, unistalling." -f "Red"
         Read-Host "Press a key to uninstall."
         . "$InstallationPath\UnInstall-Xpand.ps1"
+    }
+    if (!(Test-Path $InstallationPath)) {
+        Write-Host "Creating $InstallationPath" -f Green
+        New-Item $InstallationPath -ItemType Directory|Out-Null
     }
     Write-Host "Installing $($Assets -join ', ') into $InstallationPath."-f Green
     Write-Host "Additional parameters: Version, Latest, Assets, InstallationPath" -f Yellow
