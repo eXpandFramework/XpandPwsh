@@ -45,7 +45,7 @@ function InstallXpand {
 
     if ($Latest) {
         Write-Host "Finding latest Xpand version" -f Green
-        $release = & $Nuget list eXpand -Source "https://api.nuget.org/v3/index.json"|Where-Object{$_ -like "eXpand*"}|ForEach-Object{ New-Object System.Version($_.Split(" ")[1])}|Sort-Object -Descending|Select-Object -First 1
+        $release = (Invoke-RestMethod "https://azuresearch-usnc.nuget.org/query?q=eXpandLib&take=1").data.version
         Write-Host "Latest official:$release" -f Yellow
         $lab = New-Object System.Version((& $nuget list eXpandlib -source "https://xpandnugetserver.azurewebsites.net/nuget").Split(" ")[1])
         Write-Host "Latest lab:$lab" -f Green
@@ -56,7 +56,8 @@ function InstallXpand {
     }
     elseif (!$Version) {
         Write-Host "Finding latest Xpand version" -f Green
-        $release = New-Object System.Version(((& $nuget list eXpandlib -source "https://api.nuget.org/v3/index.json").Split(" ")[1]))
+        $release=(Invoke-RestMethod "https://azuresearch-usnc.nuget.org/query?q=eXpandLib&take=1").data.version
+        $release+=".0"
         Write-Host "Latest official:$release" -f Green
     }
     elseif($Version){

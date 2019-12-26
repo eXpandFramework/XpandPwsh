@@ -147,6 +147,7 @@ FunctionsToExport = @(
 "Get-ReferenceConflict",
 "Get-RelativePath",
 "Get-SymbolSources",
+"Get-VersionPart",
 "Get-VSPath",
 "Get-XAFLatestMinors",
 "Get-XAFModule",
