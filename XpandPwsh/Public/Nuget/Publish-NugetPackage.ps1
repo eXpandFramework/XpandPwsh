@@ -29,9 +29,9 @@ function Publish-NugetPackage {
         if ($published){
             $needPush=$packages|Where-Object{
                 $p=$_
-                $published |Where-Object{
+                !($published |Where-Object{
                     $_.Name -eq $p.Id -and $_.Version -eq $_.Version
-                }
+                })
             }
         }
         

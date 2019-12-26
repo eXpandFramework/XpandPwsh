@@ -53,10 +53,11 @@ function Start-XpandProjectConverter {
     }
     Get-ChildItem $Path *.csproj -Recurse | ForEach-Object {
         $projectPath = $_.FullName
+        Remove-Item "$($_.DirectoryName)\properties\licenses.licx" -ErrorAction SilentlyContinue
         if (!(Test-Path "$($_.DirectoryName)\paket.references")) {
             $change = Get-PackageReference $_.FullName | Where-Object { $_.include -like "DevExpress*" } | ForEach-Object {
                 if ($_.Version -ne $version) {
-                    "Change $($_.Include) $($_.Version) to $version"
+                    "Change PackageReference $($_.Include) $($_.Version) to $version"
                     $_.Version = $Version.ToString()
                     $element = [System.Xml.XmlElement]$_
                     $element.OwnerDocument.Save($projectPath)
@@ -67,7 +68,29 @@ function Start-XpandProjectConverter {
                 Clear-ProjectDirectories
                 Pop-Location
             }
+            [xml]$proj=Get-Content $projectPath
+            $proj.project.itemgroup.EmbeddedResource|Where-Object{$_.include -eq "Properties\licenses.licx"}|ForEach-Object{
+                $_.ParentNode.RemoveChild($_)
+            }
+            $proj.project.itemgroup.Reference|Where-Object{$_.Include -like "DevExpres*"}|ForEach-Object{
+                if ($_.Version){
+                    $_.Version=$version
+                }
+                elseif ($_.include -like "*,*"){
+                    $regex = [regex] '(?n)\.v(?<short>(\d{2}\.\d))'
+                    $result = $regex.Replace($_.include, ".v$shortVersion")
+                    $regex = [regex] '(?n)=(\d*\.\d*\.\d*\.\d*)'
+                    if ($version.Revision -eq -1){
+                        $revision=".0"
+                    }
+                    $result = $regex.Replace($result, "=$version$($revision)")
+                    $_.include=$result
+                }
+                
+            }
+            $proj.Save($projectPath)
         }
+        
     }
     $shortDxVersion = Get-DevExpressVersion $Version
     $newVersion = $version.ToString()
