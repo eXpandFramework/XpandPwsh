@@ -43,7 +43,7 @@ namespace XpandPwsh.Cmdlets.InvokeParallel{
         public int RetryDelay{ get; set; } = 3000;
 
         [Parameter]
-        public int StepInterval{ get; set; }
+        public int StepInterval{ get; set; } = -1;
 
         protected override Task BeginProcessingAsync(){
             _values = new ConcurrentBag<object>();
@@ -60,7 +60,7 @@ namespace XpandPwsh.Cmdlets.InvokeParallel{
 
         protected override Task EndProcessingAsync(){
             if (!_values.Any()) return Task.CompletedTask;
-            if (_values.Count > Environment.ProcessorCount){
+            if (_values.Count > Environment.ProcessorCount&&StepInterval==-1){
                 StepInterval = 50;
             }
             var values = _values.ToObservable();
@@ -95,6 +95,7 @@ namespace XpandPwsh.Cmdlets.InvokeParallel{
                     var lastExitCode = runspace.Invoke("$LastExitCode").FirstOrDefault();
                     if (lastExitCode != null && (int) lastExitCode.BaseObject > 0){
                         var error = string.Join(Environment.NewLine, runspace.Invoke("$Error"));
+                        runspace.Close();
                         if (!string.IsNullOrWhiteSpace(error))
                             throw new Exception(
                                 $"ExitCode:{lastExitCode}{Environment.NewLine}Errors: {error}{Environment.NewLine}Script:{Script}");
