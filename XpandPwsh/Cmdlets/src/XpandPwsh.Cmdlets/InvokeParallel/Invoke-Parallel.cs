@@ -65,10 +65,8 @@ namespace XpandPwsh.Cmdlets.InvokeParallel{
             }
             var values = _values.ToObservable();
             if (StepInterval > 0){
-                var eventLoopScheduler = new EventLoopScheduler(start => new Thread(start));
-                values = values.StepInterval(TimeSpan.FromMilliseconds(StepInterval), eventLoopScheduler);
+                values = values.StepInterval(TimeSpan.FromMilliseconds(StepInterval));
             }
-            
 
             var retrySignal = Enumerable.Range(0, RetryOnError).ToObservable()
                 .Delay(TimeSpan.FromMilliseconds(RetryDelay)).Publish().AutoConnect();
