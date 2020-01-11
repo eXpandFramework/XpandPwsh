@@ -12,10 +12,11 @@ function Get-AzTestRuns {
         [string[]]$Definition,
         [int]$Top,
         [int]$Skip,
-        [datetime]$minLastUpdatedDate=[datetime]::Now.AddDays(-7),
+        [datetime]$minLastUpdatedDate=[datetime]::Now.AddDays(-6),
         [datetime]$maxLastUpdatedDate=[datetime]::Now,
         [ValidateSet("aborted","completed","inProgress","needsInvestigation","notStarted","unspecified","waiting")]
         [string]$State,
+        [string]$branchName,
         [string]$Project = $env:AzProject,
         [string]$Organization = $env:AzOrganization,
         [string]$Token = $env:AzDevopsToken
@@ -42,9 +43,10 @@ function Get-AzTestRuns {
             buildIds=($buildIds -join ",")
             buildDefIds=(($Definition|Where-Object{$_}|Get-AzDefinition).id -join ",")
             State=$State
+            branchName=$branchName
         }
-        Invoke-AzureRestMethod "test/runs$query" @cred|where-object{
-            !$FailedOnly -or $_.unanalyzedtests
+        (Invoke-AzureRestMethod "test/runs$query" @cred)|where-object{
+            !$FailedOnly -or ($_.runStatistics|Where-Object{$_.outcome -eq "failed"})
         }
     }
     
