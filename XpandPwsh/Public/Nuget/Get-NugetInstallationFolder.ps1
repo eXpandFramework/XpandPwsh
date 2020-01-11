@@ -10,7 +10,11 @@ function Get-NugetInstallationFolder {
         $folders.Add("$path\NuGetFallbackFolder") | Out-Null
     }
     if ($Locations -contains "GlobalPackagesFolder") {
-        $folders.Add("$env:USERPROFILE\.nuget\packages") | Out-Null
+        $packagesFolder=$env:NUGET_PACKAGES
+        if (!$packagesFolder){
+            $packagesFolder="$env:USERPROFILE\.nuget\packages"    
+        }
+        $folders.Add($packagesFolder) | Out-Null
     }
     if ($Locations -contains "HttpCache") {
         $folders.Add("$env:LOCALAPPDATA\Nuget\v3-cache") | Out-Null
