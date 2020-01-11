@@ -1,7 +1,7 @@
 function Update-ProjectTargetFramework {
     [CmdletBinding()]
     param (
-        [ValidateSet("4.5.2","4.6.1","4.7.1","4.7.2")]
+        [ValidateSet("4.5.2","4.6.1","4.7.1","4.7.2","4.8")]
         $FrameworkVersion="4.6.1"
     )
     
