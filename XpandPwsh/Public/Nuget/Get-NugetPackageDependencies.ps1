@@ -16,8 +16,13 @@ function Get-NugetPackageDependencies {
         $a=@{
             Name=$Id
             Source=$Source
-            Versions=$Version
             AllVersions=$AllVersions
+        }
+        if ($Version){
+            $a.Add("Version",$Version)
+        }
+        elseif ($AllVersion){
+            $a.Add("AllVersions",$AllVersions)
         }
         (Get-NugetPackageSearchMetadata @a).DependencySets.Packages
     }
