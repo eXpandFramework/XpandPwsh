@@ -1,5 +1,6 @@
 ﻿using System.Management.Automation;
 using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using XpandPwsh.CmdLets;
 
@@ -15,8 +16,10 @@ namespace XpandPwsh.Cmdlets.GitHub.CheckpointGithubIssue{
         public string Repository{ get; set; }
 
         protected override Task ProcessRecordAsync(){
-            GitHubClient.Repository.GetForOrg(Organization, Repository)
-                .SelectMany(repository => GitHubClient.Issue.Comment.Create(repository.Id, IssueNumber, Comment));
+            return GitHubClient.Repository.GetForOrg(Organization, Repository)
+                .SelectMany(repository => GitHubClient.Issue.Comment.Create(repository.Id, IssueNumber, Comment))
+                .WriteObject(this)
+                .ToTask();
             return base.ProcessRecordAsync();
         }
     }
