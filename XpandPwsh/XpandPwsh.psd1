@@ -155,6 +155,7 @@ FunctionsToExport = @(
 "Get-XAFModule",
 "Get-XafPackageNames",
 "Get-XmlContent",
+"Get-XpandNugetPackageDependencies",
 "Get-XpandPackageNames",
 "Get-XpandPackages",
 "Get-XpandPath",
