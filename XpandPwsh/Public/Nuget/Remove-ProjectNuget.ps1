@@ -19,7 +19,15 @@ function Remove-ProjectNuget {
         if ($packageReferences) {
             $refNode = ($project.Project.ItemGroup.Reference | Select-Object -First 1).ParentNode
             $packageReferences | Where-Object { $_.Include -match "$id" } | ForEach-Object {
-                $_.ParentNode.RemoveChild($_)
+                if (!$_.Paket){
+                    $_.ParentNode.RemoveChild($_)
+                }
+                else{
+                    $paketRefPath=(get-item $path).DirectoryName
+                    $paketRefPath+="\paket.references"
+                    $packageId=$_.Id
+                    (Get-Content $paketRefPath|Where-Object{$_ -ne $packageId})|Out-File $paketRefPath
+                }
                 $targetFramework = $project | Get-ProjectTargetFramework
                 FindLibraries $_.Include $_.Version $targetFramework | ForEach-Object {
                     $r = $project.CreateElement("Reference")
@@ -64,7 +72,7 @@ function FindLibraries {
             $_
         }
     } | Sort-Object -Descending | Where-Object {
-        $_.BaseName.Replace("net", "") -le $TargetFramework 
+        $_.BaseName.Replace("net", "") -le $TargetFramework -or $_.BaseName -like "netstandard*"
     } | Select-Object -First 1
 Push-Location $item.FullName
 Get-ChildItem *.dll | ForEach-Object {

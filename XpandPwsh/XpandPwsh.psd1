@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.3.2'
+ModuleVersion = '1.201.4.1'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -77,6 +77,7 @@ FunctionsToExport = @(
 "Add-GitDiff",
 "Add-NuspecDependency",
 "Add-PackageReference",
+"Add-ProjectReference",
 "Add-XmlElement",
 "Approve-LastExitCode",
 "Checkpoint-GitHubIssue",
