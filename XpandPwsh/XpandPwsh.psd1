@@ -180,6 +180,7 @@ FunctionsToExport = @(
 "Invoke-PaketFindVersions",
 "Invoke-PaketInit",
 "Invoke-PaketInstall",
+"Invoke-PaketRemove",
 "Invoke-PaketRestore",
 "Invoke-PaketShowInstalled",
 "Invoke-PaketSimplify",

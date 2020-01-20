@@ -1,11 +1,9 @@
 
-function Invoke-PaketAdd {
+function Invoke-PaketRemove {
     [CmdletBinding()]
     param (
         [parameter(Mandatory)]
         [string]$Id,
-        [parameter(Mandatory)]
-        [string]$Version,
         [string]$ProjectPath,
         [switch]$Force
     )
@@ -21,10 +19,10 @@ function Invoke-PaketAdd {
             if ($Force) {
                 $forceArgs = "--no-install", "--no-resolve"
             }
-            $add=($ProjectPath -and !(Invoke-PaketShowInstalled $ProjectPath)|Where-Object{$_.Include -eq $id} )
-            Push-Location (Get-Item $paketExe).DirectoryName
-            if ($add){
-                invoke-script {dotnet paket add $Id --project $ProjectPath --version $Version @forceArgs}
+            $remove=($ProjectPath -and (Invoke-PaketShowInstalled $ProjectPath)|Where-Object{$_.Include -eq $id} )
+            push-Location (Get-Item $paketExe).DirectoryName
+            if ($remove){
+                invoke-script {dotnet paket remove $Id --project $ProjectPath @forceArgs}
             }
             else{
                 $depFile="$((Get-Item $paketExe).DirectoryName)\..\paket.dependencies"
