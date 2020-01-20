@@ -5,7 +5,8 @@ function Invoke-PaketRemove {
         [parameter(Mandatory)]
         [string]$Id,
         [string]$ProjectPath,
-        [switch]$Force
+        [switch]$Force,
+        [Switch]$Silent
     )
     
     begin {
@@ -13,24 +14,22 @@ function Invoke-PaketRemove {
     }
     
     process {
+        if (Test-path $ProjectPath){
+            Push-Location (get-item $ProjectPath).DirectoryName
+        }
         $paketExe=(Get-PaketDependenciesPath -Strict)
         if ($paketExe){
-            $forceArgs = @();
+            $a = @();
             if ($Force) {
-                $forceArgs = "--no-install", "--no-resolve"
+                $a += "--no-install"
             }
-            $remove=($ProjectPath -and (Invoke-PaketShowInstalled $ProjectPath)|Where-Object{$_.Include -eq $id} )
-            push-Location (Get-Item $paketExe).DirectoryName
-            if ($remove){
-                invoke-script {dotnet paket remove $Id --project $ProjectPath @forceArgs}
+            if ($Silent){
+                $a+="--silent"
             }
-            else{
-                $depFile="$((Get-Item $paketExe).DirectoryName)\..\paket.dependencies"
-                $dependecies=Get-content $depFile -Raw
-                $regex = [regex] "(nuget $Id) (.*)"
-                $result = $regex.Replace($dependecies, "`$1 $Version")
-                Set-Content $depFile $result.Trim()
-            }
+            invoke-script {dotnet paket remove $Id --project $ProjectPath @a}
+            Pop-Location
+        }
+        if (Test-path $ProjectPath){
             Pop-Location
         }
     }
