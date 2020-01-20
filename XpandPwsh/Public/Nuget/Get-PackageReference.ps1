@@ -8,18 +8,20 @@ function Get-PackageReference {
     
         
     [xml]$Proj = Get-Content $Path
-    $packageReferences = $Proj.project.ItemGroup.PackageReference | Where-Object { $_ }|Where-Object{
+    $packageReferences = $Proj.project.ItemGroup.PackageReference | Where-Object { $_ } | Where-Object {
         !$PrivateAssets -or !$_.PrivateAssets
     }
     $packageReferences
     $refsPath = "$((Get-Item $Path).DirectoryName)\paket.references"
     if (Test-Path $refsPath) {
         $ipa = @{
-            Project = $path
-            PrivateAssets=$PrivateAssets
+            Project       = $path
+            PrivateAssets = $PrivateAssets
         }
+        Push-Location (Get-Item $refsPath).DirectoryName
         $installedPakets = Invoke-PaketShowInstalled @ipa
-        $paketRefs=Get-Content $refsPath | ForEach-Object {
+        Pop-Location
+        $paketRefs = Get-Content $refsPath | ForEach-Object {
             $ref = $_
             $installedPakets | Where-Object { $_.Id -eq $ref }
         } | ForEach-Object {
@@ -27,10 +29,12 @@ function Get-PackageReference {
                 Include = $_.Id
                 id      = $_.Id
                 Version = $_.Version
+                Paket   = $true
             }        
         }
+        $paketRefs
     }      
-    $paketRefs
+    
     if ($paketRefs -and $packageReferences) {
         throw "$Path has packageReferences and paketreferences"
     }
