@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.4.1'
+ModuleVersion = '1.201.5'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -126,6 +126,7 @@ FunctionsToExport = @(
 "Get-GitHubCommitIssue",
 "Get-GitHubIssue",
 "Get-GitHubIssueComment",
+"Get-GitHubLabel",
 "Get-GitHubMilestone",
 "Get-GitHubRelease",
 "Get-GitHubRepositoryTag",
