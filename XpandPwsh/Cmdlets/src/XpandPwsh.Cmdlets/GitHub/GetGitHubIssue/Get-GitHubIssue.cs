@@ -9,7 +9,7 @@ using XpandPwsh.CmdLets;
 namespace XpandPwsh.Cmdlets.GitHub.GetGitHubIssue{
     [CmdletBinding]
     [Cmdlet(VerbsCommon.Get, "GitHubIssue")]
-    public class GetGitHubIssues : GitHubCmdlet{
+    public class GetGitHubIssue : GitHubCmdlet{
         [Parameter(Mandatory = true)]
         public string Repository{ get; set; }
         [Parameter]
@@ -26,7 +26,7 @@ namespace XpandPwsh.Cmdlets.GitHub.GetGitHubIssue{
         public string Assignee{ get; set; }
         protected override Task ProcessRecordAsync(){
             return GitHubClient.Repository.GetForOrg(Organization, Repository)
-                .SelectMany(repository => {
+                .Select(repository => {
                     var repositoryIssueRequest = new RepositoryIssueRequest(){
                         Since = Since, Filter = IssueFilter, State = State,Assignee = Assignee
                     };
@@ -36,7 +36,7 @@ namespace XpandPwsh.Cmdlets.GitHub.GetGitHubIssue{
                     return IssueNumber > 0
                         ? GitHubClient.Issue.Get(repository.Id, IssueNumber).ToObservable()
                         : GitHubClient.Issue.GetAllForRepository(repository.Id,
-                            repositoryIssueRequest).ToObservable().SelectMany(list => list);
+                            repositoryIssueRequest).ToObservable().Where(list => list.Count>0).SelectMany(list => list);
                 })
                 .WriteObject(this)
                 .ToTask();
