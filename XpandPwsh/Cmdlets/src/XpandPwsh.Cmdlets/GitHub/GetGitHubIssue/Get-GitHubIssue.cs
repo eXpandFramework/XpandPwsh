@@ -20,15 +20,23 @@ namespace XpandPwsh.Cmdlets.GitHub.GetGitHubIssue{
         public ItemStateFilter State{ get; set; }=ItemStateFilter.Open;
         [Parameter]
         public int IssueNumber{ get; set; }
+        [Parameter]
+        public string[] Labels{ get; set; }=new string[0];
+        [Parameter]
+        public string Assignee{ get; set; }
         protected override Task ProcessRecordAsync(){
             return GitHubClient.Repository.GetForOrg(Organization, Repository)
                 .SelectMany(repository => {
+                    var repositoryIssueRequest = new RepositoryIssueRequest(){
+                        Since = Since, Filter = IssueFilter, State = State,Assignee = Assignee
+                    };
+                    foreach (var label in Labels){
+                        repositoryIssueRequest.Labels.Add(label);
+                    }
                     return IssueNumber > 0
                         ? GitHubClient.Issue.Get(repository.Id, IssueNumber).ToObservable()
                         : GitHubClient.Issue.GetAllForRepository(repository.Id,
-                            new RepositoryIssueRequest(){
-                                Since = Since, Filter = IssueFilter, State = State
-                            }).ToObservable().SelectMany(list => list);
+                            repositoryIssueRequest).ToObservable().SelectMany(list => list);
                 })
                 .WriteObject(this)
                 .ToTask();
