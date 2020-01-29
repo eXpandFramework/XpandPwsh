@@ -20,7 +20,9 @@ namespace XpandPwsh.Cmdlets.GitHub.UpdateGitHubIssue{
         [Parameter]
         public ItemState? State{ get; set; }
         [Parameter]
-        public string[] Labels{ get; set; }
+        public string[] Labels{ get; set; }[Parameter]
+        [Parameter]
+        public string[] RemoveLabels{ get; set; }
 
         protected override async Task ProcessRecordAsync(){
             var issueUpdate = new IssueUpdate();
@@ -34,11 +36,19 @@ namespace XpandPwsh.Cmdlets.GitHub.UpdateGitHubIssue{
                 issueUpdate.State=State;
             }
 
-            if (Labels != null){
+            if (Labels != null||RemoveLabels!=null){
                 var issue = await GitHubClient.Repository.GetForOrg(Organization, Repository)
                     .SelectMany(_ => GitHubClient.Issue.Get(_.Id, IssueNumber));
-                foreach (var label in Labels.Concat(issue.Labels.Select(label => label.Name))){
-                    issueUpdate.AddLabel(label);        
+                if (Labels!=null){
+                    foreach (var label in Labels.Concat(issue.Labels.Select(label => label.Name))){
+                        issueUpdate.AddLabel(label);
+                    }
+                }
+
+                if (RemoveLabels != null){
+                    foreach (var label in RemoveLabels){
+                        issueUpdate.RemoveLabel(label);
+                    }
                 }
             }
             
