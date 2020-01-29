@@ -11,7 +11,7 @@ using XpandPwsh.CmdLets;
 namespace XpandPwsh.Cmdlets{
     internal static class RXExtensions{
         public static IObservable<T> StepInterval<T>(this IObservable<T> source, TimeSpan minDelay,IScheduler scheduler=null){
-            scheduler = scheduler ?? Scheduler.CurrentThread;
+            scheduler ??= Scheduler.CurrentThread;
             return source.Select(x => Observable.Empty<T>(scheduler)
                 .Delay(minDelay,scheduler)
                 .StartWith(scheduler,x)
@@ -27,13 +27,13 @@ namespace XpandPwsh.Cmdlets{
         }
 
         public static IObservable<TSource> HandleErrors<TSource>(this IObservable<TSource> source,XpandCmdlet cmdlet, object targetObject=null,SynchronizationContext context=null){
-            context = context ?? SynchronizationContext.Current;
+            context ??= SynchronizationContext.Current;
             return source.HandleErrors<TSource, Exception>(cmdlet, targetObject,context);
         }
 
         public static IObservable<TSource> HandleErrors<TSource,TException>(this IObservable<TSource> source, XpandCmdlet cmdlet,object targetObject,SynchronizationContext context=null) where TException:Exception{
-            context = context ?? SynchronizationContext.Current;
-            targetObject = targetObject ?? cmdlet.ActivityName;
+            context ??= SynchronizationContext.Current;
+            targetObject ??= cmdlet.ActivityName;
             return source.ObserveOn(context)
                 .Catch<TSource,TException>(exception => {
                     var errorAction = cmdlet.ErrorAction();
@@ -59,8 +59,8 @@ namespace XpandPwsh.Cmdlets{
         }
 
         public static IObservable<T> WriteVerboseObject<T>(this IObservable<T> source, Cmdlet cmdlet,Func<T,string> text=null,SynchronizationContext synchronizationContext=null){
-            synchronizationContext = synchronizationContext ?? SynchronizationContext.Current;
-            text = text ?? (arg => $"{arg.GetType().Name}{arg}");
+            synchronizationContext ??= SynchronizationContext.Current;
+            text ??= (arg => $"{arg.GetType().Name}{arg}");
             return source.ObserveOn(synchronizationContext).Select((arg1, i) => {
                 if (arg1 != null){
                     cmdlet.WriteVerbose($"{text(arg1)}");
@@ -78,11 +78,11 @@ namespace XpandPwsh.Cmdlets{
             var writeObject = source
                 .ObserveOn(SynchronizationContext.Current)
                 .Select(obj => {
-                var o = output?.Invoke(obj)??obj;
-                cmdlet.WriteObject(o, enumerateCollection);
-                return obj;
-            });
-            return progressItemsTotalCount.HasValue ? writeObject.WriteProgress((IProgressCmdlet) cmdlet, progressItemsTotalCount.Value) : writeObject;
+                    var o = output?.Invoke(obj) ?? obj;
+                    cmdlet.WriteObject(o, enumerateCollection);
+                    return obj;
+                });
+            return progressItemsTotalCount.HasValue ? writeObject.WriteProgress((IProgressCmdlet) cmdlet, progressItemsTotalCount.Value) : writeObject.DefaultIfEmpty();
         }
 
         public static IObservable<T> ToObservable<T>(this IEnumeratorAsync<T> enumeratorAsync){

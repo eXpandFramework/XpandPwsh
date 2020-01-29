@@ -36,7 +36,7 @@ namespace XpandPwsh.Cmdlets.GitHub.GetGitHubIssue{
                     return IssueNumber > 0
                         ? GitHubClient.Issue.Get(repository.Id, IssueNumber).ToObservable()
                         : GitHubClient.Issue.GetAllForRepository(repository.Id,
-                            repositoryIssueRequest).ToObservable().SelectMany(list => list).DefaultIfEmpty();
+                            repositoryIssueRequest).ToObservable().SelectMany(list => list);
                 })
                 .WriteObject(this)
                 .ToTask();
