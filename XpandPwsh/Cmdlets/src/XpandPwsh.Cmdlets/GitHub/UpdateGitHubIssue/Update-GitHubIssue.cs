@@ -20,7 +20,7 @@ namespace XpandPwsh.Cmdlets.GitHub.UpdateGitHubIssue{
         [Parameter]
         public ItemState? State{ get; set; }
         [Parameter]
-        public string[] Labels{ get; set; }[Parameter]
+        public string[] Labels{ get; set; }
         [Parameter]
         public string[] RemoveLabels{ get; set; }
 
