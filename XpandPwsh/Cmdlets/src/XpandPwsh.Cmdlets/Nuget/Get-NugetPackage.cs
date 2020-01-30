@@ -11,28 +11,28 @@ using System.Threading.Tasks;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;
-using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using XpandPwsh.CmdLets;
 
 namespace XpandPwsh.Cmdlets.Nuget{
     [Cmdlet(VerbsCommon.Get, "NugetPackage")]
-    [OutputType(typeof(INugetPackageAssembly))]
     [CmdletBinding]
     public class GetNugetPackage : NugetCmdlet{
         [Parameter(ValueFromPipeline = true,Position = 0)]
         public string Name{ get; set; }
         [Parameter( Position = 2)]
         public string Source{ get; set; }
-        [Parameter( Position = 1)]
-        public string OutputFolder{ get; set; } 
+
+        [Parameter(Position = 1)]
+        public string OutputFolder{ get; set; } = $@"{Path.GetTempPath()}\{nameof(GetNugetPackage)}";
         [Parameter]
         public SwitchParameter AllVersions{ get; set; }
         [Parameter]
         public string[] Versions{ get; set; }
         [Parameter]
         public SwitchParameter AllFiles{ get; set; }
-
+        [Parameter]
+        public NugetPackageResultType ResultType{ get; set; }
         protected override Task BeginProcessingAsync(){
             if (OutputFolder == null){
                 OutputFolder = Path.Combine(Path.GetTempPath(), Name);
@@ -46,18 +46,20 @@ namespace XpandPwsh.Cmdlets.Nuget{
 
         protected override  Task ProcessRecordAsync(){
             return GetDownloadResults()
-                .SelectMany(NugetPackageAssemblies)
+                .SelectMany(result => ResultType == NugetPackageResultType.Default ? NugetPackageAssemblies(result).ToObservable().OfType<object>()
+                        : Observable.Return(result).OfType<object>())
                 .DefaultIfEmpty()
                 .HandleErrors(this,Name??OutputFolder)
                 .WriteObject(this)
                 .ToTask();
         }
 
-        private IEnumerable<INugetPackageAssembly> NugetPackageAssemblies(DownloadResourceResult result){
+        private IEnumerable<NugetPackageAssembly> NugetPackageAssemblies(DownloadResourceResult result){
             return result.PackageReader.GetLibItems().SelectMany(group => group.Items
                     .Where(s => AllFiles || Path.GetExtension(s) == ".dll")
                     .Select(s => {
-                        var identity = result.PackageReader.NuspecReader.GetIdentity();
+                        var nuspecReader = result.PackageReader.NuspecReader;
+                        var identity = nuspecReader.GetIdentity();
                         return new NugetPackageAssembly{
                                 Package = identity.Id,
                                 Version = identity.Version.Version.ToString(),
@@ -80,11 +82,9 @@ namespace XpandPwsh.Cmdlets.Nuget{
                 .Select(resource => (resource, sourceRepository))
                 .Replay().RefCount();
             return packageSourceSearchMetadatas
-                .SelectMany(metadata => {
-                    return downloads.FirstAsync(tuple => tuple.Item2.PackageSource.Source == Source)
-                        .SelectMany(tuple => tuple.Item1.GetDownloadResourceResultAsync(metadata.Identity,
-                            downloadContext, OutputFolder, NullLogger.Instance, CancellationToken.None));
-                })
+                .SelectMany(metadata => downloads.FirstAsync(tuple => tuple.sourceRepository.PackageSource.Source == Source)
+                    .SelectMany(tuple => tuple.resource.GetDownloadResourceResultAsync(metadata.Identity,
+                        downloadContext, OutputFolder, NullLogger.Instance, CancellationToken.None)))
                 .Where(result => result.Status == DownloadResourceResultStatus.Available)
                 .HandleErrors(this, Name);        }
 
@@ -110,6 +110,11 @@ namespace XpandPwsh.Cmdlets.Nuget{
             var sourceSearchMetadatas = this.Invoke<IPackageSearchMetadata>(script);
             return sourceSearchMetadatas;
         }
+    }
+
+    public enum NugetPackageResultType{
+        Default,
+        DownloadResults,
     }
 
     public class NugetPackageAssembly:INugetPackageAssembly{
