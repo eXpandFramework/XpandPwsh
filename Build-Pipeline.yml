@@ -1,6 +1,6 @@
 # https://aka.ms/yaml
 variables:
-  - group: Keys3
+  - group: Keys
 trigger: 
    branches:
      include:
