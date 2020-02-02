@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.6.1'
+ModuleVersion = '1.201.7.2'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -227,6 +227,7 @@ FunctionsToExport = @(
 "UnPublish-NugetPackage",
 "Update-AssemblyInfo",
 "Update-AssemblyInfoVersion",
+"Update-AzBuild",
 "Update-GitHubIssue",
 "Update-HintPath",
 "Update-NugetPackage",

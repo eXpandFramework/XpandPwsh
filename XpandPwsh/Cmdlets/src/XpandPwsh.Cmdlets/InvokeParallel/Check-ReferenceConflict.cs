@@ -10,7 +10,7 @@ namespace XpandPwsh.Cmdlets.InvokeParallel{
     [CmdletBinding]
     public class GetReferenceConflict : PSCmdlet{
         [Parameter]
-        public string Path{ get; set; } 
+        public string Path{ get; set; } = Environment.CurrentDirectory;
 
         [Parameter]
         public string Filter{ get; set; } = "*";
@@ -18,8 +18,6 @@ namespace XpandPwsh.Cmdlets.InvokeParallel{
         public  SwitchParameter Recurse{ get; set; }
         protected override void ProcessRecord(){
             base.ProcessRecord();
-            if (Path == null) Path = Environment.CurrentDirectory;
-            
             var multipleVersions = GetReferencedAssembliesWithMultipleVersions(Path).ToArray();
             var pairs = multipleVersions.Select(tuples => new{
                 tuples.Key, Conflicts = tuples.Select(tuple => new{Assembly = tuple.assembly, Reference = tuple.referenceASsembly})
