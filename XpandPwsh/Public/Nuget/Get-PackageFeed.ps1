@@ -2,7 +2,9 @@ function Get-PackageFeed {
     param(
         [switch]$Xpand,
         [switch]$Nuget,
-        [switch]$GitHubLab
+        [switch]$GitHubLab,
+        [ValidateSet("Xpand","Nuget","Lab","Release")]
+        [string]$FeedName
     )
     if ($Xpand){
         "https://xpandnugetserver.azurewebsites.net/nuget"
@@ -12,5 +14,17 @@ function Get-PackageFeed {
     }
     if ($GitHubLab){
         "https://nuget.pkg.github.com/eXpandFramework/index.json"
+    }
+    if ($FeedName){
+        if ($FeedName -eq "lab"){
+            $fname="Xpand"
+        }
+        if ($FeedName -eq "Release"){
+            $fname="Nuget"
+        }
+        $a = @{
+            $fname = $true
+        }
+        Get-PackageFeed @a
     }
 }
