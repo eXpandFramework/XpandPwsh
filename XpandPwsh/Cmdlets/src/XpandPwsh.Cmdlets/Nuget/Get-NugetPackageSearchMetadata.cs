@@ -27,10 +27,13 @@ namespace XpandPwsh.Cmdlets.Nuget{
 
         [Parameter]
         public string[] Versions{ get; set; }
+        [Parameter]
+        public SwitchParameter IncludeDelisted{ get; set; }
 
 
         protected override async Task ProcessRecordAsync(){
-            var listPackages = Name != null ? Observable.Return(Name):Providers.ListPackages(Source).ToPackageObject().Select(_ => _.Id);
+            var listPackages = Name != null ? Observable.Return(Name)
+                : Providers.ListPackages(Source, includeDelisted: IncludeDelisted.IsPresent).ToPackageObject().Select(_ => _.Id);
             var metaData = listPackages
                 .SelectMany(package => SelectPackages(package, Providers))
                 .Where(metadata => metadata!=null)

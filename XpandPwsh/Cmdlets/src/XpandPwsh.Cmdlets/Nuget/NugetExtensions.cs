@@ -41,11 +41,11 @@ namespace XpandPwsh.Cmdlets.Nuget{
             return source.Select(metadata => (metadata.Identity.Id, metadata.Identity.Version.Version));
         }
 
-        public static IObservable<IPackageSearchMetadata> ListPackages(this List<Lazy<INuGetResourceProvider>> providers, string source,string searchTerm=null){
+        public static IObservable<IPackageSearchMetadata> ListPackages(this List<Lazy<INuGetResourceProvider>> providers, string source,string searchTerm=null,bool includeDelisted=false){
             var sourceRepository = new SourceRepository(new PackageSource(source), providers);
             return sourceRepository.GetResourceAsync<ListResource>().ToObservable()
                 .Select(resource =>
-                    resource.ListAsync(searchTerm, false, false, false, NullLogger.Instance, CancellationToken.None)
+                    resource.ListAsync(searchTerm, false, false, includeDelisted, NullLogger.Instance, CancellationToken.None)
                         .ToObservable()).Concat()
                 .Select(async => async.GetEnumeratorAsync().ToObservable()).Concat()
                 .Where(metadata => metadata != null);
