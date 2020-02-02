@@ -17,7 +17,9 @@ function Get-NugetPackageDependencies {
             
             (Get-packageSource).Name|where-object{$_ -like "$wordToComplete*"}
         })]
-        [string]$Source=(get-feed -Nuget)
+        [string]$Source=(get-feed -Nuget),
+        [string]$Filter="*",
+        [switch]$Recurse
     )
     
     begin {
@@ -27,6 +29,7 @@ function Get-NugetPackageDependencies {
     }
     
     process {
+        $packageChecked=@($id)
         $a=@{
             Name=$Id
             Source=$Source
@@ -38,7 +41,24 @@ function Get-NugetPackageDependencies {
         elseif ($AllVersion){
             $a.Add("AllVersions",$AllVersions)
         }
-        (Get-NugetPackageSearchMetadata @a).DependencySets.Packages
+        
+        $deps=(Get-NugetPackageSearchMetadata @a).DependencySets.Packages|Get-Unique|Where-Object{$_.id -like $Filter}
+        $allDeps=$deps
+        if ($Recurse){
+            while ($deps) {
+                $deps=$deps|ForEach-Object{
+                    if ($_.id -notin $packageChecked){
+                        $a.Name=$_.Id
+                        (Get-NugetPackageSearchMetadata @a).DependencySets.Packages|Get-Unique|Where-Object{$_.id -like $Filter}
+                        $packageChecked+=$a.Name
+                    }
+                    
+                }
+                $allDeps+=$deps
+            }
+        }
+        
+        $allDeps|Sort-Object Id -Unique
     }
     
     end {
