@@ -15,7 +15,6 @@ function Invoke-PaketShowInstalled {
     process {
         (Get-PaketDependenciesPath -strict) | ForEach-Object {
             $depsFile = $_
-            Write-Host "DependencyFile: $($depsFile.FullName)" -f Blue
             $xtraArgs = @( );
             if (!$OnlyDirect) {
                 $xtraArgs += "--all"
