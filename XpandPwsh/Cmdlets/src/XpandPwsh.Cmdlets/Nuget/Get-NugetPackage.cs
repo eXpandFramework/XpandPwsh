@@ -44,10 +44,24 @@ namespace XpandPwsh.Cmdlets.Nuget{
             return base.BeginProcessingAsync();
         }
 
-        protected override  Task ProcessRecordAsync(){
+        protected override Task ProcessRecordAsync(){
             return GetDownloadResults()
-                .SelectMany(result => ResultType == NugetPackageResultType.Default ? NugetPackageAssemblies(result).ToObservable().OfType<object>()
-                        : Observable.Return(result).OfType<object>())
+                .SelectMany(result => {
+                    switch (ResultType){
+                        case NugetPackageResultType.Default:
+                            return NugetPackageAssemblies(result).ToObservable().OfType<object>();
+                        case NugetPackageResultType.DownloadResults:
+                            return Observable.Return(result).OfType<object>();
+                        case NugetPackageResultType.NuSpecFile:
+                            return Observable.Return(new FileInfo(result.PackageReader.GetNuspecFile()));
+                        case NugetPackageResultType.NupkgFile:{
+                            var directoryName = $"{Path.GetDirectoryName(result.PackageReader.GetNuspecFile())}";
+                            return Observable.Return(Directory.GetFiles(directoryName,"*.nupkg",SearchOption.TopDirectoryOnly).First());
+                        }
+                    }
+
+                    return Observable.Throw<object>(new NotImplementedException(ResultType.ToString()));
+                })
                 .DefaultIfEmpty()
                 .HandleErrors(this,Name??OutputFolder)
                 .WriteObject(this)
@@ -71,6 +85,9 @@ namespace XpandPwsh.Cmdlets.Nuget{
 
         private IObservable<DownloadResourceResult> GetDownloadResults(){
             var sourceSearchMetadatas = PackageSourceSearchMetadatas();
+            if (!sourceSearchMetadatas.Any()){
+                return Observable.Empty<DownloadResourceResult>();
+            }
             var packageSourceSearchMetadatas = sourceSearchMetadatas.ToObservable().Replay().RefCount();
             var downloadContext = new PackageDownloadContext(new SourceCacheContext());
             var providers = new List<Lazy<INuGetResourceProvider>>();
@@ -106,7 +123,7 @@ namespace XpandPwsh.Cmdlets.Nuget{
             }
 
             var cmdletName = CmdletExtensions.GetCmdletName<GetNugetPackageSearchMetadata>();
-            var script = $"{cmdletName} {sources} {allVersions} {name} {versions}";
+            var script = $"{cmdletName} {sources} {allVersions} {name} {versions} -{nameof(GetNugetPackageSearchMetadata.IncludeDelisted)}";
             var sourceSearchMetadatas = this.Invoke<IPackageSearchMetadata>(script);
             return sourceSearchMetadatas;
         }
@@ -115,6 +132,8 @@ namespace XpandPwsh.Cmdlets.Nuget{
     public enum NugetPackageResultType{
         Default,
         DownloadResults,
+        NuSpecFile,
+        NupkgFile
     }
 
     public class NugetPackageAssembly:INugetPackageAssembly{
