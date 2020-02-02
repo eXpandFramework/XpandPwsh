@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.5.13'
+ModuleVersion = '1.201.6.1'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -245,6 +245,7 @@ FunctionsToExport = @(
 "Use-MonoCecil",
 "Use-NugetAssembly",
 "Use-Object",
+"Wait-Task",
 "Write-HostFormatted"
 )
 
