@@ -3,9 +3,8 @@ function Get-VersionPart {
     param (
         [parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [version]$Version,
-        [parameter(Mandatory)]
-        [ValidateSet("Build")]
-        [string]$Part
+        [ValidateSet("Build","Minor")]
+        [string]$Part="Build"
     )
     
     begin {
@@ -13,7 +12,14 @@ function Get-VersionPart {
     }
     
     process {
-        
+        $v=$Version.Major.ToString()        
+        $v+="."
+        $v+=$Version.Minor
+        if ($Part -eq "Build"){
+            $v+="."
+            $v+=$Version.Build
+        }
+        $v
     }
     
     end {
