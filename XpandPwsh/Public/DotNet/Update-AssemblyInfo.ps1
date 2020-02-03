@@ -15,8 +15,12 @@ function Update-AssemblyInfo() {
         $value = [System.text.RegularExpressions.Regex]::Match($c, "[\d]*\.[\d]*\.[\d]*(\.[\d]*)?").Value
         $version = New-Object System.Version ($value)
         $newBuild = $version.Build 
+        $newRevision=$version.Revision
         if ($Build){
             $newBuild=$version.Build + 1
+            if (!$Revision.IsPresent){
+                $newRevision=0
+            }
         }
         $newMinor = $version.Minor 
         if ($Minor){
@@ -25,7 +29,7 @@ function Update-AssemblyInfo() {
                 $newBuild=0
             }
         }
-        $newRevision=$version.Revision
+        
         if ($Revision){
             $newRevision+=1
         }
