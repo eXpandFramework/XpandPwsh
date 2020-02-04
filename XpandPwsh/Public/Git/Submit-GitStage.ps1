@@ -11,7 +11,7 @@ function Submit-GitStage($message) {
             $message="minor update"
             $a+="--amend"
         }
-        git commit -m $message --amend
+        git commit -m $message 
     }else{
         Write-Warning "Git stage is empty" 
     }
