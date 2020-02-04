@@ -3,6 +3,7 @@ using System.Management.Automation;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
+using MoreLinq.Extensions;
 using Octokit;
 using XpandPwsh.CmdLets;
 
@@ -39,8 +40,11 @@ namespace XpandPwsh.Cmdlets.GitHub.UpdateGitHubIssue{
             if (Labels != null||RemoveLabels!=null){
                 var issue = await GitHubClient.Repository.GetForOrg(Organization, Repository)
                     .SelectMany(_ => GitHubClient.Issue.Get(_.Id, IssueNumber));
+                foreach (var label in issue.Labels.Select(label => label.Name.ToLower()).Except(RemoveLabels.Select(s => s.ToLower()))){
+                    issueUpdate.AddLabel(label);
+                }
                 if (Labels!=null){
-                    foreach (var label in Labels.Concat(issue.Labels.Select(label => label.Name))){
+                    foreach (var label in Labels){
                         issueUpdate.AddLabel(label);
                     }
                 }
