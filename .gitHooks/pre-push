@@ -1,4 +1,4 @@
 #!/bin/sh
 
-pwsh $PWD/.GitHooks/UpdateReadMe.ps1
-pwsh $PWD/.GitHooks/UpdateVersion.ps1
+# pwsh $PWD/.GitHooks/UpdateReadMe.ps1
+# pwsh $PWD/.GitHooks/UpdateVersion.ps1
