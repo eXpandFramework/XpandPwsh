@@ -7,7 +7,7 @@ function Get-AssemblyMetadata{
     )
     
     begin {
-        
+        Use-MonoCecil|Out-Null        
     }
     
     process {
