@@ -4,11 +4,11 @@ function Read-AssemblyDefinition {
     param (
         [parameter(ValueFromPipeline)]
         [string]$Path,
-        [System.IO.FileInfo[]]$AssemblyList
+        [System.IO.FileInfo[]]$AssemblyList=@()
     )
     
     begin {
-        
+        Use-MonoCecil
     }
     
     process {
