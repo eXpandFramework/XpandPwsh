@@ -29,7 +29,7 @@ function Get-XpandNugetPackageDependencies {
             
                 (Get-PackageSource).Name | Where-Object { $_ -like "$wordToComplete*" }
             })]
-        [string]$Source = (Get-Feed -Nuget)        
+        [string]$Source = (Get-PackageFeed -Nuget)        
     )
     
     begin {
