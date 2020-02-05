@@ -17,7 +17,7 @@ function Get-NugetPackageDependencies {
             
             (Get-packageSource).Name|where-object{$_ -like "$wordToComplete*"}
         })]
-        [string]$Source=(get-feed -Nuget),
+        [string]$Source=(Get-PackageFeed -Nuget),
         [string]$Filter="*",
         [switch]$Recurse
     )
