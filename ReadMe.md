@@ -1,6 +1,6 @@
 [![Build Status](https://dev.azure.com/eXpandDevOps/eXpandFramework/_apis/build/status/XpandPwsh?branchName=master)](https://dev.azure.com/eXpandDevOps/eXpandFramework/_build/latest?definitionId=45&branchName=master) [![](https://img.shields.io/powershellgallery/v/XpandPwsh.svg?style=flat)](https://www.powershellgallery.com/packages/XpandPwsh) [![](https://img.shields.io/powershellgallery/dt/XpandPwsh.svg?style=flat)](https://www.powershellgallery.com/packages/XpandPwsh)
 # About
-The module exports 174 Cmdlets that can help you automate your every day tasks. The module is used in production from the eXpandFramework [build scripts](https://github.com/eXpandFramework/eXpand/blob/master/Support/Build/Build.ps1) and [Azure Tasks](https://github.com/eXpandFramework/Azure-Tasks).
+The module exports **189 Cmdlets** that can help you automate your every day tasks. The module is used in production from the eXpandFramework [build scripts](https://github.com/eXpandFramework/eXpand/blob/master/Support/Build/Build.ps1) and [Azure Tasks](https://github.com/eXpandFramework/Azure-Tasks).
 
 In this page you can see a list of all Cmdlets with a short description. For details and real world examples search the [Wiki](https://github.com/eXpandFramework/XpandPwsh/wiki).
 ## Installation
@@ -11,7 +11,11 @@ Install-Module XpandPwsh
 ## Exported Functions-Cmdlets
 To list the module command issue the next line into a PowerShell prompt.
 ```ps1
-Get-Command -Module XpandPwsh
+Get-XpwshCommand #alias gxcm
+```
+To display the wiki help page for a specific cmdlet from your console (tab autocompletion):
+```ps1
+Get-XPwshHelp Get-XPwshHelp #alias gxh
 ```
 |Cmdlet|Synopsis|
 |---|---|
