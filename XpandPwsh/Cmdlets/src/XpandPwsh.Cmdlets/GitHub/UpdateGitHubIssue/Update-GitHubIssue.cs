@@ -3,7 +3,6 @@ using System.Management.Automation;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
-using MoreLinq.Extensions;
 using Octokit;
 using XpandPwsh.CmdLets;
 
@@ -16,14 +15,16 @@ namespace XpandPwsh.Cmdlets.GitHub.UpdateGitHubIssue{
         public int IssueNumber{ get; set; }
         [Parameter(Mandatory = true)]
         public string Repository{ get; set; }
+
         [Parameter]
         public string MileStoneTitle{ get; set; }
+
         [Parameter]
         public ItemState? State{ get; set; }
         [Parameter]
-        public string[] Labels{ get; set; }
+        public string[] Labels{ get; set; } = new string[0];
         [Parameter]
-        public string[] RemoveLabels{ get; set; }
+        public string[] RemoveLabels{ get; set; } = new string[0];
 
         protected override async Task ProcessRecordAsync(){
             var issueUpdate = new IssueUpdate();
