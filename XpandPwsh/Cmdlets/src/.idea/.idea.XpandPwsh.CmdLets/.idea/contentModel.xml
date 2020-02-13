@@ -29,6 +29,9 @@
           <e p="GetGitHubIssueComment" t="Include">
             <e p="Get-GitHubIssueComment.cs" t="Include" />
           </e>
+          <e p="GetGitHubLabel" t="Include">
+            <e p="Get-GitHubLabel.cs" t="Include" />
+          </e>
           <e p="GetGitHubMilestone" t="Include">
             <e p="Get-GitHubMilestone.cs" t="Include" />
           </e>
