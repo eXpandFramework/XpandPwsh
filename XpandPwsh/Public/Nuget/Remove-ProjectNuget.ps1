@@ -14,9 +14,9 @@ function Remove-ProjectNuget {
             dotnet restore $path
         }
         
-        [xml]$project = Get-XmlContent $path
-        $packageReferences=Get-PackageReference $Path
+        $packageReferences=Get-PackageReference $Path 
         if ($packageReferences) {
+            $project=($packageReferences|Select-Object -First 1).OwnerDocument
             $refNode = ($project.Project.ItemGroup.Reference | Select-Object -First 1).ParentNode
             $packageReferences | Where-Object { $_.Include -match "$id" } | ForEach-Object {
                 if (!$_.Paket){
@@ -29,20 +29,17 @@ function Remove-ProjectNuget {
                     (Get-Content $paketRefPath|Where-Object{$_ -ne $packageId})|Out-File $paketRefPath
                 }
                 $targetFramework = $project | Get-ProjectTargetFramework
+                
                 FindLibraries $_.Include $_.Version $targetFramework | ForEach-Object {
-                    $r = $project.CreateElement("Reference")
-                    $r.SetAttribute("Include", $_)
-                    $h = $project.CreateElement("HintPath")    
-                    $h.InnerText = "$nugetAssembliesBin\$_.dll"
-                    $r.AppendChild($h)
-                    $refNode.AppendChild($r)
+                    Add-ProjectReference $project $_ "$nugetAssembliesBin\$_.dll"
                 }
                 
                 $project.Save($path)
             }
         }
         else {
-            $project.Project.ItemGroup.Reference | Where-Object { $_.Include -match "$id" } | ForEach-Object {
+            [xml]$p=Get-XmlContent $path
+            $p.Project.ItemGroup.Reference | Where-Object { $_.Include -match "$id" } | ForEach-Object {
                 $fileName = [System.IO.Path]::GetFileName($_.Hintpath)
                 $hintPath = "$nugetAssembliesBin\$fileName"
                 if (!(Test-Path $hintPath)) {
@@ -50,7 +47,7 @@ function Remove-ProjectNuget {
                 }
                 $_.Hintpath = $hintPath
             }
-            $project.Save($path)
+            $p.Save($path)
         }
         
     } 
