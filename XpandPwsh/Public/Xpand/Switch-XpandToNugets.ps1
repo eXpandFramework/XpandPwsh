@@ -1,10 +1,10 @@
 function Switch-XpandToNugets {
     [CmdletBinding()]
     param (
-        [parameter(Mandatory)]
-        [string]$Path,
-        [parameter(Mandatory)]
-        [string]$PackageSource
+        [parameter()]
+        [string]$Path=".",
+        [parameter()]
+        [string]$PackageSource=(Get-PackageFeed -Nuget)
     )
     
     begin {
@@ -12,7 +12,7 @@ function Switch-XpandToNugets {
     }
     
     process {
-        $pObjects = (& (Get-NugetPath) list -source $PackageSource | ConvertTo-PackageObject | Where-Object { $_.id -like "*Xpand*" } )
+        $pObjects = Get-XpandPackages -Source Lab|Where-Object{$_.id -like "*xpand*"}
         $packages = $pObjects | Invoke-Parallel -VariablesToImport "PackageSource" -Script { 
         # $packages = $pObjects | foreach { 
             $downloadResult=(Get-NugetPackage  -Name $_.id -ResultType DownloadResults -Source $PackageSource )
