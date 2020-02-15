@@ -9,7 +9,8 @@ function Get-XmlContent {
     }
     
     process {
-        ( Select-Xml -Path $FilePath -XPath / ).Node
+        $ns=([xml](Get-Content $FilePath)).DocumentElement.NamespaceURI
+        ( Select-Xml -Path $FilePath -XPath / -Namespace @{mse=$ns}).Node
     }
     
     end {
