@@ -30,7 +30,7 @@ class AssemblyResolver : DefaultAssemblyResolver{
             if (!$assembly){
                 throw "Cannot resolve $assemblyName.dll"
             }
-            $definition=Read-AssemblyDefinition $assembly
+            $definition=Read-AssemblyDefinition $assembly $this.assemblies 
             $this.resolvedDefinitions+=$definition
             return $definition
         }

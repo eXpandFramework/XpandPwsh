@@ -8,7 +8,7 @@ function Read-AssemblyDefinition {
     )
     
     begin {
-        Use-MonoCecil
+        Use-MonoCecil|Out-Null
     }
     
     process {
