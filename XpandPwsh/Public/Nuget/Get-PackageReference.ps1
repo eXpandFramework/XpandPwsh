@@ -7,7 +7,7 @@ function Get-PackageReference {
     )
     
         
-    [xml]$Proj = Get-Content $Path
+    [xml]$Proj = Get-XmlContent $Path
     $packageReferences = $Proj.project.ItemGroup.PackageReference | Where-Object { $_ } | Where-Object {
         !$PrivateAssets -or !$_.PrivateAssets
     }
