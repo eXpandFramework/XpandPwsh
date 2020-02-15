@@ -15,9 +15,18 @@ function Add-ProjectReference {
     }
     
     process {
-        Add-XmlElement $Owner "ItemGroup" "Reference"  ([ordered]@{
-            Include    = $Include
-        })
+        $nsUri=$Owner.DocumentElement.NamespaceURI
+        $r = $Owner.CreateElement("Reference",$nsUri)
+        $r.SetAttribute("Include", $Include)
+        if ($HintPath){
+            $h = $Owner.CreateElement("HintPath",$nsUri)    
+            $h.InnerText = $HintPath.Replace("\\","\")
+            $r.AppendChild($h)|out-null
+        }
+        $ns = New-Object System.Xml.XmlNamespaceManager($Owner.NameTable)
+        $ns.AddNamespace("ns", $nsUri)
+        $refNode = $Owner.SelectSingleNode("//ns:Reference", $ns).ParentNode
+        $refNode.AppendChild($r)|out-null
     }
     
     end {
