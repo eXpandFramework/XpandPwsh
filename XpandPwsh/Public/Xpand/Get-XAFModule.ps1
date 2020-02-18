@@ -3,7 +3,7 @@ function Get-XAFModule {
     param (
         [parameter(ValueFromPipeline)]
         [string]$Path = ".",
-        [System.IO.FileInfo[]]$AssemblyList=@(),
+        [System.IO.FileInfo[]]$AssemblyList=(Get-ChildItem $Path *.dll),
         [string[]]$Include = @("DevExpress.Express*.dll", "Xpand.XAF.Modules*.dll", "Xpand.ExpressApp*.dll"),
         [string[]]$Exclude=@("*Tests*")
     )
