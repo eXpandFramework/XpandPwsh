@@ -6,7 +6,8 @@ function Remove-ProjectNuget {
         [parameter(Mandatory)]
         [string]$nugetAssembliesBin,
         [string]$ProjectFilter = "*",
-        [switch]$SkipRestore
+        [switch]$SkipRestore,
+        [string]$ExcludeRegex
     )
     Get-ChildItem $projectPath "$ProjectFilter.csproj" -Recurse | ForEach-Object { 
         $path = $_.FullName
@@ -14,10 +15,12 @@ function Remove-ProjectNuget {
             dotnet restore $path
         }
         
-        $packageReferences=Get-PackageReference $Path 
+        $packageReferences=Get-PackageReference $Path |Where-Object{!$ExcludeRegex -or $_.Include -notmatch $ExcludeRegex}
         if ($packageReferences) {
             $project=($packageReferences|Select-Object -First 1).OwnerDocument
-            $refNode = ($project.Project.ItemGroup.Reference | Select-Object -First 1).ParentNode
+            if (!$project){
+                [xml]$project=Get-Content $_.FullName
+            }
             $packageReferences | Where-Object { $_.Include -match "$id" } | ForEach-Object {
                 if (!$_.Paket){
                     $_.ParentNode.RemoveChild($_)
