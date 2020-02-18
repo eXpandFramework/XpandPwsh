@@ -23,6 +23,9 @@ function Add-ProjectReference {
             $h.InnerText = $HintPath.Replace("\\","\")
             $r.AppendChild($h)|out-null
         }
+        $s = $Owner.CreateElement("SpecificVersion",$nsUri)    
+        $s.InnerText = $SpecificVersion.IsPresent.ToString()
+        $r.AppendChild($s)|out-null
         $ns = New-Object System.Xml.XmlNamespaceManager($Owner.NameTable)
         $ns.AddNamespace("ns", $nsUri)
         $refNode = $Owner.SelectSingleNode("//ns:Reference", $ns).ParentNode
