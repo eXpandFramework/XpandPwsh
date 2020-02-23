@@ -28,7 +28,7 @@ function Invoke-PaketUpdate {
             Push-Location $_.DirectoryName
             $installed=Invoke-PaketShowInstalled |Where-Object{$_.Id -eq $ID}
             if ($installed -and $Version){
-                if (([version]$installed.Version) -lt ([version]$Version)){
+                if (([version]$installed.Version) -ne ([version]$Version)){
                     "$ID $($installed.Version) found, updating to $Version"
                     $regex = [regex] "(?n)nuget (?<id>$ID)(?<op> [^\d]*)(?<version>\d*\.\d*\.\d*[^ \r\n]*)"
                     $depsContent=Get-Content $_ -Raw
