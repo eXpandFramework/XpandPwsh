@@ -4,7 +4,7 @@ function Get-XpandPackages {
         [parameter()]
         [ValidateSet("Release", "Lab")]
         $Source,
-        [ValidateSet("All", "eXpand", "XAFModules","XAFAll")]
+        [ValidateSet("All", "eXpand", "XAFModules","XAFAll","XAFExtensions")]
         $PackageType = "All"
     )
     
@@ -20,6 +20,9 @@ function Get-XpandPackages {
         }
         elseif ($PackageType -eq "XAFModules") {
             $Filter = {$_.Id -like "Xpand.XAF.Modules*"}
+        }
+        elseif ($PackageType -eq "XAFExtensions") {
+            $Filter = {$_.Id -like "Xpand.Extensions*"}
         }
         elseif ($PackageType -eq "XAFAll") {
             $Filter = {
