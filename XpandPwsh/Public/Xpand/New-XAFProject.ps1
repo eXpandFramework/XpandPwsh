@@ -46,16 +46,39 @@ function New-XAFProject {
             New-Item $Name -ItemType Directory
             Set-Location $Name 
         }
-        if (!$Source){
-            throw "Source is not set, consider also `$env:dxfeed"
+        
+        if (!$Packages|Select-String "DevExpree.ExpressApp.Core.All"){
+            $Packages+=@("DevExpress.ExpressApp")
+            
         }
-        $Packages+=@("DevExpress.ExpressApp","System.Configuration.Abstractions")
+        $Packages+=@("System.Configuration.Abstractions")
 
         if ($Type -eq "Application"){
             $Platform="Win"
             $Packages+=@("DevExpress.ExpressApp.$Platform","DevExpress.Persistent.BaseImpl")
+            $Packages=$Packages|ForEach-Object{
+                if ($_ -eq "All"){
+                    "DevExpress.ExpressApp.Win.All"
+                }
+                else{
+                    $_
+                }
+            }|Sort-Object -Unique
         }
-        
+        $Packages=$Packages|ForEach-Object{
+            if ($_ -eq "All"){
+                "DevExpress.ExpressApp.Core.All"
+            }
+            elseif ($_ -eq "All.Win"){
+                "DevExpress.ExpressApp.Win.All"
+            }
+            elseif ($_ -eq "All.Web"){
+                "DevExpress.ExpressApp.Web.All"
+            }
+            else{
+                $_
+            }
+        }
     }
     
     process {
@@ -70,11 +93,16 @@ function New-XAFProject {
             $startupObject="<StartupObject>$solutionName.Win.Program</StartupObject>"
             
             Get-ChildItem "$(Get-XpandPwshDirectoryName)\private\New-XafProject"|Copy-Item -Destination . -Force
-            Get-ChildItem|where{$_ -like "*.cs" -or $_ -like "*.config"} |ForEach-Object{
+            Get-ChildItem|Where-Object{$_ -like "*.cs" -or $_ -like "*.config"} |ForEach-Object{
                 $c=Get-Content $_ -Raw
                 $c=$c.Replace("`$SolutionName",$solutionName)
                 Set-Content $_ $c
             }
+            $systemReferences=@"
+    <ItemGroup>
+        <Reference Include="System.Windows.Forms" />
+    </ItemGroup>
+"@
         }
         
         
@@ -85,6 +113,7 @@ function New-XAFProject {
     <OutputType>$outputType</OutputType>
     $startupObject
     </PropertyGroup>
+$systemReferences
 </Project>
 "@
 
