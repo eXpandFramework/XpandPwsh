@@ -8,7 +8,10 @@ function Switch-DevExpress {
         
     )
     $dxPath = Get-DevExpressPath -ErrorAction SilentlyContinue
-    if (!$dxNugetPackagesPath) {
+    if (!$dxPath -and !$dxNugetPackagesPath){
+        throw "XAF installation not found in this system, please provide a value for the dxNugetPackagesPath parametr"
+    }
+    if (!$dxNugetPackagesPath -and $dxPath) {
         [hashtable]$dxNugetPackagesPath = $dxPath | ForEach-Object { 
             [PSCustomObject]@{
                 Name = $_.Name
