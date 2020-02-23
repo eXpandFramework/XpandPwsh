@@ -25,18 +25,21 @@ function Invoke-PaketUpdate {
                 $xtraArgs += "--force"
             }
             Write-Host "Paket Update at $($_.DirectoryName)" -f Blue
-            Push-Location $dir
+            Push-Location $_.DirectoryName
             $installed=Invoke-PaketShowInstalled |Where-Object{$_.Id -eq $ID}
             if ($installed -and $Version){
-                "$ID $($installed.Version) found, updating to $Version"
-                $regex = [regex] "(?n)nuget (?<id>$ID)(?<op> [^\d]*)(?<version>\d*\.\d*\.\d*[^ \r\n]*)"
-                $depsContent=Get-Content $_ -Raw
-                $result = $regex.Replace($depsContent, "nuget `${id}`${op}$Version")
-                if (!$regex.IsMatch($depsContent)){
-                    $regex = [regex] "(?n)nuget (?<id>$ID)"
-                    $result = $regex.Replace($depsContent, "nuget `${id} $Version")
+                if (([version]$installed.Version) -lt ([version]$Version)){
+                    "$ID $($installed.Version) found, updating to $Version"
+                    $regex = [regex] "(?n)nuget (?<id>$ID)(?<op> [^\d]*)(?<version>\d*\.\d*\.\d*[^ \r\n]*)"
+                    $depsContent=Get-Content $_ -Raw
+                    $result = $regex.Replace($depsContent, "nuget `${id}`${op}$Version")
+                    if (!$regex.IsMatch($depsContent)){
+                        $regex = [regex] "(?n)nuget (?<id>$ID)"
+                        $result = $regex.Replace($depsContent, "nuget `${id} $Version")
+                    }
+                    Set-Content $_ $result.Trim()
                 }
-                Set-Content $_ $result.Trim()
+                
             }
             else{
                 Invoke-Script {dotnet paket update @xtraArgs}
