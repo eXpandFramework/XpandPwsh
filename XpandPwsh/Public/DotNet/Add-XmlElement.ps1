@@ -7,7 +7,7 @@ function Add-XmlElement {
         [string]$ElementName,
         [parameter(Mandatory)]
         [string]$Parent,
-        [hashtable]$Attributes
+        [System.Collections.Specialized.OrderedDictionary]$Attributes
         
     )
     
