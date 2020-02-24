@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Management.Automation;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
@@ -36,15 +37,15 @@ namespace XpandPwsh.Cmdlets.GitHub.PublishGitHubRelease{
                 WriteVerbose("Uploading assets");
                 
                 if (Files != null){
-                    await Files.ToObservable()
+                    await Files.ToObservable(ImmediateScheduler.Instance)
                         .Do(file => WriteVerbose($"Uploading {file}"))
-                        .SelectMany(file => Observable.Using(() => File.OpenRead(file), stream => {
+                        .Select(file => Observable.Using(() => File.OpenRead(file), stream => {
                             var fileName = Path.GetFileName(file);
                             var releaseAssetUpload = new ReleaseAssetUpload() {
                                 FileName = fileName, ContentType = MimeSharp.Mime.Lookup(fileName), RawData = stream
                             };
-                            return repositoriesClient.Release.UploadAsset(release, releaseAssetUpload).ToObservable();
-                        }));
+                            return Observable.FromAsync(() => repositoriesClient.Release.UploadAsset(release, releaseAssetUpload));
+                        })).Concat();
                 }
                 WriteObject(release);
                 
