@@ -20,6 +20,18 @@ function New-XAFProject {
         [string]$Name,
         [ValidateSet("Module","Application")]
         [string]$Type="Application",
+        [ArgumentCompleter({
+            [OutputType([System.Management.Automation.CompletionResult])]  # zero to many
+            param(
+                [string] $CommandName,
+                [string] $ParameterName,
+                [string] $WordToComplete,
+                [System.Management.Automation.Language.CommandAst] $CommandAst,
+                [System.Collections.IDictionary] $FakeBoundParameters
+            )
+            
+            (Get-PackageSource).name|where-object{$_ -like "$WordToComplete*"}
+        })]
         [string[]]$Source=(Get-PackageSourceLocations),
         [ArgumentCompleter({
             [OutputType([System.Management.Automation.CompletionResult])]  # zero to many
@@ -46,7 +58,17 @@ function New-XAFProject {
             New-Item $Name -ItemType Directory
             Set-Location $Name 
         }
-        
+        $systemSources=Get-packageSource
+        $Source=$Source|ForEach-Object{
+            $s=$_
+            $systemSource=$systemSources|Where-Object{$_.Name -eq $s}
+            if ($systemSource){
+                $systemSource.location
+            }
+            else{
+                $s
+            }
+        }
         if (!$Packages|Select-String "DevExpree.ExpressApp.Core.All"){
             $Packages+=@("DevExpress.ExpressApp")
             
