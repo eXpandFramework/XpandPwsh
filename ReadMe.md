@@ -1,6 +1,6 @@
 [![Build Status](https://dev.azure.com/eXpandDevOps/eXpandFramework/_apis/build/status/XpandPwsh?branchName=master)](https://dev.azure.com/eXpandDevOps/eXpandFramework/_build/latest?definitionId=45&branchName=master) [![](https://img.shields.io/powershellgallery/v/XpandPwsh.svg?style=flat)](https://www.powershellgallery.com/packages/XpandPwsh) [![](https://img.shields.io/powershellgallery/dt/XpandPwsh.svg?style=flat)](https://www.powershellgallery.com/packages/XpandPwsh)
 # About
-The module exports **192 Cmdlets** that can help you automate your every day tasks. The module is used in production from the eXpandFramework [build scripts](https://github.com/eXpandFramework/eXpand/blob/master/Support/Build/Build.ps1) and [Azure Tasks](https://github.com/eXpandFramework/Azure-Tasks).
+The module exports **194 Cmdlets** that can help you automate your every day tasks. The module is used in production from the eXpandFramework [build scripts](https://github.com/eXpandFramework/eXpand/blob/master/Support/Build/Build.ps1) and [Azure Tasks](https://github.com/eXpandFramework/Azure-Tasks).
 
 In this page you can see a list of all Cmdlets with a short description. For details and real world examples search the [Wiki](https://github.com/eXpandFramework/XpandPwsh/wiki).
 ## Installation
@@ -72,9 +72,11 @@ Get-XPwshHelp Get-XPwshHelp #alias gxh
 |[Get-DotNetTool](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-DotNetTool)|Lists DotNet tools.|
 |[Get-DotNetVersion](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-DotNetVersion)|Lists installed DotNet versions.|
 |[Get-DxNugets](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-DxNugets)|Lists all assemblies in a DevExpress Nuget package.|
+|[Get-GitHubClient](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-GitHubClient)|{{ Fill in the Synopsis }}|
 |[Get-GitHubCommitIssue](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-GitHubCommitIssue)|Lists all GitHub issues that related to a commit.|
 |[Get-GitHubIssue](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-GitHubIssue)|List Github issues for a repository.|
 |[Get-GitHubIssueComment](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-GitHubIssueComment)|Returns the comments of a GitHub Issue.|
+|[Get-GitHubIssueEvents](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-GitHubIssueEvents)|{{ Fill in the Synopsis }}|
 |[Get-GitHubLabel](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-GitHubLabel)|Lists GitHub repository labels.|
 |[Get-GitHubMilestone](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-GitHubMilestone)|Returns github repository milestones.|
 |[Get-GitHubRelease](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-GitHubRelease)|Returns github repository releases.|
@@ -163,7 +165,7 @@ Get-XPwshHelp Get-XPwshHelp #alias gxh
 |[Resolve-AssemblyDependencies](https://github.com/eXpandFramework/XpandPwsh/wiki/Resolve-AssemblyDependencies)|Resolve all referenced assemblies for a given assembly, reclusively.|
 |[Set-VsoVariable](https://github.com/eXpandFramework/XpandPwsh/wiki/Set-VsoVariable)|{{ Fill in the Synopsis }}|
 |[Start-SelfElevate](https://github.com/eXpandFramework/XpandPwsh/wiki/Start-SelfElevate)|Elevates the current powershell session|
-|[Start-XpandProjectConverter](https://github.com/eXpandFramework/XpandPwsh/wiki/Start-XpandProjectConverter)|Updates versions of eXpandFramework assemblies in csproj files when the eXpandFramework installer is used|
+|[Start-XpandProjectConverter](https://github.com/eXpandFramework/XpandPwsh/wiki/Start-XpandProjectConverter)|Updates versions of eXpandFramework/XAF assemblies.|
 |[Submit-GitStage](https://github.com/eXpandFramework/XpandPwsh/wiki/Submit-GitStage)|Stage all Git unstaged files.|
 |[Switch-DevExpress](https://github.com/eXpandFramework/XpandPwsh/wiki/Switch-DevExpress)|Switch csproj DevExpress references to Nuget packages|
 |[Switch-XpandToNugets](https://github.com/eXpandFramework/XpandPwsh/wiki/Switch-XpandToNugets)|Switch all Xpand MSBuild project references to Nuget packages.|

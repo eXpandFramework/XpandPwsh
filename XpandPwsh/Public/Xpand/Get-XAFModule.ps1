@@ -37,7 +37,7 @@ function Get-XAFModule {
             Write-Verbose "Reading assembly $assemblyPath"
             Use-Object($ma = Read-AssemblyDefinition $assemblyPath $AssemblyList) {
                 $ma.MainModule.Types | Where-Object {
-                    [Xpand.Extensions.Cecil.MonoCecilExtensions]::BaseClasses($_) | Where-Object { $_.FullName -eq $moduleBaseType }
+                    [Xpand.Extensions.Mono.Cecil.MonoCecilExtensions]::BaseClasses($_) | Where-Object { $_.FullName -eq $moduleBaseType }
                 } | Where-Object {
                     !$_.IsAbstract -and $_.FullName -ne $moduleBaseType
                 } | ForEach-Object {
