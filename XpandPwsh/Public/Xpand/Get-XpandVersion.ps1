@@ -79,6 +79,7 @@ function Get-XpandVersion {
     if ($XpandPath) {
         $assemblyIndoName="AssemblyInfo"
         $pattern='AssemblyVersion\("([^"]*)'
+        $assemblyInfoPath=$null
         if ($Module -eq "eXpand*"){
             $assemblyInfoPath="Xpand\Xpand.Utils"
             $assemblyIndoName="XpandAssemblyInfo"
