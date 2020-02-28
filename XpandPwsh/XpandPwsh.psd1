@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.10.3'
+ModuleVersion = '1.201.11.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -124,6 +124,7 @@ FunctionsToExport = @(
 "Get-DotNetTool",
 "Get-DotNetVersion",
 "Get-DXNugets",
+"Get-FirstOrDefaultAsync",
 "Get-GitHubClient",
 "Get-GitHubCommitIssue",
 "Get-GitHubIssue",
@@ -166,6 +167,7 @@ FunctionsToExport = @(
 "Get-XpandPath",
 "Get-XpandPublicKeyToken",
 "Get-XpandPwshDirectoryName",
+"Get-XpandReleaseArtifact",
 "Get-XpandReleaseChange",
 "Get-XpandRepository",
 "Get-XpandVersion",
@@ -179,7 +181,6 @@ FunctionsToExport = @(
 "Install-SubModule",
 "Install-Xpand",
 "Invoke-AzureRestMethod",
-"Invoke-PaketAdd",
 "Invoke-PaketAdd",
 "Invoke-PaketClearCache",
 "Invoke-PaketConvertFromNuget",
