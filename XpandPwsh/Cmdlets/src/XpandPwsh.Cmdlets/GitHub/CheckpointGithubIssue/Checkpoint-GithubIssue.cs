@@ -5,6 +5,7 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Octokit;
 using SmartFormat;
 using XpandPwsh.Cmdlets.GitHub.GetGitHubCommitIssue;
@@ -12,6 +13,7 @@ using XpandPwsh.Cmdlets.GitHub.GetGitHubCommitIssue;
 namespace XpandPwsh.Cmdlets.GitHub.CheckpointGithubIssue{
     [CmdletBinding(SupportsShouldProcess = true)]
     [Cmdlet(VerbsData.Checkpoint, "GitHubIssue",SupportsShouldProcess = true)]
+    [CmdLetTag(CmdLetTag.GitHub,CmdLetTag.Reactive,CmdLetTag.RX)][PublicAPI]
     public class CheckpointGitHubIssue : GitHubCmdlet{
         [Parameter(Mandatory = true)]
         public string Message{ get; set; } 

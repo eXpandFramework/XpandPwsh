@@ -1,5 +1,6 @@
 function Get-Assembly {
     [CmdletBinding()]
+    [CmdLetTag("#dotnet")]
     param (
         [parameter(ValueFromPipeline)]
         [string]$name="*"

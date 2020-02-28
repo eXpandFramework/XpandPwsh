@@ -1,4 +1,7 @@
+
 function Get-DotNetCoreVersion {
+    [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#dotnetcore"))]
     param(
         [validateset("Runtime", "SDK")]
         [string]$Type

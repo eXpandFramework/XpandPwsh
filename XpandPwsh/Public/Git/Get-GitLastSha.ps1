@@ -1,5 +1,6 @@
 function Get-GitLastSha {
     [CmdletBinding()]
+    [CmdLetTag("#git")]
     param (
         [parameter(ValueFromPipeline,Mandatory)]
         [string]$repoGitUrl,

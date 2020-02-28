@@ -4,10 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Management.Automation;
 using System.Reflection;
+using JetBrains.Annotations;
 
-namespace XpandPwsh.Cmdlets.InvokeParallel{
+namespace XpandPwsh.Cmdlets{
     [Cmdlet(VerbsCommon.Get, "ReferenceConflict")]
     [CmdletBinding]
+    [CmdLetTag(CmdLetTag.DotNet)][PublicAPI]
     public class GetReferenceConflict : PSCmdlet{
         [Parameter]
         public string Path{ get; set; } = Environment.CurrentDirectory;

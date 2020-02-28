@@ -1,5 +1,6 @@
 function Clear-AspNetTemp {
     [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#aspnet"))]
     param (
         [Switch]$DonotStopIIS,
         [Switch]$DonotStopIISExpress

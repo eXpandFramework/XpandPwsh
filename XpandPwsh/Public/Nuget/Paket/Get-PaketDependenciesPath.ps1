@@ -1,5 +1,6 @@
 function Get-PaketDependenciesPath {
     [CmdletBinding()]
+    [CmdLetTag(("#nuget","#paket"))]
     param (
         [switch]$Strict
     )

@@ -1,6 +1,7 @@
 
 function Find-PaketRefs {
     [CmdletBinding()]
+    [CmdLetTag(("#nuget","#paket"))]
     param (
         [string]$Id,
         [switch]$Force,

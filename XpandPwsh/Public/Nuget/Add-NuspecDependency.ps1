@@ -1,5 +1,6 @@
 function Add-NuspecDependency {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param (
         [parameter(Mandatory,ValueFromPipelineByPropertyName)]
         $Id,

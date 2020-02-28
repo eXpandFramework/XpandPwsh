@@ -1,5 +1,6 @@
 function Get-SymbolSources {
     [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#dotnetcore"))]
     param (
         [parameter(Mandatory, ValueFromPipeline)]
         [System.IO.FileInfo]$pdb,

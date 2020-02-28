@@ -1,6 +1,7 @@
 
 function Invoke-PaketRestore {
     [CmdletBinding()]
+    [CmdLetTag(("#nuget","#paket"))]
     param (
         [switch]$UseCache,
         [string]$Group,

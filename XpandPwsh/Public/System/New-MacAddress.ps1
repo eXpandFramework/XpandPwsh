@@ -1,4 +1,5 @@
 function New-MacAddress {
+    [CmdLetTag()]
     [CmdletBinding()]
     param (
         [Parameter()]

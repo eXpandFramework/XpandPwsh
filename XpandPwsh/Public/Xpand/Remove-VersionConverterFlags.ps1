@@ -1,5 +1,6 @@
 function Remove-VersionConverterFlags {
     [CmdletBinding()]
+    [CmdLetTag()]
     param (
         
     )

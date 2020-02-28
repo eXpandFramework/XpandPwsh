@@ -1,5 +1,6 @@
 function Update-Symbols {
     [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#dotnetcore"))]
     param (
         [parameter(Mandatory, ValueFromPipeline)]
         [System.IO.FileInfo]$pdb,

@@ -1,7 +1,7 @@
 function Get-XpwshHelp {
     [CmdletBinding()]
     [Alias("gxh")]
-
+    [CmdLetTag()]
     param (
         [ArgumentCompleter({
             [OutputType([System.Management.Automation.CompletionResult])]  # zero to many

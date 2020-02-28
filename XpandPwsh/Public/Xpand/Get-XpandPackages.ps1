@@ -1,5 +1,6 @@
 function Get-XpandPackages {
     [CmdletBinding()]
+    [CmdLetTag()]
     param (
         [parameter()]
         [ValidateSet("Release", "Lab")]

@@ -5,6 +5,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Octokit;
 using XpandPwsh.CmdLets;
 
@@ -12,6 +13,7 @@ namespace XpandPwsh.Cmdlets.GitHub.PublishGitHubRelease{
     [CmdletBinding(SupportsShouldProcess = true)]
     [OutputType(typeof(Release))]
     [Cmdlet(VerbsData.Publish, "GitHubRelease",SupportsShouldProcess = true)]
+    [CmdLetTag(CmdLetTag.GitHub,CmdLetTag.Reactive,CmdLetTag.RX)][PublicAPI]
     public class PublishGitHubRelease : GitHubCmdlet{
         
         [Parameter(Mandatory = true)]

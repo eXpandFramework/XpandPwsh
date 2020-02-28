@@ -1,5 +1,6 @@
 function Use-Object {
     [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#dotnetcore"))]
     param (
         [AllowEmptyString()]
         [AllowEmptyCollection()]

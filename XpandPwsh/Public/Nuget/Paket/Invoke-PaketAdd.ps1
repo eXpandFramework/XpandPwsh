@@ -1,6 +1,7 @@
 
 function Invoke-PaketAdd {
     [CmdletBinding()]
+    [CmdLetTag(("#nuget","#paket"))]
     param (
         [parameter(Mandatory)]
         [string]$Id,

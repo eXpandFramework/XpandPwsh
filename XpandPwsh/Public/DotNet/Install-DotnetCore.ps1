@@ -75,6 +75,7 @@ function Install-DotnetCore {
     Note: global.json must have a value for 'SDK:Version'
 #>
     [cmdletbinding()]
+    [CmdLetTag(("#dotnet","#dotnetcore"))]
     param(
         [string]$Channel = "LTS",
         [string]$Version = "Latest",

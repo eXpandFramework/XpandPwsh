@@ -1,5 +1,6 @@
 function Get-XpandRepository {
     [CmdletBinding()]
+    [CmdLetTag()]
     param (
         [parameter(ValueFromPipeline, Mandatory)]
         [ValidateSet("eXpand","eXpand.lab","DevExpress.XAF","XpandPwsh")]

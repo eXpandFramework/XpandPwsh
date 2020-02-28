@@ -1,5 +1,6 @@
 function Push-GitSSH {
     [CmdletBinding()]
+    [CmdLetTag("#git")]
     param (
         [parameter(ParameterSetName = "AddAll")]
         [switch]$AddAll,

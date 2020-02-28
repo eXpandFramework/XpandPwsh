@@ -1,5 +1,6 @@
 function Get-XmlContent {
     [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#dotnetcore"))]
     param (
         [parameter(ValueFromPipeline,Mandatory)]
         [string]$FilePath

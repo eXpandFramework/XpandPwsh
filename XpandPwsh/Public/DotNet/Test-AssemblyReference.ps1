@@ -1,5 +1,6 @@
 function Test-AssemblyReference {
     [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#dotnetcore"))]
     param (
         [parameter(Mandatory, ValueFromPipeline)]
         [object]$Assembly,

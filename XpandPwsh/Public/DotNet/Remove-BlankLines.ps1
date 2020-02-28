@@ -1,5 +1,6 @@
 function Remove-BlankLines {
     [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#dotnetcore"))]
     param (
         [parameter(Mandatory,ValueFromPipeline)]
         $Path

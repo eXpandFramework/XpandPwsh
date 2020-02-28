@@ -1,5 +1,6 @@
 function Get-DotNetTool {
     [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#dotnetcore"))]
     param (
         [string]$id,
         [switch]$Local

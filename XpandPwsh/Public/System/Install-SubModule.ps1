@@ -1,4 +1,5 @@
 function Install-SubModule{
+    [CmdLetTag()]
     param(
         [string]$Name,
         [string[]]$Files,

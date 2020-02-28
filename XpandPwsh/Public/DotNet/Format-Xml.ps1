@@ -15,6 +15,7 @@ function Format-Xml {
     # ls *.xml | Format-Xml
     #
     [CmdletBinding()]
+    [CmdLetTag("#dotnet")]
     param(
         # The Xml Document
         [Parameter(Position = 0, Mandatory = $true, ValueFromPipeline = $true, ParameterSetName = "Document")]

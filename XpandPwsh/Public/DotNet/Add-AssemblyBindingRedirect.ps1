@@ -1,5 +1,6 @@
 function Add-AssemblyBindingRedirect {
     [CmdletBinding()]
+    [CmdLetTag("#dotnet")]
     param (
         [parameter(ValueFromPipelineByPropertyName, Mandatory)]
         [ArgumentCompleter({

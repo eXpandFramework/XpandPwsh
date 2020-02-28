@@ -1,5 +1,6 @@
 function Find-NugetPackageInstallationFolder {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param (
         [parameter(Mandatory)]
         [string]$Package,

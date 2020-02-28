@@ -1,5 +1,6 @@
 function Get-ProjectTargetFramework {
     [CmdletBinding()]
+    [CmdLetTag("#visualstudio")]
     param (
         [parameter(ValueFromPipeline,Mandatory)]
         [xml]$Project

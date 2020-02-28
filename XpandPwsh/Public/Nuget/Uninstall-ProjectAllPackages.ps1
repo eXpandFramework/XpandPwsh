@@ -1,10 +1,26 @@
-function Uninstall-ProjectAllPackages($packageFilter) {
+
+function Uninstall-ProjectAllPackages {
+    [CmdletBinding()]
+    [CmdLetTag("#nuget")]
+    param (
+        $packageFilter   
+    )
     
-    while ((Get-Project | Get-Package | Where-Object {
+    begin {
+        
+    }
+    
+    process {
+        while ((Get-Project | Get-Package | Where-Object {
+                    $_.id -like $packageFilter
+                } ).Length -gt 0) { 
+            Get-Project | Get-Package | Where-Object {
                 $_.id -like $packageFilter
-            } ).Length -gt 0) { 
-        Get-Project | Get-Package | Where-Object {
-            $_.id -like $packageFilter
-        } | Uninstall-Package 
+            } | Uninstall-Package 
+        }        
+    }
+    
+    end {
+        
     }
 }

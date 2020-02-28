@@ -1,6 +1,7 @@
 
 function Invoke-PaketFindVersions {
     [CmdletBinding()]
+    [CmdLetTag(("#nuget","#paket"))]
     param (
         [parameter(Mandatory, ValueFromPipeline)]
         [string]$Id ,

@@ -1,5 +1,6 @@
 function ConvertTo-HttpQueryString {
     [CmdletBinding()]
+    [CmdLetTag("#dotnet")]
     param  (
         [hashtable]$Values=[hashtable]::Empty,
         [string[]]$Variables=@()

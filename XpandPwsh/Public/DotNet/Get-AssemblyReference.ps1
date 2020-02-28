@@ -1,5 +1,6 @@
 function Get-AssemblyReference {
     [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#monocecil"))]
     param (
         [parameter(ValueFromPipeline, Mandatory)]
         [string]$AssemblyPath,

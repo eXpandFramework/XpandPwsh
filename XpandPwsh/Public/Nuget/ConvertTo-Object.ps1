@@ -1,5 +1,6 @@
 function ConvertTo-Object {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param (
         [parameter(ValueFromPipeline)]
         $value

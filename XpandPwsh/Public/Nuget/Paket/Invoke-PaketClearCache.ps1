@@ -1,6 +1,7 @@
 
 function Invoke-PaketClearCache {
     [CmdletBinding()]
+    [CmdLetTag(("#nuget","#paket"))]
     param (
         [switch]$SkipLocal,
         [string]$Path = "."

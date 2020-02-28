@@ -1,5 +1,6 @@
 function ConvertTo-Dictionary {
     [CmdletBinding()]
+    [CmdLetTag("#dotnet")]
     param (
         [Parameter(Position = 0,Mandatory,ValueFromPipeline)] 
         [object] $Object ,

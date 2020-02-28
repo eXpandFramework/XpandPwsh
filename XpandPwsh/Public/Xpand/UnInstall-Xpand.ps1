@@ -1,5 +1,6 @@
 function UnInstall-Xpand {
     [CmdletBinding()]
+    [CmdLetTag()]
     param (
         [string]$InstallationPath,
         [switch]$Quiet

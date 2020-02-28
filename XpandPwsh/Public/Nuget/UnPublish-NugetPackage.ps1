@@ -1,5 +1,6 @@
 function UnPublish-NugetPackage {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param (
         [parameter(Mandatory,ValueFromPipeline)]
         [string]$Name,

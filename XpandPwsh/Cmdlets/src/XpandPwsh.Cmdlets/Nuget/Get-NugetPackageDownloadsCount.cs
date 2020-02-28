@@ -8,6 +8,7 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using XpandPwsh.CmdLets;
@@ -15,6 +16,7 @@ using XpandPwsh.CmdLets;
 namespace XpandPwsh.Cmdlets.Nuget{
     [Cmdlet(VerbsCommon.Get, "NugetPackageDownloadsCount")]
     [CmdletBinding]
+    [CmdLetTag(CmdLetTag.Nuget,CmdLetTag.Reactive,CmdLetTag.RX)][PublicAPI]
     public class GetNugetPackageDownloadsCount : XpandCmdlet{
         private ConcurrentBag<string> _packages;
 

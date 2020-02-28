@@ -1,5 +1,6 @@
 function Update-ProjectPackage {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param(
         [parameter(ValueFromPipeline, Mandatory, ParameterSetName = "VSPkgManager")]
         [System.__ComObject]$Project, 

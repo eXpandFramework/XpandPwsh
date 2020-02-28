@@ -1,5 +1,6 @@
 function Set-VsoVariable {
     [CmdletBinding()]
+    [CmdLetTag(("#Azure","AzureDevOps"))]
     param (
         [parameter(ValueFromPipeline,Mandatory,Position=0)]
         [ArgumentCompleter({

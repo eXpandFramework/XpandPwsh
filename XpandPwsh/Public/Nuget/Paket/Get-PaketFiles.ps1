@@ -1,5 +1,6 @@
 function Get-PaketFiles {
     [CmdletBinding()]
+    [CmdLetTag(("#nuget","#paket"))]
     param (
         [switch]$Strict   
     )

@@ -1,6 +1,7 @@
 
 function Invoke-PaketSimplify {
     [CmdletBinding()]
+    [CmdLetTag(("#nuget","#paket"))]
     param (
         [string]$Path = "."
     )

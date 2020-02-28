@@ -1,4 +1,5 @@
 function Compress-Project {
+    [CmdLetTag()]
     param(
         $path=(Get-Location)
     )

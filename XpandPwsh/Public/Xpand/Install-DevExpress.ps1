@@ -1,6 +1,7 @@
 
 function Install-DevExpress {
     [alias("Install-DX")]
+    [CmdLetTag()]
     param(
         [parameter(Mandatory)]
         [string]$binPath, 

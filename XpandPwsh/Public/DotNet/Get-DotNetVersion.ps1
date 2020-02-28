@@ -1,5 +1,6 @@
 function Get-DotNetVersion {
     [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#dotnetcore"))]
     param (
         
     )

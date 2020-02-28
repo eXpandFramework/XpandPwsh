@@ -1,5 +1,6 @@
 function Update-ProjectProperty {
     [CmdletBinding()]
+    [CmdLetTag("#visualstudio")]
     param (
         [parameter(Mandatory)]
         [xml]$CSProj,

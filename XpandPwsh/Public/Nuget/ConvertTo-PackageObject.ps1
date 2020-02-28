@@ -1,5 +1,6 @@
 function ConvertTo-PackageObject {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param (
         [parameter(ValueFromPipeline,Mandatory)]
         [string]$item

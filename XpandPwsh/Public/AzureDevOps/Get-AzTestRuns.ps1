@@ -1,5 +1,6 @@
 function Get-AzTestRuns {
     [CmdletBinding()]
+    [CmdLetTag(("#Azure","AzureDevOps"))]
     param (
         [switch]$FailedOnly,
         [string]$runTitle,

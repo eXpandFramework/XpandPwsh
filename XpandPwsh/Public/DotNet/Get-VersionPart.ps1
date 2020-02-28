@@ -1,5 +1,6 @@
 function Get-VersionPart {
     [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#dotnetcore"))]
     param (
         [parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [version]$Version,

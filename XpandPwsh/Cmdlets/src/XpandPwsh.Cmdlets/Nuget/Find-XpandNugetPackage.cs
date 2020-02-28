@@ -3,11 +3,13 @@ using System.Linq;
 using System.Management.Automation;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using XpandPwsh.CmdLets;
 
 namespace XpandPwsh.Cmdlets.Nuget{
     [Cmdlet(VerbsCommon.Find, "XpandNugetPackage")]
     [CmdletBinding]
+    [CmdLetTag(CmdLetTag.Nuget,CmdLetTag.Reactive,CmdLetTag.RX)][PublicAPI]
     public class FindXpandNugetPackage : NugetCmdlet{
 
         [Parameter(Position = 0)]
@@ -53,6 +55,7 @@ namespace XpandPwsh.Cmdlets.Nuget{
         }
     }
 
+    [PublicAPI]
     public enum XpandPackageFilter{
         All,
         Xpand,

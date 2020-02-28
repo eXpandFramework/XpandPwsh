@@ -3,12 +3,14 @@ using System.Management.Automation;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Octokit;
 using XpandPwsh.CmdLets;
 
 namespace XpandPwsh.Cmdlets.GitHub.GetGitHubIssue{
     [CmdletBinding]
     [Cmdlet(VerbsCommon.Get, "GitHubIssue")]
+    [CmdLetTag(CmdLetTag.GitHub,CmdLetTag.Reactive,CmdLetTag.RX)][PublicAPI]
     public class GetGitHubIssue : GitHubCmdlet{
         [Parameter(Mandatory = true)]
         public string Repository{ get; set; }

@@ -1,5 +1,6 @@
 function Get-PaketPackageRequirement {
     [CmdletBinding()]
+    [CmdLetTag(("#nuget","#paket"))]
     param (
         [parameter(Mandatory,ValueFromPipeline)]
         [Paket.DependenciesFile]$DepsFile,

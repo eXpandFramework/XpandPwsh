@@ -5,6 +5,7 @@ if (!(Get-module 7Zip4Powershell -ListAvailable)){
 }
 
 $exclude=@("Install-Module.ps1")
+. $PSScriptRoot\private\attributes.ps1
 Get-ChildItem -Path $PSScriptRoot\public\*.ps1 -Exclude $exclude -Recurse  |ForEach-Object {. $_.FullName}
 $global:XpandPwshPath=$PSScriptRoot
 

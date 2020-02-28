@@ -5,13 +5,14 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Octokit;
-using XpandPwsh.CmdLets;
 
 namespace XpandPwsh.Cmdlets.GitHub.CloseGitHubIssue{
     [CmdletBinding(SupportsShouldProcess = true)]
     [Cmdlet(VerbsCommon.Close, "GithubIssue",SupportsShouldProcess = true)]
     [OutputType(typeof(Issue))]
+    [CmdLetTag(CmdLetTag.GitHub,CmdLetTag.Reactive,CmdLetTag.RX)][PublicAPI]
     public class CloseGitHubIssue : GitHubCmdlet{
         [Parameter(Mandatory = true)]
         public string Repository1{ get; set; } 

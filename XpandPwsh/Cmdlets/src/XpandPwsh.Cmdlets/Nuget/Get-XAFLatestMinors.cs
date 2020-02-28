@@ -3,10 +3,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Management.Automation;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace XpandPwsh.Cmdlets.Nuget{
     [Cmdlet(VerbsCommon.Get, "XAFLatestMinors")]
     [CmdletBinding]
+    [CmdLetTag(CmdLetTag.Nuget,CmdLetTag.Reactive,CmdLetTag.RX)][PublicAPI]
     public class GetXAFLatestMinors : NugetCmdlet{
         [Parameter]
         public string Source{ get; set; } = Environment.GetEnvironmentVariable("DXFeed");

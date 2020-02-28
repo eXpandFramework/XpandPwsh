@@ -1,6 +1,7 @@
 
 function Invoke-PaketInstall {
     [CmdletBinding()]
+    [CmdLetTag(("#nuget","#paket"))]
     param (
         [parameter(ValueFromPipeline)]
         [switch]$Force,

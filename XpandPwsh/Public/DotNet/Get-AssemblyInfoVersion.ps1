@@ -1,5 +1,6 @@
 function Get-AssemblyInfoVersion {
     [CmdletBinding()]
+    [CmdLetTag("#dotnet")]
     param (
         [parameter(Mandatory, ValueFromPipeline)]
         [System.IO.FileInfo]$assemblyInfo

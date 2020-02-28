@@ -1,5 +1,6 @@
 function Get-PackageTargetFramework {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param (
         $id,
         $version,

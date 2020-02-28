@@ -1,5 +1,6 @@
 function ConvertTo-Directory {
     [CmdletBinding()]
+    [CmdLetTag()]
     param (
         $Object
     )

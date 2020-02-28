@@ -1,5 +1,6 @@
 function Add-ProjectReference {
     [CmdletBinding()]
+    [CmdLetTag("#dotnet")]
     param (
         [parameter()]
         [System.Xml.XmlDocument]$Owner,

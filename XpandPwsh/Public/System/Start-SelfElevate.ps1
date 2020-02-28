@@ -1,4 +1,5 @@
 function Start-SelfElevate {
+    [CmdLetTag()]
     [CmdletBinding()]
     param (
         

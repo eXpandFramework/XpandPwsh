@@ -1,6 +1,7 @@
 function Find-History {
     [CmdletBinding()]
     [alias("fxh")]
+    [CmdLetTag()]
     param (
         [parameter(ValueFromPipeline)]
         [string]$Text

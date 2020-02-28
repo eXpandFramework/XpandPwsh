@@ -1,6 +1,7 @@
 
 function Invoke-PaketShowInstalled {
     [CmdletBinding()]
+    [CmdLetTag(("#nuget","#paket"))]
     param (
         [parameter(ParameterSetName = "Project")]
         [string]$Project,

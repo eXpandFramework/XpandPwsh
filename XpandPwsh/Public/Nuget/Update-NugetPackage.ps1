@@ -1,6 +1,7 @@
 
 function Update-NugetPackage {
     [cmdletbinding()]
+    [CmdLetTag("#nuget")]
     param(
         [parameter(ValueFromPipeline, ParameterSetName = "SourcePath")]
         [string]$SourcePath = ".",

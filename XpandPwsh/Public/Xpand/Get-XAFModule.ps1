@@ -1,5 +1,6 @@
 function Get-XAFModule {
     [CmdletBinding()]
+    [CmdLetTag()]
     param (
         [parameter(ValueFromPipeline)]
         [string]$Path = ".",

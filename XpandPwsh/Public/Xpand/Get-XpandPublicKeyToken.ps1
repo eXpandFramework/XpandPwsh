@@ -1,4 +1,5 @@
 function Get-XpandPublicKeyToken {
+    [CmdLetTag()]
     [CmdletBinding()]
     param (
         

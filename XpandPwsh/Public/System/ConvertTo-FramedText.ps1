@@ -1,5 +1,6 @@
 Function ConvertTo-FramedText{
     [CmdletBinding()]
+    [CmdLetTag()]
     param(
         [Parameter(Mandatory = $true, Position = 0, valueFromPipeline = $true)]
         [string]$stringIN,

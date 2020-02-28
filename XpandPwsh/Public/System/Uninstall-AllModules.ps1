@@ -1,4 +1,5 @@
 function Uninstall-AllModules {
+  [CmdLetTag()]
     param(
       [Parameter(Mandatory=$true)]
       [string]$TargetModule,

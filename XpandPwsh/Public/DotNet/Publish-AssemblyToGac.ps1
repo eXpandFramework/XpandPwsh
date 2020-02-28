@@ -1,5 +1,6 @@
 function Publish-AssemblyToGac {
     [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#dotnetcore"))]
     param (
         [parameter(ValueFromPipeline, Mandatory)]
         $assembly

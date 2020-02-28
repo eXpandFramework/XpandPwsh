@@ -1,4 +1,5 @@
 function Remove-DefaultValueKeys {
+    [CmdLetTag()]
     [CmdletBinding()]
     param (
         [parameter(Mandatory,ValueFromPipeline)]

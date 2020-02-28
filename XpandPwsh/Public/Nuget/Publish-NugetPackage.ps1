@@ -1,5 +1,6 @@
 function Publish-NugetPackage {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param (
         [parameter(ValueFromPipeline,Mandatory)]
         [string]$NupkgPath,

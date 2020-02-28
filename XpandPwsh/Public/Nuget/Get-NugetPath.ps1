@@ -1,5 +1,6 @@
 function Get-NugetPath {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param (
         
     )

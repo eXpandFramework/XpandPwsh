@@ -1,5 +1,6 @@
 function Update-Version {
     [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#dotnetcore"))]
     param (
         [parameter(Mandatory)]
         [string]$Version,

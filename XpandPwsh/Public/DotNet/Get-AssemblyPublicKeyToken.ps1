@@ -1,5 +1,6 @@
 function Get-AssemblyPublicKeyToken {
     [CmdletBinding()]
+    [CmdLetTag("#dotnet")]
     param (
         [parameter(ValueFromPipeline,Mandatory)]
         [System.IO.FileInfo]$Assembly

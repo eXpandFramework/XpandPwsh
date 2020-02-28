@@ -5,10 +5,12 @@ using System.Linq;
 using System.Management.Automation;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using JetBrains.Annotations;
 
 namespace XpandPwsh.Cmdlets.ResolveAssemblyDependencies{
     [Cmdlet(VerbsDiagnostic.Resolve, "AssemblyDependencies")]
     [CmdletBinding]
+    [CmdLetTag()][PublicAPI]
     public class ResolveAssemblyDependencies : PSCmdlet{
         [Parameter(Mandatory = true,Position = 0)]
         public string AssemblyFile{ get; set; }

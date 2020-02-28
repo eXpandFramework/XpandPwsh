@@ -1,5 +1,6 @@
 function Invoke-Script {
     [CmdletBinding()]
+    [CmdLetTag()]
     Param(
         [Parameter(Position=0, Mandatory=$true)]
         [scriptblock]$Script,

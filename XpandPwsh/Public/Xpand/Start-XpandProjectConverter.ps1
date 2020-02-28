@@ -1,5 +1,6 @@
 function Start-XpandProjectConverter {
     [CmdletBinding()]
+    [CmdLetTag()]
     param (
         [parameter(ParameterSetName = "XAFPackages")]
         [string]$version,

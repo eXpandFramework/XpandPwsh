@@ -1,5 +1,6 @@
 function Get-NugetPackageMetadataVersion {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param (
         [parameter(Mandatory, ValueFromPipeline)]
         [NuGet.Protocol.Core.Types.IPackageSearchMetadata]$metadata

@@ -1,5 +1,6 @@
 function Install-DebugOptimizationHook {
     [CmdletBinding()]
+    [CmdLetTag("#visualstudio")]
     param (
         [switch]$Disable
     )

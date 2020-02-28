@@ -1,4 +1,5 @@
 function Clear-ProjectDirectories {
+    [CmdLetTag()]
     param(
         $path=(Get-Location),
         $include=@("bin","obj",".vs","_Resharper","packages","*.bak","*.log")

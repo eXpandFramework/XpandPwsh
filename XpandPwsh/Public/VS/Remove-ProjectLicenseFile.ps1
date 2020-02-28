@@ -1,5 +1,6 @@
 function Remove-ProjectLicenseFile {
     [CmdletBinding()]
+    [CmdLetTag("#visualstudio")]
     param (
         [parameter(Mandatory)]
         [xml]$CSProj

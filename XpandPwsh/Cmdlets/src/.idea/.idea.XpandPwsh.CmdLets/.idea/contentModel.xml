@@ -8,10 +8,11 @@
       <e p="packages" t="ExcludeRecursive" />
       <e p="XpandPwsh.Cmdlets" t="IncludeRecursive">
         <e p="AsyncCmdlet.cs" t="Include" />
-        <e p="CmdletExtensions.cs" t="Include" />
-        <e p="GetDistinct" t="Include">
-          <e p="Get-Distinct.cs" t="Include" />
+        <e p="Check-ReferenceConflict" t="Include">
+          <e p="Check-ReferenceConflict.cs" t="Include" />
         </e>
+        <e p="CmdletExtensions.cs" t="Include" />
+        <e p="CmdLetTag.cs" t="Include" />
         <e p="GitHub" t="Include">
           <e p="CheckpointGithubIssue" t="Include">
             <e p="Checkpoint-GithubIssue.cs" t="Include" />
@@ -59,10 +60,6 @@
             <e p="Update-GitHubIssue.cs" t="Include" />
           </e>
         </e>
-        <e p="InvokeParallel" t="Include">
-          <e p="Check-ReferenceConflict.cs" t="Include" />
-          <e p="Invoke-Parallel.cs" t="Include" />
-        </e>
         <e p="Nuget" t="Include">
           <e p="Find-XpandNugetPackage.cs" t="Include" />
           <e p="Get-LatestMinorVersion.cs" t="Include" />
@@ -84,6 +81,17 @@
         <e p="ProgressCmdlet.cs" t="Include" />
         <e p="Properties" t="Include">
           <e p="launchSettings.json" t="Include" />
+        </e>
+        <e p="Reactive" t="Include">
+          <e p="GetDistinct" t="Include">
+            <e p="Get-Distinct.cs" t="Include" />
+          </e>
+          <e p="GetFirstOrDefaultAsync" t="Include">
+            <e p="Get-FirstOrDefaultAsync.cs" t="Include" />
+          </e>
+          <e p="InvokeParallel" t="Include">
+            <e p="Invoke-Parallel.cs" t="Include" />
+          </e>
         </e>
         <e p="ResolveAssemblyDependencies" t="Include">
           <e p="Resolve-AssemblyDependencies.cs" t="Include" />

@@ -1,5 +1,6 @@
 function Get-XpandVersion { 
     [CmdletBinding()]
+    [CmdLetTag()]
     param(
         $XpandPath,
         [switch]$Latest,

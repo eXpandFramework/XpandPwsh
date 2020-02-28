@@ -1,5 +1,6 @@
 function Find-NugetPackage {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param (
         [ArgumentCompleter({
             [OutputType([System.Management.Automation.CompletionResult])]  # zero to many

@@ -10,7 +10,7 @@ using XpandPwsh.CmdLets;
 namespace XpandPwsh.Cmdlets.GitHub.GetGitHubIssueEvents{
     [CmdletBinding]
     [Cmdlet(VerbsCommon.Get, "GitHubIssueEvents")]
-    [PublicAPI]
+    [CmdLetTag(CmdLetTag.GitHub,CmdLetTag.Reactive,CmdLetTag.RX)][PublicAPI]
     public class GetGitHubIssueEvents : GitHubCmdlet{
         [Parameter(Mandatory = true)]
         public string Repository{ get; set; }

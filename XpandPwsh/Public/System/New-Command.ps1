@@ -1,4 +1,5 @@
 function New-Command{
+    [CmdLetTag()]
     param($commandTitle, $commandPath, $commandArguments,$workingDir)
     Try {
         $pinfo = New-Object System.Diagnostics.ProcessStartInfo

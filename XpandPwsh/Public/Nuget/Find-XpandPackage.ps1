@@ -1,5 +1,6 @@
 function Find-XpandPackage {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param (
         [parameter(Mandatory, ValueFromPipeline, Position = 0)]
         [ArgumentCompleter({

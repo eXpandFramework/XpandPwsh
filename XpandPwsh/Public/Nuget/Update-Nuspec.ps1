@@ -1,5 +1,6 @@
 function Update-Nuspec {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param (
         [parameter(Mandatory)]
         [string]$NuspecFilename,

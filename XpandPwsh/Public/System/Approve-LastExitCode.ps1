@@ -1,5 +1,6 @@
 function Approve-LastExitCode {
     [CmdletBinding()]
+    [CmdLetTag()]
     param (
         
     )

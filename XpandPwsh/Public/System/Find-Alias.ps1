@@ -1,5 +1,6 @@
 function Find-Alias {
     [CmdletBinding()]
+    [CmdLetTag()]
     param (
         [parameter(Mandatory)]
         [ArgumentCompleter({

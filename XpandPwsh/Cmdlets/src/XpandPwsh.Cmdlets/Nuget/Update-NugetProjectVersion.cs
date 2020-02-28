@@ -8,12 +8,14 @@ using System.Reactive.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using XpandPwsh.CmdLets;
 using XpandPwsh.Cmdlets.GitHub;
 
 namespace XpandPwsh.Cmdlets.Nuget{
     [CmdletBinding(SupportsShouldProcess = true)]
     [Cmdlet(VerbsData.Update,"NugetProjectVersion",SupportsShouldProcess = true)]
+    [CmdLetTag(CmdLetTag.Nuget,CmdLetTag.Reactive,CmdLetTag.RX)][PublicAPI]
     public class UpdateNugetProjectVersion:GitHubCmdlet,IParameter{
         [Parameter(Mandatory = true)]
         public string Repository{ get; set; } 
@@ -115,6 +117,7 @@ namespace XpandPwsh.Cmdlets.Nuget{
         }
     }
 
+    [PublicAPI]
     public interface IParameter{
         PSObject[] Packages{ get; set; }
         string Owner{ get; set; }

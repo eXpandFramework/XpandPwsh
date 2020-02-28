@@ -7,6 +7,7 @@ Register-ArgumentCompleter -CommandName Clear-AzStorageBlob -ParameterName Conta
     (Get-AzStorageContainer -Context (Get-AzStorageAccount|Where-Object{$_.StorageAccountName -eq $env:AzStorageAccountName}).Context).Name
 }
 function Clear-AzStorageBlob {
+    [CmdLetTag("#Azure")]
     [CmdletBinding()]
     param (
         # The Container Name

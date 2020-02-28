@@ -1,5 +1,6 @@
 function Get-AzDefinition {
     [CmdletBinding()]
+    [CmdLetTag(("#Azure","AzureDevOps"))]
     param (
         [parameter(ValueFromPipelineByPropertyName,ValueFromPipeline)]
         [string]$Name,

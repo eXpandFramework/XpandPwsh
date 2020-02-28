@@ -1,6 +1,8 @@
 ﻿using System.Management.Automation;
+using JetBrains.Annotations;
 
 namespace XpandPwsh.Cmdlets{
+    [PublicAPI]
     public interface IProgressCmdlet{
         int ActivityId{ get; }
         string ActivityName{ get; }

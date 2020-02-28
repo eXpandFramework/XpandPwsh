@@ -1,5 +1,6 @@
 function Update-OutputPath {
     [CmdletBinding()]
+    [CmdLetTag("#visualstudio")]
     param (
         [parameter(Mandatory)]
         [xml]$CSProj,

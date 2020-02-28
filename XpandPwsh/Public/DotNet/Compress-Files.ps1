@@ -1,5 +1,6 @@
 function Compress-Files {
     [CmdletBinding()]
+    [CmdLetTag("#dotnet")]
     param (
         [string]$path =".",
         [parameter(Mandatory)]

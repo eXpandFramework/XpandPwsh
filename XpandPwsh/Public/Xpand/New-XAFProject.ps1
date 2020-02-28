@@ -1,5 +1,6 @@
 function New-XAFProject {
     [CmdletBinding()]
+    [CmdLetTag()]
     param (
         [ValidateSet("Core","Win","Web")]
         [string]$Platform="Core",        

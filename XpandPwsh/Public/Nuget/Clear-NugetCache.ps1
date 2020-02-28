@@ -1,5 +1,6 @@
 function Clear-NugetCache {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param (
         [ValidateSet("XpandPackages")]
         [string]$Filter,

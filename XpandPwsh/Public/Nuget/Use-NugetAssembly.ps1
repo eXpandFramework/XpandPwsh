@@ -1,5 +1,6 @@
 function Use-NugetAssembly {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param (
         [parameter(ValueFromPipeline)]
         [string]$packageName,

@@ -1,5 +1,6 @@
 function Update-ProjectDebugSymbols {
     [CmdletBinding()]
+    [CmdLetTag("#visualstudio")]
     param (
         [parameter(Mandatory)]
         [xml]$CSProj,

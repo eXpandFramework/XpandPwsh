@@ -4,11 +4,13 @@ using System.Linq;
 using System.Management.Automation;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using NuGet.Protocol.Core.Types;
 
 namespace XpandPwsh.Cmdlets.Nuget{
     [Cmdlet(VerbsCommon.Get, "NugetPackageSearchMetadata")]
     [CmdletBinding()]
+    [CmdLetTag(CmdLetTag.Nuget,CmdLetTag.Reactive,CmdLetTag.RX)][PublicAPI]
     public  class GetNugetPackageSearchMetadata : NugetCmdlet{
         [Parameter(Position = 0, ValueFromPipeline = true)]
         public string Name{ get; set; }

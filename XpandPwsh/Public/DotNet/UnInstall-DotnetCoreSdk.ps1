@@ -1,5 +1,6 @@
 function UnInstall-DotnetCoreSdk {
     [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#dotnetcore"))]
     param (
         
     )

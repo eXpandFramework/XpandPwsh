@@ -4,16 +4,17 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using XpandPwsh.CmdLets;
 
-namespace XpandPwsh.Cmdlets.InvokeParallel{
+namespace XpandPwsh.Cmdlets.Reactive.InvokeParallel{
     [Cmdlet(VerbsLifecycle.Invoke, "Parallel")]
     [CmdletBinding]
+    [CmdLetTag(CmdLetTag.Reactive,CmdLetTag.RX)][PublicAPI]
     public class InvokeParallel : XpandCmdlet{
         private PSVariable[] _psVariables;
         private ConcurrentBag<object> _values;
@@ -34,7 +35,7 @@ namespace XpandPwsh.Cmdlets.InvokeParallel{
         public override int ActivityId{ get; set; }
 
         [Parameter]
-        public int RetryOnError{ get; set; } = 0;
+        public int RetryOnError{ get; set; }
 
         [Parameter]
         public int LimitConcurrency{ get; set; } 
@@ -44,6 +45,8 @@ namespace XpandPwsh.Cmdlets.InvokeParallel{
 
         [Parameter]
         public int StepInterval{ get; set; } = -1;
+        [Parameter]
+        public int First{ get; set; } = -1;
 
         protected override Task BeginProcessingAsync(){
             _values = new ConcurrentBag<object>();
@@ -71,6 +74,9 @@ namespace XpandPwsh.Cmdlets.InvokeParallel{
             var retrySignal = Enumerable.Range(0, RetryOnError).ToObservable()
                 .Delay(TimeSpan.FromMilliseconds(RetryDelay)).Publish().AutoConnect();
             values = LimitConcurrency > 0 ? InvokeWithLimit(values, retrySignal) : values.SelectMany(o => Start(o, retrySignal));
+            if (First > -1){
+                values = values.Take(First);
+            }
             return values
                 .WriteObject(this, _values.Count)
                 .HandleErrors(this, ActivityName,SynchronizationContext.Current)

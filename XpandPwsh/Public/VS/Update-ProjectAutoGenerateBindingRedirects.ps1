@@ -1,5 +1,6 @@
 function Update-ProjectAutoGenerateBindingRedirects {
     [CmdletBinding()]
+    [CmdLetTag("#visualstudio")]
     param (
         [parameter(Mandatory)]
         [xml]$CSProj,

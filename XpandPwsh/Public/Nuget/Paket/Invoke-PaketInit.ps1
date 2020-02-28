@@ -1,6 +1,7 @@
 
 function Invoke-PaketInit {
     [CmdletBinding()]
+    [CmdLetTag(("#nuget","#paket"))]
     param (
         [switch]$Force,
         [string]$Path = "."

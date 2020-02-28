@@ -15,6 +15,7 @@
 #>
 function Get-DevExpressPath {
     [CmdletBinding()]
+    [CmdLetTag()]
     param (
         [parameter(ValueFromPipeline)]
         [string]$version        

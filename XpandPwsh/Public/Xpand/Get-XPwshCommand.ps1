@@ -1,6 +1,7 @@
 function Get-XPwshCommand {
     [CmdletBinding()]
     [alias("gxcm")]
+    [CmdLetTag()]
     param (
         [string]$ArgumentList
     )

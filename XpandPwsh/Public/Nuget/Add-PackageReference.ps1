@@ -1,5 +1,6 @@
 function Add-PackageReference {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param (
         [parameter(Mandatory,ValueFromPipeline)]
         [string]$Package,

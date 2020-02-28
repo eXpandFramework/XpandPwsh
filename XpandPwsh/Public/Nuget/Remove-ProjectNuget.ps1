@@ -1,4 +1,7 @@
-function Remove-ProjectNuget {
+
+function Remove-ProjectNuget  {
+    [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param(
         [parameter(Mandatory)]
         [string]$id,
@@ -9,55 +12,67 @@ function Remove-ProjectNuget {
         [switch]$SkipRestore,
         [string]$ExcludeRegex
     )
-    Get-ChildItem $projectPath "$ProjectFilter.csproj" -Recurse | ForEach-Object { 
-        $path = $_.FullName
-        if (!$SkipRestore) {
-            dotnet restore $path
-        }
+    
+    begin {
         
-        $packageReferences=Get-PackageReference $Path |Where-Object{!$ExcludeRegex -or $_.Include -notmatch $ExcludeRegex}
-        if ($packageReferences) {
-            $project=($packageReferences|Select-Object -First 1).OwnerDocument
-            if (!$project){
-                [xml]$project=Get-Content $_.FullName
+    }
+    
+    process {
+        Get-ChildItem $projectPath "$ProjectFilter.csproj" -Recurse | ForEach-Object { 
+            $path = $_.FullName
+            if (!$SkipRestore) {
+                dotnet restore $path
             }
-            $packageReferences | Where-Object { $_.Include -match "$id" } | ForEach-Object {
-                if (!$_.Paket){
-                    $_.ParentNode.RemoveChild($_)
+            
+            $packageReferences=Get-PackageReference $Path |Where-Object{!$ExcludeRegex -or $_.Include -notmatch $ExcludeRegex}
+            if ($packageReferences) {
+                $project=($packageReferences|Select-Object -First 1).OwnerDocument
+                if (!$project){
+                    [xml]$project=Get-Content $_.FullName
                 }
-                else{
-                    $paketRefPath=(get-item $path).DirectoryName
-                    $paketRefPath+="\paket.references"
-                    $packageId=$_.Id
-                    (Get-Content $paketRefPath|Where-Object{$_ -ne $packageId})|Out-File $paketRefPath
+                $packageReferences | Where-Object { $_.Include -match "$id" } | ForEach-Object {
+                    if (!$_.Paket){
+                        $_.ParentNode.RemoveChild($_)
+                    }
+                    else{
+                        $paketRefPath=(get-item $path).DirectoryName
+                        $paketRefPath+="\paket.references"
+                        $packageId=$_.Id
+                        (Get-Content $paketRefPath|Where-Object{$_ -ne $packageId})|Out-File $paketRefPath
+                    }
+                    $targetFramework = $project | Get-ProjectTargetFramework
+                    
+                    FindLibraries $_.Include $_.Version $targetFramework | ForEach-Object {
+                        Add-ProjectReference $project $_ "$nugetAssembliesBin\$_.dll"
+                    }
+                    
+                    $project.Save($path)
                 }
-                $targetFramework = $project | Get-ProjectTargetFramework
-                
-                FindLibraries $_.Include $_.Version $targetFramework | ForEach-Object {
-                    Add-ProjectReference $project $_ "$nugetAssembliesBin\$_.dll"
-                }
-                
-                $project.Save($path)
             }
-        }
-        else {
-            [xml]$p=Get-XmlContent $path
-            $p.Project.ItemGroup.Reference | Where-Object { $_.Include -match "$id" } | ForEach-Object {
-                $fileName = [System.IO.Path]::GetFileName($_.Hintpath)
-                $hintPath = "$nugetAssembliesBin\$fileName"
-                if (!(Test-Path $hintPath)) {
-                    throw "HintPath not found: $hintPath"
+            else {
+                [xml]$p=Get-XmlContent $path
+                $p.Project.ItemGroup.Reference | Where-Object { $_.Include -match "$id" } | ForEach-Object {
+                    $fileName = [System.IO.Path]::GetFileName($_.Hintpath)
+                    $hintPath = "$nugetAssembliesBin\$fileName"
+                    if (!(Test-Path $hintPath)) {
+                        throw "HintPath not found: $hintPath"
+                    }
+                    $_.Hintpath = $hintPath
                 }
-                $_.Hintpath = $hintPath
+                $p.Save($path)
             }
-            $p.Save($path)
-        }
+            
+        } 
+        Push-Location $projectPath
+        Clear-ProjectDirectories 
+        Pop-Location        
+    }
+    
+    end {
         
-    } 
-    Push-Location $projectPath
-    Clear-ProjectDirectories 
-    Pop-Location
+    }
 }
+
 
 function FindLibraries {
     param(

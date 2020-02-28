@@ -1,5 +1,6 @@
 function Use-MonoCecil {
     [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#dotnetcore","#monocecil"))]
     param (
         [string]$OutputFolder = "$env:TEMP\$packageName",
         [switch]$All

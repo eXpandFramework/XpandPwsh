@@ -1,5 +1,6 @@
 function Get-PackageSourceLocations {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param (
         [string]$ProviderName,
         [ArgumentCompleter({

@@ -1,5 +1,6 @@
 function Get-XpandNugetPackageDependencies {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param (
         [parameter(Mandatory)]
         [ArgumentCompleter( {

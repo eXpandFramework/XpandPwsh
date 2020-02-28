@@ -1,6 +1,7 @@
 
 function Invoke-PaketUpdate {
     [CmdletBinding()]
+    [CmdLetTag(("#nuget","#paket"))]
     param (
         [parameter(ValueFromPipeline)]
         [switch]$Force,

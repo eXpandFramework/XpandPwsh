@@ -1,5 +1,6 @@
 function Get-AssemblyMetadata{
     [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#monocecil"))]
     param (
         [parameter(Mandatory)]
         [string]$AssemblyPath,

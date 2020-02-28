@@ -1,4 +1,5 @@
 function Get-XafPackageNames{
+    [CmdLetTag()]
     param(
         [parameter(Mandatory)]
         [string]$Version

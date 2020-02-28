@@ -42,6 +42,7 @@ function Get-CallerPreference
     #>
 
     [CmdletBinding(DefaultParameterSetName = 'AllVariables')]
+    [CmdLetTag()]
     param (
         [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.GetType().FullName -eq 'System.Management.Automation.PSScriptCmdlet' })]

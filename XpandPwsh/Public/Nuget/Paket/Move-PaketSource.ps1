@@ -1,6 +1,7 @@
 
 function Move-PaketSource {
     [CmdletBinding()]
+    [CmdLetTag(("#nuget","#paket"))]
     param (
         [parameter(Mandatory)]
         [int]$Index,

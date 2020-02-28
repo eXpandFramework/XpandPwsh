@@ -1,5 +1,6 @@
 function Switch-XpandToNugets {
     [CmdletBinding()]
+    [CmdLetTag()]
     param (
         [parameter()]
         [string]$Path=".",

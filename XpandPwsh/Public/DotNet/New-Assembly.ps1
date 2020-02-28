@@ -1,5 +1,6 @@
 function New-Assembly {
     [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#dotnetcore"))]
     param (
         [parameter(Mandatory)]
         [string]$AssemblyName,

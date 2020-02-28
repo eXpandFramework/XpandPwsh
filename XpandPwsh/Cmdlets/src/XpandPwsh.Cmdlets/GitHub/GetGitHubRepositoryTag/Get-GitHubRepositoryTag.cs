@@ -2,6 +2,7 @@
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Octokit;
 using XpandPwsh.CmdLets;
 
@@ -9,6 +10,7 @@ namespace XpandPwsh.Cmdlets.GitHub.GetGitHubRepositoryTag{
     [CmdletBinding()]
     [Cmdlet(VerbsCommon.Get, "GitHubRepositoryTag")]
     [OutputType(typeof(GitTag))]
+    [CmdLetTag(CmdLetTag.GitHub,CmdLetTag.Reactive,CmdLetTag.RX)][PublicAPI]
     public class GetGitHubRepositoryTag : GitHubCmdlet{
         [Parameter(Mandatory = true,ValueFromPipeline = true)]
         public string Repository{ get; set; }

@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 namespace XpandPwsh.Cmdlets.GitHub.GetGitHubClient{
     [CmdletBinding]
     [Cmdlet(VerbsCommon.Get, "GitHubClient")]
-    [PublicAPI]
+    [PublicAPI][CmdLetTag(CmdLetTag.GitHub,CmdLetTag.Reactive,CmdLetTag.RX)]
     public class GetGitHubClient : GitHubCmdlet{
         protected override Task ProcessRecordAsync(){
             return Observable.Return(GitHubClient)

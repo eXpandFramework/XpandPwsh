@@ -1,5 +1,6 @@
 function Mount-Assembly {
     [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#dotnetcore"))]
     param (
         [parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         $Assembly

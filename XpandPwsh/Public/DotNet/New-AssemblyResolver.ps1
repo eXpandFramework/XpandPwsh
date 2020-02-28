@@ -1,4 +1,7 @@
-function New-AssemblyResolver{
+
+function New-AssemblyResolver {
+    [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#dotnetcore","#monocecil"))]
     param(
         [parameter(ValueFromPipeline)]
         [string]$Path,

@@ -1,5 +1,6 @@
 function Get-NugetPackageDependencies {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param (
         [parameter(Mandatory)]
         [string]$Id,

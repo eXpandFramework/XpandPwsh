@@ -1,5 +1,6 @@
 function Update-AzBuild {
     [CmdletBinding()]
+    [CmdLetTag(("#Azure","AzureDevOps"))]
     param (
         [parameter(ValueFromPipelineByPropertyName, Mandatory)]
         [string]$Id,

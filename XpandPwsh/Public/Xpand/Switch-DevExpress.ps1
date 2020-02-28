@@ -1,5 +1,6 @@
 function Switch-DevExpress {
     [alias("Switch-DX")]
+    [CmdLetTag()]
     param(
         [parameter()]
         [string[]]$dxNugetPackagesPath ,

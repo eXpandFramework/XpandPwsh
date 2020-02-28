@@ -1,6 +1,7 @@
 
 function Invoke-PaketRemove {
     [CmdletBinding()]
+    [CmdLetTag(("#nuget","#paket"))]
     param (
         [parameter(Mandatory)]
         [string]$Id,

@@ -8,6 +8,7 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;
@@ -17,6 +18,7 @@ using XpandPwsh.CmdLets;
 namespace XpandPwsh.Cmdlets.Nuget{
     [Cmdlet(VerbsCommon.Get, "NugetPackage")]
     [CmdletBinding]
+    [CmdLetTag(CmdLetTag.Nuget,CmdLetTag.Reactive,CmdLetTag.RX)][PublicAPI]
     public class GetNugetPackage : NugetCmdlet{
         [Parameter(ValueFromPipeline = true,Position = 0)]
         public string Name{ get; set; }

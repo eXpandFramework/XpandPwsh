@@ -1,6 +1,7 @@
 
 function Get-PackageReference {
     [CmdletBinding()]
+    [CmdLetTag("#nuget")]
     param (
         [string]$Path = ".",
         [switch]$PrivateAssets

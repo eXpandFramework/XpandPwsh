@@ -5,6 +5,7 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using XpandPwsh.CmdLets;
 using XpandPwsh.Cmdlets.GitHub.GetGitHubCommitIssue;
 
@@ -12,6 +13,7 @@ namespace XpandPwsh.Cmdlets.GitHub.PublishGitHubRelease{
     [CmdletBinding(SupportsShouldProcess = true)]
     [Cmdlet(VerbsCommon.New, "GithubReleaseNotes",SupportsShouldProcess = true)]
     [OutputType(typeof(string))]
+    [CmdLetTag(CmdLetTag.GitHub,CmdLetTag.Reactive,CmdLetTag.RX)][PublicAPI]
     public class NewGitHubReleaseNotes : XpandCmdlet{
         [Parameter()]
         public IReleaseNotesTemplate ReleaseNotesTemplate{ get; set; } = GitHub.PublishGitHubRelease.ReleaseNotesTemplate.Default;

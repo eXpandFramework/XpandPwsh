@@ -1,4 +1,7 @@
-function Update-AssemblyInfo() {
+
+function Update-AssemblyInfo {
+    [CmdletBinding()]
+    [CmdLetTag(("#dotnet","#dotnetcore"))]
     param(
         [parameter(Mandatory)]
         $path,
