@@ -15,6 +15,7 @@ function Get-AzArtifact {
         [ValidateScript({Test-path $_ -pathtype Container})]
         [parameter()]
         [System.IO.DirectoryInfo]$Outpath,
+        [switch]$NoExpandArchive,
         [string]$Organization=$env:AzOrganization,
         [string]$Project=$env:AzProject,
         [string]$Token=$env:AzDevopsToken
@@ -44,9 +45,15 @@ function Get-AzArtifact {
                 Use-Object($c=[System.Net.WebClient]::new()){
                     $c.DownloadFile($_.resource.downloadUrl,$zip)
                 }
-                Expand-Archive -DestinationPath "$Outpath\$name" -Path $zip -Force
-                Remove-Item $zip|Out-Null
-                (Get-Item "$Outpath\$name").FullName
+                if (!$NoExpandArchive){
+                    Expand-Archive -DestinationPath "$Outpath\$name" -Path $zip -Force
+                    Remove-Item $zip|Out-Null
+                    (Get-Item "$Outpath\$name").FullName
+                }
+                else{
+                    Get-Item $zip
+                }
+                
             }
             else{
                 $_
