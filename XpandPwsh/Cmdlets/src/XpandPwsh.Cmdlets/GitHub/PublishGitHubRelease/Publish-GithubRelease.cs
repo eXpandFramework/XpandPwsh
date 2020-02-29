@@ -36,7 +36,7 @@ namespace XpandPwsh.Cmdlets.GitHub.PublishGitHubRelease{
                 .IgnoreException<Release,NotFoundException>(this,ReleaseName).DefaultIfEmpty();
             if (release == null){
                 WriteVerbose("Creating new release");
-                var newRelease = new NewRelease(ReleaseName){Draft = Draft,Body = ReleaseNotes,Name = ReleaseName,Prerelease = Prerelease};
+                var newRelease = new NewRelease(ReleaseName){Draft = Draft.ToBool(),Body = ReleaseNotes,Name = ReleaseName,Prerelease = Prerelease.ToBool()};
                 release = await repositoriesClient.Release.Create(repository.Id, newRelease);
                 WriteVerbose("Uploading assets");
                 
