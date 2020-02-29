@@ -25,6 +25,8 @@ namespace XpandPwsh.Cmdlets.GitHub.PublishGitHubRelease{
         [Parameter]
         public string[] Files{ get; set; }
         [Parameter]
+        public SwitchParameter Prerelease{ get; set; }
+        [Parameter]
         public SwitchParameter Draft{ get; set; } 
 
         protected override async Task ProcessRecordAsync(){
@@ -34,7 +36,7 @@ namespace XpandPwsh.Cmdlets.GitHub.PublishGitHubRelease{
                 .IgnoreException<Release,NotFoundException>(this,ReleaseName).DefaultIfEmpty();
             if (release == null){
                 WriteVerbose("Creating new release");
-                var newRelease = new NewRelease(ReleaseName){Draft = Draft,Body = ReleaseNotes,Name = ReleaseName};
+                var newRelease = new NewRelease(ReleaseName){Draft = Draft,Body = ReleaseNotes,Name = ReleaseName,Prerelease = Prerelease};
                 release = await repositoriesClient.Release.Create(repository.Id, newRelease);
                 WriteVerbose("Uploading assets");
                 
