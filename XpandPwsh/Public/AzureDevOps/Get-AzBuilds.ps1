@@ -1,6 +1,6 @@
 function Get-AzBuilds {
     [CmdletBinding()]
-    [CmdLetTag(("#Azure","AzureDevOps"))]
+    [CmdLetTag(("#Azure", "AzureDevOps"))]
     param (
         [parameter(ValueFromPipeline)]
         [ArgumentCompleter( {
@@ -17,8 +17,9 @@ function Get-AzBuilds {
         [int]$Top,
         [int]$Skip,
         [string[]]$Tag,
-        [parameter(ParameterSetName="Id")]
+        [parameter(ParameterSetName = "Id")]
         [int]$Id,
+        [string]$BranchName,
         [string]$Project = $env:AzProject,
         [string]$Organization = $env:AzOrganization,
         [string]$Token = $env:AzDevopsToken
@@ -33,18 +34,19 @@ function Get-AzBuilds {
     }
     
     process {
-        $resource="build/builds/$id"
-        if (!$Id){
+        $resource = "build/builds/$id"
+        if (!$Id) {
             $query = ConvertTo-HttpQueryString @{
                 '$top'       = $top
                 '$skip'      = $Skip
                 reasonFilter = $Reason
+                branchName   = $BranchName
                 statusFilter = ($Status -join ",")
                 resultFilter = $Result
                 tagFilters   = ($Tag -join ",")
-                definitions  = (($Definition|Where-Object{$_} | Get-AzDefinition).id -join ",")
+                definitions  = (($Definition | Where-Object { $_ } | Get-AzDefinition).id -join ",")
             }
-            $resource="build/builds$query"
+            $resource = "build/builds$query"
         }
         Invoke-AzureRestMethod $resource @cred
     }
