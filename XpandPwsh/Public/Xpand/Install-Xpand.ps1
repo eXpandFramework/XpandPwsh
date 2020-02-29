@@ -1,5 +1,4 @@
 function Install-Xpand {
-    [CmdLetTag()]
     param (
         [string]$Version,
         [Switch]$Latest,
