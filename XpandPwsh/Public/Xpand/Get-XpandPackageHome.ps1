@@ -30,7 +30,7 @@ function Get-XpandPackageHome {
         else {
             throw $Id
         }
-        if ($]$Version){
+        if ($Version){
             $homePage="[$Id v.$Version]($homePage)"
         }
         $homePage
