@@ -18,7 +18,7 @@ function Get-XpandPackageHome {
         elseif ($Id -like "Xpand.XAF.Modules*"){
             $homePage="https://github.com/eXpandFramework/DevExpress.XAF/tree/master/src/Modules/$($id.Replace('Xpand.XAF.Modules.',''))"
         }
-        elseif ($Id -like "*.All.*"){
+        elseif ($Id -like "*.All"){
             $homePage="https://github.com/eXpandFramework/DevExpress.XAF/tree/master/src/Modules"
         }
         elseif ($Id -like "*VersionConverter*"){
