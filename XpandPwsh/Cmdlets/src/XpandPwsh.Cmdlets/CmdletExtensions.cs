@@ -31,12 +31,7 @@ namespace XpandPwsh.CmdLets{
         }
 
         public static void GetCallerPreference(this Cmdlet cmdlet){
-            try{
-                cmdlet.Invoke("Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState");
-            }
-            catch{
-                // ignored
-            }
+            cmdlet.Invoke("Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState");
         }
 
         public static Collection<PSObject> Invoke(this Cmdlet cmdlet, string script,RunspaceMode  runspaceMode=RunspaceMode.CurrentRunspace){
