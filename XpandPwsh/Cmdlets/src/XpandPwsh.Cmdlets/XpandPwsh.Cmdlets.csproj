@@ -27,4 +27,7 @@
       <HintPath>..\..\..\Private\MimeSharp\MimeSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Gac\" />
+  </ItemGroup>
 </Project>

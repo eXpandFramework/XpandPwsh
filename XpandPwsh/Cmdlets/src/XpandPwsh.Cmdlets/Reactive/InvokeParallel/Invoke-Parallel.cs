@@ -84,13 +84,13 @@ namespace XpandPwsh.Cmdlets.Reactive.InvokeParallel{
         }
 
         private IObservable<Collection<PSObject>> InvokeWithLimit(IObservable<object> values,IObservable<int> retrySignal){
-            return values.Select((o, i) => Observable.Defer(() => Start(o,retrySignal)))
+            return values.Select((o, i) => Start(o,retrySignal))
                 .Merge(LimitConcurrency);
         }
 
         private IObservable<Collection<PSObject>> Start(object o, IObservable<int> retrySignal){
 
-            return Observable.Start(() => {
+            return Observable.Defer(() => Observable.Start(() => {
                 using (var runspace = RunspaceFactory.CreateRunspace()){
                     runspace.Open();
                     runspace.SetVariable(new PSVariable("_", o));
@@ -108,7 +108,7 @@ namespace XpandPwsh.Cmdlets.Reactive.InvokeParallel{
                     runspace.Close();
                     return psObjects;
                 }
-            }).RetryWhen(_ => _.SelectMany(exception => retrySignal.Concat(Observable.Throw<int>(exception))));
+            }).RetryWhen(_ => _.SelectMany(exception => retrySignal.Concat(Observable.Throw<int>(exception)))));
         }
     }
 }

@@ -21,8 +21,6 @@ namespace XpandPwsh.Cmdlets.Nuget{
         [Parameter]
         public SwitchParameter IncludePrerelease{ get; set; } = new SwitchParameter(false);
 
-        [Parameter]
-        public SwitchParameter IncludeUnlisted{ get; set; } = new SwitchParameter(false);
 
         [Parameter]
         public SwitchParameter AllVersions{ get; set; } = new SwitchParameter(false);
@@ -34,8 +32,13 @@ namespace XpandPwsh.Cmdlets.Nuget{
 
 
         protected override async Task ProcessRecordAsync(){
+            if (Name == null && (Versions == null || !Versions.Any())){
+                await Providers.ListPackages(Source, IncludeDelisted, AllVersions, IncludePrerelease)
+                    .HandleErrors(this).WriteObject(this);
+                return;
+            }
             var listPackages = Name != null ? Observable.Return(Name)
-                : Providers.ListPackages(Source, includeDelisted: IncludeDelisted.IsPresent).ToPackageObject().Select(_ => _.Id);
+                : Providers.ListPackages(Source, IncludeDelisted,false,IncludePrerelease).ToPackageObject().Select(_ => _.Id);
             var metaData = listPackages
                 .SelectMany(package => SelectPackages(package, Providers))
                 .Where(metadata => metadata!=null)
@@ -74,7 +77,7 @@ namespace XpandPwsh.Cmdlets.Nuget{
         }
 
         private IObservable<IPackageSearchMetadata> SelectPackages(string s, List<Lazy<INuGetResourceProvider>> providers){
-            return Source.Split(';').ToObservable().SelectMany(source => providers.PackageMetadata(source, s));
+            return Source.Split(';').ToObservable().SelectMany(source => providers.PackageMetadata(source, s,IncludeDelisted,IncludePrerelease));
         }
 
         
