@@ -6,3 +6,4 @@
 **/.vs/
 /XpandPwsh/Cmdlets/bin/
 *.sln.DotSettings.user
+**/.idea/
