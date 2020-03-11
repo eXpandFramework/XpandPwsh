@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Management.Automation;
-using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -17,6 +16,10 @@ namespace XpandPwsh.Cmdlets.Nuget{
         public string Id{ get; set; }
         [Parameter]
         public int? Top{ get; set; } = 3;
+        [Parameter]
+        public SwitchParameter IncludeDelisted{ get; set; } 
+        [Parameter]
+        public SwitchParameter IncludePrerelease{ get; set; }
 
         protected override Task BeginProcessingAsync(){
             
@@ -27,7 +30,7 @@ namespace XpandPwsh.Cmdlets.Nuget{
         }
 
         protected override Task ProcessRecordAsync(){
-            return Providers.GetLatestMinors(Source, Id,Top).ToObservable().ToTask().WriteObject(this);
+            return Providers.GetLatestMinors(Source, Id,Top,IncludePrerelease,IncludeDelisted).ToObservable().ToTask().WriteObject(this);
         }
 
     }
