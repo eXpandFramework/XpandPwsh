@@ -17,15 +17,7 @@ function Pop-XafPackage {
     
     process {
         $existingPackages=Get-ChildItem $OutputFolder DevExpress*$dxVersion*.nupkg  -Recurse|ConvertTo-PackageObject 
-        $a = @{
-            Source = $PackageSource
-            Id=$null
-            Recurse=$true
-            FilterRegex="DevExpress"
-        }
-        
-        
-        $m=Get-NugetPackageSearchMetadata -Source $env:DxFeed | Where-Object{
+        $m=Get-NugetPackageSearchMetadata -Source $PackageSource | Where-Object{
             $id=$_.Identity.Id
             !("de","es","ja","ru"|Where-Object{ $id -like "*.$_"}) -and $id -notmatch "\.wpf\.|\.xamarinforms\.|\.web\.mvc|\.WindowsDesktop\." 
         }
