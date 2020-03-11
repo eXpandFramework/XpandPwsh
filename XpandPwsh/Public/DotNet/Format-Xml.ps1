@@ -19,7 +19,7 @@ function Format-Xml {
     param(
         # The Xml Document
         [Parameter(Position = 0, Mandatory = $true, ValueFromPipeline = $true, ParameterSetName = "Document")]
-        $Xml,
+        [xml]$Xml,
 
         # The path to an xml document (on disc or any other content provider).
         [Parameter(Position = 0, Mandatory = $true, ValueFromPipelineByPropertyName = $true, ParameterSetName = "File")]
