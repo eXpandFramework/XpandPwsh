@@ -12,7 +12,9 @@ using NuGet.Protocol.Core.Types;
 
 namespace XpandPwsh.Cmdlets.Nuget{
     public static class NugetExtensions{
-        public static async Task<Version[]> GetLatestMinors(this  List<Lazy<INuGetResourceProvider>> providers, string source, string name,int? top=3,SwitchParameter includePrelease=default,SwitchParameter includedDelisted=default){
+        public static async Task<Version[]> GetLatestMinors(this List<Lazy<INuGetResourceProvider>> providers,
+            string source, string name, int? top = 3, SwitchParameter includePrelease = default,
+            SwitchParameter originalVersion = default,SwitchParameter includedDelisted = default){
             var packageMetadata = providers.PackageMetadata(source, name,includedDelisted,includePrelease).Replay().RefCount();
             await packageMetadata;
             var versions = packageMetadata.ToEnumerable().GroupBy(metadata => {

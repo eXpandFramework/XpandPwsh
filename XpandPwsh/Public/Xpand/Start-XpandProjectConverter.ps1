@@ -4,8 +4,6 @@ function Start-XpandProjectConverter {
     param (
         [parameter(ParameterSetName = "XAFPackages")]
         [string]$version,
-        [parameter(ParameterSetName = "XAFPackages")]
-        [string]$Packagepath,
         [string]$Path = (Get-Location),
         [parameter()]
         [ValidateSet("csproj", "vbproj")]
@@ -104,7 +102,5 @@ function Start-XpandProjectConverter {
         $result = $regex.Replace($xml, "`${name}v$shortDxVersion`$1Version=$newVersion")
         Set-Content $_.FullName $result.Trim()
     }
-    if ($Packagepath) {
-        Switch-XpandToNugets -Path $Path -PackageSource $Packagepath
-    }
+    
 }

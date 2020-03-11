@@ -8,7 +8,7 @@ function Pop-XpandPackage{
         [string]$PackageSource,
         [string]$OutputFolder=(Get-NugetInstallationFolder GlobalPackagesFolder) 
     )
-    throw "fasterflect,patcher,collections"
+    
     $allMetadata=Get-XpandPackages -Source  $PackageSource All|ForEach-Object{
         [PSCustomObject]@{
             Id = $_.Id
