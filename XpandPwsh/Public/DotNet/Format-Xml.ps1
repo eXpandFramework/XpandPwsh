@@ -48,7 +48,7 @@ function Format-Xml {
         $xmlString=$StringWriter.ToString()
         Write-Output $xmlString
         if ($Path){
-            Set-Content $Path $xmlString
+            Set-Content $Path $xmlString -NoNewline
         }
     }
 }
