@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.12.3'
+ModuleVersion = '1.201.12.4'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -119,7 +119,6 @@ FunctionsToExport = @(
 "Get-AzDefinition",
 "Get-AzProjects",
 "Get-AzTestRuns",
-"Test-Version",
 "Get-CallerPreference",
 "Get-ChocoPackage",
 "Get-DevExpressPath",
@@ -248,6 +247,7 @@ FunctionsToExport = @(
 "Test-GacAssemblyInstallReferenceCanBeUsed",
 "Test-ProjectSdk",
 "Test-Symbol",
+"Test-Version",
 "Uninstall-AllModules",
 "UnInstall-DotnetCoreSdk",
 "Uninstall-ProjectAllPackages",
