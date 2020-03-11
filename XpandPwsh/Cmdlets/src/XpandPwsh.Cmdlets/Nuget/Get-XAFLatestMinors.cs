@@ -16,6 +16,11 @@ namespace XpandPwsh.Cmdlets.Nuget{
         [Parameter]
         public int? Top{ get; set; } = 3;
 
+        [Parameter]
+        public SwitchParameter IncludeDelisted{ get; set; } 
+        [Parameter]
+        public SwitchParameter IncludePrerelease{ get; set; }
+
         protected override Task BeginProcessingAsync(){
             
             if (Source == null){
@@ -25,7 +30,7 @@ namespace XpandPwsh.Cmdlets.Nuget{
         }
 
         protected override  Task ProcessRecordAsync(){
-            return Providers.GetLatestMinors(Source, "DevExpress.ExpressApp", Top).ToObservable().ToTask().WriteObject(this);
+            return Providers.GetLatestMinors(Source, "DevExpress.ExpressApp", Top,IncludePrerelease,IncludeDelisted).ToObservable().ToTask().WriteObject(this);
         }
 
 
