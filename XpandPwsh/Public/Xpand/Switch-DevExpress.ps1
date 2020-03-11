@@ -2,91 +2,70 @@ function Switch-DevExpress {
     [alias("Switch-DX")]
     [CmdLetTag()]
     param(
-        [parameter()]
-        [string[]]$dxNugetPackagesPath ,
         [parameter(Mandatory)]
-        [string]$sourcePath 
+        [string]$sourcePath ,
+        [parameter( Mandatory)]
+        [string]$PackageSource,
+        [switch]$SkipPackageDownload
         
     )
-    $dxPath = Get-DevExpressPath -ErrorAction SilentlyContinue
-    if (!$dxPath -and !$dxNugetPackagesPath){
-        throw "XAF installation not found in this system, please provide a value for the dxNugetPackagesPath parametr"
-    }
-    if (!$dxNugetPackagesPath -and $dxPath) {
-        [hashtable]$dxNugetPackagesPath = $dxPath | ForEach-Object { 
-            [PSCustomObject]@{
-                Name = $_.Name
-                Path="$($_.Directory)\System\Components\packages" 
-            }
-        }|ConvertTo-Dictionary -KeyPropertyName name -ValueSelector {$_.Path}
-        $dxNugetPackagesPath.Keys | ForEach-Object {
-            if (!(Test-Path "$_\Nupkg")) {
-                New-Item "$_\Nupkg" -ItemType Directory -ErrorAction SilentlyContinue
-                Get-ChildItem $_ *.nupkg | ForEach-Object {
-                    if (!(Test-Path "$_\Nupkg\$($_.BaseName).zip")) {
-                        $zipFile = "$($_.DirectoryName)\Nupkg\$($_.BaseName).zip"
-                        Copy-Item $_.FullName $zipFile
-                        Expand-Archive $zipFile "$($_.DirectoryName)\Nupkg\$($_.BaseName)"
-                        Remove-Item $zipFile
-                    }
-                }
-            }
-        }
-        $assemblies=$dxNugetPackagesPath.Keys | foreach-Object { 
-            $path=$dxNugetPackagesPath[$_]
-            [PSCustomObject]@{
-                Name=$_
-                Assemblies=(Get-ChildItem "$path\Nupkg\" "*.dll" -Recurse)|ConvertTo-Dictionary -KeyPropertyName BaseName -ValueSelector {$_}
-            }
-         }|ConvertTo-Dictionary -KeyPropertyName Name -ValueSelector{$_.Assemblies}
+    $dxVersion = Get-VersionPart (Get-DevExpressVersion -LatestVersionFeed $PackageSource) Build
+    $source = Get-NugetInstallationFolder GlobalPackagesFolder
+    if (!$SkipPackageDownload){
+        Write-HostFormatted "Download all packages from $PackageSource" -Section
+        $packages=Pop-XafPackage -PackageSource $PackageSource 
     }
     else{
-        $source=($dxNugetPackagesPath|Select-Object -First 1)
-        $assemblies=(Get-LatestMinorVersion -id DevExpress.ExpressApp -top 100 -Source $source|ForEach-Object{
-            $pversion="$((Get-DevExpressVersion $_ -Build))"
-            $unzipFolder="$dxNugetPackagesPath\Unzipped\$((Get-DevExpressVersion $_ ))"
-            if (!(Test-Path $unzipFolder )){
-                New-Item $unzipFolder -Force -ItemType Directory
-                Get-ChildItem $dxNugetPackagesPath "*$pVersion*"|ForEach-Object{
-                    $id=$_.BaseName
-                    $zipFile="$unzipFolder\$id.zip"
-                    Copy-Item $_.FullName $zipFile -Force
-                    Expand-Archive $zipFile "$unzipFolder\$id" -Force
-                    Remove-Item $zipFile
-                }    
-            }
-            [PSCustomObject]@{
-                Name = Get-DevExpressVersion $pversion
-                Assemblies=Get-ChildItem $unzipFolder *.dll -Recurse|ConvertTo-Dictionary -KeyPropertyName BaseName -ValueSelector {$_}
-            }
-            
-        })|ConvertTo-Dictionary -KeyPropertyName name -ValueSelector {$_.Assemblies}
+        $packages=Get-ChildItem $source DevExpress*$dxVersion.nupkg -Recurse|ConvertTo-PackageObject
     }
+    
+    $unzipFolder = "$source\..\Unzipped\$((Get-DevExpressVersion $dxVersion ))"
+    if ((Test-Path $unzipFolder )) {
+        Remove-Item $unzipFolder -Recurse -Force
+    }
+    New-Item $unzipFolder -Force -ItemType Directory       
+    $packages.File | ForEach-Object {
+        $id = $_.BaseName
+        if (!(Test-Path "$unzipFolder\$id")){
+            $zipFile = "$unzipFolder\$id.zip"
+            Copy-Item $_.FullName $zipFile -Force
+            Expand-Archive $zipFile "$unzipFolder\$id" -Force
+            Remove-Item $zipFile
+        }
+    }    
+    
+    $assemblies = (@($dxVersion) | ForEach-Object {
+            $pversion = "$((Get-DevExpressVersion $_ -Build))"
+            [PSCustomObject]@{
+                Name       = Get-DevExpressVersion $pversion
+                Assemblies = Get-ChildItem $unzipFolder *.dll -Recurse | ConvertTo-Dictionary -KeyPropertyName BaseName -ValueSelector { $_ }
+            }        
+        }) | ConvertTo-Dictionary -KeyPropertyName name -ValueSelector { $_.Assemblies }
     
     Get-ChildItem $sourcePath *.csproj -Recurse | ForEach-Object {    
         $projectPath = $_.FullName
         [xml]$project = Get-XmlContent $projectPath
         $dxReferences = $project.project.ItemGroup.Reference | Where-Object { $_.Include -like "DevExpress*" }
         if ($dxReferences) {
-            Write-HostFormatted "Switching $projectPath" -fg Magenta
-            $dxVersion=$dxReferences|ForEach-Object{
+            Write-HostFormatted "Switching DevExpress to Nugets $projectPath" -Section
+            $dxVersion = $dxReferences | ForEach-Object {
                 $regex = [regex] '\.v(\d{2}\.\d)'
                 $regex.Match($_.Include).Groups[1].Value;
-            }|Select-Object -First 1
+            } | Select-Object -First 1
             $dxReferences | ForEach-Object {
                 $_.ParentNode.RemoveChild($_) | Out-Null
                 $name = ([regex] '([^,]*)').Match($_.Include).Value
-                
+                Write-HostFormatted "Switching $name" -ForegroundColor Magenta
                 $package = $assemblies[$dxVersion][$name]
                 
                 if (!$package) {
                     throw "$name not found in $($projectPath)"
                 }
-                $parent=$package.Directory.Parent
+                $parent = $package.Directory.Parent
                 do {
                     
-                    $packageName=$parent.BaseName  
-                    $parent=$parent.Parent  
+                    $packageName = $parent.BaseName  
+                    $parent = $parent.Parent  
                 } until ($parent.BaseName -eq $dxVersion)
                 
                 
@@ -95,9 +74,9 @@ function Switch-DevExpress {
                 $packageName = $regex.Replace($packageName, "")
                 
                 Add-XmlElement $project PackageReference ItemGroup ([ordered]@{
-                    Include = $packageName
-                    Version = $version
-                })
+                        Include = $packageName
+                        Version = $version
+                    })
             }
             $project.Save($projectPath)
             $projectPath | Remove-BlankLines
