@@ -22,11 +22,18 @@ function Invoke-AzureRestMethod {
         if (!$Project){
             throw "Project is null"
         }
+        if ($Project -eq "AzDevOpsProjectRestApi"){
+            $Project=$null
+        }
     }
     
     process {
         $encodedPat = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(":$Token"))
-        $uri="https://dev.azure.com/$Organization/$Project/_apis/$Resource"
+        $uri="https://dev.azure.com/$Organization"
+        if ($Project){
+            $uri+="/$Project"
+        }
+        $uri+="/_apis/$Resource"
         if ($uri.Contains("*") -or $uri.Contains("?")){
             $uri+="&"
         }
