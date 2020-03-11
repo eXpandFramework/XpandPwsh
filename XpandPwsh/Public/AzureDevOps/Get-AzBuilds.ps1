@@ -44,7 +44,7 @@ function Get-AzBuilds {
                 statusFilter = ($Status -join ",")
                 resultFilter = $Result
                 tagFilters   = ($Tag -join ",")
-                definitions  = (($Definition | Where-Object { $_ } | Get-AzDefinition).id -join ",")
+                definitions  = (($Definition | Where-Object { $_ } | Get-AzDefinition @cred).id -join ",")
             }
             $resource = "build/builds$query"
         }
