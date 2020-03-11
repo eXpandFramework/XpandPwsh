@@ -2,13 +2,14 @@ function Add-XmlElement {
     [CmdletBinding()]
     [CmdLetTag("#dotnet")]
     param (
-        [parameter()]
+        [parameter(Mandatory)]
         [System.Xml.XmlDocument]$Owner,
         [parameter(Mandatory)]
         [string]$ElementName,
         [parameter(Mandatory)]
         [string]$Parent,
-        [System.Collections.Specialized.OrderedDictionary]$Attributes
+        [System.Collections.Specialized.OrderedDictionary]$Attributes,
+        [string]$InnerText
         
     )
     
@@ -26,10 +27,11 @@ function Add-XmlElement {
                 $element.SetAttribute($_, $Attributes[$_])
             }
         }
-        
+        $element.InnerText=$InnerText;
         $parentNode = $Owner.SelectSingleNode("//ns:$Parent", $ns)
         $parentNode.AppendChild($Owner.CreateTextNode([System.Environment]::NewLine)) | Out-Null
         $parentNode.AppendChild($Owner.CreateTextNode("    ")) | Out-Null
+
         $parentNode.AppendChild($element) | Out-Null
     }
     
