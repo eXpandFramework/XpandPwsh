@@ -2,12 +2,15 @@ function Get-XafPackageNames{
     [CmdLetTag()]
     param(
         [parameter(Mandatory)]
-        [string]$Version
+        [string[]]$Version,
+        [ValidateSet("Core","Win","Web")]
+        [string[]]$Platform=@("Win","Web","Core"),
+        [parameter(Mandatory)]
+        [string]$DXFeed
     )
-    (((Get-DxNugets -version $version).Package|Where-Object{$_ -like "DevExpress.ExpressApp*"})+@("All","All.Win","All.Web"))|Where-Object{
-        $p=$_
-        !(".ja",".ru",".de",".es"|Where-Object{$p -like "*$_"})
-    }|ForEach-Object{
-        $_
-    }|Sort-Object -Unique 
+    ($Platform|ForEach-Object{
+        Get-NugetPackageDependencies DevExpress.ExpressApp.$_.All -Source $DXFeed -FilterRegex "DevExpress.ExpressApp.*|DevExpress.Persistent.*" -Recurse
+    }|Sort-Object Id -Unique|Where-Object{
+        !$Version -or $_.VersionRange.MaxVersion -in $Version
+    }).Id
 }
