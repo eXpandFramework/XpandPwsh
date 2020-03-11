@@ -2,8 +2,8 @@ function Clear-NugetCache {
     [CmdletBinding()]
     [CmdLetTag("#nuget")]
     param (
-        [ValidateSet("XpandPackages")]
-        [string]$Filter,
+        [ValidateSet("XpandPackages","DevExpress")]
+        [string[]]$Filter,
         [switch]$SkipVersionConverter,
         [parameter(ParameterSetName="paket")]
         [switch]$Recurse
@@ -11,11 +11,17 @@ function Clear-NugetCache {
     
     if ($Filter) {
         $path = (Get-NugetInstallationFolder GlobalPackagesFolder)
+        if ("XpandPackages" -in $Filter){
+            $match=@("Xpand*","eXpand*","*.Xpand")
+        }
+        if ("DevExpress" -in $Filter){
+            $match+=@("DevExpress*","DevExtreme*")
+        }
         if (Test-Path ".\packages"){
-            RemovePackages ".\packages" $SkipVersionConverter    
+            RemovePackages ".\packages" $SkipVersionConverter  $match
         }
         if (Test-Path $path){
-            RemovePackages $path $SkipVersionConverter
+            RemovePackages $path $SkipVersionConverter $match
         }
     }
     else { 
@@ -30,7 +36,8 @@ function Clear-NugetCache {
 function RemovePackages {
     param (
         $Path,
-        $SkipVersionConverter
+        $SkipVersionConverter,
+        $Match
     )
     
     $folders = Get-ChildItem $path 
@@ -39,7 +46,8 @@ function RemovePackages {
     }
     $folders | Where-Object {
         if (!($SkipVersionConverter -and $_.BaseName -notlike "*VersionConverter")) {
-            $_.BaseName -like "Xpand*" -or $_.BaseName -like "eXpand*" 
+            $baseName=$_.BaseName
+            $match|Where-Object{$baseName -like $_}
         }
     } | Remove-Item -Recurse -Force 
 }
@@ -52,7 +60,8 @@ function RemovePackages {
     $folders = Get-ChildItem $path 
     $folders | Where-Object {
         if (!($SkipVersionConverter -and $_.BaseName -notlike "*VersionConverter")) {
-            $_.BaseName -like "Xpand*" -or $_.BaseName -like "eXpand*" 
+            $baseName=$_.BaseName
+            $match|Where-Object{$baseName -like $_}
         }
     } | Remove-Item -Recurse -Force 
 }
