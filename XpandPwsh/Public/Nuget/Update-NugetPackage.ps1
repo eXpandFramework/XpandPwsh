@@ -7,25 +7,18 @@ function Update-NugetPackage {
         [string]$SourcePath = ".",
         [parameter(ParameterSetName = "projects")]
         [System.IO.FileInfo[]]$projects,
-        [string]$RepositoryPath,
         [parameter()]
         [string]$Filter = ".*",
         [string]$ExcludeFilter ,
-        [string]$sources = ((Get-PackageSourceLocations Nuget) -join ";")
+        [string[]]$sources = (Get-PackageSourceLocations Nuget)
     )
-    
-    if ($RepositoryPath) {
-        Write-Host "PackagesConfig:" -f Blue 
-        Update-NugetPackagesConfig $SourcePath $RepositoryPath $Filter $ExcludeFilter $sources
-    }
-    
-    
     if (!$projects) {
         $projects = Get-ChildItem $SourcePath *.csproj -Recurse 
+        Write-HostFormatted "projects:" -Section
+        $projects | Select-Object -expandProperty baseName 
     }
-    Write-Host "projects:" -f blue
-    $projects | Select-Object -expandProperty baseName
-    $packages = $projects | ForEach-Object {
+    
+    $packages = $projects | Invoke-Parallel -ActivityName "Collecting Installed Packages" -VariablesToImport "Filter", "ExcludeFilter" -Script {
         $p = (Get-PackageReference $_.FullName).Include | Where-Object { $_ -and $_ -match $Filter }
         if ($ExcludFilter) {
             $p | Where-Object { $_ -notmatch $ExcludeFilter }
@@ -35,57 +28,50 @@ function Update-NugetPackage {
         }
     } | Sort-Object -Unique
 
-Write-Host "packages:" -f blue
-$packages
-$metadata = $packages | ForEach-Object {
-    Get-NugetPackageSearchMetadata $_ $sources
-} | Get-SortedPackageByDependencies
-        
-$packagesToAdd = GetPackagesToAdd $projects $Filter $ExcludeFilter
-Write-Host "packagesToAdd:$($packagesToAdd.Count)" -ForegroundColor Blue
-$packagesToAdd 
-Write-Host "`r`n`r`n"
-$concurrencyLimit = [System.Environment]::ProcessorCount - 2
-while ($packagesToAdd) {
-    $notPackagesToAdd = $packagesToAdd | Invoke-Parallel -LimitConcurrency $concurrencyLimit -Script {
-        $projectPath = $_.ProjectPath
-        $p = $_.Package
-        $s = $_.Sources
-        $v = $_.Version
-        $nuget = Get-NugetPath
-        $output = "dotnet add $projectPath package $p -v $v -s $s`r`n"
-        try {
-            $output = dotnet add $projectPath package $p -v $v -s $s -n
-            if ($output -like "*error*") {
-                [PSCustomObject]@{
-                    Package = $_
-                    Error   = $output
+    Write-HostFormatted "installed packages:" -Section
+    $packages
+    $metadata = $packages | Invoke-Parallel -ActivityName "Query metadata in input sources" -VariablesToImport "sources" -Script {
+        Get-NugetPackageSearchMetadata $_ ($sources -join ";")
+    } | Get-SortedPackageByDependencies
+    $packagesToAdd = GetPackagesToAdd $projects $Filter $ExcludeFilter $metadata
+    Write-HostFormatted "packagesToAdd:$($packagesToAdd.Count)" -Section
+    $packagesToAdd 
+    
+    while ($packagesToAdd) {
+        $notPackagesToAdd = $packagesToAdd | Group-Object ProjectPath | Invoke-Parallel -ActivityName "Updating Packages" -VariablesToImport "sources" -Script {
+        # $notPackagesToAdd = $packagesToAdd | Group-Object ProjectPath | foreach {
+            $_.Group | ForEach-Object {
+                $projectPath = $_.ProjectPath
+                $p = $_.Package
+                $v = $_.Version
+                $output = "dotnet add $projectPath package $p -v $v `r`n"
+                $output = dotnet add $projectPath package $p -v $v -n -s  $sources
+                if ($output -like "*error*") {
+                    [PSCustomObject]@{
+                        Package = $_
+                        Error   = $output
+                    }
                 }
             }
+            
         }
-        catch {
-                
+        
+        if ($notPackagesToAdd.Package) {
+            Write-HostFormatted "Not-PackagesToAdd: $($notPackagesToAdd.Count)" -Section
+            $notPackagesToAdd.Package | Out-String
+            Write-Host "Error:" -ForegroundColor Red
+            $notPackagesToAdd.Error | Out-String
         }
+        
+        $packagesToAdd = GetPackagesToAdd $projects $Filter $ExcludeFilter $metadata
+        Write-HostFormatted "packagesToAdd:$($packagesToAdd.Count)" -Section
+        $packagesToAdd 
     }
-        
-        
-    Write-Host "Not-PackagesToAdd: $($notPackagesToAdd.Count)" -ForegroundColor Red
-    $notPackagesToAdd.Package | Out-String
-    Write-Host "Error:" -ForegroundColor Red
-    $notPackagesToAdd.Error | Out-String
-
-    Write-Host "`r`n`r`n"
-    Start-Sleep 1
-    $packagesToAdd = GetPackagesToAdd $projects $Filter $ExcludeFilter
-    Write-Host "packagesToAdd:$($packagesToAdd.Count)" -ForegroundColor Blue
-    $packagesToAdd 
-}
 
 }
-function GetPackagesToAdd($projects, $Filter, $ExcludeFilter) {
-    $projects | ForEach-Object {
+function GetPackagesToAdd($projects, $Filter, $ExcludeFilter, $metadata) {
+    $projects | Invoke-Parallel -ActivityName "Identifying outdated packages" -VariablesToImport "Filter", "ExcludeFilter", "metadata" -Script {
         $csprojPath = $_.FullName
-        $csprojName = $_.BaseName
         Get-PackageReference $csprojPath | Where-Object {
             $r = $_.Include -and $_.Include -match $Filter
             if ($ExcludeFilter -and $r) {
@@ -100,16 +86,14 @@ function GetPackagesToAdd($projects, $Filter, $ExcludeFilter) {
             $latestVersion = (Get-NugetPackageMetadataVersion $m).version
             $installedVersion = $_.Version
             if ($latestVersion -ne $installedVersion) {
-                Write-Host "Updating $csprojName $p $installedVersion to $latestVersion" -f Green
                 [PSCustomObject]@{
                     ProjectPath = $csprojPath
                     Package     = $p
                     Version     = $latestVersion
-                    Sources     = $sources
                 }
             }
         }
-}
+    }
 }
 function Update-NugetPackagesConfig {
     [CmdletBinding()]
@@ -120,7 +104,7 @@ function Update-NugetPackagesConfig {
         [parameter()]
         [string]$Filter = ".*",
         [string]$ExcludFilter,
-        [string]$sources = ((Get-PackageSourceLocations Nuget) -join ";")
+        [string[]]$sources = (Get-PackageSourceLocations Nuget)
     )
     
     begin {
@@ -160,29 +144,29 @@ function Update-NugetPackagesConfig {
                 }
             }
         } | Where-Object { $_.NewVersion -and ($_.Version -ne $_.NewVersion) }
-    $sortedPackages = $packages | Group-Object Config | ForEach-Object {
-        $p = [PSCustomObject]@{
-            Packages = ($_.Group | Get-SortedPackageByDependencies)
-        }
-        $p
-    } 
+        $sortedPackages = $packages | Group-Object Config | ForEach-Object {
+            $p = [PSCustomObject]@{
+                Packages = ($_.Group | Get-SortedPackageByDependencies)
+            }
+            $p
+        } 
     
     
-    $sortedPackages | Invoke-Parallel -activityName "Update all packages" -VariablesToImport @("RepositoryPath", "sources") -Script {
-        ($_.Packages | ForEach-Object {
-                if ($RepositoryPath) {
-                    & (Get-NugetPath) Update $_.Config -Id $_.Id -Version $($_.NewVersion) -Source $sources -NonInteractive -RepositoryPath $RepositoryPath
-                }
-                else {
-                    & (Get-NugetPath) Update $_.Config -Id $_.Id -Version $($_.NewVersion) -Source $sources -NonInteractive 
-                }
+        $sortedPackages | Invoke-Parallel -activityName "Update all packages" -VariablesToImport @("RepositoryPath", "sources") -Script {
+            ($_.Packages | ForEach-Object {
+                    if ($RepositoryPath) {
+                        & (Get-NugetPath) Update $_.Config -Id $_.Id -Version $($_.NewVersion) -Source $sources -NonInteractive -RepositoryPath $RepositoryPath
+                    }
+                    else {
+                        & (Get-NugetPath) Update $_.Config -Id $_.Id -Version $($_.NewVersion) -Source $sources -NonInteractive 
+                    }
             
-            })
+                })
+        }
     }
-}
     
-end {
-}
+    end {
+    }
 }
 
 function Get-SortedPackageByDependencies {
