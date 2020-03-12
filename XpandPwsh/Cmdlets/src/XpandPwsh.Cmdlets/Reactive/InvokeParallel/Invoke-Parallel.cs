@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using XpandPwsh.CmdLets;
 
-namespace XpandPwsh.Cmdlets.Reactive.InvokeParallel{
+namespace XpandPwsh.Cmdlets.Reactive.InvokeParallel
+{
     [Cmdlet(VerbsLifecycle.Invoke, "Parallel")]
     [CmdletBinding]
     [CmdLetTag(CmdLetTag.Reactive,CmdLetTag.RX)][PublicAPI]
@@ -77,6 +78,7 @@ namespace XpandPwsh.Cmdlets.Reactive.InvokeParallel{
             if (First > -1){
                 values = values.Take(First);
             }
+            
             return values
                 .WriteObject(this, _values.Count)
                 .HandleErrors(this, ActivityName,SynchronizationContext.Current)
@@ -94,17 +96,23 @@ namespace XpandPwsh.Cmdlets.Reactive.InvokeParallel{
                             runspace.Open();
                             runspace.SetVariable(new PSVariable("_", o));
                             runspace.SetVariable(_psVariables);
-                            var psObjects = runspace.Invoke($"[CmdletBinding()]\r\nParam()\r\n{Script}");
-
-                            var errors = runspace.Invoke("$Error").Where(_ => _ != null)
-                                .Select(psObject => psObject.BaseObject).OfType<ErrorRecord>().Select(record => record.Exception).ToObservable()
-                                .GroupBy(exception => exception.Message).SelectMany(_ => _.FirstAsync())
-                                .SelectMany(Observable.Throw<Collection<PSObject>>);
-                            var invalidExitCode = runspace.Invoke("$LastExitCode")
-                                .Where(_ => _ != null && (int) _.BaseObject > 0).ToObservable()
-                                .SelectMany(_ => Observable.Throw<Collection<PSObject>>(new Exception($"LastExitCode: {_.BaseObject}")));
-
-                            return invalidExitCode.Concat(errors).Concat(Observable.Return(psObjects));
+                            var psObjects = runspace.Invoke($"[CmdletBinding()]\r\nParam()\r\n{Script}").Cast<PSObject>();
+                            var lastExitCode = runspace.Invoke($"$LastExitCode").Any(_ => _?.BaseObject is int code&& code>0);
+                            var errors = runspace.Invoke("$Error").Where(_ => _?.BaseObject is ErrorRecord)
+                                .GroupBy(exception => ((ErrorRecord) exception.BaseObject).Exception.Message)
+                                .SelectMany(objects => objects);
+                            var collection = new Collection<PSObject>();
+                            foreach (var psObject in psObjects.Concat(errors)){
+                                if (lastExitCode){
+                                    var targetObject = PSSerializer.Serialize(psObject, 3);
+                                    collection.Add(PSObject.AsPSObject(new ErrorRecord(new Exception(psObject.ToString()), ErrorCategory.FromStdErr.ToString(),
+                                        ErrorCategory.FromStdErr, targetObject)));
+                                }
+                                else{
+                                    collection.Add(psObject);
+                                }
+                            }
+                            return Observable.Return(collection);
                         }
                     }).Merge()
                     .RetryWhen(_ => _.SelectMany(exception => {

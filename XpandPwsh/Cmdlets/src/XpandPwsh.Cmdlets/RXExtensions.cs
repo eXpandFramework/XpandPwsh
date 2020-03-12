@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Management.Automation;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
@@ -79,7 +81,24 @@ namespace XpandPwsh.Cmdlets{
                 .ObserveOn(SynchronizationContext.Current)
                 .Select(obj => {
                     var o = output?.Invoke(obj) ?? obj;
-                    cmdlet.WriteObject(o, enumerateCollection);
+                    if (o is Collection<PSObject> psObjects){
+                        foreach (var psObject in psObjects){
+                            if (psObject?.BaseObject is ErrorRecord record){
+                                // var errorAction = cmdlet.Invoke("$ErrorActionPreference").First().BaseObject;
+                                cmdlet.WriteObject(record.TargetObject);
+                                // cmdlet.Invoke("$ErrorActionPreference='continue'");
+                                cmdlet.WriteError(record);
+                                // cmdlet.Invoke($"$ErrorActionPreference='{errorAction}'");
+                            }
+                            else{
+                                cmdlet.WriteObject(psObject);
+                            }
+                        }
+                    }
+                    else{
+                        cmdlet.WriteObject(o, enumerateCollection);
+                    }
+                    
                     return obj;
                 });
             return progressItemsTotalCount.HasValue ? writeObject.WriteProgress((IProgressCmdlet) cmdlet, progressItemsTotalCount.Value) : writeObject.DefaultIfEmpty();
