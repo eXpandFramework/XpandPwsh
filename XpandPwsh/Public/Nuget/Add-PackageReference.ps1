@@ -1,24 +1,38 @@
 function Add-PackageReference {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName="Project")]
     [CmdLetTag("#nuget")]
     param (
+        [parameter(Mandatory,ValueFromPipeline,ParameterSetName="Project")]
+        [xml]$Project,
+        [parameter(Mandatory,ValueFromPipeline,ParameterSetName="Project")]
+        [version]$Version,
         [parameter(Mandatory,ValueFromPipeline)]
         [string]$Package,
-        [string[]]$Source=(Get-PackageSourceLocations)
+        [parameter(ParameterSetName="Sources")]
+        [string[]]$Source=(Get-PackageSourceLocations -Verbose:$false)
     )
     
     begin {
-        $projects=Get-ChildItem *.*proj
-        if (!$projects){
-            throw "Projects not found"
-        }
-        if ($projects.count -gt 1){
-            $projects
-            throw "Multiple projects found"
+        if ($PSCmdlet.ParameterSetName -ne "Project"){
+            $projects=Get-ChildItem *.*proj
+            if (!$projects){
+                throw "Projects not found"
+            }
+            if ($projects.count -gt 1){
+                $projects
+                throw "Multiple projects found"
+            }
         }
     }
     
     process {
+        if ($PSCmdlet.ParameterSetName -eq "Project") {
+            Add-XmlElement $Project PackageReference ItemGroup ([ordered]@{
+                Include = $package
+                Version = $Version
+            })   
+            return
+        }
         try {
             for ($i = 0; $i -lt $Source.Count; $i++) {
                 $s=$Source[$i]
