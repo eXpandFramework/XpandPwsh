@@ -55,10 +55,7 @@ function Switch-ToPackageReference {
             if (!$addedPackages.ContainsKey($package.id)){
                 $addedPackages.Add($package.Id,$package.version)
                 Write-HostFormatted "Adding $($package.id) $($package.Version)" -ForegroundColor Magenta
-                Add-XmlElement $project PackageReference ItemGroup ([ordered]@{
-                    Include = $package.Id
-                    Version = $package.version
-                })    
+                Add-PackageReference -Project $project -package $package.Id -version $package.Version
             }
             $project|Save-Xml $ProjectFile.FullName|Out-Null
         }    
