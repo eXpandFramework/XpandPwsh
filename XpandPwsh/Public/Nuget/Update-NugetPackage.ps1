@@ -14,8 +14,8 @@ function Update-NugetPackage {
     )
     if (!$projects) {
         $projects = Get-ChildItem $SourcePath *.csproj -Recurse 
-        Write-HostFormatted "projects:" -Section
-        $projects | Select-Object -expandProperty baseName 
+        Write-Verbose "projects:" 
+        $projects | Select-Object -expandProperty baseName |write-verbose
     }
     
     $packages = $projects | Invoke-Parallel -ActivityName "Collecting Installed Packages" -VariablesToImport "Filter", "ExcludeFilter" -Script {
@@ -28,48 +28,26 @@ function Update-NugetPackage {
         }
     } | Sort-Object -Unique
 
-    Write-HostFormatted "installed packages:" -Section
-    $packages
+    Write-Verbose "installed packages:" 
+    $packages|Write-Verbose 
     $metadata = $packages | Invoke-Parallel -ActivityName "Query metadata in input sources" -VariablesToImport "sources" -Script {
         Get-NugetPackageSearchMetadata $_ ($sources -join ";")
     } | Get-SortedPackageByDependencies
     $packagesToAdd = GetPackagesToAdd $projects $Filter $ExcludeFilter $metadata
-    Write-HostFormatted "packagesToAdd:$($packagesToAdd.Count)" -Section
-    $packagesToAdd 
-    
-    while ($packagesToAdd) {
-        $notPackagesToAdd = $packagesToAdd | Group-Object ProjectPath | Invoke-Parallel -ActivityName "Updating Packages" -VariablesToImport "sources" -Script {
-        # $notPackagesToAdd = $packagesToAdd | Group-Object ProjectPath | foreach {
-            $_.Group | ForEach-Object {
-                $projectPath = $_.ProjectPath
-                $p = $_.Package
-                $v = $_.Version
-                $output = "dotnet add $projectPath package $p -v $v `r`n"
-                $output = dotnet add $projectPath package $p -v $v -n -s  $sources
-                if ($output -like "*error*") {
-                    [PSCustomObject]@{
-                        Package = $_
-                        Error   = $output
-                    }
-                }
-            }
-            
+    Write-Verbose "packagesToAdd:$($packagesToAdd.Count)" 
+    $packagesToAdd|Write-Verbose 
+    $packagesToAdd|Group-Object ProjectPath |ForEach-Object{
+        [xml]$proj=Get-XmlContent $_.Name
+        $_.Group|ForEach-Object{
+            Add-PackageReference -Package $_.Package -Version $_.Version -Project $proj 
         }
+        $proj|Save-Xml $_.Name
         
-        if ($notPackagesToAdd.Package) {
-            Write-HostFormatted "Not-PackagesToAdd: $($notPackagesToAdd.Count)" -Section
-            $notPackagesToAdd.Package | Out-String
-            Write-Host "Error:" -ForegroundColor Red
-            $notPackagesToAdd.Error | Out-String
-        }
-        
-        $packagesToAdd = GetPackagesToAdd $projects $Filter $ExcludeFilter $metadata
-        Write-HostFormatted "packagesToAdd:$($packagesToAdd.Count)" -Section
-        $packagesToAdd 
     }
-
+    
 }
 function GetPackagesToAdd($projects, $Filter, $ExcludeFilter, $metadata) {
+    
     $projects | Invoke-Parallel -ActivityName "Identifying outdated packages" -VariablesToImport "Filter", "ExcludeFilter", "metadata" -Script {
         $csprojPath = $_.FullName
         Get-PackageReference $csprojPath | Where-Object {
@@ -83,6 +61,9 @@ function GetPackagesToAdd($projects, $Filter, $ExcludeFilter, $metadata) {
         } | ForEach-Object {
             $p = $_.Include
             $m = $metadata | Where-Object { $_.Identity.Id -eq $p }
+            if (!$m){
+                $_
+            }
             $latestVersion = (Get-NugetPackageMetadataVersion $m).version
             $installedVersion = $_.Version
             if ($latestVersion -ne $installedVersion) {
