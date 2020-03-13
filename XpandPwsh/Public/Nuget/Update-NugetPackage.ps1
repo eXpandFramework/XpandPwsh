@@ -1,4 +1,3 @@
-
 function Update-NugetPackage {
     [cmdletbinding()]
     [CmdLetTag("#nuget")]
@@ -12,40 +11,56 @@ function Update-NugetPackage {
         [string]$ExcludeFilter ,
         [string[]]$sources = (Get-PackageSourceLocations Nuget)
     )
-    if (!$projects) {
-        $projects = Get-ChildItem $SourcePath *.csproj -Recurse 
-        Write-Verbose "projects:" 
-        $projects | Select-Object -expandProperty baseName |write-verbose
+    
+    begin {
+        $PSCmdlet|Write-PSCmdLetBegin   
     }
     
-    $packages = $projects | Invoke-Parallel -ActivityName "Collecting Installed Packages" -VariablesToImport "Filter", "ExcludeFilter" -Script {
-        $p = (Get-PackageReference $_.FullName).Include | Where-Object { $_ -and $_ -match $Filter }
-        if ($ExcludFilter) {
-            $p | Where-Object { $_ -notmatch $ExcludeFilter }
+    process {
+        if (!$projects) {
+            $projects = Get-ChildItem $SourcePath *.csproj -Recurse 
+            
+            $projectsName=$projects | Select-Object -expandProperty baseName 
+            "projectsName"|Out-VariableValue
         }
-        else {
-            $p
-        }
-    } | Sort-Object -Unique
+        
+        $installedPackages = $projects | Invoke-Parallel -ActivityName "Collecting Installed Packages" -VariablesToImport "Filter", "ExcludeFilter" -Script {
+            $p = (Get-PackageReference $_.FullName).Include | Where-Object { $_ -and $_ -match $Filter }
+            if ($ExcludFilter) {
+                $p | Where-Object { $_ -notmatch $ExcludeFilter }
+            }
+            else {
+                $p
+            }
+        } | Sort-Object -Unique
+    
+        "installedPackages"|Out-VariableValue
+        $metadata = $installedPackages | Invoke-Parallel -ActivityName "Query metadata in input sources" -VariablesToImport "sources" -Script {
+            $mdata=Get-NugetPackageSearchMetadata $_ ($sources -join ";")
+            if (!$mdata){
+                throw "Metatdata for _ not found in $($sources -join ";")"
+            }
+            $mdata
+        } 
+        $packagesToAdd = GetPackagesToAdd $projects $Filter $ExcludeFilter $metadata
+        "packagesToAdd"|Out-VariableValue 
 
-    Write-Verbose "installed packages:" 
-    $packages|Write-Verbose 
-    $metadata = $packages | Invoke-Parallel -ActivityName "Query metadata in input sources" -VariablesToImport "sources" -Script {
-        Get-NugetPackageSearchMetadata $_ ($sources -join ";")
-    } | Get-SortedPackageByDependencies
-    $packagesToAdd = GetPackagesToAdd $projects $Filter $ExcludeFilter $metadata
-    Write-Verbose "packagesToAdd:$($packagesToAdd.Count)" 
-    $packagesToAdd|Write-Verbose 
-    $packagesToAdd|Group-Object ProjectPath |ForEach-Object{
-        [xml]$proj=Get-XmlContent $_.Name
-        $_.Group|ForEach-Object{
-            Add-PackageReference -Package $_.Package -Version $_.Version -Project $proj 
-        }
-        $proj|Save-Xml $_.Name
+        $packagesToAdd|Group-Object ProjectPath |ForEach-Object{
+            write-hostformatted "Update packages in $($_.Name)" -section -streamtype verbose -foregroudcolor Blue
+            [xml]$proj=Get-XmlContent $_.Name
+            $_.Group|ForEach-Object{
+                Add-PackageReference -Package $_.Package -Version $_.Version -Project $proj 
+            }
+            $proj|Save-Xml $_.Name|Out-Null
+            
+        }        
+    }
+    
+    end {
         
     }
-    
 }
+
 function GetPackagesToAdd($projects, $Filter, $ExcludeFilter, $metadata) {
     
     $projects | Invoke-Parallel -ActivityName "Identifying outdated packages" -VariablesToImport "Filter", "ExcludeFilter", "metadata" -Script {
@@ -61,12 +76,9 @@ function GetPackagesToAdd($projects, $Filter, $ExcludeFilter, $metadata) {
         } | ForEach-Object {
             $p = $_.Include
             $m = $metadata | Where-Object { $_.Identity.Id -eq $p }
-            if (!$m){
-                $_
-            }
-            $latestVersion = (Get-NugetPackageMetadataVersion $m).version
+            $latestVersion = $m.Identity.Version.OriginalVersion
             $installedVersion = $_.Version
-            if ($latestVersion -ne $installedVersion) {
+            if ($latestVersion -gt $installedVersion) {
                 [PSCustomObject]@{
                     ProjectPath = $csprojPath
                     Package     = $p
