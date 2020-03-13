@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using XpandPwsh.CmdLets;
 

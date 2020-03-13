@@ -46,6 +46,14 @@ namespace XpandPwsh.Cmdlets.Nuget{
             return source.Select(metadata => (metadata.Identity.Id, metadata.Identity.Version.Version));
         }
 
+        public static IObservable<IPackageSearchMetadata> ListXpandPackages(this List<Lazy<INuGetResourceProvider>> providers, string xpandFeed, string nugetFeed){
+            var labPackages =xpandFeed!=null? providers.ListPackages(xpandFeed, searchTerm: "Xpand"):Observable.Empty<IPackageSearchMetadata>();
+            var nugetOrgPackages = nugetFeed!=null?providers.ListPackages(nugetFeed, searchTerm: "Xpand"):Observable.Empty<IPackageSearchMetadata>();
+            return labPackages
+                .Merge(nugetOrgPackages)
+                .Distinct(metadata => metadata.Identity.Id)
+                .Where(metadata => metadata.Authors == "eXpandFramework");
+        }
         public static IObservable<IPackageSearchMetadata> ListPackages(this List<Lazy<INuGetResourceProvider>> providers, string source, SwitchParameter includeDelisted=default,
             SwitchParameter allVersions=default, SwitchParameter includePrerelease=default, string searchTerm = null){
             var sourceRepository = new SourceRepository(new PackageSource(source), providers);

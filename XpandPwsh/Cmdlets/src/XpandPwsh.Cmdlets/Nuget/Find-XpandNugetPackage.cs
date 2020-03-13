@@ -27,17 +27,15 @@ namespace XpandPwsh.Cmdlets.Nuget{
         }
 
         public static IObservable<PSObject> GetPackages(XpandPackageSource packageSource,string xpandFeed,string nugetFeed,XpandPackageFilter filter){
-            var allLabPackages = Providers.ListPackages(xpandFeed).ToPackageObject()
-                .Where(tuple => FilterMatch(tuple,filter));
-
-            if (packageSource == XpandPackageSource.Nuget){
-                IObservable<(string Id, Version Version)> Metadata((string Id, Version Version) tuple) => 
-                    Providers.PackageMetadata(nugetFeed, tuple.Id).ToPackageObject()
-                        .GroupBy(_ => _.Id).SelectMany(obs => obs.LastAsync());
-                allLabPackages = allLabPackages.SelectMany(Metadata);
+            if (packageSource == XpandPackageSource.Xpand){
+                nugetFeed = null;
             }
-            
-            return allLabPackages.Distinct().Select(_ => PSObject.AsPSObject(new{_.Id, _.Version}));
+            else if (packageSource == XpandPackageSource.Nuget){
+                xpandFeed = null;
+            }
+            return Providers.ListXpandPackages(xpandFeed,nugetFeed).ToPackageObject()
+                .Where(tuple => FilterMatch(tuple,filter))
+                .Select(_ => PSObject.AsPSObject(new{_.Id, _.Version}));
         }
 
         private string GetFeed(XpandPackageSource source){
@@ -51,7 +49,7 @@ namespace XpandPwsh.Cmdlets.Nuget{
                 return id.Id.StartsWith("eXpand");
             }
 
-            return id.Id.StartsWith("Xpand") || id.Id.StartsWith("eXpand");
+            return id.Id.StartsWith("Xpand.") || id.Id.StartsWith("eXpand")||id.Id.StartsWith(".Xpand");
         }
     }
 
