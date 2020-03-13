@@ -2,6 +2,7 @@ function ConvertTo-Directory {
     [CmdletBinding()]
     [CmdLetTag()]
     param (
+        [parameter(ValueFromPipeline,Mandatory)]
         $Object
     )
     
@@ -11,7 +12,12 @@ function ConvertTo-Directory {
     
     process {
         if (Test-Path $object -PathType Container) {
-            $Object    
+            if ($Object -eq "."){
+                get-item (Get-Location)
+            }
+            else{
+                $Object    
+            }
         }
         else{
             (Get-Item $Object).DirectoryName
