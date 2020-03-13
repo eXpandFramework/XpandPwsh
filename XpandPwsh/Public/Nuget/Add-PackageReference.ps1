@@ -13,6 +13,7 @@ function Add-PackageReference {
     )
     
     begin {
+        $PSCmdlet|Write-PSCmdLetBegin
         if ($PSCmdlet.ParameterSetName -ne "Project"){
             $projects=Get-ChildItem *.*proj
             if (!$projects){
@@ -27,31 +28,21 @@ function Add-PackageReference {
     
     process {
         if ($PSCmdlet.ParameterSetName -eq "Project") {
-            Add-XmlElement $Project PackageReference ItemGroup ([ordered]@{
-                Include = $package
-                Version = $Version
-            })   
+            "package","version"|Out-VariableValue
+            $existingPackage=$Project.Project.ItemGroup.PackageReference|Where-Object{$_.Include -eq $package}
+            if ($existingPackage){
+                $existingPackage.version=$Version
+            }
+            else{
+                Add-XmlElement $Project PackageReference ItemGroup ([ordered]@{
+                    Include = $package
+                    Version = $Version
+                })   
+            }
             return
         }
-        try {
-            for ($i = 0; $i -lt $Source.Count; $i++) {
-                $s=$Source[$i]
-                $key+="<add key=`"$i`" value=`"$s`"/>"
-            }
-            $xml=@"
-<?xml version="1.0" encoding="utf-8"?>
-<configuration>
-    <packageSources>
-        $key
-    </packageSources>
-</configuration>
-"@
-            Set-Content .\Nuget.config $xml
-            
-            Invoke-Script{dotnet add package $Package}
-        }
-        finally {
-            Remove-Item .\Nuget.config -Force -ErrorAction SilentlyContinue    
+        Use-NugetConfig -Sources $Source -ScriptBlock {
+            dotnet add package $Package
         }
         
     }
