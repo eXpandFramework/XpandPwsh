@@ -34,8 +34,8 @@ function Invoke-Script {
                     Write-HostFormatted "Exception:" -ForegroundColor Red -Section
                     Write-HostFormatted $_ -ForegroundColor Red
                     $_
-                    Write-HostFormatted "InvokcationInfo:" -ForegroundColor Yellow -Section
-                    $_.InvocationInfo
+                    Write-HostFormatted "StackTrace:" -ForegroundColor Yellow -Section
+                    $_.ScriptStackTrace
                     throw 
                 }
     
