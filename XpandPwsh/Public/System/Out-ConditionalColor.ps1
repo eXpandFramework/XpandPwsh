@@ -91,7 +91,7 @@ Function Out-ConditionalColor {
     About_Hash_Tables
     #>
     
-    [cmdletbinding()]
+    [cmdletbinding()][CmdLetTag()]
     Param(
     [Parameter(Position=0,Mandatory=$True,HelpMessage="Enter an ordered hashtable of conditional properties and colors.")]
     [ValidateScript({ 

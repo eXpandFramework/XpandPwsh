@@ -13,6 +13,7 @@ function Pop-XafPackage {
         if (!(Test-Path $OutputFolder))        {
             New-Item $OutputFolder -ItemType Directory
         }
+        $PSCmdlet|Write-PSCmdletBegin
     }
     
     process {
@@ -32,8 +33,9 @@ function Pop-XafPackage {
                 Version=$_.versionrange.maxversion.originalversion
             }
         })
-        
-        $metadata=$existingMetadata|ForEach-Object{
+        "existingMetadata"|Out-VariableValue
+
+        $missingMetadata=$existingMetadata|ForEach-Object{
             $pVersion=(Get-VersionPart $_.Version Build)
             if ($pVersion -in $Version){
                 $p=$_
@@ -42,11 +44,15 @@ function Pop-XafPackage {
                 }
             }
         }
-        if ($metadata){
-            $metadata=$metadata|Invoke-Parallel -ActivityName "Downloading XAF packages" -VariablesToImport @("PackageSource","OutputFolder") -LimitConcurrency ([System.Environment]::ProcessorCount) -Script{
+        "missingMetadata"|Out-VariableValue
+        if ($missingMetadata){
+            $downloadedPackages=$missingMetadata|Invoke-Parallel -ActivityName "Downloading XAF packages" -VariablesToImport @("PackageSource","OutputFolder") -LimitConcurrency ([System.Environment]::ProcessorCount) -Script{
                 Get-NugetPackage $_.Id -Source $PackageSource -ResultType DownloadResults -OutputFolder $OutputFolder
             } 
-            $metadata.PackageStream.name|Get-Item|ConvertTo-PackageObject
+            
+            $newPackages=$downloadedPackages.PackageStream.name|Get-Item|ConvertTo-PackageObject
+            "newPackages"|Out-VariableValue
+            ($newPackages+$allMetadata)|Sort-Object id -Unique
         }
         else {
             $existingMetadata

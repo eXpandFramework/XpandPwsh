@@ -5,16 +5,26 @@ Function ConvertTo-FramedText{
         [Parameter(Mandatory = $true, Position = 0, valueFromPipeline = $true)]
         [string]$stringIN,
         [string]$char = "-",
-        [switch]$NoRoof
+        [switch]$NoRoof,
+        [ValidateSet("Output","Verbose")]
+        [string]$Stream="Output"
     )
-
+    $writer={
+        param($text)
+        if ($Stream -eq "Output"){
+            $text
+        }
+        else{
+            Write-Verbose $text
+        }
+    }
     $underLine = $char * $stringIn.length
     if (!$NoRoof){
-        $underLine
+        & $writer $underLine
     }
     
-    $stringIn
+    & $writer $stringIn
 
-    $underLine
+    & $writer $underLine
 
 } 

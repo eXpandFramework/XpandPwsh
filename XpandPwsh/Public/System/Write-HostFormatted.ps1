@@ -12,10 +12,22 @@ function Write-HostFormatted {
         [Alias('nnl')] [switch] $NoNewline,
         [switch]$Section,
         [switch]$AnsiColors,
-        [int]$Indent
+        [int]$Indent,
+        [ValidateSet("Output","Verbose")]
+        [string]$Stream="Output"
 
     )    
     begin {
+        $verboseForegroundColor=$host.PrivateData.VerboseForegroundColor
+        $verboseBackgroundColor=$host.PrivateData.VerboseBackgroundColor
+        if ($Stream -eq "Verbose"){
+            if ($ForegroundColor){
+                $host.PrivateData.VerboseForegroundColor=$ForegroundColor
+            }
+            if ($BackgroundColor){
+                $host.PrivateData.VerboseBackgroundColor=$BackgroundColor
+            }
+        }
     }
     process {
         if ($Section){
@@ -44,7 +56,7 @@ function Write-HostFormatted {
             }
             $directive+=$Object
             if ($Style -eq "Frame"){
-                $directive|ConvertTo-FramedText
+                $directive|ConvertTo-FramedText -Stream $Stream
             }
             else {
                 $directive
@@ -58,7 +70,7 @@ function Write-HostFormatted {
         if ($Style -ne "Frame"){
             $code += ($Style | ForEach-Object { GetAnsiCode $_ }) -join ""
         }else{
-            $Object=$Object|ConvertTo-framedtext
+            $Object=$Object|ConvertTo-framedtext -Stream $Stream
         }
         if ($AnsiColors){
             $Object|ForEach-Object{
@@ -76,7 +88,7 @@ function Write-HostFormatted {
                 }
                 $prefix+=$_
                 if ($Style -eq "Underline"){
-                    $prefix=ConvertTo-FramedText $prefix -NoRoof -char "_"
+                    $prefix=ConvertTo-FramedText $prefix -NoRoof -char "_" -Stream $Stream
                 }
                 $prefix|ForEach-Object{
                     $a=@{
@@ -88,13 +100,19 @@ function Write-HostFormatted {
                     if ($BackGroundColor){
                         $a.Add("BackGroundColor",$BackGroundColor)
                     }
-                    Write-Host @a 
+                    if ($Stream -eq "Verbose"){
+                        Write-Verbose $_
+                    }
+                    else{
+                        Write-Host @a 
+                    }
                 }
             }
         }
     }
     end {
- 
+        $host.PrivateData.VerboseBackgroundColor=$verboseBackgroundColor
+        $host.PrivateData.VerboseForegroundColor=$verboseForegroundColor
     }
 }
 function GetAnsiCode($name, $offSet) {
