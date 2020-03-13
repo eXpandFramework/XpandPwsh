@@ -11,6 +11,7 @@ function Switch-ToPackageReference {
     )
     
     begin {
+        $PSCmdlet|Write-PSCmdLetBegin
         if ($ProjectFile.count -gt 1){
             throw "Multiple projects found in path"
         }
@@ -36,7 +37,7 @@ function Switch-ToPackageReference {
         
         $addedPackages = @{
         }
-        Write-HostFormatted "Switching project $($_.BaseName) " -Section
+        Write-HostFormatted "Switching project $($_.BaseName) " -Section -Stream Verbose
         [xml]$project = Get-XmlContent $ProjectFile.FullName
         $references = $project.project.ItemGroup.Reference|Where-Object{$_.Include -match $ReferenceMatch} | foreach-Object { 
             $id=([regex] '([^,]*)').Match($_.Include).Value 
@@ -54,7 +55,7 @@ function Switch-ToPackageReference {
 
             if (!$addedPackages.ContainsKey($package.id)){
                 $addedPackages.Add($package.Id,$package.version)
-                Write-HostFormatted "Adding $($package.id) $($package.Version)" -ForegroundColor Magenta
+                Write-HostFormatted "Adding $($package.id) $($package.Version)" -ForegroundColor Magenta -Stream Verbose
                 Add-PackageReference -Project $project -package $package.Id -version $package.Version
             }
             $project|Save-Xml $ProjectFile.FullName|Out-Null
