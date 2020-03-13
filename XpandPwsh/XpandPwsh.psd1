@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.12.9'
+ModuleVersion = '1.201.13.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -215,6 +215,8 @@ FunctionsToExport = @(
 "New-MacAddress",
 "New-XAFProject",
 "Out-ConditionalColor",
+"Out-VariableValue",
+"Out-Verbose",
 "Pop-XafPackage",
 "Pop-XpandPackage",
 "Publish-AssemblyToGac",
@@ -239,6 +241,8 @@ FunctionsToExport = @(
 "Resolve-AssemblyDependencies",
 "Save-Xml",
 "Set-VsoVariable",
+"Start-Build",
+"Start-NugetRestore",
 "Start-SelfElevate",
 "Start-XpandProjectConverter",
 "Submit-GitStage",
@@ -278,9 +282,11 @@ FunctionsToExport = @(
 "Use-MonoCecil",
 "Use-MSBuildFramework",
 "Use-NugetAssembly",
+"Use-NugetConfig",
 "Use-Object",
 "Wait-Task",
-"Write-HostFormatted"
+"Write-HostFormatted",
+"Write-PSCmdLetBegin"
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
