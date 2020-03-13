@@ -18,7 +18,12 @@ function Pop-XpandPackage {
     }
     
     process {
-        $allMetadata=Get-XpandPackages -Source  $PackageSource All|ForEach-Object{
+        $publishedMetadata=@(Get-XpandPackages -Source  $PackageSource All)
+        if ($PackageSource -eq "Lab"){
+            $releasePackages=(Get-XpandPackages -Source  Release All|Where-Object{$_.Id -notin $publishedMetadata.id})
+            $publishedMetadata+=$releasePackages
+        }
+        $allMetadata=$publishedMetadata|ForEach-Object{
             $version=$_.Version
             if ($version.Revision -lt 1){
                 $version=Get-VersionPart $_.Version Build
@@ -42,8 +47,7 @@ function Pop-XpandPackage {
         "missingMetadata"|Out-VariableValue
         if ($missingMetadata){
             $source=Get-PackageFeed -FeedName $PackageSource
-            # $newMetadata=$missingMetadata|Invoke-Parallel -ActivityName "Dowloading Xpand packages " -VariablesToImport @("source","OutputFolder") -LimitConcurrency ([System.Environment]::ProcessorCount) -Script{
-            $newMetadata=$missingMetadata|foreach{
+            $newMetadata=$missingMetadata|Invoke-Parallel -ActivityName "Dowloading Xpand packages " -VariablesToImport @("source","OutputFolder") -LimitConcurrency ([System.Environment]::ProcessorCount) -Script{
                 Get-NugetPackage $_.Id -Source $source -ResultType DownloadResults -OutputFolder $OutputFolder -Versions $_.Version
             }   
             $downloadedPackages=$newMetadata.PackageStream.name|Get-Item|ConvertTo-PackageObject
