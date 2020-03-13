@@ -2,9 +2,12 @@ function Out-VariableValue {
     [CmdletBinding()]
     [CmdLetTag()]
     param (
-        [parameter(Mandatory, ValueFromPipeline)]
+        [parameter(Mandatory, ValueFromPipeline,ParameterSetName="Name")]
         [string]$VariableName,
-        [Switch]$PassThrough
+        [parameter(ParameterSetName="Name")]
+        [Switch]$PassThrough,
+        [parameter(ParameterSetName="instance",ValueFromPipeline)]
+        [psvariable]$Variable
     )
     
     begin {
@@ -12,13 +15,17 @@ function Out-VariableValue {
     }
     
     process {
-        $value=(Get-Variable $VariableName).Value
+        $v=$Variable
+        if (!$v){
+            $v=Get-Variable $VariableName
+        }
+        $value=$v.Value
         if ($value.count -gt 1){
-            Write-Verbose "$VariableName :"
-            (Get-Variable $VariableName).Value|Out-Verbose -PassThrough:$passthrough
+            Write-Verbose "$($v.Name) :"
+            $value|Out-Verbose -PassThrough:$passthrough
         }
         else{
-            "$VariableName :$value"|Out-Verbose -PassThrough:$passthrough
+            "$($v.Name) :$value"|Out-Verbose -PassThrough:$passthrough
         }
     }
     

@@ -20,7 +20,9 @@ function Start-Build {
         $item=Get-Item $Path
         $project=$item
         if ($item -is [System.IO.DirectoryInfo]){
-            $project=Get-ChildItem $item.FullName *.*proj 
+            Push-Location $item.FullName
+            $project=@(Get-ChildItem "*.sln" )+@(Get-ChildItem "*.*proj" )
+            Pop-Location
         }
         Invoke-Script{
             $project|ForEach-Object{
