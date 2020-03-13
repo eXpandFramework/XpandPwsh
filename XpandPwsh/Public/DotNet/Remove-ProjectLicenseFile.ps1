@@ -8,6 +8,7 @@ function Remove-ProjectLicenseFile {
     )
     
     begin {
+        $PSCmdlet|Write-PSCmdLetBegin
     }
     
     process {
@@ -16,7 +17,7 @@ function Remove-ProjectLicenseFile {
         }
         $CSProj.Project.ItemGroup.EmbeddedResource | ForEach-Object {
             if ($_.Include -eq "Properties\licenses.licx") {
-                $_.parentnode.RemoveChild($_) 
+                $_.parentnode.RemoveChild($_) |Write-Verbose
             }
         }
         if ($FilePath){
