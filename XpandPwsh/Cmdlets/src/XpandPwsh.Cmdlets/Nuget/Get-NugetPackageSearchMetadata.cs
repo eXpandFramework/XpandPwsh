@@ -30,6 +30,18 @@ namespace XpandPwsh.Cmdlets.Nuget{
         [Parameter]
         public SwitchParameter IncludeDelisted{ get; set; }
 
+        protected override Task BeginProcessingAsync(){
+            Versions = Versions?.Select(s => {
+                var version = Version.Parse(s);
+                var vString = $"{version.Major}.{version.Minor}.{version.Build}";
+                if (version.Revision > 0){
+                    vString += $".{version.Revision}";
+                }
+
+                return vString;
+            }).ToArray();
+            return base.BeginProcessingAsync();
+        }
 
         protected override async Task ProcessRecordAsync(){
             if (Name == null && (Versions == null || !Versions.Any())){
