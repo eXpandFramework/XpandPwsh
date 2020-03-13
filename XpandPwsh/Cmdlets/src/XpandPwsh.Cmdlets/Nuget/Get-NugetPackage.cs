@@ -127,6 +127,9 @@ namespace XpandPwsh.Cmdlets.Nuget{
             var cmdletName = CmdletExtensions.GetCmdletName<GetNugetPackageSearchMetadata>();
             var script = $"{cmdletName} {sources} {allVersions} {name} {versions} -{nameof(GetNugetPackageSearchMetadata.IncludeDelisted)}";
             var sourceSearchMetadatas = this.Invoke<IPackageSearchMetadata>(script);
+            if (sourceSearchMetadatas == null!||sourceSearchMetadatas!=null&&!sourceSearchMetadatas.Any()){
+                throw new ItemNotFoundException(Name);
+            }
             return sourceSearchMetadatas;
         }
     }
