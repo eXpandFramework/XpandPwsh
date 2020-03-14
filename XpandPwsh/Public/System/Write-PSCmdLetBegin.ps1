@@ -12,7 +12,7 @@ function Write-PSCmdLetBegin {
     
     process {
         $cmdletName="$($Cmdlet.CommandRuntime)"
-        Write-HostFormatted -object $cmdletName -Stream Verbose -Section -ForegroundColor Green
+        Write-HostFormatted -object $cmdletName -Stream Verbose -Section -ForegroundColor Blue
     }
     
     end {
