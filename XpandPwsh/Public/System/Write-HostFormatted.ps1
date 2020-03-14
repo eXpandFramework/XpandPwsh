@@ -101,7 +101,7 @@ function Write-HostFormatted {
                         $a.Add("BackGroundColor",$BackGroundColor)
                     }
                     if ($Stream -eq "Verbose"){
-                        Write-Verbose $_
+                        Write-Verbose $_ -Verbose
                     }
                     else{
                         Write-Host @a 
