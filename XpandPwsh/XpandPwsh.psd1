@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.13.17'
+ModuleVersion = '1.201.13.18'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -169,7 +169,6 @@ FunctionsToExport = @(
 "Get-XafPackageNames",
 "Get-XmlContent",
 "Get-XpandNugetPackageDependencies",
-"Write-Verbose",
 "Get-XpandPackageHome",
 "Get-XpandPackageNames",
 "Get-XpandPackages",
@@ -287,7 +286,8 @@ FunctionsToExport = @(
 "Use-Object",
 "Wait-Task",
 "Write-HostFormatted",
-"Write-PSCmdLetBegin"
+"Write-PSCmdLetBegin",
+"Write-Verbose"
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
