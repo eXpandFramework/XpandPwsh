@@ -13,6 +13,7 @@ function Set-VsoVariable {
     )
     
     begin {
+        $PSCmdlet|Write-PSCmdLetBegin
     }
     
     process {
