@@ -21,7 +21,7 @@ function Out-VariableValue {
         }
         $value=$v.Value
         if ($value.count -gt 1){
-            Write-Verbose "$($v.Name) :"
+            Write-Verbose "$($v.Name) :" -Verbose
             $value|Out-Verbose -PassThrough:$passthrough
         }
         else{
