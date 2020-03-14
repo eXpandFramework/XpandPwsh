@@ -15,7 +15,7 @@ Function ConvertTo-FramedText{
             $text
         }
         else{
-            Write-Verbose $text
+            Write-Verbose $text -Verbose
         }
     }
     $underLine = $char * $stringIn.length

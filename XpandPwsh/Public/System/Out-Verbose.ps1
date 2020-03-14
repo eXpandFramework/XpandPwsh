@@ -16,9 +16,6 @@ function Out-Verbose {
     }
     
     end {
-        if($VerbosePreference -ne "SilentlyContinue") {
-            $items | Out-String -Stream | Write-Verbose -Verbose
-        }
-        if ($PassThrough) {$items}
+        $items | Out-String -Stream | Write-Verbose -Verbose
     }
 }
