@@ -17,6 +17,7 @@ function Start-XpandProjectConverter {
     
     process {
         [version]$version = Get-DevExpressVersion $version -Build
+        "version"|Out-VariableValue
         $paketInstalls = Get-ChildItem $Path ".paket"  -Recurse
         $shortVersion = Get-DevExpressVersion $version 
         if ($paketInstalls) { 
@@ -62,7 +63,7 @@ function Start-XpandProjectConverter {
             if (!(Test-Path "$($_.DirectoryName)\paket.references")) {
                 $change = Get-PackageReference $_.FullName | Where-Object { $_.include -like "DevExpress*" } | ForEach-Object {
                     if ($_.Version -ne $version) {
-                        "Change PackageReference $($_.Include) $($_.Version) to $version"
+                        Write-Verbose "Change PackageReference $($_.Include) $($_.Version) to $version"
                         $_.Version = $Version.ToString()
                         $element = [System.Xml.XmlElement]$_
                         $element.OwnerDocument.Save($projectPath)
@@ -74,9 +75,7 @@ function Start-XpandProjectConverter {
                     Pop-Location
                 }
                 [xml]$proj=Get-Content $projectPath
-                $proj.project.itemgroup.EmbeddedResource|Where-Object{$_.include -eq "Properties\licenses.licx"}|ForEach-Object{
-                    $_.ParentNode.RemoveChild($_)
-                }
+                Remove-ProjectLicenseFile $proj
                 $proj.project.itemgroup.Reference|Where-Object{$_.Include -like "DevExpres*"}|ForEach-Object{
                     if ($_.Version){
                         $_.Version=$version

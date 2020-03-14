@@ -169,6 +169,7 @@ FunctionsToExport = @(
 "Get-XafPackageNames",
 "Get-XmlContent",
 "Get-XpandNugetPackageDependencies",
+"Write-Verbose",
 "Get-XpandPackageHome",
 "Get-XpandPackageNames",
 "Get-XpandPackages",
