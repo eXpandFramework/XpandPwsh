@@ -25,7 +25,7 @@ function Start-XpandProjectConverter {
                 "Update DX version in $($_.FullName)"
                 [xml]$xml = Get-Content $_
                 $xml.packages.package | Where-Object { $_.id -like "DevExpress*" } | ForEach-Object {
-                    $_.version = $version
+                    $_.version = "$version"
                 }
                 $xml.Save($_)
             }
@@ -78,7 +78,7 @@ function Start-XpandProjectConverter {
                 Remove-ProjectLicenseFile $proj
                 $proj.project.itemgroup.Reference|Where-Object{$_.Include -like "DevExpres*"}|ForEach-Object{
                     if ($_.Version){
-                        $_.Version=$version
+                        $_.Version="$version"
                     }
                     elseif ($_.include -like "*,*"){
                         $regex = [regex] '(?n)\.v(?<short>(\d{2}\.\d))'
@@ -112,7 +112,7 @@ function Start-XpandProjectConverter {
         Get-ChildItem $Path -Include "*.*proj" -Recurse -File | ForEach-Object {
             [xml]$xml = Get-XmlContent $_.FullName 
             $xml.project.itemgroup.PackageReference|Where-Object{$_.Include -like "DevExpress*"}|ForEach-Object{
-                $_.Version=$version
+                $_.Version="$version"
             }
             $xml|Save-Xml $_.FullName|Out-Null
         }
