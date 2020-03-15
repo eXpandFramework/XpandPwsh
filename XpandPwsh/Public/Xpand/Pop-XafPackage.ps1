@@ -53,7 +53,7 @@ function Pop-XafPackage {
                 
                 $newPackages=$downloadedPackages.PackageStream.name|Get-Item|ConvertTo-PackageObject
                 "newPackages"|Get-Variable|Out-Variable
-                ($newPackages+$allMetadata)|Sort-Object id -Unique
+                ($newPackages+$existingPackages)|Sort-Object id -Unique
             }
             else {
                 $existingMetadata

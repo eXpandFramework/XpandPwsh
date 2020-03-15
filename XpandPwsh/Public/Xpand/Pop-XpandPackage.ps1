@@ -53,7 +53,7 @@ function Pop-XpandPackage {
                 }   
                 $downloadedPackages=$newMetadata.PackageStream.name|Get-Item|ConvertTo-PackageObject
                 "downloadedPackages"|Get-Variable|Out-Variable
-                ($downloadedPackages+$allMetadata)|Sort-Object id -Unique
+                ($downloadedPackages+$existingPackages)|Sort-Object id -Unique
             }
             else{
                 $existingPackages

@@ -30,7 +30,7 @@ function Out-Variable {
         $value=$v.Value
         if ($value.count -gt 1){
             Write-Verbose "$($v.Name) :" @color
-            $value|Out-Verbose -PassThrough:$passthrough @color
+            $value|Where-Object{$_}|Out-Verbose -PassThrough:$passthrough @color
         }
         else{
             $msg="$($v.Name) :"

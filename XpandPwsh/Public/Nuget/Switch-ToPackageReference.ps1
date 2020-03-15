@@ -38,7 +38,7 @@ function Switch-ToPackageReference {
             
             $addedPackages = @{
             }
-            Write-HostFormatted "Switching project $($_.BaseName) " -Section -Stream Verbose
+            Write-HostFormatted "Switching $ProjectFile " -Section -Stream Verbose
             [xml]$project = Get-XmlContent $ProjectFile.FullName
             $references = $project.project.ItemGroup.Reference|Where-Object{$_.Include -match $ReferenceMatch} | foreach-Object { 
                 $id=([regex] '([^,]*)').Match($_.Include).Value 
