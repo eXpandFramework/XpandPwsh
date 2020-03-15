@@ -17,43 +17,45 @@ function Update-NugetPackage {
     }
     
     process {
-        if (!$projects) {
-            $projects = Get-ChildItem $SourcePath *.csproj -Recurse 
+        Invoke-Script{
+            if (!$projects) {
+                $projects = Get-ChildItem $SourcePath *.csproj -Recurse 
+                
+                $projectsName=$projects | Select-Object -expandProperty baseName 
+                "projectsName"|Get-Variable|Out-Variable
+            }
             
-            $projectsName=$projects | Select-Object -expandProperty baseName 
-            "projectsName"|Get-Variable|Out-Variable
-        }
+            $installedPackages = $projects | Invoke-Parallel -ActivityName "Collecting Installed Packages" -VariablesToImport "Filter", "ExcludeFilter" -Script {
+                $p = (Get-PackageReference $_.FullName).Include | Where-Object { $_ -and $_ -match $Filter }
+                if ($ExcludFilter) {
+                    $p | Where-Object { $_ -notmatch $ExcludeFilter }
+                }
+                else {
+                    $p
+                }
+            } | Sort-Object -Unique
         
-        $installedPackages = $projects | Invoke-Parallel -ActivityName "Collecting Installed Packages" -VariablesToImport "Filter", "ExcludeFilter" -Script {
-            $p = (Get-PackageReference $_.FullName).Include | Where-Object { $_ -and $_ -match $Filter }
-            if ($ExcludFilter) {
-                $p | Where-Object { $_ -notmatch $ExcludeFilter }
-            }
-            else {
-                $p
-            }
-        } | Sort-Object -Unique
+            "installedPackages"|Get-Variable|Out-Variable
+            $metadata = $installedPackages | Invoke-Parallel -ActivityName "Query metadata in input sources" -VariablesToImport "sources" -Script {
+                $mdata=Get-NugetPackageSearchMetadata $_ ($sources -join ";")
+                if (!$mdata){
+                    throw "Metatdata for $_ not found in $($sources -join ";")"
+                }
+                $mdata
+            } 
+            $packagesToAdd = GetPackagesToAdd $projects $Filter $ExcludeFilter $metadata
+            "packagesToAdd"|Get-Variable|Out-Variable 
     
-        "installedPackages"|Get-Variable|Out-Variable
-        $metadata = $installedPackages | Invoke-Parallel -ActivityName "Query metadata in input sources" -VariablesToImport "sources" -Script {
-            $mdata=Get-NugetPackageSearchMetadata $_ ($sources -join ";")
-            if (!$mdata){
-                throw "Metatdata for $_ not found in $($sources -join ";")"
-            }
-            $mdata
-        } 
-        $packagesToAdd = GetPackagesToAdd $projects $Filter $ExcludeFilter $metadata
-        "packagesToAdd"|Get-Variable|Out-Variable 
-
-        $packagesToAdd|Group-Object ProjectPath |ForEach-Object{
-            write-hostformatted "Update packages in $($_.Name)" -section -streamtype verbose -foregroudcolor Blue
-            [xml]$proj=Get-XmlContent $_.Name
-            $_.Group|ForEach-Object{
-                Add-PackageReference -Package $_.Package -Version $_.Version -Project $proj 
-            }
-            $proj|Save-Xml $_.Name|Out-Null
-            
-        }        
+            $packagesToAdd|Group-Object ProjectPath |ForEach-Object{
+                write-hostformatted "Update packages in $($_.Name)" -section -streamtype verbose -foregroudcolor Blue
+                [xml]$proj=Get-XmlContent $_.Name
+                $_.Group|ForEach-Object{
+                    Add-PackageReference -Package $_.Package -Version $_.Version -Project $proj 
+                }
+                $proj|Save-Xml $_.Name|Out-Null
+                
+            }        
+        }
     }
     
     end {

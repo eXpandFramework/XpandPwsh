@@ -12,16 +12,18 @@ function Remove-ProjectLicenseFile {
     }
     
     process {
-        if ($FilePath){
-            [xml]$CSProj=Get-XmlContent $FilePath
-        }
-        $CSProj.Project.ItemGroup.EmbeddedResource | ForEach-Object {
-            if ($_.Include -eq "Properties\licenses.licx") {
-                $_.parentnode.RemoveChild($_) |Write-Verbose
+        Invoke-Script{
+            if ($FilePath){
+                [xml]$CSProj=Get-XmlContent $FilePath
             }
-        }
-        if ($FilePath){
-            $CSProj|Save-Xml $FilePath|Out-Null
+            $CSProj.Project.ItemGroup.EmbeddedResource | ForEach-Object {
+                if ($_.Include -eq "Properties\licenses.licx") {
+                    $_.parentnode.RemoveChild($_) |Write-Verbose
+                }
+            }
+            if ($FilePath){
+                $CSProj|Save-Xml $FilePath|Out-Null
+            }
         }
     }
     

@@ -213,6 +213,7 @@ FunctionsToExport = @(
 "New-GithubReleaseNotes",
 "New-GithubReleaseNotesTemplate",
 "New-MacAddress",
+"Merge-HashTables",
 "New-XAFProject",
 "Out-ConditionalColor",
 "Out-Variable",

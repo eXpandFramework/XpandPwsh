@@ -17,10 +17,29 @@ function Write-Verbose {
         if ($BackgroundColor){
             $host.PrivateData.VerboseBackgroundColor=$BackgroundColor
         }
+        if ($env:Build_DefinitionName ){
+            if ($ForegroundColor -eq "Blue"){
+                $directive="##[command]"    
+            }
+            elseif ($ForegroundColor -eq "Green"){
+                $directive="##[section]"    
+            }
+            elseif ($ForegroundColor -eq "Magenta"){
+                $directive="##[debug]"    
+            }
+            elseif ($ForegroundColor -eq "Yellow"){
+                $directive="##[warning]"    
+            }
+            elseif ($ForegroundColor -eq "red"){
+                $directive="##[error]"    
+            }
+        }
     }
     
     process {
-        Microsoft.PowerShell.Utility\Write-Verbose $Message -Verbose
+        $msg=$directive
+        $msg+=$Message
+        Microsoft.PowerShell.Utility\Write-Verbose $msg -Verbose
     }
     
     end {

@@ -30,36 +30,38 @@ function Switch-ToPackageReference {
     }
     
     process {
-        $projectDir=(get-item $ProjectFile).DirectoryName
-        if (Test-Path "$projectDir\packages.config" ){
-            Remove-Item "$projectDir\packages.config"
-        }
-        
-        $addedPackages = @{
-        }
-        Write-HostFormatted "Switching project $($_.BaseName) " -Section -Stream Verbose
-        [xml]$project = Get-XmlContent $ProjectFile.FullName
-        $references = $project.project.ItemGroup.Reference|Where-Object{$_.Include -match $ReferenceMatch} | foreach-Object { 
-            $id=([regex] '([^,]*)').Match($_.Include).Value 
-            $assembly=$assemblies[$id]
-            if (!$assembly){
-                throw "$id not found"
+        Invoke-Script{
+            $projectDir=(get-item $ProjectFile).DirectoryName
+            if (Test-Path "$projectDir\packages.config" ){
+                Remove-Item "$projectDir\packages.config"
             }
-            $item=(Get-Item $assembly).Directory
-            do {
-                $packageName = $item.BaseName  
-                $item = $item.Parent
-            } until ($item.BaseName -eq "UnZipped")
-            $_.ParentNode.RemoveChild($_) | Out-Null
-            $package=$packageName|ConvertTo-PackageObject
-
-            if (!$addedPackages.ContainsKey($package.id)){
-                $addedPackages.Add($package.Id,$package.version)
-                Write-HostFormatted "Adding $($package.id) $($package.Version)" -ForegroundColor Magenta -Stream Verbose
-                Add-PackageReference -Project $project -package $package.Id -version $package.Version
+            
+            $addedPackages = @{
             }
-            $project|Save-Xml $ProjectFile.FullName|Out-Null
-        }    
+            Write-HostFormatted "Switching project $($_.BaseName) " -Section -Stream Verbose
+            [xml]$project = Get-XmlContent $ProjectFile.FullName
+            $references = $project.project.ItemGroup.Reference|Where-Object{$_.Include -match $ReferenceMatch} | foreach-Object { 
+                $id=([regex] '([^,]*)').Match($_.Include).Value 
+                $assembly=$assemblies[$id]
+                if (!$assembly){
+                    throw "$id not found"
+                }
+                $item=(Get-Item $assembly).Directory
+                do {
+                    $packageName = $item.BaseName  
+                    $item = $item.Parent
+                } until ($item.BaseName -eq "UnZipped")
+                $_.ParentNode.RemoveChild($_) | Out-Null
+                $package=$packageName|ConvertTo-PackageObject
+    
+                if (!$addedPackages.ContainsKey($package.id)){
+                    $addedPackages.Add($package.Id,$package.version)
+                    Write-HostFormatted "Adding $($package.id) $($package.Version)" -ForegroundColor Magenta -Stream Verbose
+                    Add-PackageReference -Project $project -package $package.Id -version $package.Version
+                }
+                $project|Save-Xml $ProjectFile.FullName|Out-Null
+            }    
+        }
         
     }
     

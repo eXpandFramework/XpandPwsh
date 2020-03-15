@@ -11,8 +11,29 @@ function Write-PSCmdLetBegin {
     }
     
     process {
-        $cmdletName="$($Cmdlet.CommandRuntime)"
-        Write-HostFormatted -object $cmdletName -Stream Verbose -ForegroundColor Blue 
+        Invoke-Script{
+            $cmdletName="$($Cmdlet.CommandRuntime)"
+            Write-HostFormatted -object $cmdletName -Stream Verbose -ForegroundColor Blue 
+            $defaultParameters="Verbose","Debug","ErrorAction","WarningAction","InformationAction","ErrorVariable","WarningVariable","InformationVariable","OutVariable","OutBuffer","PipelineVariable"
+            $commandParameters=$Cmdlet.MyInvocation.MyCommand.Parameters.Keys|Where-Object{$_ -notin $defaultParameters}
+            $unboundParameters=@($commandParameters|Where-Object{$_ -notin $CmdLet.MyInvocation.BoundParameters.Keys}|Get-Variable|ForEach-Object{
+                [PSCustomObject]@{
+                    Name = $_.Name
+                    Value=$_.Value
+                }
+            })
+            $boundParameters=(@($CmdLet.MyInvocation.BoundParameters.Keys|ForEach-Object{
+                [PSCustomObject]@{
+                    Name = $_
+                    Value=$CmdLet.MyInvocation.BoundParameters[$_]
+                }
+            }))
+            $parameters=($boundParameters+$unboundParameters)
+            $parameters|ForEach-Object{
+                New-Variable $_.Name $_.Value
+                Get-Variable $_.Name|Out-Variable -ForegroundColor Blue
+            }
+        }
     }
     
     end {

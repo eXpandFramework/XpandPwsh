@@ -33,33 +33,6 @@ function Write-HostFormatted {
         }
     }
     process {
-        
-        if ($env:Build_DefinitionName ){  
-            if ($ForegroundColor -eq "Blue"){
-                $directive="##[command]"    
-            }
-            elseif ($ForegroundColor -eq "Green"){
-                $directive="##[section]"    
-            }
-            elseif ($ForegroundColor -eq "Magenta"){
-                $directive="##[debug]"    
-            }
-            elseif ($ForegroundColor -eq "Yellow"){
-                $directive="##[warning]"    
-            }
-            elseif ($ForegroundColor -eq "red"){
-                $directive="##[error]"    
-            }
-            $directive+=$Object
-            if ($Style -eq "Frame"){
-                $directive|ConvertTo-FramedText -Stream $Stream @color
-            }
-            else {
-                $directive
-            }
-            return
-        }
-        
         $fc=$ForegroundColor
         $code = GetAnsiCode $fc
         $code += GetAnsiCode $BackgroundColor 10
