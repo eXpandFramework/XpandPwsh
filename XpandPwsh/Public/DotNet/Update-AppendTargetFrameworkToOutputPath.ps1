@@ -8,6 +8,7 @@ function Update-AppendTargetFrameworkToOutputPath {
     )
     
     begin {
+        $PSCmdlet|Write-PSCmdLetBegin
     }
     
     process {

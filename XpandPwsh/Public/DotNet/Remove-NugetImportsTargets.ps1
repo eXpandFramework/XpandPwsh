@@ -7,7 +7,7 @@ function Remove-NugetImportsTargets {
     )
     
     begin {
-        
+        $PSCmdlet|Write-PSCmdLetBegin
     }
     
     process {

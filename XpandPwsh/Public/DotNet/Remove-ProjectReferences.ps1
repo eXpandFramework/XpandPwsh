@@ -11,6 +11,7 @@ function Remove-ProjectReferences {
     )
     
     begin {
+        $PSCmdlet|Write-PSCmdLetBegin
         if ($NotInGac){
             $gacAssemblies=Get-GacAssembly|ConvertTo-Dictionary -KeyPropertyName Name -ValuePropertyName Version
         }

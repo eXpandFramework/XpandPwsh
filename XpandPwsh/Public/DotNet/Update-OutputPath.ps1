@@ -11,6 +11,7 @@ function Update-OutputPath {
     )
     
     begin {
+        $PSCmdlet|Write-PSCmdLetBegin
     }
     
     process {

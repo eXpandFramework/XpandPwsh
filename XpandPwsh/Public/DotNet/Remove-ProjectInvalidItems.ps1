@@ -10,7 +10,7 @@ function Remove-ProjectInvalidItems {
     )
     
     begin {
-        
+        $PSCmdlet|Write-PSCmdLetBegin        
     }
     
     process {

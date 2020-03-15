@@ -8,6 +8,7 @@ function Update-GenerateAssemblyInfo {
     )
     
     begin {
+        $PSCmdlet|Write-PSCmdLetBegin
     }
     
     process {

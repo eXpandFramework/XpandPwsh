@@ -8,6 +8,7 @@ function Update-ProjectTargetFramework {
     )
     
     begin {
+        $PSCmdlet|Write-PSCmdLetBegin
     }
     
     process {

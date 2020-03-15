@@ -8,7 +8,7 @@ function Get-NugetInstallationFolder  {
     )
     
     begin {
-        
+        $PSCmdlet|Get-NugetInstallationFolder        
     }
     
     process {

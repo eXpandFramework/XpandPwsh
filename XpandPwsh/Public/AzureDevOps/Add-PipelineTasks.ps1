@@ -28,31 +28,28 @@ function Add-PipelineTasks {
     )
     
     begin {
-        
+        $PSCmdlet|Write-PSCmdLetBegin
     }
     
     process {
         
         Push-Location $ProjectFile.DirectoryName
-        Write-HostFormatted "Analyzing $($ProjectFile.BaseName)" -Section -ForegroundColor Yellow
+        Write-HostFormatted "Analyzing $($ProjectFile.BaseName)" -Section -ForegroundColor Yellow -Stream Verbose
         if ("ClearProjectDirectories" -in $global:pipelineTasksSet){
             $currentDir=(Get-Item $ProjectFile).Name
             Clear-ProjectDirectories 
         }
         
         if ("RemoveNugetImportTargets" -in $global:pipelineTasksSet){
-            Write-HostFormatted "Remove Nuget Imports and Targets" -Section
             Remove-NugetImportsTargets $ProjectFile|Out-Null
         }
         
         
         if ("RemoveProjectLicenseFile" -in $global:pipelineTasksSet){
-            Write-HostFormatted "Remove licx files" -Section
             Remove-ProjectLicenseFile -FilePath $ProjectFile.FullName|Out-Null    
         }
         
         if ("RemoveProjectInvalidItems" -in $global:pipelineTasksSet){
-            Write-HostFormatted "Remove invalid Project Imports" -Section
             Remove-ProjectInvalidItems $ProjectFile|Out-Null    
         }
 
@@ -63,35 +60,28 @@ function Add-PipelineTasks {
         }
         
         if ("UpdateAppendTargetFrameworkToOutputPath" -in $global:pipelineTasksSet){
-            Write-HostFormatted "Update-AppendTargetFrameworkToOutputPath" -Section
             Update-AppendTargetFrameworkToOutputPath $csproj    
         }
         
         if ("UpdateGeneratedAssemblyInfo" -in $global:pipelineTasksSet){
-            Write-HostFormatted "Update-GenerateAssemblyInfo" -Section
             Update-GenerateAssemblyInfo  $csproj
         }
         
         if ("UpdateProjectTargetFramework" -in $global:pipelineTasksSet){
-            Write-HostFormatted "Update-ProjectTargetFramework" -Section
             Update-ProjectTargetFramework $TargetFramework $csproj
         }
         
         if ("UpdateOutputPath" -in $global:pipelineTasksSet -and $OutputPath){
-            Write-HostFormatted "Update-OutputPath" -Section
             Update-OutputPath $csproj $ProjectFile.FullName $OutputPath
         }
         
         $csproj | Save-Xml $ProjectFile.FullName|Out-Null
 
         if ("RemoveProjectReferences" -in $global:pipelineTasksSet){
-            Write-HostFormatted "Remove invalid hintpath references" -Section
             Remove-ProjectReferences $ProjectFile.FullName -InvalidHintPath|Out-Null    
         }
         
-
         if ("UpdateAssemblyInfoVersion" -in $global:pipelineTasksSet){
-            Write-HostFormatted "Update-AssemblyInfoVersion" -Section
             Update-AssemblyInfoVersion $AssemblyInfoVersion "$($ProjectFile.DirectoryName)\Properties\AssemblyInfo.cs"    
         }
         

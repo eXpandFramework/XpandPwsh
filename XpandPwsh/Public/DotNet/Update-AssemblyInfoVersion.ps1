@@ -7,7 +7,7 @@ function Update-AssemblyInfoVersion {
     )
     
     begin {
-        
+        $PSCmdlet|Write-PSCmdLetBegin        
     }
     
     process {

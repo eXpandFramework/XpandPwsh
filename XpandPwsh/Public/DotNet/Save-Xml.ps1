@@ -9,7 +9,7 @@ function Save-Xml {
     )
     
     begin {
-        
+        $PSCmdlet|Write-PSCmdLetBegin
     }
     
     process {
