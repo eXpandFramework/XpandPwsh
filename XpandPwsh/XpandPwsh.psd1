@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.13.24'
+ModuleVersion = '1.201.13.25'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -202,6 +202,7 @@ FunctionsToExport = @(
 "Invoke-PaketUpdate",
 "Invoke-Parallel",
 "Invoke-Script",
+"Merge-HashTables",
 "Mount-Assembly",
 "Move-PaketSource",
 "New-Assembly",
@@ -213,7 +214,6 @@ FunctionsToExport = @(
 "New-GithubReleaseNotes",
 "New-GithubReleaseNotesTemplate",
 "New-MacAddress",
-"Merge-HashTables",
 "New-XAFProject",
 "Out-ConditionalColor",
 "Out-Variable",
