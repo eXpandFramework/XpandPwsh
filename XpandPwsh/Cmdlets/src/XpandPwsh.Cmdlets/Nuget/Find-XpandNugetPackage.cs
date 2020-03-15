@@ -49,7 +49,7 @@ namespace XpandPwsh.Cmdlets.Nuget{
                 return id.Id.StartsWith("eXpand");
             }
 
-            return id.Id.StartsWith("Xpand.") || id.Id.StartsWith("eXpand")||id.Id.StartsWith(".Xpand");
+            return id.Id.StartsWith("Xpand.") || id.Id.StartsWith("eXpand")||id.Id.EndsWith(".Xpand");
         }
     }
 

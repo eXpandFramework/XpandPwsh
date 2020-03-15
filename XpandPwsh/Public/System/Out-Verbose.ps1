@@ -16,6 +16,6 @@ function Out-Verbose {
     }
     
     end {
-        $items | Out-String -Stream | Write-Verbose -Verbose
+        $items | Out-String -Stream|Where-Object{$_} | Write-Verbose -Verbose
     }
 }

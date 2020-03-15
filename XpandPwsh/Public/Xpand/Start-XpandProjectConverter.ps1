@@ -17,7 +17,7 @@ function Start-XpandProjectConverter {
     
     process {
         [version]$version = Get-DevExpressVersion $version -Build
-        "version"|Out-VariableValue
+        "version"|Get-Variable|Out-Variable
         $paketInstalls = Get-ChildItem $Path ".paket"  -Recurse
         $shortVersion = Get-DevExpressVersion $version 
         if ($paketInstalls) { 
@@ -58,7 +58,7 @@ function Start-XpandProjectConverter {
         }
         Get-ChildItem $Path *.csproj -Recurse | ForEach-Object {
             $projectPath = $_.FullName
-            "projectPath"|Out-VariableValue
+            "projectPath"|Get-Variable|Out-Variable
             Remove-Item "$($_.DirectoryName)\properties\licenses.licx" -ErrorAction SilentlyContinue
             if (!(Test-Path "$($_.DirectoryName)\paket.references")) {
                 $change = Get-PackageReference $_.FullName | Where-Object { $_.include -like "DevExpress*" } | ForEach-Object {

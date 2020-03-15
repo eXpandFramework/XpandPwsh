@@ -21,7 +21,7 @@ function Update-NugetPackage {
             $projects = Get-ChildItem $SourcePath *.csproj -Recurse 
             
             $projectsName=$projects | Select-Object -expandProperty baseName 
-            "projectsName"|Out-VariableValue
+            "projectsName"|Get-Variable|Out-Variable
         }
         
         $installedPackages = $projects | Invoke-Parallel -ActivityName "Collecting Installed Packages" -VariablesToImport "Filter", "ExcludeFilter" -Script {
@@ -34,7 +34,7 @@ function Update-NugetPackage {
             }
         } | Sort-Object -Unique
     
-        "installedPackages"|Out-VariableValue
+        "installedPackages"|Get-Variable|Out-Variable
         $metadata = $installedPackages | Invoke-Parallel -ActivityName "Query metadata in input sources" -VariablesToImport "sources" -Script {
             $mdata=Get-NugetPackageSearchMetadata $_ ($sources -join ";")
             if (!$mdata){
@@ -43,7 +43,7 @@ function Update-NugetPackage {
             $mdata
         } 
         $packagesToAdd = GetPackagesToAdd $projects $Filter $ExcludeFilter $metadata
-        "packagesToAdd"|Out-VariableValue 
+        "packagesToAdd"|Get-Variable|Out-Variable 
 
         $packagesToAdd|Group-Object ProjectPath |ForEach-Object{
             write-hostformatted "Update packages in $($_.Name)" -section -streamtype verbose -foregroudcolor Blue

@@ -33,7 +33,7 @@ function Pop-XafPackage {
                 Version=$_.versionrange.maxversion.originalversion
             }
         })
-        "existingMetadata"|Out-VariableValue
+        "existingMetadata"|Get-Variable|Out-Variable
 
         $missingMetadata=$existingMetadata|ForEach-Object{
             $pVersion=(Get-VersionPart $_.Version Build)
@@ -44,14 +44,14 @@ function Pop-XafPackage {
                 }
             }
         }
-        "missingMetadata"|Out-VariableValue
+        "missingMetadata"|Get-Variable|Out-Variable
         if ($missingMetadata){
             $downloadedPackages=$missingMetadata|Invoke-Parallel -ActivityName "Downloading XAF packages" -VariablesToImport @("PackageSource","OutputFolder") -LimitConcurrency ([System.Environment]::ProcessorCount) -Script{
                 Get-NugetPackage $_.Id -Source $PackageSource -ResultType DownloadResults -OutputFolder $OutputFolder
             } 
             
             $newPackages=$downloadedPackages.PackageStream.name|Get-Item|ConvertTo-PackageObject
-            "newPackages"|Out-VariableValue
+            "newPackages"|Get-Variable|Out-Variable
             ($newPackages+$allMetadata)|Sort-Object id -Unique
         }
         else {

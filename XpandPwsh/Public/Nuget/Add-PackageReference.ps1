@@ -28,7 +28,7 @@ function Add-PackageReference {
     
     process {
         if ($PSCmdlet.ParameterSetName -eq "Project") {
-            "package","version"|Out-VariableValue
+            "package","version"|Get-Variable|Out-Variable
             $existingPackage=$Project.Project.ItemGroup.PackageReference|Where-Object{$_.Include -eq $package}
             if ($existingPackage){
                 $existingPackage.version=$Version

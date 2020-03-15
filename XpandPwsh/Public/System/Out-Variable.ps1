@@ -1,4 +1,4 @@
-function Out-VariableValue {
+function Out-Variable {
     [CmdletBinding()]
     [CmdLetTag()]
     param (
@@ -25,7 +25,11 @@ function Out-VariableValue {
             $value|Out-Verbose -PassThrough:$passthrough
         }
         else{
-            "$($v.Name) :$value"|Out-Verbose -PassThrough:$passthrough
+            $msg="$($v.Name) :"
+            if ($value){
+                $msg+=$value
+            }
+            $msg|Out-Verbose -PassThrough:$passthrough
         }
     }
     

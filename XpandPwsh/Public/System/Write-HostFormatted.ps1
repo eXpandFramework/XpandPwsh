@@ -18,6 +18,12 @@ function Write-HostFormatted {
 
     )    
     begin {
+        if ($Section){
+            if (!$ForegroundColor){
+                $ForegroundColor="Green"
+            }
+            $Style="Frame"   
+        }
         $verboseForegroundColor=$host.PrivateData.VerboseForegroundColor
         $verboseBackgroundColor=$host.PrivateData.VerboseBackgroundColor
         if ($Stream -eq "Verbose"){
@@ -30,14 +36,7 @@ function Write-HostFormatted {
         }
     }
     process {
-        if ($Section){
-            if (!$ForegroundColor){
-                $ForegroundColor="Green"
-            }
-            
-            $Style="Frame"
-            
-        }
+        
         if ($env:Build_DefinitionName ){  
             if ($ForegroundColor -eq "Blue"){
                 $directive="##[command]"    

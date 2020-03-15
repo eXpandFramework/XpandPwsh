@@ -23,7 +23,7 @@ namespace XpandPwsh.Cmdlets.Nuget{
         [Parameter(ValueFromPipeline = true,Position = 0)]
         public string Name{ get; set; }
         [Parameter( Position = 2)]
-        public string Source{ get; set; }
+        public string[] Source{ get; set; }
 
         [Parameter(Position = 1)]
         public string OutputFolder{ get; set; } = $@"{Path.GetTempPath()}\{nameof(GetNugetPackage)}";
@@ -41,14 +41,14 @@ namespace XpandPwsh.Cmdlets.Nuget{
             }
 
             if (Source == null){
-                Source = "https://api.nuget.org/v3/index.json";
+                Source = new[]{"https://api.nuget.org/v3/index.json"};
             }
             return base.BeginProcessingAsync();
         }
 
         protected override Task ProcessRecordAsync(){
             return GetDownloadResults()
-                .SelectMany(result => {
+                .Select(result => {
                     switch (ResultType){
                         case NugetPackageResultType.Default:
                             return NugetPackageAssemblies(result).ToObservable().OfType<object>();
@@ -64,6 +64,7 @@ namespace XpandPwsh.Cmdlets.Nuget{
 
                     return Observable.Throw<object>(new NotImplementedException(ResultType.ToString()));
                 })
+                .Concat()
                 .DefaultIfEmpty()
                 .HandleErrors(this,Name??OutputFolder)
                 .WriteObject(this)
@@ -86,34 +87,34 @@ namespace XpandPwsh.Cmdlets.Nuget{
         }
 
         private IObservable<DownloadResourceResult> GetDownloadResults(){
-            var sourceSearchMetadatas = PackageSourceSearchMetadatas();
-            if (!sourceSearchMetadatas.Any()){
-                return Observable.Empty<DownloadResourceResult>();
-            }
+            var sourceSearchMetadatas = PackageSourceSearchMetadatas(Source.First()).Take(1);
             var packageSourceSearchMetadatas = sourceSearchMetadatas.ToObservable().Replay().RefCount();
             var downloadContext = new PackageDownloadContext(new SourceCacheContext());
             var providers = new List<Lazy<INuGetResourceProvider>>();
             providers.AddRange(Repository.Provider.GetCoreV3());
 
-            var sourceRepository = new SourceRepository(new PackageSource(Source), providers);
-
-            var downloads = sourceRepository.GetResourceAsync<DownloadResource>().ToObservable()
-                .Select(resource => (resource, sourceRepository))
+            var downloads = Source.ToObservable().Select(s => {
+                    var repository = new SourceRepository(new PackageSource(s), providers);
+                    return repository.GetResourceAsync<DownloadResource>().ToObservable()
+                        .Select(resource => (resource, repository));
+                }).Concat()
                 .Replay().RefCount();
             return packageSourceSearchMetadatas
-                .SelectMany(metadata => downloads.FirstAsync(tuple => tuple.sourceRepository.PackageSource.Source == Source)
-                    .SelectMany(tuple => tuple.resource.GetDownloadResourceResultAsync(metadata.Identity,
+                .Select(metadata => downloads
+                    .Select(tuple => tuple.resource.GetDownloadResourceResultAsync(metadata.Identity,
                         downloadContext, OutputFolder, NullLogger.Instance, CancellationToken.None)))
+                .Concat().Concat()
                 .Where(result => result.Status == DownloadResourceResultStatus.Available)
                 .HandleErrors(this, Name);        }
 
-        private Collection<IPackageSearchMetadata> PackageSourceSearchMetadatas(){
+        private Collection<IPackageSearchMetadata> PackageSourceSearchMetadatas(string source,int index=0){
             
             string allVersions = $"-{nameof(AllVersions)} {AllVersions}";
             if (!AllVersions){
                 allVersions = null;
             }
-            string sources = $"-{nameof(Source)} '{Source}'";
+            string sources = $"-{nameof(Source)} '{Source[index]}'";
+            index++;
             string versions = null;
             if (Versions != null){
                 versions = $"-{nameof(Versions)} @({string.Join(",", Versions.Select(s => $"'{s}'"))})";
@@ -127,8 +128,12 @@ namespace XpandPwsh.Cmdlets.Nuget{
             var cmdletName = CmdletExtensions.GetCmdletName<GetNugetPackageSearchMetadata>();
             var script = $"{cmdletName} {sources} {allVersions} {name} {versions} -{nameof(GetNugetPackageSearchMetadata.IncludeDelisted)}";
             var sourceSearchMetadatas = this.Invoke<IPackageSearchMetadata>(script);
-            if (sourceSearchMetadatas == null!||sourceSearchMetadatas!=null&&!sourceSearchMetadatas.Any()){
-                throw new ItemNotFoundException(Name);
+            if (sourceSearchMetadatas == null!||!sourceSearchMetadatas.Any()){
+                if (index==Source.Length){
+                    throw new ItemNotFoundException($"{Name}---{script}");
+                }
+
+                return PackageSourceSearchMetadatas(source, index);
             }
             return sourceSearchMetadatas;
         }

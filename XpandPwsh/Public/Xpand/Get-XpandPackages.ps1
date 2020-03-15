@@ -2,17 +2,21 @@ function Get-XpandPackages {
     [CmdletBinding()]
     [CmdLetTag()]
     param (
-        [parameter()]
-        [ValidateSet("Release", "Lab")]
+        [parameter(Mandatory)]
+        [ValidateSet("Release", "Lab","All")]
         $Source,
         [ValidateSet("All", "eXpand", "XAFModules","XAFAll","XAFExtensions")]
         $PackageType = "All"
     )
     
     begin {
+        $PSCmdlet|Write-PSCmdLetBegin
     }
     
     process {
+        if ($Source -eq "All"){
+            return ((Get-XpandPackages Release $PackageType)+(Get-XpandPackages Lab $PackageType))|Sort-Object Id -Unique
+        }
         if ($PackageType -eq "All") {
             $Filter = {$true}
         }

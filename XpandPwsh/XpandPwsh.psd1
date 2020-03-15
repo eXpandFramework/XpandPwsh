@@ -215,7 +215,7 @@ FunctionsToExport = @(
 "New-MacAddress",
 "New-XAFProject",
 "Out-ConditionalColor",
-"Out-VariableValue",
+"Out-Variable",
 "Out-Verbose",
 "Pop-XafPackage",
 "Pop-XpandPackage",
