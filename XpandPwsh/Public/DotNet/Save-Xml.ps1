@@ -14,6 +14,7 @@ function Save-Xml {
     
     process {
         $Owner.Save($Path)
+        Get-Variable Path|Out-Variable 
         Format-Xml -Path $Path
     }
     

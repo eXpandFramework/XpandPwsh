@@ -24,15 +24,12 @@ function Write-HostFormatted {
             }
             $Style="Frame"   
         }
-        $verboseForegroundColor=$host.PrivateData.VerboseForegroundColor
-        $verboseBackgroundColor=$host.PrivateData.VerboseBackgroundColor
-        if ($Stream -eq "Verbose"){
-            if ($ForegroundColor){
-                $host.PrivateData.VerboseForegroundColor=$ForegroundColor
-            }
-            if ($BackgroundColor){
-                $host.PrivateData.VerboseBackgroundColor=$BackgroundColor
-            }
+        $color=@{}
+        if ($ForegroundColor){
+            $color.Add("ForegroundColor",$ForegroundColor)
+        }
+        if ($BackGroundColor){
+            $color.Add("BackGroundColor",$BackGroundColor)
         }
     }
     process {
@@ -44,7 +41,7 @@ function Write-HostFormatted {
             elseif ($ForegroundColor -eq "Green"){
                 $directive="##[section]"    
             }
-            elseif ($ForegroundColor -eq "Purple"){
+            elseif ($ForegroundColor -eq "Magenta"){
                 $directive="##[debug]"    
             }
             elseif ($ForegroundColor -eq "Yellow"){
@@ -55,7 +52,7 @@ function Write-HostFormatted {
             }
             $directive+=$Object
             if ($Style -eq "Frame"){
-                $directive|ConvertTo-FramedText -Stream $Stream
+                $directive|ConvertTo-FramedText -Stream $Stream @color
             }
             else {
                 $directive
@@ -69,7 +66,7 @@ function Write-HostFormatted {
         if ($Style -ne "Frame"){
             $code += ($Style | ForEach-Object { GetAnsiCode $_ }) -join ""
         }else{
-            $Object=$Object|ConvertTo-framedtext -Stream $Stream
+            $Object=$Object|ConvertTo-framedtext -Stream $Stream @color
         }
         if ($AnsiColors){
             $Object|ForEach-Object{
@@ -87,31 +84,22 @@ function Write-HostFormatted {
                 }
                 $prefix+=$_
                 if ($Style -eq "Underline"){
-                    $prefix=ConvertTo-FramedText $prefix -NoRoof -char "_" -Stream $Stream
+                    $prefix=ConvertTo-FramedText $prefix -NoRoof -char "-" -Stream $Stream @color
                 }
                 $prefix|ForEach-Object{
-                    $a=@{
-                        Object=$_
-                    }
-                    if ($ForegroundColor){
-                        $a.Add("ForegroundColor",$ForegroundColor)
-                    }
-                    if ($BackGroundColor){
-                        $a.Add("BackGroundColor",$BackGroundColor)
-                    }
+                    
                     if ($Stream -eq "Verbose"){
-                        Write-Verbose $_ -Verbose
+                        Write-Verbose $_ @color
                     }
                     else{
-                        Write-Host @a 
+                        Write-Host $_ @color 
                     }
                 }
             }
         }
     }
     end {
-        $host.PrivateData.VerboseBackgroundColor=$verboseBackgroundColor
-        $host.PrivateData.VerboseForegroundColor=$verboseForegroundColor
+        
     }
 }
 function GetAnsiCode($name, $offSet) {

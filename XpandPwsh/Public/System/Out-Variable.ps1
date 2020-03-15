@@ -7,11 +7,19 @@ function Out-Variable {
         [parameter(ParameterSetName="Name")]
         [Switch]$PassThrough,
         [parameter(ParameterSetName="instance",ValueFromPipeline)]
-        [psvariable]$Variable
+        [psvariable]$Variable,
+        [Alias('fg')] [System.ConsoleColor] $ForegroundColor=[System.ConsoleColor]::Magenta,
+        [Alias('bg')] [System.ConsoleColor] $BackgroundColor
     )
     
     begin {
-        
+        $color=@{}
+        if ($ForegroundColor){
+            $color.Add("ForegroundColor",$ForegroundColor)
+        }
+        if ($BackGroundColor){
+            $color.Add("BackGroundColor",$BackGroundColor)
+        }
     }
     
     process {
@@ -21,15 +29,15 @@ function Out-Variable {
         }
         $value=$v.Value
         if ($value.count -gt 1){
-            Write-Verbose "$($v.Name) :" -Verbose
-            $value|Out-Verbose -PassThrough:$passthrough
+            Write-Verbose "$($v.Name) :" @color
+            $value|Out-Verbose -PassThrough:$passthrough @color
         }
         else{
             $msg="$($v.Name) :"
             if ($value){
                 $msg+=$value
             }
-            $msg|Out-Verbose -PassThrough:$passthrough
+            $msg|Out-Verbose -PassThrough:$passthrough @color
         }
     }
     

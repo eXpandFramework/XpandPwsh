@@ -3,11 +3,20 @@ function Write-Verbose {
     [CmdLetTag()]
     param (
         [Parameter(Mandatory,ValueFromPipeline)]
-        [string]$Message
+        [string]$Message,
+        [Alias('fg')] [System.ConsoleColor] $ForegroundColor,
+        [Alias('bg')] [System.ConsoleColor] $BackgroundColor
     )
     
     begin {
-        
+        $verboseForegroundColor=$host.PrivateData.VerboseForegroundColor
+        $verboseBackgroundColor=$host.PrivateData.VerboseBackgroundColor
+        if ($ForegroundColor){
+            $host.PrivateData.VerboseForegroundColor=$ForegroundColor
+        }
+        if ($BackgroundColor){
+            $host.PrivateData.VerboseBackgroundColor=$BackgroundColor
+        }
     }
     
     process {
@@ -15,6 +24,7 @@ function Write-Verbose {
     }
     
     end {
-        
+        $host.PrivateData.VerboseBackgroundColor=$verboseBackgroundColor
+        $host.PrivateData.VerboseForegroundColor=$verboseForegroundColor       
     }
 }

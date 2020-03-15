@@ -1,4 +1,4 @@
-Function ConvertTo-FramedText{
+function ConvertTo-FramedText {
     [CmdletBinding()]
     [CmdLetTag()]
     param(
@@ -7,24 +7,43 @@ Function ConvertTo-FramedText{
         [string]$char = "-",
         [switch]$NoRoof,
         [ValidateSet("Output","Verbose")]
-        [string]$Stream="Output"
+        [string]$Stream="Output",
+        [Alias('fg')] [System.ConsoleColor] $ForegroundColor,
+        [Alias('bg')] [System.ConsoleColor] $BackgroundColor
     )
-    $writer={
-        param($text)
-        if ($Stream -eq "Output"){
-            $text
+    
+    begin {
+        $color=@{}
+        if ($ForegroundColor){
+            $color.Add("ForegroundColor",$ForegroundColor)
         }
-        else{
-            Write-Verbose $text -Verbose
+        if ($BackGroundColor){
+            $color.Add("BackGroundColor",$BackGroundColor)
         }
-    }
-    $underLine = $char * $stringIn.length
-    if (!$NoRoof){
-        & $writer $underLine
+        $writer={
+            param($text)
+            if ($Stream -eq "Output"){
+                $text
+            }
+            else{
+                Write-Verbose $text -Verbose @color
+            }
+        }
     }
     
-    & $writer $stringIn
-
-    & $writer $underLine
-
-} 
+    process {
+        $underLine = $char * $stringIn.length
+        if (!$NoRoof){
+            & $writer $underLine
+        }
+        
+        & $writer $stringIn
+    
+        & $writer $underLine
+            
+    }
+    
+    end {
+        
+    }
+}

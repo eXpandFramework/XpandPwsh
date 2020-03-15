@@ -4,10 +4,19 @@ function Out-Verbose {
     param (
         [parameter(Mandatory, ValueFromPipeline)]
         $VerboseInput,
+        [Alias('fg')] [System.ConsoleColor] $ForegroundColor,
+        [Alias('bg')] [System.ConsoleColor] $BackgroundColor,
         [Switch]$PassThrough
     )
     
     begin {
+        $color=@{}
+        if ($ForegroundColor){
+            $color.Add("ForegroundColor",$ForegroundColor)
+        }
+        if ($BackGroundColor){
+            $color.Add("BackGroundColor",$BackGroundColor)
+        }
         $items=@()
     }
     
@@ -16,6 +25,6 @@ function Out-Verbose {
     }
     
     end {
-        $items | Out-String -Stream|Where-Object{$_} | Write-Verbose -Verbose
+        $items | Out-String -Stream|Where-Object{$_} | Write-Verbose @color 
     }
 }
