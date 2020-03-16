@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.13.27'
+ModuleVersion = '1.201.14.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -79,6 +79,7 @@ FunctionsToExport = @(
 "Add-NuspecDependency",
 "Add-PackageReference",
 "Add-PipelineTasks",
+"Add-ProjectBuildEvent",
 "Add-ProjectReference",
 "Add-XmlElement",
 "Approve-LastExitCode",
@@ -226,7 +227,6 @@ FunctionsToExport = @(
 "Push-GitSSH",
 "Read-AssemblyDefinition",
 "Read-MSBuildProject",
-"Remove-AssemblyBindingRedirect",
 "Remove-AzBuild",
 "Remove-AzBuildInProgress",
 "Remove-BlankLines",
@@ -234,6 +234,7 @@ FunctionsToExport = @(
 "Remove-GacAssembly",
 "Remove-GitHubRelease",
 "Remove-NugetImportsTargets",
+"Remove-PackageReference",
 "Remove-ProjectInvalidItems",
 "Remove-ProjectLicenseFile",
 "Remove-ProjectNuget",
@@ -272,6 +273,7 @@ FunctionsToExport = @(
 "Update-Nuspec",
 "Update-OutputPath",
 "Update-ProjectAutoGenerateBindingRedirects",
+"Update-ProjectCopyRight",
 "Update-ProjectDebugSymbols",
 "Update-ProjectLanguageVersion",
 "Update-ProjectPackage",
