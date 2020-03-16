@@ -7,6 +7,7 @@ function Read-MSBuildProject {
     )
     
     begin {
+        $PSCmdlet|Write-PSCmdLetBegin
         Use-MSBuildFramework|Out-Null
     }
     

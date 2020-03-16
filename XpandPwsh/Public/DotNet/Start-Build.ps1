@@ -5,7 +5,7 @@ function Start-Build {
         [parameter(ValueFromPipeline)]
         [string]$Path=".",
         [ValidateSet("quiet","minimal","normal","detailed","diagnostic")]
-        [string]$Verbosity="detailed",
+        [string]$Verbosity="minimal",
         [switch]$WarnAsError,
         [string]$BinaryLogPath,
         [switch]$Restore,

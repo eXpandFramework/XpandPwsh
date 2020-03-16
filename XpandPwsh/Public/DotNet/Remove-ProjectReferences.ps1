@@ -25,12 +25,12 @@ function Remove-ProjectReferences {
             if ($ReferenceMatch -and $_.include -match $ReferenceMatch ) {
                 $_.ParentNode.RemoveChild($_)    
             }
-            elseif ($InvalidHintPath -and $_.HintPath){
+            if ($InvalidHintPath -and $_.HintPath){
                 if ([System.IO.Path]::IsPathRooted($_.HintPath) -or !(Resolve-Path $_.HintPath -ErrorAction SilentlyContinue)){
                     $_.ParentNode.RemoveChild($_)    
                 }
             }
-            elseif ($NotInGac){
+            if ($NotInGac){
                 $include=$_.include
                 $index=$include.indexof(",")
                 if ($index -gt -1){

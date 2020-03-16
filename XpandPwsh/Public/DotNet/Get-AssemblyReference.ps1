@@ -3,7 +3,7 @@ function Get-AssemblyReference {
     [CmdLetTag(("#dotnet","#monocecil"))]
     param (
         [parameter(ValueFromPipeline, Mandatory)]
-        [string]$AssemblyPath,
+        [System.IO.FileInfo]$AssemblyPath,
         [string]$NameFilter,
         [string]$VersionFilter,
         [System.IO.FileInfo[]]$AssemblyList = (Get-ChildItem $AssemblyPath *.dll),
