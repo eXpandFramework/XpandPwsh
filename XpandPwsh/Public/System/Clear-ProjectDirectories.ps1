@@ -4,7 +4,7 @@ function Clear-ProjectDirectories {
     param (
         [parameter(ValueFromPipeline)]
         [string[]]$path=(Get-Location),
-        [string[]]$include=@("bin","obj",".vs","_Resharper","packages","*.bak","*.log")
+        [string[]]$include=@("bin","obj",".vs","_Resharper","packages","*.bak","*.log","backup")
     )
     
     begin {
