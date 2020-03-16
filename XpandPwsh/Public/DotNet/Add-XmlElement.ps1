@@ -10,7 +10,6 @@ function Add-XmlElement {
         [string]$Parent,
         [System.Collections.Specialized.OrderedDictionary]$Attributes,
         [string]$InnerText
-        
     )
     
     begin {
@@ -33,6 +32,7 @@ function Add-XmlElement {
         $parentNode.AppendChild($Owner.CreateTextNode("    ")) | Out-Null
 
         $parentNode.AppendChild($element) | Out-Null
+        $element
     }
     
     end {
