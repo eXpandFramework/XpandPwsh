@@ -4,7 +4,7 @@ function Use-NugetAssembly {
     param (
         [parameter(ValueFromPipeline)]
         [string]$packageName,
-        [ValidateSet("NETFramework","NETStandard")]
+        [ValidateSet("NETFramework","NETStandard","NETCoreApp")]
         [string[]]$framework="NETFramework",
         [string]$OutputFolder = "$env:TEMP\$packageName",
         [string]$Source = (Get-PackageFeed -Nuget),

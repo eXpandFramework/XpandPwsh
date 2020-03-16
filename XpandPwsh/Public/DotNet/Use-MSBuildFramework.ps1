@@ -11,9 +11,9 @@ function Use-MSBuildFramework {
     }
     
     process {
-        Use-NugetAssembly Microsoft.build netcore -OutputFolder $OutputFolder -version $version
-        Use-NugetAssembly Microsoft.build.framework netstandard -OutputFolder $OutputFolder -version $version
-        Use-NugetAssembly Microsoft.Build.Utilities.Core "netstandard" -OutputFolder $OutputFolder -version $version
+        Use-NugetAssembly Microsoft.build NETCoreApp -OutputFolder $OutputFolder -version $version
+        Use-NugetAssembly Microsoft.build.framework NETStandard -OutputFolder $OutputFolder -version $version
+        Use-NugetAssembly Microsoft.Build.Utilities.Core NETStandard -OutputFolder $OutputFolder -version $version
         
     }
     
