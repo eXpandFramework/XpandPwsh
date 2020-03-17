@@ -11,7 +11,7 @@ function Write-Verbose {
     begin {
         $verboseForegroundColor=$host.PrivateData.VerboseForegroundColor
         $verboseBackgroundColor=$host.PrivateData.VerboseBackgroundColor
-        if ($ForegroundColor){
+        if ($ForegroundColor -and $verboseForegroundColor){
             $host.PrivateData.VerboseForegroundColor=$ForegroundColor
         }
         if ($BackgroundColor){
@@ -43,7 +43,10 @@ function Write-Verbose {
     }
     
     end {
-        $host.PrivateData.VerboseBackgroundColor=$verboseBackgroundColor
-        $host.PrivateData.VerboseForegroundColor=$verboseForegroundColor       
+        if ($verboseForegroundColor){
+            $host.PrivateData.VerboseBackgroundColor=$verboseBackgroundColor
+            $host.PrivateData.VerboseForegroundColor=$verboseForegroundColor
+        }
+               
     }
 }
