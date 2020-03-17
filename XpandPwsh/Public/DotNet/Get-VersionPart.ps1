@@ -9,7 +9,7 @@ function Get-VersionPart {
     )
     
     begin {
-        
+        $PSCmdlet|Write-PSCmdLetBegin        
     }
     
     process {

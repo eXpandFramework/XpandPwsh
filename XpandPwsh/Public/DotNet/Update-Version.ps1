@@ -10,7 +10,7 @@ function Update-Version {
     )
     
     begin {
-        
+        $PSCmdlet|Write-PSCmdLetBegin        
     }
     
     process {
