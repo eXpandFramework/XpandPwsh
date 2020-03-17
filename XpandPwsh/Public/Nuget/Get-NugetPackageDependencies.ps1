@@ -46,17 +46,17 @@ function Get-NugetPackageDependencies {
         }
         
         $deps = (Get-NugetPackageSearchMetadata @a).DependencySets.Packages | Get-Unique | Where-Object { $_.id -match $FilterRegex }
-        $allDeps = $deps
+        $allDeps = @($deps)
         if ($Recurse) {
             while ($deps) {
-                $deps = $deps | ForEach-Object {
+                $deps = @($deps | ForEach-Object {
                     if ($_.id -notin $packageChecked) {
                         $a.Name = $_.Id
                         (Get-NugetPackageSearchMetadata @a).DependencySets.Packages | Get-Unique | Where-Object { $_.id -match $FilterRegex }
                         $packageChecked += $a.Name
                     }
                     
-                }
+                })
                 $allDeps += $deps
             }
         }
