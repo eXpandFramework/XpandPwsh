@@ -30,7 +30,7 @@ namespace XpandPwsh.CmdLets{
             return cmdlet.GetVariableValue<ActionPreference>("ErrorActionPreference");
         }
 
-        public static void GetCallerPreference(this Cmdlet cmdlet){
+        public static void GetCallerPreference(this PSCmdlet cmdlet){
             cmdlet.Invoke("Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState");
         }
 
@@ -41,6 +41,7 @@ namespace XpandPwsh.CmdLets{
         public static Collection<T> Invoke<T>(this  Cmdlet cmdlet,string script,RunspaceMode  runspaceMode=RunspaceMode.CurrentRunspace){
             using (var powerShell = PowerShell.Create(runspaceMode)){
                 powerShell.Commands.AddScript(script);
+                powerShell.AddParameter("PSCmdLet", cmdlet);
                 return powerShell.Invoke<T>();
             }
         }
