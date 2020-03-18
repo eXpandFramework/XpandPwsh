@@ -13,7 +13,7 @@ function Write-PSCmdLetBegin {
     process {
         Invoke-Script{
             $cmdletName="$($Cmdlet.CommandRuntime)"
-            Write-HostFormatted -object $cmdletName -Stream Verbose -ForegroundColor Blue 
+            Write-HostFormatted -object $cmdletName -Stream Verbose -ForegroundColor Blue -style underline
             $defaultParameters="Verbose","Debug","ErrorAction","WarningAction","InformationAction","ErrorVariable","WarningVariable","InformationVariable","OutVariable","OutBuffer","PipelineVariable"
             if ($Cmdlet.MyInvocation.MyCommand.Parameters){
                 $commandParameters=$Cmdlet.MyInvocation.MyCommand.Parameters.Keys|Where-Object{$_ -notin $defaultParameters}

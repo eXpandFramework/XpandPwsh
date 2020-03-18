@@ -8,7 +8,7 @@ function Start-Build {
         [string]$Verbosity="minimal",
         [switch]$WarnAsError,
         [string]$BinaryLogPath,
-        [switch]$Restore,
+        [switch]$NoRestore,
         [int]$MaxCpuCount=([System.Environment]::ProcessorCount)
     )
     
@@ -27,7 +27,7 @@ function Start-Build {
         Invoke-Script{
             $project|ForEach-Object{
                 $p=@($_.FullName,"-verbosity:$Verbosity","-maxCpuCount:$MaxCpuCount")
-                if ($Restore){
+                if (!$NoRestore){
                     $p+="-Restore"
                 }
                 if ($WarnAsError){

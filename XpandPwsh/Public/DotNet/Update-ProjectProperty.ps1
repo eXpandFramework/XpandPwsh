@@ -11,12 +11,13 @@ function Update-ProjectProperty {
     )
     
     begin {
+        $PSCmdlet|Write-PSCmdLetBegin
     }
     
     process {
         $node=$CSProj.Project.PropertyGroup.ChildNodes|Where-Object { $_.Name -eq $PropertyName }
         if (!$node){
-            Add-XmlElement $CSProj $PropertyName "PropertyGroup" @{} $Value
+            Add-XmlElement -Owner $CSProj -ElementName $PropertyName -Parent "PropertyGroup" -InnerText $Value 
         }
         else{
             $node|ForEach-Object{

@@ -14,7 +14,7 @@ function Remove-ProjectNuget  {
     )
     
     begin {
-        
+        $PSCmdlet|Write-PSCmdLetBegin
     }
     
     process {
@@ -28,7 +28,7 @@ function Remove-ProjectNuget  {
             if ($packageReferences) {
                 $project=($packageReferences|Select-Object -First 1).OwnerDocument
                 if (!$project){
-                    [xml]$project=Get-Content $_.FullName
+                    [xml]$project=Get-XmlContent $_.FullName
                 }
                 $packageReferences | Where-Object { $_.Include -match "$id" } | ForEach-Object {
                     if (!$_.Paket){
@@ -41,25 +41,23 @@ function Remove-ProjectNuget  {
                         (Get-Content $paketRefPath|Where-Object{$_ -ne $packageId})|Out-File $paketRefPath
                     }
                     $targetFramework = $project | Get-ProjectTargetFramework
-                    
                     FindLibraries $_.Include $_.Version $targetFramework | ForEach-Object {
                         Add-ProjectReference $project $_ "$nugetAssembliesBin\$_.dll"
                     }
-                    
-                    $project.Save($path)
                 }
+                $project|Save-Xml $path|out-null
             }
             else {
-                [xml]$p=Get-XmlContent $path
-                $p.Project.ItemGroup.Reference | Where-Object { $_.Include -match "$id" } | ForEach-Object {
-                    $fileName = [System.IO.Path]::GetFileName($_.Hintpath)
-                    $hintPath = "$nugetAssembliesBin\$fileName"
-                    if (!(Test-Path $hintPath)) {
-                        throw "HintPath not found: $hintPath"
-                    }
-                    $_.Hintpath = $hintPath
-                }
-                $p.Save($path)
+                # [xml]$p=Get-XmlContent $path
+                # $p.Project.ItemGroup.Reference | Where-Object { $_.Include -match "$id" } | ForEach-Object {
+                #     $fileName = [System.IO.Path]::GetFileName($_.Hintpath)
+                #     $hintPath = "$nugetAssembliesBin\$fileName"
+                #     if (!(Test-Path $hintPath)) {
+                #         throw "HintPath not found: $hintPath"
+                #     }
+                #     $_.Hintpath = $hintPath
+                # }
+                # $p.Save($path)
             }
             
         } 
