@@ -12,7 +12,7 @@ function Add-NuspecDependency {
     )
     
     begin {
-        
+        $PSCmdlet|Write-PSCmdLetBegin        
     }
     
     process {
@@ -20,7 +20,7 @@ function Add-NuspecDependency {
             id = $id
             version = $version
         }
-        Add-XmlElement $Nuspec "dependency" "dependencies" $attributes 
+        Add-XmlElement -Owner $Nuspec -ElementName "dependency" -Parent "dependencies" -Attributes $attributes 
     }
     
     end {
