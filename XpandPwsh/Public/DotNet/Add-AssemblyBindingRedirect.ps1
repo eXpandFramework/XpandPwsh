@@ -18,12 +18,13 @@ function Add-AssemblyBindingRedirect {
         [string]$Id,
         [parameter(ValueFromPipelineByPropertyName)]
         [string]$Version,
-        [string]$Path = (Get-Location),
+        [System.IO.DirectoryInfo]$Path = (Get-Location),
         [string]$Culture = "neutral",
         [string]$PublicToken
     )
     
     begin {
+        $PSCmdlet|Write-PSCmdLetBegin
         $xml = @()
         $configFile = Get-ChildItem $Path *.config | Select-Object -First 1
         if (!$configFile) {
@@ -39,7 +40,7 @@ function Add-AssemblyBindingRedirect {
         }
         [xml]$config = Get-Content $configFile
         if (!$config.SelectSingleNode("//runtime")){
-            Add-XmlElement $config "runtime" "configuration"
+            Add-XmlElement -Owner $config -elementName "runtime" -parent "configuration" 
             $config.Save($configFile)
         }
         if (!$Version){
@@ -81,6 +82,6 @@ function Add-AssemblyBindingRedirect {
     }
     end {
         $config.SelectSingleNode("//runtime").InnerXml += $xml
-        $config.Save($configFile)
+        $config|Save-Xml $configFile|Out-Null
     }
 }

@@ -76,10 +76,11 @@ function GetPackagesToAdd($projects, $Filter, $ExcludeFilter, $metadata) {
                 $r
             }
         } | ForEach-Object {
+            
             $p = $_.Include
             $m = $metadata | Where-Object { $_.Identity.Id -eq $p }
-            $latestVersion = $m.Identity.Version.OriginalVersion
-            $installedVersion = $_.Version
+            [version]$latestVersion = $m.Identity.Version.OriginalVersion
+            [version]$installedVersion = $_.Version
             if ($latestVersion -gt $installedVersion) {
                 [PSCustomObject]@{
                     ProjectPath = $csprojPath

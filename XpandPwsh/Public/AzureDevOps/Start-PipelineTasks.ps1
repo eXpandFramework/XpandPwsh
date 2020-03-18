@@ -87,7 +87,7 @@ function Start-PipelineTasks {
                     Add-PackageReferenceNoWarning $project $noWarn $_
                 }
             }
-            if ("Update-ProjectNoWarn" -in $global:pipelineTasksSet -and $ProjectNoWarning){
+            if ("UpdateProjectNoWarn" -in $global:pipelineTasksSet -and $ProjectNoWarning){
                 Update-ProjectNoWarn $project -NoWarn $ProjectNoWarning
             }
 

@@ -15,7 +15,7 @@ function Add-XmlElement {
     )
     
     begin {
-        
+        $PSCmdlet|Write-PSCmdLetBegin
     }
     
     process {

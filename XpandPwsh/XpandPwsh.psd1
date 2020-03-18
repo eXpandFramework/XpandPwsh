@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.14.8'
+ModuleVersion = '1.201.15.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -78,7 +78,7 @@ FunctionsToExport = @(
 "Add-GitDiff",
 "Add-NuspecDependency",
 "Add-PackageReference",
-"Add-PipelineTasks",
+"Add-PackageReferenceNoWarning",
 "Add-ProjectBuildEvent",
 "Add-ProjectReference",
 "Add-XmlElement",
@@ -245,6 +245,7 @@ FunctionsToExport = @(
 "Set-VsoVariable",
 "Start-Build",
 "Start-NugetRestore",
+"Start-PipelineTasks",
 "Start-SelfElevate",
 "Start-XpandProjectConverter",
 "Submit-GitStage",
@@ -276,6 +277,7 @@ FunctionsToExport = @(
 "Update-ProjectCopyRight",
 "Update-ProjectDebugSymbols",
 "Update-ProjectLanguageVersion",
+"Update-ProjectNoWarn",
 "Update-ProjectPackage",
 "Update-ProjectProperty",
 "Update-ProjectSign",
