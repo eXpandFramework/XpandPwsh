@@ -16,54 +16,30 @@ function Add-AssemblyBindingRedirect {
             (Find-Nugetpackage -name $WordToComplete).Id
         })]
         [string]$Id,
-        [parameter(ValueFromPipelineByPropertyName)]
+        [parameter(ValueFromPipelineByPropertyName,Mandatory)]
         [string]$Version,
-        [System.IO.DirectoryInfo]$Path = (Get-Location),
+        [parameter(Mandatory)]
+        [System.IO.FileInfo]$ConfigFile = (Get-Location),
         [string]$Culture = "neutral",
+        [parameter(Mandatory)]
         [string]$PublicToken
     )
     
     begin {
         $PSCmdlet|Write-PSCmdLetBegin
         $xml = @()
-        $configFile = Get-ChildItem $Path *.config | Select-Object -First 1
-        if (!$configFile) {
-            $defaultConfig = @"
-            <configuration>
-                <runtime>
-                </runtime>
-            </configuration>
-"@
-
-            $configFile = "$((Get-Item $Path).FullName)\app.config"
-            Set-Content $configFile $defaultConfig
-        }
         [xml]$config = Get-Content $configFile
         if (!$config.SelectSingleNode("//runtime")){
             Add-XmlElement -Owner $config -elementName "runtime" -parent "configuration" 
-            $config.Save($configFile)
+            $Config|Save-Xml $ConfigFile
         }
-        if (!$Version){
-            $packages=Get-PackageReference ((Get-ChildItem $Path "*.*proj").FullName)
-            $Version=($packages|Where-Object{$_.Include -eq $Id}).Version
-            if (!$Version){
-                throw "Cannot find $id version"
-            }
-        }
-        if (!$PublicToken){
-            [xml]$proj=Get-Content (((Get-ChildItem $Path "*.*proj").FullName))
-            $outputPath="$Path\$($proj.Project.PropertyGroup.OutputPath|Select-Object -First 1)"
-            $assemblypath=[System.IO.Path]::GetFullPath("$outputPath\$id.dll")
-            $PublicToken=Get-AssemblyPublicKeyToken $assemblypath
-            
-        }
-        
-        
     }
     
     process {
+        
         $binding = $config.configuration.runtime.assemblyBinding.dependentAssembly | Where-Object { $_.assemblyIdentity.name -eq $id }
         if ($binding) {
+            $binding.assemblyIdentity.name=$Id
             $binding.bindingRedirect.oldVersion = "0.0.0.0-$Version"
             $binding.bindingRedirect.newVersion = $Version
         }
