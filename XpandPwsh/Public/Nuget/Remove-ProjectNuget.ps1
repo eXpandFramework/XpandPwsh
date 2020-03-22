@@ -87,9 +87,9 @@ function FindLibraries {
     } | Sort-Object -Descending | Where-Object {
         $_.BaseName.Replace("net", "") -le $TargetFramework -or $_.BaseName -like "netstandard*"
     } | Select-Object -First 1
-Push-Location $item.FullName
-Get-ChildItem *.dll | ForEach-Object {
-    $_.BaseName
-}
-Pop-Location
+    Push-Location $item.FullName
+    Get-ChildItem *.dll | ForEach-Object {
+        $_.BaseName
+    }
+    Pop-Location
 }

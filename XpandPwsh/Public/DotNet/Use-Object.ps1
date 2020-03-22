@@ -9,7 +9,7 @@ function Use-Object {
         [Parameter(Mandatory = $true)]
         [scriptblock]$ScriptBlock
     )   
-    $killDomain
+
     try {
         . $ScriptBlock
     }
@@ -18,7 +18,7 @@ function Use-Object {
     }
     finally {
         if ($null -ne $InputObject -and $InputObject -is [System.IDisposable]) {
-            $InputObject.Dispose()
+            $InputObject.Dispose()|Out-Null
         }
     }
 }

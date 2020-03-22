@@ -20,8 +20,8 @@ function Add-ProjectBuildEvent {
         Invoke-Script{
             $eventNode=$Project.Project.PropertyGroup.$EventName|Where-Object{$_}
             if (!$eventNode){
-                $container=Add-XmlElement $Project PropertyGroup Project 
-                $eventNode=Add-XmlElement $Project $EventName PropertyGroup -InnerText $InnerText
+                $container=Add-XmlElement -Owner $Project -ElementName PropertyGroup -Parent Project 
+                $eventNode=Add-XmlElement -Owner $Project -ElementName $EventName -Parent PropertyGroup -InnerText $InnerText
                 $eventNode.ParentNode.RemoveChild($eventNode)
                 $container.AppendChild($eventNode)
             }
