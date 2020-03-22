@@ -1,8 +1,8 @@
 function Add-AssemblyBindingRedirect {
     [CmdletBinding()]
-    [CmdLetTag("#dotnet")]
+    [CmdLetTag(("#dotnet","#monocecil"))]
     param (
-        [parameter(ValueFromPipelineByPropertyName, Mandatory)]
+        [parameter(ValueFromPipelineByPropertyName, Mandatory,ParameterSetName="Id")]
         [ArgumentCompleter({
             [OutputType([System.Management.Automation.CompletionResult])]  # zero to many
             param(
@@ -16,13 +16,15 @@ function Add-AssemblyBindingRedirect {
             (Find-Nugetpackage -name $WordToComplete).Id
         })]
         [string]$Id,
-        [parameter(ValueFromPipelineByPropertyName,Mandatory)]
+        [parameter(ValueFromPipelineByPropertyName,Mandatory,ParameterSetName="Id")]
         [string]$Version,
         [parameter(Mandatory)]
         [System.IO.FileInfo]$ConfigFile = (Get-Location),
         [string]$Culture = "neutral",
-        [parameter(Mandatory)]
-        [string]$PublicToken
+        [parameter(Mandatory,ParameterSetName="Id")]
+        [string]$PublicToken,
+        [parameter(ValueFromPipeline,Mandatory,ParameterSetName="File")]
+        [System.IO.FileInfo]$Assembly
     )
     
     begin {
@@ -36,10 +38,27 @@ function Add-AssemblyBindingRedirect {
     }
     
     process {
-        
+        if ($PSCmdlet.ParameterSetName -eq "File"){
+            try {
+                $data=Use-Object($asm=Read-AssemblyDefinition $Assembly.FullName){
+                    [PSCustomObject]@{
+                        Token = Get-AssemblyPublicKeyToken -bytes $asm.Name.publicKeyToken
+                        Version=$asm|Get-AssemblyVersion 
+                    }
+                }
+                $id=$Assembly.BaseName       
+                $PublicToken=$data.Token
+                $Version=$data.Version
+            }
+            catch {
+                Write-Warning $Assembly.BaseName
+                Write-Error $_ -ErrorAction Continue
+                return
+            }
+        }
         $binding = $config.configuration.runtime.assemblyBinding.dependentAssembly | Where-Object { $_.assemblyIdentity.name -eq $id }
         if ($binding) {
-            $binding.assemblyIdentity.name=$Id
+            $binding.assemblyIdentity.name=$id
             $binding.bindingRedirect.oldVersion = "0.0.0.0-$Version"
             $binding.bindingRedirect.newVersion = $Version
         }
