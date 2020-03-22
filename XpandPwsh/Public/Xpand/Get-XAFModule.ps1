@@ -32,21 +32,23 @@ function Get-XAFModule {
             $assemblies.Name|Write-Verbose 
         }
         
-        $assemblies| Invoke-Parallel -VariablesToImport "assemblyList" -Script {
+        $assemblies| ForEach-Object {
             $moduleBaseType = "DevExpress.ExpressApp.ModuleBase"
             $assemblyPath = $_.FullName
             Write-Verbose "Reading assembly $assemblyPath"
             Use-Object($ma = Read-AssemblyDefinition $assemblyPath $AssemblyList) {
-                $ma.MainModule.Types | Where-Object {
-                    [Xpand.Extensions.Mono.Cecil.MonoCecilExtensions]::BaseClasses($_) | Where-Object { $_.FullName -eq $moduleBaseType }
-                } | Where-Object {
-                    !$_.IsAbstract -and $_.FullName -ne $moduleBaseType
-                } | ForEach-Object {
-                    [PSCustomObject]@{
-                        Name     = $_.Name
-                        FullName = $_.FullName
-                        Assembly = $assemblyPath
-                        Platform = (Get-AssemblyMetadata $assemblyPath -key platform).value
+                if ($ma.MainModule.AssemblyReferences.Name -like "DevExpress*"){
+                    $ma.MainModule.Types | Where-Object {
+                        [Xpand.Extensions.Mono.Cecil.MonoCecilExtensions]::BaseClasses($_) | Where-Object { $_.FullName -eq $moduleBaseType }
+                    } | Where-Object {
+                        !$_.IsAbstract -and $_.FullName -ne $moduleBaseType
+                    } | ForEach-Object {
+                        [PSCustomObject]@{
+                            Name     = $_.Name
+                            FullName = $_.FullName
+                            Assembly = $assemblyPath
+                            Platform = (Get-AssemblyMetadata $assemblyPath -key platform).value
+                        }
                     }
                 }
             }

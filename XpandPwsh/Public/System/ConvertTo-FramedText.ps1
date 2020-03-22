@@ -26,7 +26,7 @@ function ConvertTo-FramedText {
                 $text
             }
             else{
-                Write-Verbose $text -Verbose @color
+                Write-Verbose $text @color
             }
         }
     }

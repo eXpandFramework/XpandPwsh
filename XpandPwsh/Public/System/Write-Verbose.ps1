@@ -39,7 +39,7 @@ function Write-Verbose {
     process {
         $msg=$directive
         $msg+=$Message
-        Microsoft.PowerShell.Utility\Write-Verbose $msg -Verbose
+        Microsoft.PowerShell.Utility\Write-Verbose $msg 
     }
     
     end {

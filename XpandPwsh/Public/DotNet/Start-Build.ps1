@@ -1,6 +1,7 @@
 function Start-Build {
     [CmdletBinding()]
     [CmdLetTag(("#dotnet","#msbuild"))]
+    [alias("sxb")]
     param (
         [parameter(ValueFromPipeline)]
         [string]$Path=".",

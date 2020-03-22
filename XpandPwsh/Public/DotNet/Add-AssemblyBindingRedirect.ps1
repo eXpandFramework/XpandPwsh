@@ -77,6 +77,6 @@ function Add-AssemblyBindingRedirect {
     }
     end {
         $config.SelectSingleNode("//runtime").InnerXml += $xml
-        $config|Save-Xml $configFile|Out-Null
+        $config|Save-Xml $configFile.FullName|Out-Null
     }
 }
