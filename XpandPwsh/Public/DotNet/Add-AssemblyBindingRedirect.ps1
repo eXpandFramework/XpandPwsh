@@ -16,10 +16,10 @@ function Add-AssemblyBindingRedirect {
             (Find-Nugetpackage -name $WordToComplete).Id
         })]
         [string]$Id,
-        [parameter(ValueFromPipelineByPropertyName,Mandatory,ParameterSetName="Id")]
+        [parameter(ValueFromPipelineByPropertyName)]
         [string]$Version,
         [parameter(Mandatory)]
-        [System.IO.FileInfo]$ConfigFile = (Get-Location),
+        [System.IO.FileInfo]$ConfigFile ,
         [string]$Culture = "neutral",
         [parameter(Mandatory,ParameterSetName="Id")]
         [string]$PublicToken,
@@ -41,14 +41,19 @@ function Add-AssemblyBindingRedirect {
         if ($PSCmdlet.ParameterSetName -eq "File"){
             try {
                 $data=Use-Object($asm=Read-AssemblyDefinition $Assembly.FullName){
-                    [PSCustomObject]@{
-                        Token = Get-AssemblyPublicKeyToken -bytes $asm.Name.publicKeyToken
-                        Version=$asm|Get-AssemblyVersion 
+                    if ($asm.Name.publicKeyToken){
+                        [PSCustomObject]@{
+                            Token = Get-AssemblyPublicKeyToken -bytes $asm.Name.publicKeyToken
+                            Version=$asm|Get-AssemblyVersion 
+                        }
                     }
                 }
                 $id=$Assembly.BaseName       
                 $PublicToken=$data.Token
-                $Version=$data.Version
+                if (!$Version){
+                    $Version=$data.Version
+                }
+                
             }
             catch {
                 Write-Warning $Assembly.BaseName
@@ -56,22 +61,25 @@ function Add-AssemblyBindingRedirect {
                 return
             }
         }
-        $binding = $config.configuration.runtime.assemblyBinding.dependentAssembly | Where-Object { $_.assemblyIdentity.name -eq $id }
-        if ($binding) {
-            $binding.assemblyIdentity.name=$id
-            $binding.bindingRedirect.oldVersion = "0.0.0.0-$Version"
-            $binding.bindingRedirect.newVersion = $Version
-        }
-        else {
-            $xml += @"
-`n
-        <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
-            <dependentAssembly>
-                <assemblyIdentity name="$id" publicKeyToken="$PublicToken" culture="$culture" />
-                <bindingRedirect oldVersion="0.0.0.0-$Version" newVersion="$Version" />
-            </dependentAssembly>
-        </assemblyBinding>
+        if ($PublicToken){
+            $binding = $config.configuration.runtime.assemblyBinding.dependentAssembly | Where-Object { $_.assemblyIdentity.name -eq $id }
+            if ($binding) {
+                $binding.assemblyIdentity.name=$id
+                $binding.bindingRedirect.oldVersion = "0.0.0.0-$Version"
+                $binding.bindingRedirect.newVersion = $Version
+            }
+            else {
+                $xml += @"
+    `n
+            <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+                <dependentAssembly>
+                    <assemblyIdentity name="$id" publicKeyToken="$PublicToken" culture="$culture" />
+                    <bindingRedirect oldVersion="0.0.0.0-$Version" newVersion="$Version" />
+                </dependentAssembly>
+            </assemblyBinding>
 "@
+        }
+        
         
         }
     }
