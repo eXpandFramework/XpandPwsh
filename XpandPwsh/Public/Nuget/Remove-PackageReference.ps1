@@ -5,7 +5,8 @@ function Remove-PackageReference {
         [parameter(Mandatory,ValueFromPipeline)]
         [System.IO.FileInfo]$ProjectFile,
         [parameter(Mandatory)]
-        [string]$IdMatch
+        [string]$IdMatch,
+        [string]$ExcludeMatch
     )
     
     begin {
@@ -17,7 +18,9 @@ function Remove-PackageReference {
         [xml]$csproj = Get-XmlContent $ProjectFile.FullName
         $csproj.Project.ItemGroup.packageReference | ForEach-Object {
             if ($_.include -match $IdMatch ) {
-                $_.ParentNode.RemoveChild($_)    
+                if ($_.include -notmatch $ExcludeMatch -or !$ExcludeMatch){
+                    $_.ParentNode.RemoveChild($_)    
+                }
             }
         }
         $csproj | Save-Xml $ProjectFile.FullName|Out-Null
