@@ -9,17 +9,21 @@ function ConvertTo-Dictionary {
         [string]$ValuePropertyName,
         # [parameter(Mandatory)]
         [scriptblock]$ValueSelector,
-        [switch]$Force
+        [switch]$Force,
+        [switch]$Ordered
     )
     
     begin {
         $output = @{}
+        if ($Ordered){
+            $output=[ordered]@{}
+        }
     }
     
     process {
         $key=$Object.($KeyPropertyName)
         if (!$Force){
-            if (!$output.ContainsKey($key)){
+            if ($output.Keys -notcontains $key){
                 if ($ValueSelector){
                     $output.add($key,(& $ValueSelector $Object))
                 }
