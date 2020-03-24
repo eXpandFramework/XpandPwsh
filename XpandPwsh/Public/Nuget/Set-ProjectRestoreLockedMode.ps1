@@ -13,6 +13,9 @@ function Set-ProjectRestoreLockedMode {
     
     process {
         Update-ProjectProperty  $Project RestorePackagesWithLockFile $Value
+        Update-ProjectProperty  $Project RestoreLockedMode $Value
+        Update-ProjectProperty  $Project NoWarn NU1603
+        Update-ProjectProperty  $Project DisableImplicitNuGetFallbackFolder $Value
     }
     
     end {
