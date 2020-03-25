@@ -5,6 +5,7 @@ function Start-Build {
     param (
         [parameter(ValueFromPipeline)]
         [string]$Path=".",
+        [string]$Configuration,
         [ValidateSet("quiet","minimal","normal","detailed","diagnostic")]
         [string]$Verbosity="minimal",
         [switch]$WarnAsError,
@@ -36,6 +37,9 @@ function Start-Build {
                 }
                 if ($BinaryLogPath){
                     $p+="/bl:$BinaryLogPath"
+                }
+                if ($Configuration){
+                    $p+="/p:Configuration=$Configuration"
                 }
                 & (Get-MsBuildPath) @p
             }
