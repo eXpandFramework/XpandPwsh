@@ -11,6 +11,7 @@ function Get-AssemblyReference {
     )
     
     begin {
+        $PSCmdlet|Write-PSCmdLetBegin
         Use-MonoCecil | Out-Null
     }
     
@@ -23,8 +24,8 @@ function Get-AssemblyReference {
                 FullName = $_.FullName
             }
         } | Where-Object {
-            $nameMatch = !$NameFilter -or $_.Name -like $NameFilter
-            $versionMatch = !$VersionFilter -or $_.Version -like $VersionFilter 
+            $nameMatch = !$NameFilter -or $_.Name -match $NameFilter
+            $versionMatch = !$VersionFilter -or $_.Version -match $VersionFilter 
             $nameMatch -and $versionMatch
 
         }
@@ -40,6 +41,7 @@ function Get-AssemblyReference {
                             NameFilter    = $NameFilter 
                             VersionFilter = $VersionFilter
                             Recurse       = $Recurse
+                            AssemblyList  = $AssemblyList
                         }
                         Get-AssemblyReference  @a
                         $assemblyChecked += $refPath
