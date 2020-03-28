@@ -30,6 +30,9 @@ function Add-ProjectReference {
         $ns = New-Object System.Xml.XmlNamespaceManager($Owner.NameTable)
         $ns.AddNamespace("ns", $nsUri)
         $refNode = $Owner.SelectSingleNode("//ns:Reference", $ns).ParentNode
+        if (!$refNode){
+            $refNode = $Owner.SelectSingleNode("//ns:ItemGroup", $ns)
+        }
         $refNode.AppendChild($r)|out-null
     }
     
