@@ -7,6 +7,7 @@ function Use-MonoCecil {
     )
     
     begin {
+        $PSCmdlet|Write-PSCmdLetBegin
     }
     
     process {
