@@ -25,6 +25,10 @@ function Format-Xml {
         [Parameter(Position = 0, Mandatory = $true, ValueFromPipelineByPropertyName = $true, ParameterSetName = "File")]
         [Alias("PsPath")]
         [string]$Path,
+        
+        [Parameter(Position = 0, Mandatory = $true, ValueFromPipelineByPropertyName = $true, ParameterSetName = "Text")]
+        [Alias("PsText")]
+        [string]$Text,
 
         # The indent level (defaults to 2 spaces)
         [Parameter(Mandatory = $false)]
@@ -36,7 +40,10 @@ function Format-Xml {
     process {
         ## Load from file, if necessary
         if ($Path) { [xml]$xml = Get-Content $Path }
-
+        if ($Text){
+            $doc=[System.Xml.XmlDocument]::new()
+            [xml]$xml=$doc.LoadXml($Text)
+        }
         $StringWriter = New-Object System.IO.StringWriter
         $XmlWriter = New-Object System.XMl.XmlTextWriter $StringWriter
         $xmlWriter.Formatting = "indented"
