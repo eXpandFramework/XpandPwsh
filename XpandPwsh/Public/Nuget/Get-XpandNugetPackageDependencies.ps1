@@ -2,7 +2,7 @@ function Get-XpandNugetPackageDependencies {
     [CmdletBinding()]
     [CmdLetTag("#nuget")]
     param (
-        [parameter(Mandatory)]
+        [parameter(Mandatory,ValueFromPipeline)]
         [ArgumentCompleter( {
                 [OutputType([System.Management.Automation.CompletionResult])]  # zero to many
                 param(
@@ -43,6 +43,8 @@ function Get-XpandNugetPackageDependencies {
             Version    = $Version 
             Source     = $Source
             AllVersion = $AllVersions
+            FilterRegex = "Xpand"
+            Recurse=$true
         }
         Get-NugetPackageDependencies @a 
     }
