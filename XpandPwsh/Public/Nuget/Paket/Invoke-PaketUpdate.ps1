@@ -21,10 +21,10 @@ function Invoke-PaketUpdate {
         $depArgs=@{
             Strict=$Strict
         }
-        Get-PaketDependenciesPath @depArgs |ForEach-Object{
-            if ($Force) {
-                $xtraArgs += "--force"
-            }
+        if ($Force) {
+            $xtraArgs = @("--force")
+        }
+        Get-PaketDependenciesPath @depArgs |ForEach-Object{   
             Write-Host "Paket Update at $($_.DirectoryName)" -f Blue
             Push-Location $_.DirectoryName
             $installed=Invoke-PaketShowInstalled |Where-Object{$_.Id -eq $ID}
@@ -42,7 +42,7 @@ function Invoke-PaketUpdate {
                 }
                 
             }
-            else{
+            elseif (!$ID){
                 Invoke-Script {dotnet paket update @xtraArgs}
             }
             Pop-Location

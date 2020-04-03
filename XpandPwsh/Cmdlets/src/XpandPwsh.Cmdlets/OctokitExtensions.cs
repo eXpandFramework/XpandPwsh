@@ -49,7 +49,7 @@ namespace XpandPwsh.CmdLets{
         }
 
         public static IObservable<RepositoryTag> LastTag(this IRepositoriesClient repositoriesClient, Repository repository,Func<RepositoryTag,bool> gitagFilter=null){
-            gitagFilter = gitagFilter ?? (tag => true);
+            gitagFilter ??= (tag => true);
             return repositoriesClient.GetAllTags(repository.Id).ToObservable()
                 .Select(tags => tags.Where(gitagFilter ))
                 .Select(list => list.First()).FirstAsync();
