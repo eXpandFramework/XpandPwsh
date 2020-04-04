@@ -5,26 +5,35 @@ function Get-XpandRepository {
         [parameter(ValueFromPipeline, Mandatory)]
         [ValidateSet("eXpand","eXpand.lab","DevExpress.XAF","XpandPwsh")]
         [string]$Name,
-        [parameter(Mandatory)]
-        $GitHubUserName,
-        [parameter(Mandatory)]
-        $GitHubUserPass,
-        $Location = "$env:TEMP\$Name"
+        [parameter()]
+        [string]$GitHubUserName,
+        [parameter()]
+        [string]$GitHubUserPass,
+        [string]$Location = "$env:TEMP\$Name",
+        [switch]$Uri
     )
     
     begin {
     }
     
     process {
-        
-        if (Test-Path $Location) {
-            Remove-Item $Location -Recurse -Force
+        $url = "https://"
+        if ($GitHubUserName -and $GitHubUserPass){
+            $url+="$GithubUserName`:$GithubUserPass@"
         }
-        New-Item $Location -ItemType Directory -Force 
-        Set-Location $Location
-        $url = "https://$GithubUserName`:$GithubUserPass@github.com/eXpandFramework/$Name.git"
-        git clone $url -q
-        Set-Location "$Location\$Name"
+        $url+="github.com/eXpandFramework/$Name.git"
+        if (!$Uri){
+            if (Test-Path $Location) {
+                Remove-Item $Location -Recurse -Force
+            }
+            New-Item $Location -ItemType Directory -Force 
+            Set-Location $Location
+            git clone $url -q
+            Set-Location "$Location\$Name"
+        }
+        else{
+            $url
+        }
     }
     
     end {
