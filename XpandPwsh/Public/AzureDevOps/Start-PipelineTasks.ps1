@@ -76,7 +76,7 @@ function Start-PipelineTasks {
             }
             
             if ("UpdateOutputPath" -in $Task -and $OutputPath){
-                Update-OutputPath $project $ProjectFile.FullName $OutputPath
+                Update-OutputPath $ProjectFile $OutputPath
             }
             
             if ("UpdateProjectCopyRight" -in $Task){
