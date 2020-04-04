@@ -21,23 +21,41 @@ function Pop-XpandPackage {
         $PSCmdlet|Write-PSCmdletBegin    
         if ($Version ){
             if ($PackageType -eq "All"){
-                throw "PackageType value cannot be All when Version is set"
+                $releaseName="All"
+                if ($PackageSource -eq "lab"){
+                    $releaseName+=".lab"
+                }
+                $release=Get-XpandRelease -Type $releaseName -NameMatch $Version
+                if (!$release){
+                    throw "Version $version not found in eXpandRepo"
+                }
+                if (!$release.XAF ){
+                    throw "eXpand release $Version does not use XAF package containers"
+                }
             }
             $containers="Xpand.XAF.Win.All","Xpand.XAF.Web.All"
-            if ($PackageType -eq "Xpand"){
+            if ($PackageType -eq "Xpand" -or $PackageType -eq "All"){
                 $containers="eXpandAgnostic","eXpandWeb","eXpandWin"
             }
-            $publishedMetadata=$containers|Get-XpandNugetPackageDependencies -Version $Version -Source (Get-PackageFeed -FeedName $PackageSource)|ForEach-Object{
-                [PSCustomObject]@{
-                    Id = $_.Id
-                    Version=$_.VersionRange.OriginalString
+            $publishedMetadataCollector={
+                param($containers,$Version)
+                $publishedPackages=$containers|Get-XpandNugetPackageDependencies -Version $Version -Source (Get-PackageFeed -FeedName $PackageSource)|ForEach-Object{
+                    [PSCustomObject]@{
+                        Id = $_.Id
+                        Version=$_.VersionRange.OriginalString
+                    }
                 }
+                $publishedPackages+=$containers|ForEach-Object{
+                    [PSCustomObject]@{
+                        Id = $_
+                        Version=$Version
+                    }
+                }
+                $publishedPackages
             }
-            $publishedMetadata+=$containers|ForEach-Object{
-                [PSCustomObject]@{
-                    Id = $_
-                    Version=$Version
-                }
+            $publishedMetadata=& $publishedMetadataCollector $containers $Version
+            if ($PackageType -eq "All"){
+                $publishedMetadata+=& $publishedMetadataCollector @("Xpand.XAF.Win.All","Xpand.XAF.Web.All") $release.XAF
             }
             "publishedMetadata"|Get-Variable|Out-Variable
         }
@@ -86,6 +104,7 @@ function Pop-XpandPackage {
         if ($missingMetadata){
             $source="$(Get-PackageFeed -Xpand)","$(Get-PackageFeed -Nuget)"
             $newMetadata=$missingMetadata|Invoke-Parallel -ActivityName "Dowloading Xpand packages " -VariablesToImport @("source","OutputFolder") -LimitConcurrency ([System.Environment]::ProcessorCount) -Script{
+            # $newMetadata=$missingMetadata|foreach{
                 Get-NugetPackage $_.Id -Source $source -ResultType DownloadResults -OutputFolder $OutputFolder -Versions $_.Version
             }   
             $downloadedPackages=$newMetadata.PackageStream.name|Get-Item|ConvertTo-PackageObject
