@@ -2,11 +2,9 @@ function Pop-XpandPackage {
     [CmdLetTag()]
     [CmdletBinding()]
     param (
-        [ValidateSet("Core","Win","Web")]
-        [string[]]$Platform=@("Win","Web","Core"),
-        [parameter(Mandatory)]
+        [parameter()]
         [ValidateSet("Lab","Release")]
-        [string]$PackageSource,
+        [string]$PackageSource="Release",
         [string]$OutputFolder=(Get-NugetInstallationFolder GlobalPackagesFolder) ,
         [version]$Version,
         [ValidateSet("All","XAFAll","Xpand")]
@@ -20,6 +18,9 @@ function Pop-XpandPackage {
         }        
         $PSCmdlet|Write-PSCmdletBegin    
         if ($Version ){
+            if ($Version.Revision -gt 0){
+                $PackageSource="Lab"
+            }
             if ($PackageType -eq "All"){
                 $releaseName="All"
                 if ($PackageSource -eq "lab"){
@@ -42,7 +43,7 @@ function Pop-XpandPackage {
                 $publishedPackages=$containers|Get-XpandNugetPackageDependencies -Version $Version -Source (Get-PackageFeed -FeedName $PackageSource)|ForEach-Object{
                     [PSCustomObject]@{
                         Id = $_.Id
-                        Version=$_.VersionRange.OriginalString
+                        Version=$_.VersionRange.MinVersion.Version
                     }
                 }
                 $publishedPackages+=$containers|ForEach-Object{
