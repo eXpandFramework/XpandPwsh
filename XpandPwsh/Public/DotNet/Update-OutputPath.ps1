@@ -3,9 +3,7 @@ function Update-OutputPath {
     [CmdLetTag("#visualstudio")]
     param (
         [parameter(Mandatory)]
-        [xml]$CSProj,
-        [parameter(Mandatory)]
-        [string]$ProjectPath,
+        [System.IO.FileInfo]$ProjectPath,
         [parameter(Mandatory)]
         [string]$OutputPath
     )
@@ -15,6 +13,7 @@ function Update-OutputPath {
     }
     
     process {
+        [xml]$CSProj=Get-XmlContent $ProjectPath
         $path = Get-RelativePath $projectPath $outputPath
         $outputPathSuffix=$CSProj.project.PropertyGroup.OutputPathSuffix
         $path+="\$outputPathSuffix"
@@ -24,12 +23,12 @@ function Update-OutputPath {
             $linkText='if exist "$(MSBuildProjectDirectory)\bin" rmdir "$(MSBuildProjectDirectory)\bin"`r`nmklink /J "$(MSBuildProjectDirectory)\bin" "$(MSBuildProjectDirectory)\$(OutputPath)"'
             $postBuildEvent=$CSProj.project.PropertyGroup.PostBuildEvent|Where-Object{$_}
             if (($postBuildEvent|Where-Object{
-                $_ -notlike "*$linkText*"
+                $_ -notlike "*nmklink*"
             })){
                 Add-ProjectBuildEvent PostBuildEvent $CSProj -InnerText $linkText -Append
             }
         }
-        
+        $CSProj|Save-Xml $ProjectPath|Out-Null
     }
     
     end {
