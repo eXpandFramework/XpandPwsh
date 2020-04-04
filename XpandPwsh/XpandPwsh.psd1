@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.19.4'
+ModuleVersion = '1.201.20.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -259,6 +259,7 @@ FunctionsToExport = @(
 "Switch-ToPackageReference",
 "Test-AssemblyNameFullyQualified",
 "Test-AssemblyReference",
+"Test-AzDevops",
 "Test-GacAssemblyInstallReferenceCanBeUsed",
 "Test-ProjectSdk",
 "Test-Symbol",
