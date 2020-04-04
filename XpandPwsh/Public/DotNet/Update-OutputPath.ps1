@@ -22,7 +22,7 @@ function Update-OutputPath {
         if ((!(Test-ProjectSdk $CSProj)) -and (Test-Path "$projectDir\web.config") -and $OutputPath -ne "\bin" -and $OutputPath -ne "bin"){
             $linkText=@"
 if exist `"`$(MSBuildProjectDirectory)\bin`" rmdir `"`$(MSBuildProjectDirectory)\bin`"
-nmklink /J `"`$(MSBuildProjectDirectory)\bin" "`$(MSBuildProjectDirectory)\`$(OutputPath)`"
+mklink /J `"`$(MSBuildProjectDirectory)\bin" "`$(MSBuildProjectDirectory)\`$(OutputPath)`"
 "@
             $postBuildEvent=$CSProj.project.PropertyGroup.PostBuildEvent|Where-Object{$_}
             if (($postBuildEvent|Where-Object{
