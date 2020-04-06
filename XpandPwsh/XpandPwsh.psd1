@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.20.2'
+ModuleVersion = '1.201.21.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -147,6 +147,7 @@ FunctionsToExport = @(
 "Get-GitTag",
 "Get-LatestMinorVersion",
 "Get-MsBuildPath",
+"Get-MSBuildProjects",
 "Get-NugetInstallationFolder",
 "Get-NugetPackage",
 "Get-NugetPackageDependencies",

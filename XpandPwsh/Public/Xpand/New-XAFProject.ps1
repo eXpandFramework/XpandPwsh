@@ -70,7 +70,7 @@ function New-XAFProject {
                 $s
             }
         }
-        if (!$Packages|Select-String "DevExpree.ExpressApp.Core.All"){
+        if (!$Packages|Select-String "DevExpress.ExpressApp.Core.All"){
             $Packages+=@("DevExpress.ExpressApp")
             
         }
