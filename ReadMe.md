@@ -1,8 +1,14 @@
+![image](https://user-images.githubusercontent.com/159464/66713086-c8c5a800-edae-11e9-9bc1-73ffc0c215fb.png)
+
 [![Build Status](https://dev.azure.com/eXpandDevOps/eXpandFramework/_apis/build/status/XpandPwsh?branchName=master)](https://dev.azure.com/eXpandDevOps/eXpandFramework/_build/latest?definitionId=45&branchName=master) [![](https://xpandshields.azurewebsites.net/powershellgallery/v/XpandPwsh.svg?style=flat)](https://www.powershellgallery.com/packages/XpandPwsh) [![](https://xpandshields.azurewebsites.net/powershellgallery/dt/XpandPwsh.svg?style=flat)](https://www.powershellgallery.com/packages/XpandPwsh)
+
+
 # About
 The module exports **194 Cmdlets** that can help you automate your every day tasks. The module is used in production from the eXpandFramework [build scripts](https://github.com/eXpandFramework/eXpand/blob/master/Support/Build/Build.ps1) and [Azure Tasks](https://github.com/eXpandFramework/Azure-Tasks).
 
 In this page you can see a list of all Cmdlets with a short description. For details and real world examples search the [Wiki](https://github.com/eXpandFramework/XpandPwsh/wiki).
+
+[![image](https://xpandshields.azurewebsites.net/badge/Exclusive%20services%3F-Head%20to%20the%20dashboard-Blue)](https://github.com/sponsors/apobekiaris)
 ## Installation
 `XpandPwsh` is available in `PSGallery`. Open a PowerShell prompt and type:
 ```ps1
