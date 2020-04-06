@@ -31,6 +31,9 @@ function Get-AzBuilds {
             Organization = $Organization
             Token        = $Token
         }
+        if ($BranchName -and $BranchName -notlike "refs/heads/"){
+            $BranchName="refs/heads/$BranchName"
+        }
     }
     
     process {
