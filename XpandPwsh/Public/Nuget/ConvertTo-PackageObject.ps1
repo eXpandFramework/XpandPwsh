@@ -23,10 +23,14 @@ function ConvertTo-PackageObject {
             }
         }
         else {
+            if ([System.IO.File]::Exists($item)){
+                $item=Get-Item $item
+            }
             $name=$item
             if ($item -is [System.IO.FileInfo]){
                 $name=$item.basename
             }
+            
 
             $regex = [regex] '(?imn)\.(?<version>[\d]+\.[\d]+\.[\d]+(\.[\d]+)?)$'
             $v = $regex.Match($name).Groups["version"].Value
