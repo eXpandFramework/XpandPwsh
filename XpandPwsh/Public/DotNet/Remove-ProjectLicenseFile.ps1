@@ -4,7 +4,8 @@ function Remove-ProjectLicenseFile {
     param (
         [parameter()]
         [xml]$CSProj,
-        [string]$FilePath
+        [parameter(ValueFromPipeline)]
+        [System.IO.FileInfo]$FilePath
     )
     
     begin {
