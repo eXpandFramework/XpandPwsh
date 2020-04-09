@@ -259,6 +259,7 @@ FunctionsToExport = @(
 "Submit-GitStage",
 "Switch-DevExpress",
 "Switch-ToPackageReference",
+"Connect-Az",
 "Test-AssemblyNameFullyQualified",
 "Test-AssemblyReference",
 "Test-AzDevops",
