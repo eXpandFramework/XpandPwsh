@@ -31,13 +31,17 @@ function Invoke-Script {
                     }
                 }
                 if (!($cnt -lt $Maximum )) {
-                    Write-HostFormatted "Exception:" -ForegroundColor Red -Section
-                     
-                    Write-HostFormatted $_ -ForegroundColor Red
-                    $_
-                    Write-HostFormatted "StackTrace:" -ForegroundColor Yellow -Section
-                    $_.ScriptStackTrace
-                    throw 
+                    if ($ErrorActionPreference -eq "continue"){
+                        Write-HostFormatted "Exception:" -ForegroundColor Red -Section 
+                        Write-HostFormatted $_ -ForegroundColor Red
+                        $_
+                        Write-HostFormatted "StackTrace:" -ForegroundColor Yellow -Section
+                        $_.ScriptStackTrace
+                    }
+                    elseif ($ErrorActionPreference -eq "Stop"){
+                        throw 
+                    }
+                    return
                 }
     
                 Write-Warning $_
@@ -47,7 +51,8 @@ function Invoke-Script {
                 
             }
         } while ($cnt -lt $Maximum)
-        throw
-        
+        if ($ErrorActionPreference -eq "Stop"){
+            throw
+        }
     }
 }
