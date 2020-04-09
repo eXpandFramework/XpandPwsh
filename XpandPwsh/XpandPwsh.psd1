@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.22.2'
+ModuleVersion = '1.201.23.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -93,6 +93,7 @@ FunctionsToExport = @(
 "Close-GithubIssue",
 "Compress-Files",
 "Compress-Project",
+"Connect-Az",
 "ConvertTo-Dictionary",
 "ConvertTo-Directory",
 "ConvertTo-FramedText",
@@ -259,7 +260,6 @@ FunctionsToExport = @(
 "Submit-GitStage",
 "Switch-DevExpress",
 "Switch-ToPackageReference",
-"Connect-Az",
 "Test-AssemblyNameFullyQualified",
 "Test-AssemblyReference",
 "Test-AzDevops",
