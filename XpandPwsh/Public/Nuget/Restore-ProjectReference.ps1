@@ -14,9 +14,15 @@ function Restore-ProjectReference {
     begin {
         $PSCmdlet|Write-PSCmdLetBegin
         if ($SkipResolve){
-            $allAssemblies=$AssembliesPath|ForEach-Object{
-                Get-ChildItem $_.FullName *.dll|Where-Object{$_.BaseName -match $NameMatch}
-            }|Sort-Object BaseName -Unique
+            $assembliesDictionnary=New-GenericObject -PredifinedType StringDictionary
+            $AssembliesPath|ForEach-Object{
+                Get-ChildItem $_.FullName *.dll|Where-Object{$_.BaseName -match $NameMatch}|ForEach-Object{
+                    if (!$assembliesDictionnary.ContainsKey($_.BaseName)){
+                        $assembliesDictionnary[$_.BaseName]=$_
+                    }
+                }
+            }
+            $allAssemblies=$assembliesDictionnary.Values|Get-Item
         }
     }
     
