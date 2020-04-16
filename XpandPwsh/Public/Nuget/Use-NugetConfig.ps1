@@ -15,7 +15,7 @@ function Use-NugetConfig {
     }
     
     process {
-        Push-Location ($Path|ConvertTo-Directory).fullname
+        $dir= ($Path|ConvertTo-Directory).fullname
         try {
             
             for ($i = 0; $i -lt $Sources.Count; $i++) {
@@ -30,15 +30,14 @@ function Use-NugetConfig {
     </packageSources>
 </configuration>
 "@
-            Set-Content .\Nuget.config $xml
+            Set-Content $dir\Nuget.config $xml
             Invoke-Script{. $ScriptBlock}
         }
         catch {
             throw
         }
         finally {
-            Remove-Item .\Nuget.config
-            Pop-Location    
+            Remove-Item $dir\Nuget.config
         }
         
     }

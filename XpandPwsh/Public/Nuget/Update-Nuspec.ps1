@@ -60,7 +60,7 @@ function Update-Nuspec {
         if ($ResolveNugetDependecies){
             $allDependencies = [System.Collections.ArrayList]::new((Resolve-AssemblyDependencies $assemblyPath -ErrorAction SilentlyContinue | ForEach-Object { $_.GetName().Name }))
         }
-        $fileVersion=[System.Diagnostics.FileVersionInfo]::GetVersionInfo($assemblyPath).FileVersion
+        $fileVersion=Get-AssemblyVersion -assembly $assemblyPath
         "fileVersion=$fileVersion"
         $nuspec.package.metadata.version = $fileVersion
         
