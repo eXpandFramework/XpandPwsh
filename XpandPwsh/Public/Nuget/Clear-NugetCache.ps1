@@ -3,6 +3,7 @@ function Clear-NugetCache {
     [CmdLetTag("#nuget")]
     param (
         [ValidateSet("XpandPackages","DevExpress")]
+        [parameter(Position=0)]
         [string[]]$Filter,
         [switch]$SkipVersionConverter,
         [parameter(ParameterSetName="paket")]
