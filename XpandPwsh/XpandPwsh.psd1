@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.23.1'
+ModuleVersion = '1.201.23.2'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -136,6 +136,7 @@ FunctionsToExport = @(
 "Get-GacAssembly",
 "Get-GacAssemblyFile",
 "Get-GacAssemblyInstallReference",
+"Get-GitDiff",
 "Get-GitHubClient",
 "Get-GitHubCommitIssue",
 "Get-GitHubIssue",
@@ -146,6 +147,7 @@ FunctionsToExport = @(
 "Get-GitHubRelease",
 "Get-GitHubRepositoryTag",
 "Get-GitLastSha",
+"Get-GitRootDirectory",
 "Get-GitTag",
 "Get-LatestMinorVersion",
 "Get-MsBuildPath",
@@ -226,6 +228,7 @@ FunctionsToExport = @(
 "Out-ConditionalColor",
 "Out-Variable",
 "Out-Verbose",
+"Pop-GitSSH",
 "Pop-XafPackage",
 "Pop-XpandPackage",
 "Publish-AssemblyToGac",
@@ -247,6 +250,7 @@ FunctionsToExport = @(
 "Remove-ProjectReferences",
 "Remove-VersionConverterFlags",
 "Resolve-AssemblyDependencies",
+"Restore-GitFile",
 "Restore-ProjectReference",
 "Save-Xml",
 "Set-NugetCentralizeManagement",
