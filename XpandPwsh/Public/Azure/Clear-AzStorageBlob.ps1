@@ -19,6 +19,9 @@ function Clear-AzStorageBlob {
     )
     
     begin {
+        if (!(Get-Module Az -ListAvailable -ErrorAction SilentlyContinue)){
+            Install-Module -Name Az -AllowClobber -Scope CurrentUser    
+        }
         if (!$env:AzStorageAccountName){
             throw "env:AzStorageAccountName is null"
         }

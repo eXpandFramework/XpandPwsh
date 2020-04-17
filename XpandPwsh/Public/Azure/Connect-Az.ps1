@@ -11,6 +11,9 @@ function Connect-Az {
     )
     
     begin {
+        if (!(Get-Module Az -ListAvailable)){
+            Install-Module -Name Az -AllowClobber -Scope CurrentUser    
+        }
         $PSCmdlet|Write-PSCmdLetBegin
     }
     
