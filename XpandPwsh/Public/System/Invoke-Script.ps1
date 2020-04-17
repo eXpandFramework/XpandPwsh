@@ -31,12 +31,13 @@ function Invoke-Script {
                     }
                 }
                 if (!($cnt -lt $Maximum )) {
-                    Write-HostFormatted "Exception:" -ForegroundColor Red -Section 
+                    Write-HostFormatted "Exception:" -ForegroundColor Red -Section
+                     
                     Write-HostFormatted $_ -ForegroundColor Red
                     $_
                     Write-HostFormatted "StackTrace:" -ForegroundColor Yellow -Section
                     $_.ScriptStackTrace
-                    return
+                    throw 
                 }
     
                 Write-Warning $_
@@ -46,8 +47,7 @@ function Invoke-Script {
                 
             }
         } while ($cnt -lt $Maximum)
-        if ($ErrorActionPreference -eq "Stop"){
-            throw
-        }
+        throw
+        
     }
 }
