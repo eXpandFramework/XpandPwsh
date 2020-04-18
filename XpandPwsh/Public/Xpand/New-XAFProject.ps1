@@ -3,7 +3,7 @@ function New-XAFProject {
     [CmdLetTag()]
     param (
         [ValidateSet("Core","Win","Web")]
-        [string]$Platform="Core",        
+        [parameter()][string]$Platform="Core",        
 
         [ArgumentCompleter({
             [OutputType([System.Management.Automation.CompletionResult])]  # zero to many
@@ -17,23 +17,11 @@ function New-XAFProject {
             (Get-XafPackageNames (get-devexpressversion))+(Get-xpandPackageNames)|sort-object|where-object{$_ -like "*$WordToComplete*"}
             
         })]
-        [string[]]$Packages=@(),
-        [string]$Name,
+        [parameter()][string[]]$Packages=@(),
+        [parameter()][string]$Name,
         [ValidateSet("Module","Application")]
-        [string]$Type="Application",
-        [ArgumentCompleter({
-            [OutputType([System.Management.Automation.CompletionResult])]  # zero to many
-            param(
-                [string] $CommandName,
-                [string] $ParameterName,
-                [string] $WordToComplete,
-                [System.Management.Automation.Language.CommandAst] $CommandAst,
-                [System.Collections.IDictionary] $FakeBoundParameters
-            )
-            
-            (Get-PackageSource).name|where-object{$_ -like "$WordToComplete*"}
-        })]
-        [string[]]$Source=(Get-PackageSourceLocations),
+        [parameter()][string]$Type="Application",
+        [parameter()][string[]]$Source=(Get-PackageSource).Name,
         [ArgumentCompleter({
             [OutputType([System.Management.Automation.CompletionResult])]  # zero to many
             param(
@@ -46,9 +34,9 @@ function New-XAFProject {
             
             "net461","net472","net48"|where-object{$_ -like "$WordToComplete*"}
         })]
-        [string]$TargetFramework="net48",
-        [switch]$SkipBuild,
-        [switch]$Run
+        [parameter()][string]$TargetFramework="net48",
+        [parameter()][switch]$SkipBuild,
+        [parameter()][switch]$Run
     )
     
     begin {
@@ -59,17 +47,8 @@ function New-XAFProject {
             New-Item $Name -ItemType Directory
             Set-Location $Name 
         }
-        $systemSources=Get-packageSource
-        $Source=$Source|ForEach-Object{
-            $s=$_
-            $systemSource=$systemSources|Where-Object{$_.Name -eq $s}
-            if ($systemSource){
-                $systemSource.location
-            }
-            else{
-                $s
-            }
-        }
+
+        $Source=ConvertTo-PackageSourceLocation $Source
         if (!$Packages|Select-String "DevExpress.ExpressApp.Core.All"){
             $Packages+=@("DevExpress.ExpressApp")
             

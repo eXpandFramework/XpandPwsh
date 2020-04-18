@@ -9,10 +9,11 @@ function Add-PackageReference {
         [parameter(Mandatory,ValueFromPipeline)]
         [string]$Package,
         [parameter(ParameterSetName="Sources")]
-        [string[]]$Source=(Get-PackageSourceLocations -Verbose:$false)
+        [string[]]$Source=(Get-PackageSource).Name
     )
     
     begin {
+        $Source=ConvertTo-PackageSourceLocation $Source
         $PSCmdlet|Write-PSCmdLetBegin
         if ($PSCmdlet.ParameterSetName -ne "Project"){
             $projects=Get-ChildItem *.*proj

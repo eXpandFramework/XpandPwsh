@@ -4,7 +4,7 @@ function Get-NugetInstallationFolder  {
     [CmdLetTag("#nuget")]
     param(
         [ValidateSet("NuGetFallbackFolder", "GlobalPackagesFolder", "HttpCache", "TempCache", "PluginCache")]
-        [string[]]$Locations = @("NuGetFallbackFolder", "GlobalPackagesFolder", "HttpCache", "TempCache", "PluginCache")
+        [parameter(Position=0)][string[]]$Locations = "GlobalPackagesFolder"
     )
     
     begin {

@@ -2,24 +2,15 @@ function Get-PackageSourceLocations {
     [CmdletBinding()]
     [CmdLetTag("#nuget")]
     param (
-        [string]$ProviderName,
-        [ArgumentCompleter({
-            [OutputType([System.Management.Automation.CompletionResult])]  # zero to many
-            param(
-                [string] $CommandName,
-                [string] $ParameterName,
-                [string] $WordToComplete,
-                [System.Management.Automation.Language.CommandAst] $CommandAst,
-                [System.Collections.IDictionary] $FakeBoundParameters
-            )
-            (Get-PackageSource |Where-Object{$_.Name -like "$wordtocomplete*"}).Name
-        })]
-        [string]$Name,
-        [Switch]$AllTypes
+        [parameter()][string]$ProviderName,
+        [parameter()][string]$Name,
+        [parameter()][Switch]$AllTypes
     )
     
     begin {
-        
+        if ($Name -in (Get-PackageSource).Name ) {
+            $Name = Get-PackageSourceLocations -Name $Name
+        }
     }
     
     process {

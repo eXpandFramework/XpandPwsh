@@ -4,30 +4,16 @@ function Get-NugetPackageDependencies {
     param (
         [parameter(Mandatory)]
         [string]$Id,
-        [string]$Version,
-        [switch]$AllVersions,
-        [ArgumentCompleter( {
-                [OutputType([System.Management.Automation.CompletionResult])]  # zero to many
-                param(
-                    [string] $CommandName,
-                    [string] $ParameterName,
-                    [string] $WordToComplete,
-                    [System.Management.Automation.Language.CommandAst] $CommandAst,
-                    [System.Collections.IDictionary] $FakeBoundParameters
-                )
-            
-                (Get-PackageSource).Name | Where-Object { $_ -like "$wordToComplete*" }
-            })]
-        [string]$Source = (Get-PackageFeed -Nuget),
-        [string]$FilterRegex,
-        [switch]$Recurse,
-        [switch]$IncludeDelisted
+        [parameter()][string]$Version,
+        [parameter()][switch]$AllVersions,
+        [parameter()][string]$Source = (Get-PackageSource).Name,
+        [parameter()][string]$FilterRegex,
+        [parameter()][switch]$Recurse,
+        [parameter()][switch]$IncludeDelisted
     )
     
     begin {
-        if ($source -in (Get-PackageSource).Name ) {
-            $Source = Get-PackageSourceLocations -Name $Source
-        }
+        $Source=ConvertTo-PackageSourceLocation $Source
     }
     
     process {

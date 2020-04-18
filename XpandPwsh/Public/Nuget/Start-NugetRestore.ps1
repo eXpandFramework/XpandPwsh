@@ -3,20 +3,8 @@ function Start-NugetRestore {
     [CmdLetTag("#nuget")]
     [alias("sxnr")]
     param (
-        [ArgumentCompleter({
-            [OutputType([System.Management.Automation.CompletionResult])]  # zero to many
-            param(
-                [string] $CommandName,
-                [string] $ParameterName,
-                [string] $WordToComplete,
-                [System.Management.Automation.Language.CommandAst] $CommandAst,
-                [System.Collections.IDictionary] $FakeBoundParameters
-            )
-            
-            (Get-PackageSource).Name|where-object{$_ -match $WordToComplete}
-        })]
         [parameter()]
-        [string[]]$Sources=(Get-PackageSource).Name,
+        [string[]]$Source=(Get-PackageSource).Name,
         [parameter(ValueFromPipeline)]
         [string]$Path="."
 
@@ -24,7 +12,7 @@ function Start-NugetRestore {
     
     begin {
         $nuget=Get-NugetPath
-        $sources=Get-PackageSource|Where-Object{$_.Name -in $Sources}|ForEach-Object{$_.Location}|Sort-Object -Unique
+        $Source=ConvertTo-PackageSourceLocation $Source
     }
     
     process {
@@ -35,7 +23,7 @@ function Start-NugetRestore {
                 $_.Name -like "*.*proj" -or $_.Name -like "*.sln"
             }|Select-Object -First 1
         }
-        Use-NugetConfig -Path $Path -Sources $Sources -ScriptBlock {
+        Use-NugetConfig -Path $Path -Sources $Source -ScriptBlock {
             $project|ForEach-Object{& $nuget restore $_.FullName  }
         }
     }

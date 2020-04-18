@@ -6,13 +6,13 @@ function Update-NugetPackage {
         [string]$SourcePath = ".",
         [parameter(ParameterSetName = "projects")]
         [System.IO.FileInfo[]]$projects,
-        [parameter()]
-        [string]$Filter = ".*",
-        [string]$ExcludeFilter ,
-        [string[]]$sources = (Get-PackageSourceLocations Nuget)
+        [parameter()][string]$Filter = ".*",
+        [parameter()][string]$ExcludeFilter ,
+        [parameter()][string[]]$Source = (Get-PackageSource).Name
     )
     
     begin {
+        $Source=ConvertTo-PackageSourceLocation $Source
         $PSCmdlet|Write-PSCmdLetBegin   
     }
     
@@ -37,9 +37,9 @@ function Update-NugetPackage {
         
             "installedPackages"|Get-Variable|Out-Variable
             $metadata = $installedPackages | Invoke-Parallel -ActivityName "Query metadata in input sources" -VariablesToImport "sources" -Script {
-                $mdata=Get-NugetPackageSearchMetadata $_ ($sources -join ";")
+                $mdata=Get-NugetPackageSearchMetadata $_ ($Source -join ";")
                 if (!$mdata){
-                    throw "Metatdata for $_ not found in $($sources -join ";")"
+                    throw "Metatdata for $_ not found in $($Source -join ";")"
                 }
                 $mdata
             } 
