@@ -3,7 +3,8 @@ function Update-AssemblyInfoVersion {
     [CmdletBinding()]
     [CmdLetTag(("#dotnet","#dotnetcore"))]
     param (
-        [parameter(mandatory)]$version, $path
+        [parameter(mandatory)]$version, 
+        [parameter(ValueFromPipeline)][string]$path
     )
     
     begin {
