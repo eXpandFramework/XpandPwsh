@@ -23,7 +23,7 @@ function Start-EasyTest {
         $DXVersion=Get-VersionPart (Get-AssemblyVersion (Get-ChildItem $AssembliesDirectory "DevExpress.ExpressApp*.dll"|Select-Object -First 1)) Build
         $nugetFolder=Get-NugetInstallationFolder
         "DevExpress.EasyTest.TestExecutor","DevExpress.EasyTest","DevExpress.ExpressApp.EasyTest.WebAdapter","DevExpress.ExpressApp.EasyTest.WinAdapter"|ForEach-Object{
-            Install-NugetPackage DevExpress.EasyTest.TestExecutor $DXVersion -Source $DXFeed
+            Install-NugetPackage $_ $DXVersion -Source $DXFeed
             Get-ChildItem "$nugetFolder\$_\$DXVersion" -Include *.dll,*.exe -Recurse|Copy-Item -destination $AssembliesDirectory -Force
         }
         if (Test-Path $EasyTestDirectory\TestsLog.xml){
