@@ -103,7 +103,7 @@ function Start-XpandProjectConverter {
                 $newVersion += ".0"
             }
             Write-Verbose "Replace DevExpress existing version with $newVersion to *.aspx, *.config"
-            Get-ChildItem $Path -Include "*.aspx", "*.config" -Recurse -File | ForEach-Object {
+            Get-ChildItem $Path -Include "*.aspx", "*.config","config.xml" -Recurse -File | ForEach-Object {
                 $xml = Get-Content $_.FullName -Raw
                 $regex = [regex] '(?<name>DevExpress.*)v\d{2}\.\d{1,2}(.*)Version=([.\d]*)'
                 $result = $regex.Replace($xml, "`${name}v$shortDxVersion`$1Version=$newVersion")
