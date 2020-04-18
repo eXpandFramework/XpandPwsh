@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.24.5'
+ModuleVersion = '1.201.25.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -101,6 +101,7 @@ FunctionsToExport = @(
 "ConvertTo-Indexed",
 "ConvertTo-Object",
 "ConvertTo-PackageObject",
+"ConvertTo-PackageSourceLocation",
 "Disable-ExecutionPolicy",
 "Find-Alias",
 "Find-History",
@@ -196,6 +197,7 @@ FunctionsToExport = @(
 "Install-DebugOptimizationHook",
 "Install-DevExpress",
 "Install-DotnetCore",
+"Install-NugetPackage",
 "Install-SubModule",
 "Install-Xpand",
 "Invoke-AzureRestMethod",
@@ -257,9 +259,11 @@ FunctionsToExport = @(
 "Set-ProjectRestoreLockedMode",
 "Set-VsoVariable",
 "Start-Build",
+"Start-EasyTest",
 "Start-NugetRestore",
 "Start-PipelineTasks",
 "Start-SelfElevate",
+"Start-SqlLocalDB",
 "Start-XpandProjectConverter",
 "Submit-GitStage",
 "Switch-DevExpress",
