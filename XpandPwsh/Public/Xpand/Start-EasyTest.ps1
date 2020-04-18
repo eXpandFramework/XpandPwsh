@@ -16,7 +16,7 @@ function Start-EasyTest {
     
     begin {
         $PSCmdlet|Write-PSCmdLetBegin
-        $easyTestBin="$AssembliesDirectory\EasyTest\bin"
+        $easyTestBin="$EasyTestDirectory\EasyTest\bin"
         Remove-Item -Force -Recurse -Path "$easyTestBin\.." -ErrorAction SilentlyContinue
         New-Item $easyTestBin -ItemType Directory -Force
     }
