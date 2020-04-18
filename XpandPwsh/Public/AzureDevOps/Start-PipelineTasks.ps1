@@ -23,13 +23,13 @@ function Start-PipelineTasks {
         })]
         [string[]]$Task=$global:pipelineTasksSet,
         [ValidateSet("4.5.2","4.6.1","4.7.1","4.7.2","4.8")]
-        [string]$TargetFramework="4.7.2",
-        [string]$OutputPath,
-        [version]$AssemblyInfoVersion,
-        [string]$CopyRight,
-        [hashtable]$PackageReferenceNoWarning,
-        [string[]]$ProjectNoWarning,
-        [pscustomobject[]]$AssemblyBindingRedirectPackage
+        [parameter()][string]$TargetFramework="4.7.2",
+        [parameter()][string]$OutputPath,
+        [parameter()][version]$AssemblyInfoVersion,
+        [parameter()][string]$CopyRight,
+        [parameter()][hashtable]$PackageReferenceNoWarning,
+        [parameter()][string[]]$ProjectNoWarning,
+        [parameter()][pscustomobject[]]$AssemblyBindingRedirectPackage
     )
     
     begin {

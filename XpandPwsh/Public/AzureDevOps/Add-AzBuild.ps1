@@ -8,15 +8,15 @@ function Add-AzBuild {
                 (Get-AzDefinition | Where-Object { $_.name -like "$wordToComplete*" }).Name
             })]
         [string[]]$Definition,
-        [string[]]$Tag,
-        [hashtable]$Parameters,
-        [switch]$KeepForEver,
-        [switch]$StopOthers,
-        [switch]$StopIfRunning,
-        [string]$Branch=$env:Build_SourceBranchName,
-        [string]$Organization = $env:AzOrganization,
-        [string]$Project = $env:AzProject,
-        [string]$Token = $env:AzDevopsToken
+        [parameter()][string[]]$Tag,
+        [parameter()][hashtable]$Parameters,
+        [parameter()][switch]$KeepForEver,
+        [parameter()][switch]$StopOthers,
+        [parameter()][switch]$StopIfRunning,
+        [parameter()][string]$Branch=$env:Build_SourceBranchName,
+        [parameter()][string]$Organization = $env:AzOrganization,
+        [parameter()][string]$Project = $env:AzProject,
+        [parameter()][string]$Token = $env:AzDevopsToken
     )
     
     begin {

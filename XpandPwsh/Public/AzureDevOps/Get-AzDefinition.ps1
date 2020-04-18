@@ -4,10 +4,10 @@ function Get-AzDefinition {
     param (
         [parameter(ValueFromPipelineByPropertyName,ValueFromPipeline)]
         [string]$Name,
-        [int]$Top,
-        [string]$Project=$env:AzProject,
-        [string]$Organization=$env:AzOrganization,
-        [string]$Token=$env:AzDevopsToken
+        [parameter()][int]$Top,
+        [parameter()][string]$Project=$env:AzProject,
+        [parameter()][string]$Organization=$env:AzOrganization,
+        [parameter()][string]$Token=$env:AzDevopsToken
     )
     
     begin {

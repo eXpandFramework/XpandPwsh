@@ -6,9 +6,9 @@ function Remove-AzBuild {
         [string]$Id,
         [parameter(ParameterSetName="switch")]
         [switch]$InProgress,
-        [string]$Project=$env:AzProject,
-        [string]$Organization=$env:AzOrganization,
-        [string]$Token=$env:AzDevopsToken
+        [parameter()][string]$Project=$env:AzProject,
+        [parameter()][string]$Organization=$env:AzOrganization,
+        [parameter()][string]$Token=$env:AzDevopsToken
     )
     
     begin {

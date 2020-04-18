@@ -7,12 +7,12 @@ function Get-AzBuildChanges {
                 param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameter)
                 (Get-AzDefinition | Where-Object { $_.name -like "$wordToComplete*" }).Name
             })]
-        [int]$FromBuildId,
-        [int]$ToBuildId,
-        [int]$Top,
-        [string]$Project = $env:AzProject,
-        [string]$Organization = $env:AzOrganization,
-        [string]$Token = $env:AzDevopsToken
+        [parameter()][int]$FromBuildId,
+        [parameter()][int]$ToBuildId,
+        [parameter()][int]$Top,
+        [parameter()][string]$Project = $env:AzProject,
+        [parameter()][string]$Organization = $env:AzOrganization,
+        [parameter()][string]$Token = $env:AzDevopsToken
     )
     
     begin {

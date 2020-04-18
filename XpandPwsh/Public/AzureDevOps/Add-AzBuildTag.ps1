@@ -7,9 +7,9 @@ function Add-AzBuildTag {
         [string]$Tag,
         [parameter(ValueFromPipelineByPropertyName)]
         [string]$Id=$env:Build_BuildId,
-        [string]$Organization = $env:AzOrganization,
-        [string]$Project = $env:AzProject,
-        [string]$Token = $env:AzDevopsToken
+        [parameter()][string]$Organization = $env:AzOrganization,
+        [parameter()][string]$Project = $env:AzProject,
+        [parameter()][string]$Token = $env:AzDevopsToken
     )
     
     begin {

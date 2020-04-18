@@ -5,9 +5,9 @@ function Get-AzProjects {
         [parameter()]
         [ValidateSet("all","createPending","deleted","deleting","new","unchanged","wellformed")]
         [string]$StateFilter,
-        [string]$Project=$env:AzProject,
-        [string]$Organization=$env:AzOrganization,
-        [string]$Token=$env:AzDevopsToken
+        [parameter()][string]$Project=$env:AzProject,
+        [parameter()][string]$Organization=$env:AzOrganization,
+        [parameter()][string]$Token=$env:AzDevopsToken
     )
     
     begin {

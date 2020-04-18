@@ -4,12 +4,12 @@ function Invoke-AzureRestMethod {
     param (
         [parameter(Mandatory)]
         [string]$Resource,
-        [string]$Token=$env:AzDevopsToken,
-        [string]$Organization=$env:AzOrganization,
-        [string]$Project=$env:AzProject,
-        [string]$Version = "5.1",
-        [object]$Body,
-        [Microsoft.PowerShell.Commands.WebRequestMethod]$Method=[Microsoft.PowerShell.Commands.WebRequestMethod]::Get
+        [parameter()][string]$Token=$env:AzDevopsToken,
+        [parameter()][string]$Organization=$env:AzOrganization,
+        [parameter()][string]$Project=$env:AzProject,
+        [parameter()][string]$Version = "5.1",
+        [parameter()][object]$Body,
+        [parameter()][Microsoft.PowerShell.Commands.WebRequestMethod]$Method=[Microsoft.PowerShell.Commands.WebRequestMethod]::Get
     )
     
     begin {

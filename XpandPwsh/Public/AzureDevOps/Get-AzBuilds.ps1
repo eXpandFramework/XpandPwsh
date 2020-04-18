@@ -14,15 +14,15 @@ function Get-AzBuilds {
         [string[]]$Status,
         [parameter()][ValidateSet( "all", "batchedCI", "buildCompletion", "checkInShelveset", "individualCI", "manual", "pullRequest", "schedule", "triggered", "userCreated", "validateShelveset")]
         [string[]]$Reason,
-        [int]$Top,
-        [int]$Skip,
-        [string[]]$Tag,
+        [parameter()][int]$Top,
+        [parameter()][int]$Skip,
+        [parameter()][string[]]$Tag,
         [parameter(ParameterSetName = "Id")]
         [int]$Id,
-        [string]$BranchName,
-        [string]$Project = $env:AzProject,
-        [string]$Organization = $env:AzOrganization,
-        [string]$Token = $env:AzDevopsToken
+        [parameter()][string]$BranchName,
+        [parameter()][string]$Project = $env:AzProject,
+        [parameter()][string]$Organization = $env:AzOrganization,
+        [parameter()][string]$Token = $env:AzDevopsToken
     )
     
     begin {

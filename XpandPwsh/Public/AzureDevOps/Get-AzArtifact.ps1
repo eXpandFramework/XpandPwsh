@@ -15,10 +15,10 @@ function Get-AzArtifact {
         [ValidateScript({Test-path $_ -pathtype Container})]
         [parameter()]
         [System.IO.DirectoryInfo]$Outpath,
-        [switch]$NoExpandArchive,
-        [string]$Organization=$env:AzOrganization,
-        [string]$Project=$env:AzProject,
-        [string]$Token=$env:AzDevopsToken
+        [parameter()][switch]$NoExpandArchive,
+        [parameter()][string]$Organization=$env:AzOrganization,
+        [parameter()][string]$Project=$env:AzProject,
+        [parameter()][string]$Token=$env:AzDevopsToken
     )
     
     begin {

@@ -4,15 +4,15 @@ function Update-AzBuild {
     param (
         [parameter(ValueFromPipelineByPropertyName, Mandatory)]
         [string]$Id,
-        [string]$BuildNumber,
-        [hashtable]$Parameters,
+        [parameter()][string]$BuildNumber,
+        [parameter()][hashtable]$Parameters,
         [ValidateSet($null, $true, $false)]
-        [object]$KeepForEver,
+        [parameter()][object]$KeepForEver,
         [ValidateSet($null, $true, $false)]
-        [object]$retainedByRelease,
-        [string]$Organization = $env:AzOrganization,
-        [string]$Project = $env:AzProject,
-        [string]$Token = $env:AzDevopsToken
+        [parameter()][object]$retainedByRelease,
+        [parameter()][string]$Organization = $env:AzOrganization,
+        [parameter()][string]$Project = $env:AzProject,
+        [parameter()][string]$Token = $env:AzDevopsToken
     )
     
     begin {

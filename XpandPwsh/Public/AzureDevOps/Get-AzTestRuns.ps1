@@ -2,25 +2,25 @@ function Get-AzTestRuns {
     [CmdletBinding()]
     [CmdLetTag(("#Azure","AzureDevOps"))]
     param (
-        [switch]$FailedOnly,
-        [string]$runTitle,
-        [int[]]$buildIds,
+        [parameter()][switch]$FailedOnly,
+        [parameter()][string]$runTitle,
+        [parameter()][int[]]$buildIds,
         [parameter(ValueFromPipeline)]
         [ArgumentCompleter( {
                 param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameter)
                 (Get-AzDefinition | Where-Object { $_.name -like "$wordToComplete*" }).Name
             })]
         [string[]]$Definition,
-        [int]$Top,
-        [int]$Skip,
-        [datetime]$minLastUpdatedDate=[datetime]::Now.AddDays(-6),
-        [datetime]$maxLastUpdatedDate=[datetime]::Now,
+        [parameter()][int]$Top,
+        [parameter()][int]$Skip,
+        [parameter()][datetime]$minLastUpdatedDate=[datetime]::Now.AddDays(-6),
+        [parameter()][datetime]$maxLastUpdatedDate=[datetime]::Now,
         [ValidateSet("aborted","completed","inProgress","needsInvestigation","notStarted","unspecified","waiting")]
         [string]$State,
-        [string]$branchName,
-        [string]$Project = $env:AzProject,
-        [string]$Organization = $env:AzOrganization,
-        [string]$Token = $env:AzDevopsToken
+        [parameter()][string]$branchName,
+        [parameter()][string]$Project = $env:AzProject,
+        [parameter()][string]$Organization = $env:AzOrganization,
+        [parameter()][string]$Token = $env:AzDevopsToken
     )
     
     begin {
