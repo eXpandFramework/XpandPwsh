@@ -15,7 +15,7 @@ function Get-XpandNugetPackageDependencies {
             
                 (Find-XpandPackage "*$WordToComplete*" ).id
             })]
-        [parameter()][string]$Id,
+        [string]$Id,
         [parameter()][string]$Version,
         [parameter()][switch]$AllVersions,
         [parameter()][string]$Source = (Get-PackageSource).Name

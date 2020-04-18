@@ -2,13 +2,12 @@ function Pop-XpandPackage {
     [CmdLetTag()]
     [CmdletBinding()]
     param (
-        [parameter()]
         [ValidateSet("Lab","Release")]
-        [string]$PackageSource="Release",
-        [string]$OutputFolder=(Get-NugetInstallationFolder GlobalPackagesFolder) ,
-        [version]$Version,
+        [parameter()][string]$PackageSource="Release",
+        [parameter()][string]$OutputFolder=(Get-NugetInstallationFolder GlobalPackagesFolder) ,
+        [parameter()][version]$Version,
         [ValidateSet("All","XAFAll","Xpand")]
-        [string]$PackageType
+        [parameter()][string]$PackageType
 
     )
     

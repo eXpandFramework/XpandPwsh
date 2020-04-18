@@ -36,7 +36,7 @@ function Update-NugetPackage {
             } | Sort-Object -Unique
         
             "installedPackages"|Get-Variable|Out-Variable
-            $metadata = $installedPackages | Invoke-Parallel -ActivityName "Query metadata in input sources" -VariablesToImport "sources" -Script {
+            $metadata = $installedPackages | Invoke-Parallel -ActivityName "Query metadata in input sources" -VariablesToImport "Source" -Script {
                 $mdata=Get-NugetPackageSearchMetadata $_ ($Source -join ";")
                 if (!$mdata){
                     throw "Metatdata for $_ not found in $($Source -join ";")"
