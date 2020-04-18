@@ -1,8 +1,8 @@
 function Get-AssemblyVersion {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName="File")]
     [CmdLetTag(("#dotnet","#monocecil"))]
     param (
-        [parameter(ValueFromPipeline,Mandatory,ParameterSetName="File")]
+        [parameter(ValueFromPipeline,Mandatory,ParameterSetName="File",Position=0)]
         [System.IO.FileInfo]$Assembly,
         [parameter(ValueFromPipeline,Mandatory,ParameterSetName="Mono")]
         $AssemblyDefinition
@@ -21,7 +21,9 @@ function Get-AssemblyVersion {
                 Get-AssemblyVersion -AssemblyDefinition $asm
             }
         }
-        $AssemblyDefinition.Name.Version
+        else{
+            $AssemblyDefinition.Name.Version
+        }
     }
     end {
         
