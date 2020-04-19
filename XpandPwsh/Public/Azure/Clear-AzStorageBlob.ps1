@@ -15,9 +15,7 @@ function Clear-AzStorageBlob {
     )
     
     begin {
-        if (!(Get-Module Az -ListAvailable -ErrorAction SilentlyContinue)){
-            Install-Module -Name Az -AllowClobber -Scope CurrentUser    
-        }
+        . $XpandPwshPath\Private\InstallAz.ps1
         if (!$env:AzStorageAccountName){
             throw "env:AzStorageAccountName is null"
         }
