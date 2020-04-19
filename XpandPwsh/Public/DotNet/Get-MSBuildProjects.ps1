@@ -2,7 +2,9 @@ function Get-MSBuildProjects {
     [CmdletBinding()]
     [CmdLetTag(("#dotnet","#monocecil"))]
     param (
-        [System.Management.Automation.PathInfo]$Path=(Get-Location)
+        [parameter()][string]$Path=(Get-Location),
+        [parameter()][string[]]$Include,
+        [parameter()][string[]]$Excude
     )
     
     begin {
@@ -10,7 +12,14 @@ function Get-MSBuildProjects {
     }
     
     process {
-        Get-ChildItem . *.*proj -Recurse
+        $a = @{}
+        if ($Include){
+            $a.Add("Include",$Include)
+        }
+        if ($Excude){
+            $a.Add("Exclude",$Excude)
+        }
+        Get-ChildItem $Path *.*proj -Recurse @a
     }
     end {
         
