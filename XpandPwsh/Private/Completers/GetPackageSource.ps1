@@ -1,7 +1,7 @@
 [PSCustomObject]@{
     Script = {
         param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
-        (Get-PackageSource).Name
+        (Get-PackageSource).Name|Where-Object{$_ -like "$wordToComplete*"}
     }
     Parameters=@(
         [PSCustomObject]@{
