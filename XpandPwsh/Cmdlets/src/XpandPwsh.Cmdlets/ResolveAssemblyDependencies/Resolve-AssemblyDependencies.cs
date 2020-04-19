@@ -6,6 +6,7 @@ using System.Management.Automation;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using JetBrains.Annotations;
+using XpandPwsh.CmdLets;
 
 namespace XpandPwsh.Cmdlets.ResolveAssemblyDependencies{
     [Cmdlet(VerbsDiagnostic.Resolve, "AssemblyDependencies")]
@@ -45,8 +46,7 @@ namespace XpandPwsh.Cmdlets.ResolveAssemblyDependencies{
         private void Resolve(){
             var references = new HashSet<string>();
             var pending = new Queue<AssemblyName>();
-
-            var file = Assembly.LoadFile(AssemblyFile);
+            var file = (Assembly)this.Invoke($"Mount-Assembly {AssemblyFile}").First().BaseObject;
             WriteObject(file);
             pending.Enqueue(file.GetName());
             while (pending.Count > 0){
