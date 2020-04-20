@@ -11,7 +11,8 @@ function Start-Build {
         [switch]$WarnAsError,
         [string]$BinaryLogPath,
         [switch]$NoRestore,
-        [int]$MaxCpuCount=([System.Environment]::ProcessorCount)
+        [int]$MaxCpuCount=([System.Environment]::ProcessorCount),
+        [System.IO.FileInfo]$PublishProfile
     )
     
     begin {
@@ -40,6 +41,9 @@ function Start-Build {
                 }
                 if ($Configuration){
                     $p+="/p:Configuration=$Configuration"
+                }
+                if ($PublishProfile){
+                    $p+="/p:DeployOnBuild=true","/p:PublishProfile=$($PublishProfile.Name)"
                 }
                 & (Get-MsBuildPath) @p
             }
