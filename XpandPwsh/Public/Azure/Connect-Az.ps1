@@ -11,8 +11,8 @@ function Connect-Az {
     )
     
     begin {
-        . $XpandPwshPath\Private\InstallAz.ps1
         $PSCmdlet|Write-PSCmdLetBegin
+        . $XpandPwshPath\Private\InstallAz.ps1
     }
     
     process {
