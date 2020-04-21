@@ -35,9 +35,9 @@ function Push-Git {
             }
         }
         Invoke-Script{
-            $a=@()
+            $a=@("-q")
             if ($Force){
-                $a+="-f "
+                $a+="-f"
             }
             $a+=$Remote
             git push @a
