@@ -17,11 +17,13 @@ function Push-Git {
     }
     
     process {
-        if (!(Get-GitUser) -and $username){
-            git config user.email $userMail
-            git config user.name $userName
-        }
         Invoke-Script{
+            if ($username){
+                git config user.name $userName
+            }
+            if ($UserMail){
+                git config user.email $userMail
+            }
             if ($AddAll) {
                 git add -A
                 if ($message) {
@@ -35,8 +37,9 @@ function Push-Git {
         Invoke-Script{
             $a=@()
             if ($Force){
-                $a+="-f"
+                $a+="-f "
             }
+            $a+=$Remote
             git push @a
         }
     }
