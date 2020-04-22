@@ -14,16 +14,16 @@ namespace XpandPwsh.Cmdlets.Twitter{
     [PublicAPI]
     public class NewTwitterContext : XpandCmdlet{
 
-        [Parameter()]
+        [Parameter(Position = 0)]
         public string ConsumerKey{ get; set; } = $"{Environment.GetEnvironmentVariable("TwitterAPIKey")}";
 
-        [Parameter()]
+        [Parameter(Position = 1)]
         public string ConsumerSecret{ get; set; } = $"{Environment.GetEnvironmentVariable("TwitterAPISecret")}";
 
-        [Parameter()]
+        [Parameter(Position = 2)]
         public string OAuthToken{ get; set; } = $"{Environment.GetEnvironmentVariable("TwitterAccessToken")}";
 
-        [Parameter()]
+        [Parameter(Position = 3)]
         public string OAuthTokenSecret{ get; set; } = $"{Environment.GetEnvironmentVariable("TwitterAccessTokenSecret")}";
 
         protected override Task ProcessRecordAsync(){
