@@ -1,8 +1,8 @@
 function Get-AssemblyPublicKeyToken {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName="File")]
     [CmdLetTag("#dotnet")]
     param (
-        [parameter(ValueFromPipeline,Mandatory,ParameterSetName="File")]
+        [parameter(ValueFromPipeline,Mandatory,ParameterSetName="File",Position=0)]
         [System.IO.FileInfo]$Assembly,
         [parameter(ValueFromPipeline,Mandatory,ParameterSetName="Raw")]
         [byte[]]$Bytes
@@ -19,10 +19,11 @@ function Get-AssemblyPublicKeyToken {
                 Get-AssemblyPublicKeyToken -bytes $asm.Name.publicKeyToken
             }
         }
-        
-        (($Bytes|ForEach-Object{
-            $_.ToString("x2")
-        }) -join "").Trim("")
+        else{
+            (($Bytes|ForEach-Object{
+                $_.ToString("x2")
+            }) -join "").Trim("")   
+        }
     }
     
     end {
