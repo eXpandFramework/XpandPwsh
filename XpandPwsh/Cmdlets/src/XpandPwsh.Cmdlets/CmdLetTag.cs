@@ -4,7 +4,9 @@ using System.Linq;
 namespace XpandPwsh.Cmdlets{
     public class CmdLetTag:Attribute{
         public const string DotNet = "#DotNet";
+        public const string TwitterAPI = "#TwitterAPI";
         public const string RX = "#RX";
+        public const string Linq2Twitter = "#Linq2Twitter";
         public const string Linq = "#Linq";
         public const string Reactive = "#Reactive";
         public const string GitHub = "#GitHub";
