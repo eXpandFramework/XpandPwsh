@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.26.3'
+ModuleVersion = '1.201.27.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -98,6 +98,7 @@ FunctionsToExport = @(
 "ConvertTo-Directory",
 "ConvertTo-FramedText",
 "ConvertTo-HttpQueryString",
+"ConvertTo-Image",
 "ConvertTo-Indexed",
 "ConvertTo-Object",
 "ConvertTo-PackageObject",
@@ -110,6 +111,7 @@ FunctionsToExport = @(
 "Find-PaketRefs",
 "Find-XpandNugetPackage",
 "Find-XpandPackage",
+"Format-Text",
 "Format-Xml",
 "Get-Assembly",
 "Get-AssemblyInfoVersion",
@@ -172,6 +174,7 @@ FunctionsToExport = @(
 "Get-ReferenceConflict",
 "Get-RelativePath",
 "Get-SymbolSources",
+"Get-TwitterUser",
 "Get-VersionPart",
 "Get-VSPath",
 "Get-XAFLatestMinors",
@@ -179,7 +182,6 @@ FunctionsToExport = @(
 "Get-XafPackageNames",
 "Get-XmlContent",
 "Get-XpandNugetPackageDependencies",
-"Get-XpandPackageContainersVersion",
 "Get-XpandPackageHome",
 "Get-XpandPackageNames",
 "Get-XpandPackages",
@@ -196,8 +198,6 @@ FunctionsToExport = @(
 "Import-Class",
 "Install-Chocolatey",
 "Install-DebugOptimizationHook",
-"Install-DevExpress",
-"Install-DotnetCore",
 "Install-NugetPackage",
 "Install-SubModule",
 "Install-Xpand",
@@ -227,6 +227,8 @@ FunctionsToExport = @(
 "New-GithubReleaseNotes",
 "New-GithubReleaseNotesTemplate",
 "New-MacAddress",
+"New-TwitterContext",
+"New-TwitterFavorite",
 "New-XAFProject",
 "Out-ConditionalColor",
 "Out-Variable",
@@ -239,6 +241,7 @@ FunctionsToExport = @(
 "Publish-NugetPackage",
 "Push-Git",
 "Push-GitSSH",
+"Push-TwitterMedia",
 "Read-AssemblyDefinition",
 "Read-MSBuildProject",
 "Remove-AzBuild",
@@ -257,6 +260,9 @@ FunctionsToExport = @(
 "Restore-GitFile",
 "Restore-ProjectReference",
 "Save-Xml",
+"Send-Retweet",
+"Send-Tweet",
+"Send-TweetDirectMessage",
 "Set-NugetCentralizeManagement",
 "Set-ProjectRestoreLockedMode",
 "Set-VsoVariable",
@@ -273,6 +279,7 @@ FunctionsToExport = @(
 "Test-AssemblyNameFullyQualified",
 "Test-AssemblyReference",
 "Test-AzDevops",
+"Test-ChocoInstalled",
 "Test-GacAssemblyInstallReferenceCanBeUsed",
 "Test-ProjectSdk",
 "Test-Symbol",
