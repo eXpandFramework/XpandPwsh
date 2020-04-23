@@ -7,7 +7,8 @@ function ConvertTo-Image {
         [parameter(Mandatory)]
         [string]$OutputFile,
         [int]$Density=1200,
-        [int]$Quality=100
+        [int]$Quality=100,
+        [int]$MaximumSizeBytes
     )
     
     begin {
@@ -32,8 +33,13 @@ function ConvertTo-Image {
         $mdFile=".\$baseName.md"
         Set-Content $mdFile $Text
         pretty-md-pdf -i $mdFile
-        & $ImageMagick -density $Density -quality $Quality "$baseName.pdf" .\$baseName.jpg 
-        & $ImageMagick .\$baseName.jpg -flatten -fuzz 1% -trim +repage $OutputFile
+        
+        do {
+            & $ImageMagick -density $Density -quality $Quality "$baseName.pdf" .\$baseName.jpg 
+            & $ImageMagick .\$baseName.jpg -flatten -fuzz 1% -trim +repage $OutputFile
+            $Density=0.9*$Density    
+            $Quality=0.9*$Quality    
+        } until (!$MaximumSizeBytes -or (([System.IO.File]::ReadAllBytes($OutputFile)).Length -lt $MaximumSizeBytes))
         Pop-Location
     }
     
