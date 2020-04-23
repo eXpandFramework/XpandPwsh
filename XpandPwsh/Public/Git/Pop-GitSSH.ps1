@@ -2,11 +2,6 @@ function Pop-GitSSH {
     [CmdletBinding()]
     [CmdLetTag("#git")]
     param (
-        [parameter(ParameterSetName = "AddAll")]
-        [switch]$AddAll,
-        [parameter(ParameterSetName = "AddAll")]
-        [string]$Message,
-        [switch]$Force,
         [string]$PagentPath = $env:PagentPath,
         [string]$PPKPath = $env:PPKPath,
         [string]$PLinkPath = $env:PLinkPath

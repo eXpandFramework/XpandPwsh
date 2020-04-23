@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Management.Automation;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
@@ -18,7 +17,6 @@ namespace XpandPwsh.Cmdlets.Twitter{
         [Parameter(Mandatory = true,ValueFromPipeline = true,Position = 1)]
         public Status Status{ get; set; }
 
-        private List<Media> _medias = new List<Media>();
         protected override Task ProcessRecordAsync(){
             return TwitterContext.CreateFavoriteAsync(Status.ID).ToObservable()
                 .HandleErrors(this)

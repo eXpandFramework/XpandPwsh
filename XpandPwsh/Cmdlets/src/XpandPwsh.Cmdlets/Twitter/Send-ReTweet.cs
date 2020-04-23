@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Management.Automation;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
@@ -20,9 +19,9 @@ namespace XpandPwsh.Cmdlets.Twitter{
         [ValidateSet(nameof(LinqToTwitter.TweetMode.Compat), nameof(LinqToTwitter.TweetMode.Extended))]
         public string TweetMode{ get; set; } = nameof(LinqToTwitter.TweetMode.Compat);
 
-        private List<Media> _medias = new List<Media>();
+        
         protected override Task ProcessRecordAsync(){
-            return TwitterContext.RetweetAsync(Status.ID,EnumsNET.Enums.Parse<TweetMode>(TweetMode)).ToObservable()
+            return TwitterContext.RetweetAsync(Status.StatusID,EnumsNET.Enums.Parse<TweetMode>(TweetMode)).ToObservable()
                 .HandleErrors(this)
                 .WriteObject(this)
                 .ToTask();
