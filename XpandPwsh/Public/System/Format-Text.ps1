@@ -20,7 +20,7 @@ function Format-Text {
             $Text=($Text.ToCharArray()|ForEach-Object{
                 $c=$_
                 $index=($chars|Where-Object{$_.Value -ceq $c}).Index
-                if ($index -ne $null){
+                if ($index -and $index -gt -1){
                     $a=$bold_chars[$index]
                     $a
                 }
