@@ -1,6 +1,7 @@
 function Add-AzBuild {
     [CmdletBinding()]
     [CmdLetTag((("#Azure","AzureDevOps")))]
+    [alias("axab")]
     param (
         [parameter(Mandatory, ValueFromPipeline)]
         [ArgumentCompleter( {
