@@ -2,7 +2,7 @@ function Format-Text {
     [CmdletBinding()]
     [CmdLetTag()]
     param (
-        [parameter(Mandatory,ValueFromPipeline)]
+        [parameter(Mandatory,ValueFromPipeline,Position=0)]
         [string]$Text,
         [parameter()]
         [int]$length,
