@@ -22,7 +22,7 @@ namespace XpandPwsh.Cmdlets.Twitter{
 
         private List<Media> _medias = new List<Media>();
         protected override Task ProcessRecordAsync(){
-            _medias.Add(Media);
+            if (Media != null) _medias.Add(Media);
             return Task.CompletedTask;
         }
 

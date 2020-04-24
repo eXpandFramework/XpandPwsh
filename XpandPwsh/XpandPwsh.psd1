@@ -285,6 +285,7 @@ FunctionsToExport = @(
 "Test-GacAssemblyInstallReferenceCanBeUsed",
 "Test-ProjectSdk",
 "Test-Symbol",
+"Test-TwitterCredentials",
 "Test-Version",
 "Uninstall-AllModules",
 "UnInstall-DotnetCoreSdk",

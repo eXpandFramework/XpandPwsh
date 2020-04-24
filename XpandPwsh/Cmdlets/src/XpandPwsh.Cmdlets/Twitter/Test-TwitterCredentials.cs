@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Management.Automation;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
@@ -6,23 +7,18 @@ using LinqToTwitter;
 using XpandPwsh.CmdLets;
 
 namespace XpandPwsh.Cmdlets.Twitter{
-    [Cmdlet(VerbsCommunications.Send, "Retweet")]
+    [Cmdlet(VerbsDiagnostic.Test, "TwitterCredentials")]
     [CmdletBinding]
     [CmdLetTag(CmdLetTag.Reactive, CmdLetTag.RX,CmdLetTag.Linq2Twitter)]
     [PublicAPI]
-    public class SendRetweet : XpandCmdlet{
+    public class TestTwitterCredentials : XpandCmdlet{
         [Parameter(Mandatory = true,Position = 0)]
         public TwitterContext TwitterContext{ get; set; }
-        [Parameter(Mandatory = true,ValueFromPipeline = true,Position = 1)]
-        public Status Status{ get; set; }
 
-        [ValidateSet(nameof(LinqToTwitter.TweetMode.Compat), nameof(LinqToTwitter.TweetMode.Extended))]
-        [Parameter(Position = 2)]
-        public string TweetMode{ get; set; } = nameof(LinqToTwitter.TweetMode.Compat);
-
-        
         protected override Task ProcessRecordAsync(){
-            return TwitterContext.RetweetAsync(Status.StatusID,EnumsNET.Enums.Parse<TweetMode>(TweetMode)).ToObservable()
+            
+            return TwitterContext.Account.Where(account => account.Type==AccountType.VerifyCredentials)
+                .SingleOrDefaultAsync().ToObservable()
                 .HandleErrors(this)
                 .WriteObject(this)
                 .ToTask();
