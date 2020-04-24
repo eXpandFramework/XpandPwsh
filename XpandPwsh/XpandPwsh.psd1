@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.27.4'
+ModuleVersion = '1.201.28.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -109,6 +109,8 @@ FunctionsToExport = @(
 "Find-NugetPackage",
 "Find-NugetPackageInstallationFolder",
 "Find-PaketRefs",
+"Find-Tweet",
+"Find-TwitterUser",
 "Find-XpandNugetPackage",
 "Find-XpandPackage",
 "Format-Text",
@@ -174,7 +176,6 @@ FunctionsToExport = @(
 "Get-ReferenceConflict",
 "Get-RelativePath",
 "Get-SymbolSources",
-"Get-TwitterUser",
 "Get-VersionPart",
 "Get-VSPath",
 "Get-XAFLatestMinors",
@@ -255,6 +256,7 @@ FunctionsToExport = @(
 "Remove-ProjectInvalidItems",
 "Remove-ProjectLicenseFile",
 "Remove-ProjectReferences",
+"Remove-TwitterFavorite",
 "Remove-VersionConverterFlags",
 "Resolve-AssemblyDependencies",
 "Restore-GitFile",
