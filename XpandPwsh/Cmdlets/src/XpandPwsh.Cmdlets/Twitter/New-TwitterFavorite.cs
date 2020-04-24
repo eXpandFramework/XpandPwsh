@@ -18,7 +18,7 @@ namespace XpandPwsh.Cmdlets.Twitter{
         public Status Status{ get; set; }
 
         protected override Task ProcessRecordAsync(){
-            return TwitterContext.CreateFavoriteAsync(Status.ID).ToObservable()
+            return TwitterContext.CreateFavoriteAsync(Status.StatusID).ToObservable()
                 .HandleErrors(this)
                 .WriteObject(this)
                 .ToTask();
