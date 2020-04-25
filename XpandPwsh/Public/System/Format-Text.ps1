@@ -20,12 +20,11 @@ function Format-Text {
             $Text=($Text.ToCharArray()|ForEach-Object{
                 $c=$_
                 $index=($chars|Where-Object{$_.Value -ceq $c}).Index
-                if ($index -and $index -gt -1){
-                    $a=$bold_chars[$index]
-                    $a
+                if ($null -eq $index){
+                    $c
                 }
                 else{
-                    $c
+                    $bold_chars[$index]
                 }
             }) -join ""
         }
