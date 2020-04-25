@@ -9,7 +9,7 @@ function ConvertTo-Image {
         [int]$Density=1200,
         [int]$Quality=100,
         [int]$MaximumSizeBytes,
-        [int]$MaximumWidth
+        [int]$Width
     )
     
     begin {
@@ -36,16 +36,24 @@ function ConvertTo-Image {
         Push-Location $baseName
         $mdFile=".\$baseName.md"
         Set-Content $mdFile $Text
-        Invoke-Script{pretty-md-pdf -i $mdFile}
+        [PSCustomObject]@{
+            width = $Width
+            margin = "1cm"
+            quality = $Quality
+            omitBackground =$true
+            highlight =$true
+            includeDefaultStyles=$false
+        }|ConvertTo-Json|Set-Content ".\$basename.json"
+        Invoke-Script{pretty-md-pdf -i $mdFile -c ".\$basename.json"}
         $pdfName=".\$baseName.pdf"
         
         do {
             $jpgName=[guid]::NewGuid()
             Invoke-Script{& $ImageMagick -density $Density -quality $Quality $pdfName .\$jpgName.jpg }
-            if ($MaximumWidth){
+            if ($Width){
                 $bmp=[System.Drawing.Bitmap]::new((Get-Item .\$jpgName.jpg).FullName)
-                if ($bmp.Width -gt $MaximumWidth){
-                    Invoke-Script{& $ImageMagick .\$jpgName.jpg -resize $MaximumWidth ".\$jpgName.resized.jpg"}
+                if ($bmp.Width -gt $Width){
+                    Invoke-Script{& $ImageMagick .\$jpgName.jpg -resize $Width ".\$jpgName.resized.jpg"}
                     $jpgName="$jpgName.resized"
                 }
             }
