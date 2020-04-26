@@ -42,7 +42,7 @@ function ConvertTo-Image {
             quality = $Quality
             omitBackground =$true
             highlight =$true
-            includeDefaultStyles=$false
+            includeDefaultStyles=$true
         }|ConvertTo-Json|Set-Content ".\$basename.json"
         Invoke-Script{pretty-md-pdf -i $mdFile -c ".\$basename.json"}
         $pdfName=".\$baseName.pdf"
