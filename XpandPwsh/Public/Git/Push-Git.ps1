@@ -6,6 +6,7 @@ function Push-Git {
         [switch]$AddAll,
         [parameter(ParameterSetName = "AddAll")]
         [string]$Message,
+        [string]$Branch,
         [string]$Remote="origin",
         [string]$Username,
         [string]$UserMail,
@@ -40,6 +41,9 @@ function Push-Git {
                 $a+="-f"
             }
             $a+=$Remote
+            if ($Branch){
+                $a+=$Branch
+            }
             git push @a
         }
     }
