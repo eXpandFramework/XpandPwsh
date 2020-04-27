@@ -32,6 +32,7 @@ function Format-Text {
             if ($Text.Length -gt $length){
                 if ($UrlLength){
                     $newUrl="|"*$UrlLength
+                    $originalText=$Text
                     $regex = [regex] '(?imn)(?<url>\b(https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$])'
                     if ($regex.Matches($Text).Count -gt 1){
                         throw "Not implemented"
@@ -40,7 +41,7 @@ function Format-Text {
                     if ($result.Length -gt $length){
                         $Text=$result.Substring(0,$length)
                     }
-                    $Text=$result.Replace($newUrl,$regex.Match($Text).Groups["url"].value)
+                    $Text=$result.Replace($newUrl,$regex.Match($originalText).Groups["url"].value)
                 }
             }
         }
