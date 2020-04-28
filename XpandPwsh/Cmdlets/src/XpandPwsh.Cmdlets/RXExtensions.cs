@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Management.Automation;
+using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
@@ -102,6 +102,10 @@ namespace XpandPwsh.Cmdlets{
                     return obj;
                 });
             return progressItemsTotalCount.HasValue ? writeObject.WriteProgress((IProgressCmdlet) cmdlet, progressItemsTotalCount.Value) : writeObject.DefaultIfEmpty();
+        }
+
+        public static IObservable<Unit> ToUnit<T>(this IObservable<T> source){
+            return source.Select(o => Unit.Default);
         }
 
         public static IObservable<T> ToObservable<T>(this IEnumeratorAsync<T> enumeratorAsync){
