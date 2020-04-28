@@ -6,26 +6,19 @@ function ConvertTo-Image {
         [string]$Text,
         [parameter(Mandatory)]
         [string]$OutputFile,
-        [int]$Density=1200,
-        [int]$Quality=100,
         [int]$MaximumSizeBytes,
-        [int]$Width
+        [int]$MaximumWidth
     )
     
     begin {
         $PSCmdlet|Write-PSCmdLetBegin
-        Install-Chocolatey
-        if (!(Get-ChocoPackage imagemagick.app)){
-            choco install imagemagick.app
+        $ImageMagick=Install-ImageMagic
+        if (!(& node -v)){
+            choco install nodejs
         }
-        $ImageMagick=Get-ChildItem ([System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::ProgramFiles)) "ImageMagick*"|ForEach-Object{
-            Get-ChildItem $_.FullName magick.exe
-        }|Select-Object -First 1
-        if (!(Get-ChocoPackage Ghostscript)){
-            choco install Ghostscript
+        if (!(npm list -g|select-string pretty)){
+            npm install -g pretty-markdown-pdf|Out-Null
         }
-        npm install -g pretty-markdown-pdf|Out-Null
-        
     }
     
     process {
@@ -36,36 +29,19 @@ function ConvertTo-Image {
         Push-Location $baseName
         $mdFile=".\$baseName.md"
         Set-Content $mdFile $Text
-        [PSCustomObject]@{
-            width = $Width
-            margin = "1cm"
-            quality = $Quality
-            omitBackground =$true
-            highlight =$true
-            includeDefaultStyles=$true
-        }|ConvertTo-Json|Set-Content ".\$basename.json"
-        Invoke-Script{pretty-md-pdf -i $mdFile -c ".\$basename.json"}
-        $pdfName=".\$baseName.pdf"
-        
+        Invoke-Script{pretty-md-pdf -i $mdFile -t png}
         do {
-            $jpgName=[guid]::NewGuid()
-            Invoke-Script{& $ImageMagick -density $Density -quality $Quality $pdfName .\$jpgName.jpg }
-            if ($Width){
-                $bmp=[System.Drawing.Bitmap]::new((Get-Item .\$jpgName.jpg).FullName)
-                if ($bmp.Width -gt $Width){
-                    Invoke-Script{& $ImageMagick .\$jpgName.jpg -resize $Width ".\$jpgName.resized.jpg"}
-                    $jpgName="$jpgName.resized"
+            $baseName=[System.IO.Path]::GetFileNameWithoutExtension($OutputFile)
+            if ($MaximumWidth){
+                $bmp=[System.Drawing.Bitmap]::new((Get-Item .\$baseName.png).FullName)
+                if ($bmp.Width -gt $MaximumWidth){
+                    Invoke-Script{& $ImageMagick .\$baseName.png -resize $MaximumWidth ".\$baseName.resized.png" }
+                    $baseName="$baseName.resized"
                 }
             }
-            Invoke-Script{& $ImageMagick .\$jpgName.jpg -flatten -fuzz 1% -trim +repage ".\$jpgName.trim.jpg" }
-            $jpgName="$jpgName.trim"
-            Invoke-Script{
-                & $ImageMagick ".\$jpgName.jpg" -border 2%x2% $OutputFile
-            }
-            $Density=0.9*$Density    
-            $Quality=0.9*$Quality    
-            
-        } until (!$MaximumSizeBytes -or (([System.IO.File]::ReadAllBytes($OutputFile)).Length -lt $MaximumSizeBytes))
+            $MaximumWidth=$MaximumWidth*0.9
+        } while ($MaximumSizeBytes -and (([System.IO.File]::ReadAllBytes("$(Get-Location)\$baseName.png")).Length -gt $MaximumSizeBytes))
+        Copy-Item ".\$baseName.png" $OutputFile -Force 
         Pop-Location
         Pop-Location
     }
