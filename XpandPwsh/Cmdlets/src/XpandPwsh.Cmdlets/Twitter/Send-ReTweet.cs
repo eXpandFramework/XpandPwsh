@@ -16,13 +16,8 @@ namespace XpandPwsh.Cmdlets.Twitter{
         [Parameter(Mandatory = true,ValueFromPipeline = true,Position = 1)]
         public Status Status{ get; set; }
 
-        [ValidateSet(nameof(LinqToTwitter.TweetMode.Compat), nameof(LinqToTwitter.TweetMode.Extended))]
-        [Parameter(Position = 2)]
-        public string TweetMode{ get; set; } = nameof(LinqToTwitter.TweetMode.Compat);
-
-        
         protected override Task ProcessRecordAsync(){
-            return TwitterContext.RetweetAsync(Status.StatusID,EnumsNET.Enums.Parse<TweetMode>(TweetMode)).ToObservable()
+            return TwitterContext.RetweetAsync(Status.StatusID).ToObservable()
                 .HandleErrors(this)
                 .WriteObject(this)
                 .ToTask();
