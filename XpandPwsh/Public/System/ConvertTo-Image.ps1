@@ -39,6 +39,8 @@ function ConvertTo-Image {
                     $baseName="$baseName.resized"
                 }
             }
+            Invoke-Script{& $ImageMagick .\$baseName.png -flatten -fuzz 1% -trim +repage ".\$baseName.trim.png" }
+            $baseName=".\$baseName.trim"
             $MaximumWidth=$MaximumWidth*0.9
         } while ($MaximumSizeBytes -and (([System.IO.File]::ReadAllBytes("$(Get-Location)\$baseName.png")).Length -gt $MaximumSizeBytes))
         Copy-Item ".\$baseName.png" $OutputFile -Force 
