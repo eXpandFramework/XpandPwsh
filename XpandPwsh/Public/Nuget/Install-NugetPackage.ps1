@@ -20,7 +20,7 @@ function Install-NugetPackage {
     process {
         Push-Location $env:TEMP
         Use-NugetConfig -Sources $Source -ScriptBlock {
-            & (Get-NugetPath) install $Id -OutputDirectory $OutputDirectory 
+            & (Get-NugetPath) install $Id -OutputDirectory $OutputDirectory -Version $Version
         }
         Pop-Location
     }
