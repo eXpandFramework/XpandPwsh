@@ -12,13 +12,8 @@ function ConvertTo-Image {
     
     begin {
         $PSCmdlet|Write-PSCmdLetBegin
-        $ImageMagick=Install-ImageMagic
-        if (!(& node -v)){
-            choco install nodejs
-        }
-        # if (!(npm list -g|select-string pretty)){
-            npm install -g pretty-markdown-pdf|Out-Null
-        # }
+        $ImageMagick=Install-ImageMagic|Write-Verbose
+        Install-NpmPackage pretty-markdown-pdf|Write-Verbose
     }
     
     process {
