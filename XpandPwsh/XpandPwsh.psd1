@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.29.7'
+ModuleVersion = '1.201.30.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -198,8 +198,10 @@ FunctionsToExport = @(
 "Get-XpwshHelp",
 "Import-Class",
 "Install-Chocolatey",
+"Install-ChocoPackage",
 "Install-DebugOptimizationHook",
 "Install-ImageMagic",
+"Install-NpmPackage",
 "Install-NugetPackage",
 "Install-SubModule",
 "Install-Xpand",

@@ -1,6 +1,6 @@
 function Install-ChocoPackage {
     [CmdletBinding()]
-    [CmdLetTag()]
+    [CmdLetTag("#chocolatey")]
     param (
         [parameter(Mandatory,ValueFromPipeline)]
         [string]$Package

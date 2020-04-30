@@ -1,6 +1,6 @@
 function Install-NpmPackage {
     [CmdletBinding()]
-    [CmdLetTag()]
+    [CmdLetTag(("#npm","#nodejs"))]
     param (
         [parameter(ValueFromPipeline,Mandatory)]
         [string]$Package
