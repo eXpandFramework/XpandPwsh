@@ -19,6 +19,7 @@ function Push-Git {
     
     process {
         Invoke-Script{
+            git config core.autocrlf true
             if ($username){
                 git config user.name $userName
             }
