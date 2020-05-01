@@ -9,12 +9,12 @@ function Install-NpmPackage {
     begin {
         $PSCmdlet|Write-PSCmdLetBegin
         Install-ChocoPackage nodejs
-        npm init -y
+        Invoke-Script{npm init -y}
     }
     
     process {
         if (!(npm list -g|select-string $Package)){
-            npm install -g $Package
+            Invoke-Script{npm install -g $Package}
         }
     }
     

@@ -13,7 +13,7 @@ function Install-ChocoPackage {
     
     process {
         if (!(Get-ChocoPackage $Package)){
-            choco install $Package
+            Invoke-Script{choco install $Package}
         }
     }
     
