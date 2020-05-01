@@ -7,6 +7,7 @@ function Install-NpmPackage {
     )
     
     begin {
+        $PSCmdlet|Write-PSCmdLetBegin
         Install-ChocoPackage nodejs
         npm init -y
     }

@@ -7,6 +7,7 @@ function Install-ChocoPackage {
     )
     
     begin {
+        $PSCmdlet|Write-PSCmdLetBegin
         Install-Chocolatey
     }
     
