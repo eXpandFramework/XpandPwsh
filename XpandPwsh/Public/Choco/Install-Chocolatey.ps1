@@ -3,7 +3,7 @@ function Install-Chocolatey {
     [CmdletBinding()]
     [CmdLetTag("#chocolatey")]
     param (
-        [switch]$AllowGlobalConfirmation
+        [switch]$AskConfirmation
     )
     
     begin {
@@ -18,7 +18,7 @@ function Install-Chocolatey {
             }
             Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
         }
-        if ($AllowGlobalConfirmation){
+        if (!$AskConfirmation){
             choco feature enable -n=allowGlobalConfirmation
         }
     }
