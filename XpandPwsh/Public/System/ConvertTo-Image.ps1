@@ -12,8 +12,8 @@ function ConvertTo-Image {
     
     begin {
         $PSCmdlet|Write-PSCmdLetBegin
-        $ImageMagick=Install-ImageMagic|Write-Verbose
-        Install-NpmPackage pretty-markdown-pdf|Write-Verbose
+        $ImageMagick=Install-ImageMagic
+        Install-NpmPackage pretty-markdown-pdf|Out-Null
     }
     
     process {
