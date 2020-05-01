@@ -7,7 +7,8 @@ function Format-Text {
         [parameter()]
         [int]$length,
         [switch]$Bold,
-        [int]$UrlLength
+        [int]$UrlLength,
+        [switch]$DoNotMemorize
     )
     
     begin {
@@ -46,7 +47,9 @@ function Format-Text {
             }
         }
         $Text
-        
+        if (!$DoNotMemorize){
+            Set-Clipboard $Text
+        }
     }
     
     end {
