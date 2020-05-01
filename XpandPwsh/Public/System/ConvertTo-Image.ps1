@@ -21,7 +21,7 @@ function ConvertTo-Image {
         $baseName=[System.IO.Path]::GetFileNameWithoutExtension($OutputFile)
         Push-Location $env:TEMP
         Remove-Item $baseName -Force -Recurse -ErrorAction SilentlyContinue
-        New-Item $baseName -ItemType Directory
+        New-Item $baseName -ItemType Directory|Out-Null
         Push-Location $baseName
         $mdFile=".\$baseName.md"
         Set-Content $mdFile $Text
