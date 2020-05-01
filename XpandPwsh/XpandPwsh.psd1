@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.30.1'
+ModuleVersion = '1.201.31.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -268,6 +268,7 @@ FunctionsToExport = @(
 "Send-Retweet",
 "Send-Tweet",
 "Send-TweetDirectMessage",
+"Set-AssemblySignature",
 "Set-NugetCentralizeManagement",
 "Set-ProjectRestoreLockedMode",
 "Set-VsoVariable",
