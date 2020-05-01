@@ -31,11 +31,11 @@ function ConvertTo-Image {
             if ($MaximumWidth){
                 $bmp=[System.Drawing.Bitmap]::new((Get-Item .\$baseName.png).FullName)
                 if ($bmp.Width -gt $MaximumWidth){
-                    Invoke-Script{& $ImageMagick .\$baseName.png -resize $MaximumWidth ".\$baseName.resized.png" }
+                    Invoke-Script{& "$ImageMagick" .\$baseName.png -resize $MaximumWidth ".\$baseName.resized.png" }
                     $baseName="$baseName.resized"
                 }
             }
-            Invoke-Script{& $ImageMagick .\$baseName.png -flatten -fuzz 1% -trim +repage ".\$baseName.trim.png" }
+            Invoke-Script{& "$ImageMagick" .\$baseName.png -flatten -fuzz 1% -trim +repage ".\$baseName.trim.png" }
             $baseName=".\$baseName.trim"
             $MaximumWidth=$MaximumWidth*0.9
         } while ($MaximumSizeBytes -and (([System.IO.File]::ReadAllBytes("$(Get-Location)\$baseName.png")).Length -gt $MaximumSizeBytes))
