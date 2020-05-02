@@ -11,7 +11,6 @@ function Install-NpmPackage {
         if (!(node -v)){
             Install-ChocoPackage nodejs
         }
-        Invoke-Script{(((npm init -y) -join "`r`n"))|Write-Verbose}
     }
     
     process {
