@@ -40,7 +40,7 @@ function Format-Text {
                     }
                     $result = $regex.Replace($Text, $newUrl)
                     if ($result.Length -gt $length){
-                        $Text=$result.Substring(0,$length)
+                        $Text=$result.Substring(0,$length-3)
                     }
                     $Text=$result.Replace($newUrl,$regex.Match($originalText).Groups["url"].value)
                 }
