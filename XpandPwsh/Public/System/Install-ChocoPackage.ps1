@@ -13,7 +13,9 @@ function Install-ChocoPackage {
     
     process {
         if (!(Get-ChocoPackage $Package)){
-            Invoke-Script{choco install $Package}
+            Invoke-Script{
+                ((choco install $Package) -join "`r`n")|Write-Verbose
+            }
         }
     }
     
