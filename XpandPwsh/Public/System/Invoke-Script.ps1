@@ -13,6 +13,7 @@ function Invoke-Script {
 
     Begin {
         $cnt = 0
+        $PSCmdlet|Write-PSCmdLetBegin
     }
 
     Process {
