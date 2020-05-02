@@ -14,7 +14,6 @@ function ConvertTo-Image {
         $PSCmdlet|Write-PSCmdLetBegin
         $ImageMagick=Install-ImageMagic
         Install-NpmPackage pretty-markdown-pdf|Out-Null
-        $Text="---`r`n`r`n$Text`r`n`r`n---"
     }
     
     process {
@@ -37,6 +36,8 @@ function ConvertTo-Image {
             }
             Invoke-Script{& "$ImageMagick" .\$baseName.png -flatten -fuzz 1% -trim +repage ".\$baseName.trim.png" }
             $baseName=".\$baseName.trim"
+            Invoke-Script{& "$ImageMagick" .\$baseName.png -bordercolor white -border 20 ".\$baseName.border.png" }
+            $baseName=".\$baseName.border"
             $MaximumWidth=$MaximumWidth*0.9
         } while ($MaximumSizeBytes -and (([System.IO.File]::ReadAllBytes("$(Get-Location)\$baseName.png")).Length -gt $MaximumSizeBytes))
         Copy-Item ".\$baseName.png" $OutputFile -Force 
