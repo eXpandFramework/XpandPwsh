@@ -16,7 +16,7 @@ function Install-ChocoPackage {
             Invoke-Script{
                 ((choco install $Package) -join "`r`n")|Write-Verbose
             }
-            Update-SessionEnvironment
+            refreshenv|Write-Verbose
         }
     }
     
