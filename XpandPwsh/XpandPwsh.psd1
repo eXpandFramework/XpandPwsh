@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.31.20'
+ModuleVersion = '1.201.32.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -261,6 +261,7 @@ FunctionsToExport = @(
 "Remove-ProjectReferences",
 "Remove-TwitterFavorite",
 "Remove-VersionConverterFlags",
+"Remove-XmlElement",
 "Resolve-AssemblyDependencies",
 "Restore-GitFile",
 "Restore-ProjectReference",
