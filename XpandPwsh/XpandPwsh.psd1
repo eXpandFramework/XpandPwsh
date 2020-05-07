@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.32.2'
+ModuleVersion = '1.201.33.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -113,6 +113,7 @@ FunctionsToExport = @(
 "Find-TwitterUser",
 "Find-XpandNugetPackage",
 "Find-XpandPackage",
+"Format-Shuffle",
 "Format-Text",
 "Format-Xml",
 "Get-Assembly",
