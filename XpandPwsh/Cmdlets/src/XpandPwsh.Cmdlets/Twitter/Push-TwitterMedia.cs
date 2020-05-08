@@ -27,14 +27,21 @@ namespace XpandPwsh.Cmdlets.Twitter{
 
         protected override Task EndProcessingAsync(){
             return _files.ToObservable()
-                .SelectMany(info => TwitterContext.UploadMediaAsync(File.ReadAllBytes(info.FullName), MimeSharp.Mime.Lookup(info.FullName), MediaCategory))
+                .SelectMany(info => {
+                    var mediaCategory = MediaCategory;
+                    if (info.Extension.EndsWith("gif")){
+                        mediaCategory = "tweet_gif";
+                    }
+                    return TwitterContext.UploadMediaAsync(File.ReadAllBytes(info.FullName),
+                        MimeSharp.Mime.Lookup(info.FullName), mediaCategory);
+                })
                 .HandleErrors(this)
                 .WriteObject(this)
                 .ToTask();
         }
 
-        [ValidateSet("tweet_image","tweet_video","tweet_gif","amplify_video")]
+        [ValidateSet("tweet_image", "tweet_video", "tweet_gif", "amplify_video")]
         [Parameter]
-        public string MediaCategory{ get; set; }
+        public string MediaCategory{ get; set; } = "tweet_image";
     }
 }
