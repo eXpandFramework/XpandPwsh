@@ -1,6 +1,6 @@
 function Test-AzDevops {
     [CmdletBinding()]
-    [CmdLetTag((("#Azure","AzureDevOps")))]
+    [CmdLetTag((("#Azure","#AzureDevOps")))]
     param (
     )
     

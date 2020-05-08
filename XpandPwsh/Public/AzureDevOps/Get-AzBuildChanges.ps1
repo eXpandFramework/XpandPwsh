@@ -1,6 +1,6 @@
 function Get-AzBuildChanges {
     [CmdletBinding()]
-    [CmdLetTag(("#Azure", "AzureDevOps"))]
+    [CmdLetTag(("#Azure", "#AzureDevOps"))]
     param (
         [parameter(ValueFromPipeline)]
         [ArgumentCompleter( {

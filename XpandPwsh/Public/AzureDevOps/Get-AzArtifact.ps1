@@ -1,6 +1,6 @@
 function Get-AzArtifact {
     [CmdletBinding()]
-    [CmdLetTag(("#Azure","AzureDevOps"))]
+    [CmdLetTag(("#Azure","#AzureDevOps"))]
     param (
         [parameter(Mandatory, ValueFromPipeline,ParameterSetName="definition")]
         [ArgumentCompleter( {

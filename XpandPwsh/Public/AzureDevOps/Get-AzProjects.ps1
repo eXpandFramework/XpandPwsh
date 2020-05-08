@@ -1,6 +1,6 @@
 function Get-AzProjects {
     [CmdletBinding()]
-    [CmdLetTag(("#Azure","AzureDevOps"))]
+    [CmdLetTag(("#Azure","#AzureDevOps"))]
     param (
         [parameter()]
         [ValidateSet("all","createPending","deleted","deleting","new","unchanged","wellformed")]

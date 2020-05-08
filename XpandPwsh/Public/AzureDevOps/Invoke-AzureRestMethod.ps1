@@ -1,6 +1,6 @@
 function Invoke-AzureRestMethod {
     [CmdletBinding()]
-    [CmdLetTag(("#Azure","AzureDevOps"))]
+    [CmdLetTag(("#Azure","#AzureDevOps"))]
     param (
         [parameter(Mandatory)]
         [string]$Resource,

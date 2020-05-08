@@ -1,6 +1,6 @@
 function Remove-AzBuild {
     [CmdletBinding()]
-    [CmdLetTag(("#Azure","AzureDevOps"))]
+    [CmdLetTag(("#Azure","#AzureDevOps"))]
     param (
         [parameter(ValueFromPipelineByPropertyName,ParameterSetName="id")]
         [string]$Id,

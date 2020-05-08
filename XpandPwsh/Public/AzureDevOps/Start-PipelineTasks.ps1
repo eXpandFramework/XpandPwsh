@@ -4,7 +4,7 @@
 "AddAssemblyBindingRedirects","SetProjectRestoreLockedMode")
 function Start-PipelineTasks {
     [CmdletBinding()]
-    [CmdLetTag(("#Azure","AzureDevOps"))]
+    [CmdLetTag(("#Azure","#AzureDevOps"))]
     param (
         [parameter(Mandatory,ValueFromPipeline)]
         [System.IO.FileInfo]$ProjectFile,

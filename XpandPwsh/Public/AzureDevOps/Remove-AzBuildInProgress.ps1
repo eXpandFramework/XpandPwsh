@@ -1,6 +1,6 @@
 function Remove-AzBuildInProgress {
     [CmdletBinding()]
-    [CmdLetTag(("#Azure","AzureDevOps"))]
+    [CmdLetTag(("#Azure","#AzureDevOps"))]
     param (
         [parameter(Mandatory,ValueFromPipelineByPropertyName)]
         [int]$Id,

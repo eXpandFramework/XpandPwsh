@@ -1,7 +1,7 @@
 
 function Add-AzBuildTag {
     [CmdletBinding()]
-    [CmdLetTag(("#Azure","AzureDevOps"))]
+    [CmdLetTag(("#Azure","#AzureDevOps"))]
     param (
         [parameter(Mandatory,ValueFromPipelineByPropertyName)]
         [string]$Tag,
