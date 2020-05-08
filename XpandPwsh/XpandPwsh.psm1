@@ -1,8 +1,4 @@
 using namespace System.Net
-if (!(Get-module 7Zip4Powershell -ListAvailable)){
-    Install-Module 7Zip4Powershell -Scope CurrentUser -Force
-    Install-Module powershell-yaml -Scope CurrentUser -Force
-}
 $psCoreCmdlets=@("Format-Text.ps1")
 $exclude=@("Install-Module.ps1")
 . $PSScriptRoot\private\attributes.ps1
