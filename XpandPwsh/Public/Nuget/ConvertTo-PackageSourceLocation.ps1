@@ -2,9 +2,9 @@ function ConvertTo-PackageSourceLocation {
     [CmdletBinding()]
     [CmdLetTag("#nuget")]
     param (
-        [parameter(Mandatory)]
-        [string[]]$Source
-        
+        [parameter(Mandatory,ValueFromPipeline)]
+        [string[]]$Source,
+        [switch]$DoNotTestPath
     )
     
     begin {
@@ -21,7 +21,16 @@ function ConvertTo-PackageSourceLocation {
             else{
                 $_
             }
-        }|Sort-Object -Unique
+        }|Sort-Object -Unique|Where-Object{
+            if ($_ -notlike "http*" -and !$DoNotTestPath){
+                if (Test-Path $_){
+                    $_
+                }
+            }
+            else{
+                $_
+            }
+        }
         
     }
     end {
