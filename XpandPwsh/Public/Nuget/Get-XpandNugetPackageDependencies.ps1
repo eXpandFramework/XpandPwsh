@@ -18,7 +18,7 @@ function Get-XpandNugetPackageDependencies {
         [string]$Id,
         [parameter()][string]$Version,
         [parameter()][switch]$AllVersions,
-        [parameter()][string]$Source = (Get-PackageSource).Name
+        [parameter()][string[]]$Source = (Get-PackageSource -ProviderName NuGet).Name
     )
     
     begin {

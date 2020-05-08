@@ -21,7 +21,7 @@ function New-XAFProject {
         [parameter()][string]$Name,
         [ValidateSet("Module","Application")]
         [parameter()][string]$Type="Application",
-        [parameter()][string[]]$Source=(Get-PackageSource).Name,
+        [parameter()][string[]]$Source=(Get-PackageSource -ProviderName Nuget).Name,
         [ArgumentCompleter({
             [OutputType([System.Management.Automation.CompletionResult])]  # zero to many
             param(
@@ -35,7 +35,6 @@ function New-XAFProject {
             "net461","net472","net48"|where-object{$_ -like "$WordToComplete*"}
         })]
         [parameter()][string]$TargetFramework="net48",
-        [parameter()][switch]$SkipBuild,
         [parameter()][switch]$Run
     )
     
@@ -47,25 +46,17 @@ function New-XAFProject {
             New-Item $Name -ItemType Directory
             Set-Location $Name 
         }
-
+        
         $Source=ConvertTo-PackageSourceLocation $Source
         if (!$Packages|Select-String "DevExpress.ExpressApp.Core.All"){
-            $Packages+=@("DevExpress.ExpressApp")
-            
+            $Packages+=@("DevExpress.ExpressApp")    
         }
+        $BoundPackages=$Packages
         $Packages+=@("System.Configuration.Abstractions")
 
         if ($Type -eq "Application"){
             $Platform="Win"
-            $Packages+=@("DevExpress.ExpressApp.$Platform","DevExpress.Persistent.BaseImpl")
-            $Packages=$Packages|ForEach-Object{
-                if ($_ -eq "All"){
-                    "DevExpress.ExpressApp.Win.All"
-                }
-                else{
-                    $_
-                }
-            }|Sort-Object -Unique
+            $Packages+=@("DevExpress.ExpressApp.$Platform","DevExpress.Persistent.BaseImpl","DevExpress.ExpressApp.Core.All","DevExpress.ExpressApp.Security.Xpo","DevExpress.ExpressApp.Win.All")
         }
         $Packages=$Packages|ForEach-Object{
             if ($_ -eq "All"){
@@ -80,7 +71,7 @@ function New-XAFProject {
             else{
                 $_
             }
-        }
+        }|Sort-Object -Unique
     }
     
     process {
@@ -129,12 +120,16 @@ $systemReferences
         }
 "@
         Set-Content ".\Module.cs" $template
-        if (!$SkipBuild){
-            dotnet build
+        Start-Build
+        $assemblyList=Get-ChildItem . *.dll -Recurse
+        $nugetFoler=Get-NugetInstallationFolder
+        $ModuleRegistration=$BoundPackages|Where-Object{Test-Path $nugetFoler\$_}|ForEach-Object{
+            Get-ChildItem -path "$nugetFoler\$_" -include *.dll -Recurse
+        }|Sort-Object FullName -Unique|ForEach-Object{
+            $module=Get-XAFModule $_.DirectoryName -AssemblyList $assemblyList
+            "RequiredModuleTypes.Add(typeof($($module.FullName)));`r`n`t`t`t`t"
         }
-        $ModuleRegistration=(Get-XAFModule (Get-location)).FullName|Where-Object{$_ -notlike "*MiddleTier*"} |ForEach-Object{
-            "RequiredModuleTypes.Add(typeof($_));`r`n`t`t`t`t"
-        }
+        
         $template=@"
         public class $($SolutionName)Module:DevExpress.ExpressApp.ModuleBase{
             public $($SolutionName)Module(){
@@ -143,9 +138,7 @@ $systemReferences
         }
 "@
         Set-Content ".\Module.cs" $template
-        if (!$SkipBuild){
-            dotnet build
-        }
+        Start-Build
         if ($Run){
             Get-ChildItem *.exe -Recurse|ForEach-Object{
                 & $_.FullName

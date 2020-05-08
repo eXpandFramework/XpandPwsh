@@ -6,7 +6,7 @@ function Get-NugetPackageDependencies {
         [string]$Id,
         [parameter()][string]$Version,
         [parameter()][switch]$AllVersions,
-        [parameter()][string]$Source = (Get-PackageSource).Name,
+        [parameter()][string[]]$Source = (Get-PackageSource -ProviderName Nuget).Name,
         [parameter()][string]$FilterRegex,
         [parameter()][switch]$Recurse,
         [parameter()][switch]$IncludeDelisted
@@ -20,7 +20,7 @@ function Get-NugetPackageDependencies {
         $packageChecked = @($id)
         $a = @{
             Name            = $Id
-            Source          = $Source
+            Source          = $Source -join ";"
             AllVersions     = $AllVersions
             IncludeDelisted = $IncludeDelisted
         }

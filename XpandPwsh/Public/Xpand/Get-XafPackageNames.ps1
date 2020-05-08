@@ -5,8 +5,8 @@ function Get-XafPackageNames{
         [string[]]$Version,
         [ValidateSet("Core","Win","Web")]
         [string[]]$Platform=@("Win","Web","Core"),
-        [parameter(Mandatory)]
-        [string]$DXFeed
+        [parameter()]
+        [string]$DXFeed=$env:DxFeed
     )
     ($Platform|ForEach-Object{
         Get-NugetPackageDependencies DevExpress.ExpressApp.$_.All -Source $DXFeed -FilterRegex "DevExpress.ExpressApp.*|DevExpress.Persistent.*" -Recurse
