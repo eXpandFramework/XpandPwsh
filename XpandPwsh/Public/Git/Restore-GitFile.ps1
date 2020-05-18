@@ -3,7 +3,7 @@ function Restore-GitFile {
     [CmdLetTag("#git")]
     param(
         [parameter(ValueFromPipeline)]
-        [System.IO.FileInfo]$File
+        [string]$File
     )
     
     begin {
@@ -11,7 +11,7 @@ function Restore-GitFile {
     }
     
     process {
-        $filePath= $File.FullName.Replace($root.FullName,"").Replace("\","/").Trim("/")
+        $filePath= $File.Replace($root.FullName,"").Replace("\","/").Trim("/")
         Invoke-Script {git restore $filePath}
     }
     

@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.33.8'
+ModuleVersion = '1.201.34.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -143,6 +143,7 @@ FunctionsToExport = @(
 "Get-GacAssemblyFile",
 "Get-GacAssemblyInstallReference",
 "Get-GitDiff",
+"Get-GitFile",
 "Get-GitHubClient",
 "Get-GitHubCommitIssue",
 "Get-GitHubIssue",
@@ -296,6 +297,7 @@ FunctionsToExport = @(
 "Uninstall-AllModules",
 "UnInstall-DotnetCoreSdk",
 "Uninstall-ProjectAllPackages",
+"UnInstallXpand",
 "UnInstall-Xpand",
 "Unprotect-SecretVariable",
 "UnPublish-NugetPackage",

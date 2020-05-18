@@ -11,7 +11,7 @@ function Get-GitLastSha {
     }
     
     process {
-        git ls-remote $repoGitUrl|ForEach-Object{
+        Invoke-Script{git ls-remote $repoGitUrl}|ForEach-Object{
             $regex = [regex] '(\w*) *(.*)'
             $sha = $regex.Match($_).Groups[1].Value
             $ref=$regex.Match($_).Groups[2].Value.Trim()
