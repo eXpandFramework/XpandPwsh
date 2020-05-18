@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.34.0'
+ModuleVersion = '1.201.34.1'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -297,7 +297,6 @@ FunctionsToExport = @(
 "Uninstall-AllModules",
 "UnInstall-DotnetCoreSdk",
 "Uninstall-ProjectAllPackages",
-"UnInstallXpand",
 "UnInstall-Xpand",
 "Unprotect-SecretVariable",
 "UnPublish-NugetPackage",
