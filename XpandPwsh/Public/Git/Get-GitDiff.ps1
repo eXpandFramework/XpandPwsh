@@ -16,7 +16,7 @@ function Get-GitDiff {
     process {
         
         git diff --name-only|Where-Object{$_ -match $Match}|ForEach-Object{
-            Get-Item "$Path\$_"
+            "$Path\$_"
         }
         
     }
