@@ -18,18 +18,18 @@ function Get-XpandNugetPackageDependencies {
         [string]$Id,
         [parameter()][string]$Version,
         [parameter()][switch]$AllVersions,
-        [parameter()][string[]]$Source = (Get-PackageSource -ProviderName NuGet).Name
+        [validateset("Release","Lab")]
+        [parameter()][string[]]$Source
     )
     
     begin {
-        $Source=ConvertTo-PackageSourceLocation $Source
     }
     
     process {
         $a = @{
             Id         = $id 
             Version    = $Version 
-            Source     = $Source
+            Source     = ($source|ForEach-Object{Get-PackageFeed -FeedName $_})
             AllVersion = $AllVersions
             FilterRegex = "Xpand"
             Recurse=$true
