@@ -62,7 +62,7 @@ function Update-Nuspec {
         }
         $fileVersion=Get-AssemblyVersion -assembly $assemblyPath
         "fileVersion=$fileVersion"
-        $nuspec.package.metadata.version = $fileVersion
+        $nuspec.package.metadata.version = "$fileVersion"
         
         $csproj.Project.ItemGroup.Reference | Where-Object { "$($_.Include)" -like $ReferenceToPackageFilter } | ForEach-Object {
             $packageName = $_.Include

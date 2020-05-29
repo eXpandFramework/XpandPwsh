@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.34.2'
+ModuleVersion = '1.201.35.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -208,6 +208,7 @@ FunctionsToExport = @(
 "Install-SubModule",
 "Install-Xpand",
 "Invoke-AzureRestMethod",
+"Invoke-NugetPack",
 "Invoke-PaketAdd",
 "Invoke-PaketClearCache",
 "Invoke-PaketConvertFromNuget",
@@ -290,6 +291,7 @@ FunctionsToExport = @(
 "Test-AzDevops",
 "Test-ChocoInstalled",
 "Test-GacAssemblyInstallReferenceCanBeUsed",
+"Test-GitRepoIsValid",
 "Test-ProjectSdk",
 "Test-Symbol",
 "Test-TwitterCredentials",
