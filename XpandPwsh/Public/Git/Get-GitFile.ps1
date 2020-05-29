@@ -7,7 +7,8 @@ function Get-GitFile {
         [string]$Url,
         [string[]]$Path,
         [string]$Filter,
-        [switch]$Recurse
+        [switch]$Recurse,
+        [switch]$Force
 
     )
     
@@ -19,6 +20,9 @@ function Get-GitFile {
         Push-Location $env:TEMP
         $repoName=$Url.Substring(0,$Url.Length-4)
         $repoName=$repoName.Substring($repoName.LastIndexOf("/")+1)
+        if ($Force -and (Test-Path ".\$repoName") -and !(Test-GitRepoIsValid ".\$repoName")){
+            Remove-Item ".\$repoName" -Force -Recurse
+        }
         if (!(Test-Path ".\$repoName") -or (Get-GitLastSha $Url) -ne (Get-GitLastSha ".\$repoName")){
             if (Test-Path ".\$repoName"){
                 Remove-Item .\$repoName -Force -Recurse
