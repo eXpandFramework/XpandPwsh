@@ -39,7 +39,7 @@ function Pop-XpandPackage {
             }
             $publishedMetadataCollector={
                 param($containers,$Version)
-                $publishedPackages=$containers|Get-XpandNugetPackageDependencies -Version $Version -Source (Get-PackageFeed -FeedName $PackageSource)|ForEach-Object{
+                $publishedPackages=$containers|Get-XpandNugetPackageDependencies -Version $Version -Source $PackageSource|ForEach-Object{
                     [PSCustomObject]@{
                         Id = $_.Id
                         Version=$_.VersionRange.MinVersion.Version

@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.35.3'
+ModuleVersion = '1.201.36.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -100,6 +100,7 @@ FunctionsToExport = @(
 "ConvertTo-HttpQueryString",
 "ConvertTo-Image",
 "ConvertTo-Indexed",
+"ConvertTo-Mp4FromGif",
 "ConvertTo-Object",
 "ConvertTo-PackageObject",
 "ConvertTo-PackageSourceLocation",
