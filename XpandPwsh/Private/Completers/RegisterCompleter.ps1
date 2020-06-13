@@ -1,7 +1,8 @@
 Push-Location $PSScriptRoot
-@((. .\GetPackageSource.ps1),(. .\GetAzStorageContainer.ps1))|ForEach-Object{
-    $script=$_.Script
-    $_.Parameters|ForEach-Object{
+Get-ChildItem *.ps1 -Exclude RegisterCompleter.ps1|ForEach-Object{
+    $include= (. $_.FullName)
+    $script=$include.Script
+    $include.Parameters|ForEach-Object{
         Register-ArgumentCompleter -CommandName $_.CommandName -ParameterName $_.ParameterName -ScriptBlock $script
     }    
 }
