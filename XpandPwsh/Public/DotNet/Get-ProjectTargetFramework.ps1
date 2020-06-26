@@ -3,7 +3,8 @@ function Get-ProjectTargetFramework {
     [CmdLetTag("#visualstudio")]
     param (
         [parameter(ValueFromPipeline,Mandatory)]
-        [xml]$Project
+        [xml]$Project,
+        [switch]$FullName
     )
     
     begin {
@@ -12,10 +13,14 @@ function Get-ProjectTargetFramework {
     
     process {
         $targetFramework = $project.Project.PropertyGroup.TargetFramework | Where-Object { $_ } | Select-Object -First 1
-        $TargetFramework = "$TargetFramework".Replace("net", "")
+        if (!$FullName){
+            $TargetFramework = "$TargetFramework".Replace("net", "")
+        }
         if (!$TargetFramework){
             $targetFramework = $project.Project.PropertyGroup.TargetFrameworkVersion | Where-Object { $_ } | Select-Object -First 1
-            $TargetFramework = $TargetFramework.Replace("v", "").Replace(".","")
+            if (!$FullName){
+                $TargetFramework = $TargetFramework.Replace("v", "").Replace(".","")
+            }
         }
         if (!$targetFramework){
             throw "TargetFramework not found"
