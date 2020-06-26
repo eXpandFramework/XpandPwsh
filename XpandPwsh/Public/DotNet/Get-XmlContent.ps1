@@ -3,15 +3,15 @@ function Get-XmlContent {
     [CmdLetTag(("#dotnet","#dotnetcore"))]
     param (
         [parameter(ValueFromPipeline,Mandatory)]
-        [string]$FilePath
+        [System.IO.FileInfo]$FilePath
     )
     
     begin {
     }
     
     process {
-        $ns=([xml](Get-Content $FilePath)).DocumentElement.NamespaceURI
-        ( Select-Xml -Path $FilePath -XPath / -Namespace @{mse=$ns}).Node
+        $ns=([xml](Get-Content $FilePath.fullname)).DocumentElement.NamespaceURI
+        ( Select-Xml -Path $FilePath.fullname -XPath / -Namespace @{mse=$ns}).Node
     }
     
     end {
