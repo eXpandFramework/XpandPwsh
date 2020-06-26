@@ -51,7 +51,7 @@ function ConvertTo-Image {
             if ($MinimumCanvasHeight){
                 $bmp=[System.Drawing.Bitmap]::new((Get-Item .\$baseName.png).FullName)
                 if ($bmp.Height -lt $MinimumCanvasHeight){
-                    Invoke-Script{& "$ImageMagick" convert .\$baseName.png -background none -gravity center -extent "$($bmp.Width)x$CanvasHeight" ".\$baseName.extendCanvas.png" }
+                    Invoke-Script{& "$ImageMagick" convert .\$baseName.png -background none -gravity center -extent "$($bmp.Width)x$MinimumCanvasHeight" ".\$baseName.extendCanvas.png" }
                     $baseName="$baseName.extendCanvas"
                 }
             }
