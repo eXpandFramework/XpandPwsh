@@ -2,9 +2,9 @@ function Invoke-NugetPack {
     [CmdletBinding()]
     [CmdLetTag("#nuget")]
     param(
-        [parameter(Mandatory,ValueFromPipeline)]
-        [System.IO.FileInfo[]]$Nuspec,
-        [string]$OutputDirectory=$Nuspec.DirectoryName,
+        [parameter(Mandatory)]
+        [string]$Nuspec,
+        [string]$OutputDirectory=(Get-Location),
         [string]$Basepath=$OutputDirectory
     )
     
@@ -13,10 +13,19 @@ function Invoke-NugetPack {
     }
     
     process {
-        Invoke-Script{
-            
-            & (Get-NugetPath) pack "$($Nuspec.FullName)" -OutputDirectory "$OutputDirectory" -BasePath "$Basepath"
+        $nuspecFileName=(Get-Item $Nuspec).FullName
+        $output=Invoke-Script{
+            (& (Get-NugetPath) pack $nuspecFileName -OutputDirectory "$OutputDirectory" -BasePath "$Basepath")
         }
+        $regex = [regex] '(?is)''(.*)\.nupkg'''
+        $result = $regex.Match($output[1]).Groups[1].Value;
+        if ($result){
+            Get-Item "$result.nupkg"
+        }
+        else{
+            Write-Output $output
+        }
+        
     }
     
     end {
