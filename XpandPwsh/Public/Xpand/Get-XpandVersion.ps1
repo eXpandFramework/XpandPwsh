@@ -84,6 +84,7 @@ function Get-XpandVersion {
                 $nextVersion=Update-Version $nextVersion -Minor -KeepBuild
             }
         }
+        return $nextVersion
     }
     if ($XpandPath) {
         $assemblyIndoName="AssemblyInfo"
