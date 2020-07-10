@@ -4,8 +4,10 @@ function Update-Version {
     param (
         [parameter(Mandatory)]
         [string]$Version,
+        [switch]$Major,
         [switch]$Minor,
         [switch]$Build,
+        [switch]$KeepBuild,
         [switch]$Revision
     )
     
@@ -15,12 +17,23 @@ function Update-Version {
     
     process {
         $newVersion=[version]$Version
+        $versionMajor=$newVersion.Major
         $versionMinor=$newVersion.Minor
         $versionBuild=$newVersion.Build
         $versionRevision=$newVersion.Revision
-        if ($Minor){
+        if ($Major){
+            $versionMajor++
+            $versionMinor=0
+            if (!$KeepBuild){
+                $versionBuild=0
+            }
+            $versionRevision=0
+        }
+        elseif ($Minor){
             $versionMinor++
-            $versionBuild=0
+            if (!$KeepBuild){
+                $versionBuild=0
+            }
             $versionRevision=0
         }
         elseif ($Build){
@@ -30,7 +43,7 @@ function Update-Version {
         elseif ($Revision){
             $versionRevision++
         }
-        [version]"$($newVersion.Major).$versionMinor.$versionBuild.$versionRevision"
+        [version]"$($versionMajor).$versionMinor.$versionBuild.$versionRevision"
     }
     
     end {
