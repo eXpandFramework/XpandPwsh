@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.37.1'
+ModuleVersion = '1.201.38.1'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -239,6 +239,7 @@ FunctionsToExport = @(
 "New-TwitterContext",
 "New-TwitterFavorite",
 "New-XAFProject",
+"New-XpandVersionConverter",
 "Out-ConditionalColor",
 "Out-Variable",
 "Out-Verbose",

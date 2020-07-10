@@ -11,7 +11,7 @@ function Get-AssemblyInfoVersion {
     }
     
     process {
-        $c = Get-Content $assemblyInfo -ErrorAction Stop 
+        $c = Get-Content $assemblyInfo.FullName -ErrorAction Stop 
         $matches = $c | Select-String 'public const string Version = \"([^\"]*)'
         if ($matches) {
             $matches[0].Matches.Groups[1].Value
