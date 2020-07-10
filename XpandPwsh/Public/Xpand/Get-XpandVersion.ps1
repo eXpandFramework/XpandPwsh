@@ -74,7 +74,16 @@ function Get-XpandVersion {
                 $revision = 1
             }
         }
-        return New-Object System.Version($baseVersion.Major, $baseVersion.Minor, $build, $revision)
+        $nextVersion= New-Object System.Version($baseVersion.Major, $baseVersion.Minor, $build, $revision)
+        if ($labVersion){
+            $Semester=1
+            if ([datetime]::Now.Month -gt 6){
+                $Semester++
+            }
+            if ($nextVersion -lt "$($nextVersion.Major).$(get-date –format yy)$Semester.0"){
+                $nextVersion=Update-Version $nextVersion -Minor -KeepBuild
+            }
+        }
     }
     if ($XpandPath) {
         $assemblyIndoName="AssemblyInfo"
