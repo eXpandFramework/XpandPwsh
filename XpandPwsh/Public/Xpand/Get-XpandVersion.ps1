@@ -80,7 +80,7 @@ function Get-XpandVersion {
             if ([datetime]::Now.Month -gt 6){
                 $Semester++
             }
-            if ($nextVersion -lt "$($nextVersion.Major).$(get-date –format yy)$Semester.0"){
+            if ($nextVersion -lt "$($nextVersion.Major).$([datetime]::Now.ToString('yy'))$Semester.0"){
                 $nextVersion=Update-Version $nextVersion -Minor -KeepBuild
             }
         }
