@@ -2,15 +2,17 @@ function Add-XmlElement {
     [CmdletBinding(DefaultParameterSetName="Parent")]
     [CmdLetTag("#dotnet")]
     param (
-        [parameter(Mandatory)]
+        [parameter(Mandatory,Position=0)]
         [System.Xml.XmlDocument]$Owner,
-        [parameter(Mandatory)]
+        [parameter(Mandatory,Position=1)]
         [string]$ElementName,
-        [parameter(Mandatory,ParameterSetName="Parent")]
+        [parameter(Mandatory,ParameterSetName="Parent",Position=2)]
         [string]$Parent,
+        [parameter(Position=3)]
         [System.Collections.Specialized.OrderedDictionary]$Attributes,
+        [parameter(Position=4)]
         [string]$InnerText,
-        [parameter(Mandatory,ParameterSetName="ParentNode")]
+        [parameter(Mandatory,ParameterSetName="ParentNode",Position=5)]
         [System.Xml.XmlElement]$ParentNode
     )
     

@@ -2,13 +2,13 @@ function Add-PackageReference {
     [CmdletBinding(DefaultParameterSetName="Project")]
     [CmdLetTag("#nuget")]
     param (
-        [parameter(Mandatory,ValueFromPipeline,ParameterSetName="Project")]
+        [parameter(Mandatory,ValueFromPipeline,ParameterSetName="Project",Position=0)]
         [xml]$Project,
-        [parameter(Mandatory,ValueFromPipeline,ParameterSetName="Project")]
-        [version]$Version,
-        [parameter(Mandatory,ValueFromPipeline)]
+        [parameter(Mandatory,ValueFromPipeline,ParameterSetName="Project",Position=2)]
+        [string]$Version,
+        [parameter(Mandatory,ValueFromPipeline,Position=1)]
         [string]$Package,
-        [parameter(ParameterSetName="Sources")]
+        [parameter(ParameterSetName="Sources",Position=1)]
         [string[]]$Source=(Get-PackageSource).Name
     )
     
@@ -35,7 +35,7 @@ function Add-PackageReference {
                 $existingPackage.version=$Version
             }
             else{
-                Add-XmlElement $Project PackageReference ItemGroup ([ordered]@{
+                Add-XmlElement  $Project PackageReference ItemGroup ([ordered]@{
                     Include = $package
                     Version = $Version
                 })   
