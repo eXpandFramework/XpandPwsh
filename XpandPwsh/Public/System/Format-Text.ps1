@@ -17,7 +17,14 @@ function Format-Text {
     }
     
     process {
-        if ($bold){
+        $regex = [regex] '(?is)[*]{2}\b[^*]*[*]{2}'
+        $callback = {
+            param($match)
+            Format-Text $match.Value.Substring(2,$match.Value.Length-4) -bold
+          }
+        $Text=$regex.Replace($Text,$callback)          
+        
+        if ($bold){ 
             $Text=($Text.ToCharArray()|ForEach-Object{
                 $c=$_
                 $index=($chars|Where-Object{$_.Value -ceq $c}).Index
