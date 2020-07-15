@@ -75,7 +75,7 @@ function Get-XpandVersion {
             }
         }
         $nextVersion= New-Object System.Version($baseVersion.Major, $baseVersion.Minor, $build, $revision)
-        if ($labVersion){
+        if ($labVersion -and ($Module -ne "eXpand*")){
             $Semester=1
             if ([datetime]::Now.Month -gt 6){
                 $Semester++
