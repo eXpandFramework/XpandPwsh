@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.201.39.1'
+ModuleVersion = '1.201.40.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -76,6 +76,7 @@ FunctionsToExport = @(
 "Add-AzBuildTag",
 "Add-GacAssembly",
 "Add-GitDiff",
+"Add-ImageAnnotation",
 "Add-NuspecDependency",
 "Add-PackageReference",
 "Add-PackageReferenceNoWarning",
@@ -182,6 +183,7 @@ FunctionsToExport = @(
 "Get-RelativePath",
 "Get-SymbolSources",
 "Get-VersionPart",
+"Get-VideoInfo",
 "Get-VSPath",
 "Get-XAFLatestMinors",
 "Get-XAFModule",
@@ -226,6 +228,7 @@ FunctionsToExport = @(
 "Invoke-Parallel",
 "Invoke-Script",
 "Join-Video",
+"Join-Video - Copy",
 "Merge-HashTables",
 "Mount-Assembly",
 "Move-PaketSource",
@@ -237,9 +240,11 @@ FunctionsToExport = @(
 "New-GitHubComment",
 "New-GithubReleaseNotes",
 "New-GithubReleaseNotesTemplate",
+"New-Image",
 "New-MacAddress",
 "New-TwitterContext",
 "New-TwitterFavorite",
+"New-Video",
 "New-XAFProject",
 "New-XpandVersionConverter",
 "Out-ConditionalColor",
@@ -281,6 +286,8 @@ FunctionsToExport = @(
 "Set-NugetCentralizeManagement",
 "Set-ProjectRestoreLockedMode",
 "Set-VsoVariable",
+"Split-GifToImages",
+"Split-Video",
 "Start-Build",
 "Start-EasyTest",
 "Start-NugetRestore",
