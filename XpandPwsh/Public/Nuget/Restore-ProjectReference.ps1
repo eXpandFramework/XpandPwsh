@@ -69,7 +69,7 @@ function Restore-ProjectReference {
             
         }
         else{
-            Write-Warning "Cannot find $outputPath\$assemblyName"
+            Write-Error "Cannot find $outputPath\$assemblyName"
         }
         $csproj|Save-Xml $Project.FullName|Out-Null
         if (!$KeepRestoreLockMode){

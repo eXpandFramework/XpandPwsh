@@ -13,14 +13,17 @@ function ConvertTo-Mp4FromGif {
         if (!(Get-Chocopackage ffmpeg)){
             Install-ChocoPackage ffmpeg
         }
-        if (!$OutputFile){
-            $OutputFile="$($GifPath.DirectoryName)\$($GifPath.BaseName).mp4"
-        }
+        
     }
     
     process {
         Invoke-Script{
+            if (!$OutputFile){
+                $OutputFile="$($GifPath.DirectoryName)\$($GifPath.BaseName).mp4"
+            }
+            Remove-Item $OutputFile -ErrorAction SilentlyContinue
             ffmpeg -i $GifPath.FullName -movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" $OutputFile
+            Get-Item $OutputFile
         }
     }
     

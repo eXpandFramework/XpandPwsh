@@ -38,6 +38,5 @@ function Join-Video {
             Pop-Location
         }
         $files|Remove-Item -ErrorAction SilentlyContinue
-        Get-Item $OutputFile
     }
 }
