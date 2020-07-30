@@ -26,7 +26,7 @@ function Split-Video{
             $partTime=[timespan]::FromSeconds((Get-VideoInfo -video $Video).duration/$parts)
             $Segment="{0:hh\:mm\:ss}" -f ([TimeSpan] $partTime)
             ffmpeg -i $Video.Name -c copy -map 0 -segment_time $Segment -f segment "$($Video.BaseName)%03d$($Video.Extension)"
-            Get-ChildItem "$($Video.BaseName)*$($Video.Extension)"
+            Get-ChildItem "$($Video.BaseName)*$($Video.Extension)"|Select-Object -Skip 1
             
         }
         else{
