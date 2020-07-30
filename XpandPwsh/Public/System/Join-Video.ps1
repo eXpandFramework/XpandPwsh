@@ -32,12 +32,14 @@ function Join-Video {
     
     end {
         Remove-Item $OutputFile -ErrorAction SilentlyContinue
+        Push-Location (Get-Item $Video|Select-Object -First 1).DirectoryName
         Invoke-Script{
-            Push-Location (Get-Item $Video|Select-Object -First 1).DirectoryName
+            
             ffmpeg -i "concat:$(($files|Join-String -Separator '|'))" -c copy -bsf:a aac_adtstoasc $OutputFile
-            Pop-Location
+            
         }
         $files|Remove-Item -ErrorAction SilentlyContinue
         Get-Item $OutputFile
+        Pop-Location
     }
 }
