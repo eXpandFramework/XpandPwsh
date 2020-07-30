@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.202.40.6'
+ModuleVersion = '1.202.40.7'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -228,7 +228,6 @@ FunctionsToExport = @(
 "Invoke-Parallel",
 "Invoke-Script",
 "Join-Video",
-"Join-Video - Copy",
 "Merge-HashTables",
 "Mount-Assembly",
 "Move-PaketSource",
