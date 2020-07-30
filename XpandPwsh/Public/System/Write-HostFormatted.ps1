@@ -51,10 +51,16 @@ function Write-HostFormatted {
             }
             $directive+=$Object
             if ($Style -eq "Frame"){
-                $directive|ConvertTo-FramedText
+                $directive|ConvertTo-FramedText -Stream $Stream
             }
             else {
-                $directive
+                if ($Stream -eq "Verbose"){
+                    $directive|Write-Verbose
+                }
+                else {
+                    $directive
+                }
+                
             }
             return
         }
