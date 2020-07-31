@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.202.40.11'
+ModuleVersion = '1.202.40.12'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -75,7 +75,6 @@ FunctionsToExport = @(
 "Add-AzBuild",
 "Add-AzBuildTag",
 "Add-GacAssembly",
-"Optimize-Gif",
 "Add-GitDiff",
 "Add-ImageAnnotation",
 "Add-NuspecDependency",
@@ -247,6 +246,7 @@ FunctionsToExport = @(
 "New-Video",
 "New-XAFProject",
 "New-XpandVersionConverter",
+"Optimize-Gif",
 "Out-ConditionalColor",
 "Out-Variable",
 "Out-Verbose",
