@@ -75,6 +75,7 @@ FunctionsToExport = @(
 "Add-AzBuild",
 "Add-AzBuildTag",
 "Add-GacAssembly",
+"Optimize-Gif",
 "Add-GitDiff",
 "Add-ImageAnnotation",
 "Add-NuspecDependency",
