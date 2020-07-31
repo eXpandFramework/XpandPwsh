@@ -29,7 +29,7 @@ function Join-Video {
             $format=[System.IO.Path]::GetExtension($outputFile).Substring(1)
             Remove-Item $outputFile -ErrorAction SilentlyContinue
             
-            $e+="-filter_complex concat=n=$($e.Length-1):v=1:a=0"
+            $e+="-filter_complex concat=n=$($e.Length):v=1:a=0"
             $e+="-f $format"
             $e+="-vn"
             $e+="-y"
