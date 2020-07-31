@@ -25,7 +25,20 @@ function Split-Video{
         if ($Parts){
             $partTime=[timespan]::FromSeconds((Get-VideoInfo -video $Video).duration/$parts)
             $Segment="{0:hh\:mm\:ss}" -f ([TimeSpan] $partTime)
-            ffmpeg -i $Video.Name -c copy -segment_time $Segment -f segment "$($Video.BaseName)%03d$($Video.Extension)"
+            $startTime=([TimeSpan]::Zero)
+            
+            if ($Video.Extension -match "Gif" ){
+                $filters="scale=-1:-1:flags=lanczos"
+                $palette="$env:TEMP\palette.png"
+                for ($i = 0; $i -lt $Parts; $i++) {
+                    ffmpeg -i $Video.Name -i $palette -lavfi "$filters,paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle" -ss ("{0:hh\:mm\:ss}" -f ([TimeSpan] $startTime)) -t $Segment -async 1 -y "$($Video.BaseName)$i$($Video.Extension)" 
+                    $startTime+=$Segment
+                }
+            }
+            else{
+                ffmpeg -i $Video.Name -c copy -segment_time $Segment -f segment "$($Video.BaseName)%03d$($Video.Extension)"
+            }
+            
             Get-ChildItem "$($Video.BaseName)*$($Video.Extension)"|Select-Object -Skip 1
             
         }
