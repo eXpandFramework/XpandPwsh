@@ -34,41 +34,43 @@ function Get-XpandPackages {
                 $_.Id -notlike "eXpand*"
             }
         }
-        try {
-            $c=New-Object System.Net.WebClient
-            ($c.DownloadString("https://xpandnugetstats.azurewebsites.net/api/totals/packages?packagesource=xpand")|ConvertFrom-Json|ForEach-Object{
-                $_|ForEach-Object{
-                    [PSCustomObject]@{
-                        Id = $_.Id
-                        Version=[version]$_.Version
-                        Source="Lab"
+        Invoke-Script -Maximum 3 -RetryInterval 3 -Script {
+            try {
+                $c=New-Object System.Net.WebClient
+                ($c.DownloadString("https://xpandnugetstats.azurewebsites.net/api/totals/packages?packagesource=xpand")|ConvertFrom-Json|ForEach-Object{
+                    $_|ForEach-Object{
+                        [PSCustomObject]@{
+                            Id = $_.Id
+                            Version=[version]$_.Version
+                            Source="Lab"
+                        }
                     }
-                }
-            })+($c.DownloadString("https://xpandnugetstats.azurewebsites.net/api/totals/packages?packagesource=Nuget")|ConvertFrom-Json|ForEach-Object{
-                $_|ForEach-Object{
-                    [PSCustomObject]@{
-                        Id = $_.Id
-                        Version=[version]$_.Version
-                        Source="Release"
+                })+($c.DownloadString("https://xpandnugetstats.azurewebsites.net/api/totals/packages?packagesource=Nuget")|ConvertFrom-Json|ForEach-Object{
+                    $_|ForEach-Object{
+                        [PSCustomObject]@{
+                            Id = $_.Id
+                            Version=[version]$_.Version
+                            Source="Release"
+                        }
                     }
+                })|Where-Object{
+                    (& $Filter) -and $_.Source -eq $Source
                 }
-            })|Where-Object{
-                (& $Filter) -and $_.Source -eq $Source
+                $c.Dispose()
             }
-            $c.Dispose()
-        }
-        catch {
-            $nuget = Get-NugetPath
-            if (($Source -eq "Release") -or !$Source) {
-                $query = & $nuget List author:eXpandFramework -source (Get-PackageFeed -Nuget)
-            $_
-            }
-            else {
-                $query = & $nuget List -source (Get-PackageFeed -Xpand)
-            }
-            $filter.split(";") | ForEach-Object {
-                $f = $_
-                $query | Where-Object { $_ -like $f } | ConvertTo-PackageObject
+            catch {
+                $nuget = Get-NugetPath
+                if (($Source -eq "Release") -or !$Source) {
+                    $query = & $nuget List author:eXpandFramework -source (Get-PackageFeed -Nuget)
+                $_
+                }
+                else {
+                    $query = & $nuget List -source (Get-PackageFeed -Xpand)
+                }
+                $filter.split(";") | ForEach-Object {
+                    $f = $_
+                    $query | Where-Object { $_ -like $f } | ConvertTo-PackageObject
+                }
             }
         }
         
