@@ -19,14 +19,12 @@ function ConvertTo-GifFromMp4 {
     }
     
     process {
-        Invoke-Script{
-            if (!$OutputFile){
-                $OutputFile="$($Mp4Path.DirectoryName)\$($Mp4Path.BaseName).gif"
-            }
-            Remove-Item $OutputFile -ErrorAction SilentlyContinue
-            invoke-scrippt{ffmpeg -i $Mp4Path -vf "fps=$frameRate,scale=$Width`:-1:flags=lanczos" $OutputFile -v warning}
-            Get-Item $OutputFile
+        if (!$OutputFile){
+            $OutputFile="$($Mp4Path.DirectoryName)\$($Mp4Path.BaseName).gif"
         }
+        Remove-Item $OutputFile -ErrorAction SilentlyContinue
+        Invoke-Script{ffmpeg -i $Mp4Path -vf "fps=$frameRate,scale=$Width`:-1:flags=lanczos" $OutputFile -v warning}
+        Get-Item $OutputFile
     }
     
     end {
