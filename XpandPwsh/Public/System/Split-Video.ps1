@@ -1,4 +1,6 @@
-[CmdletBinding()]
+function Split-Video{
+    [CmdletBinding()]
+    [CmdLetTag()]
 
     param (
         [parameter(Mandatory,ValueFromPipeline)]
@@ -13,7 +15,7 @@
     )
     
     begin {
-
+        $PSCmdlet|Write-PSCmdLetBegin
         if (!(Get-Chocopackage ffmpeg)){
             Install-ChocoPackage ffmpeg
         }
@@ -51,3 +53,4 @@
     end {
         
     }
+}
