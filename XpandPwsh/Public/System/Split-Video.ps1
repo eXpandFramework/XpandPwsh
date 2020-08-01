@@ -1,6 +1,5 @@
-function Split-Video{
-    [CmdletBinding()]
-    [CmdLetTag()]
+[CmdletBinding()]
+
     param (
         [parameter(Mandatory,ValueFromPipeline)]
         [System.IO.FileInfo]$Video,
@@ -14,7 +13,7 @@ function Split-Video{
     )
     
     begin {
-        $PSCmdlet|Write-PSCmdLetBegin
+
         if (!(Get-Chocopackage ffmpeg)){
             Install-ChocoPackage ffmpeg
         }
@@ -30,8 +29,9 @@ function Split-Video{
             if ($Video.Extension -match "Gif" ){
                 $filters="scale=-1:-1:flags=lanczos"
                 $palette="$env:TEMP\palette.png"
+                Invoke-Script{ffmpeg -v warning -i $Video.FullName -vf "$filters,palettegen=stats_mode=diff" -y $palette}
                 for ($i = 0; $i -lt $Parts; $i++) {
-                    ffmpeg -i $Video.Name -i $palette -lavfi "$filters,paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle" -ss ("{0:hh\:mm\:ss}" -f ([TimeSpan] $startTime)) -t $Segment -async 1 -y "$($Video.BaseName)$i$($Video.Extension)" 
+                    Invoke-Script{ffmpeg -i $Video.Name -i $palette -lavfi "$filters,paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle" -ss ("{0:hh\:mm\:ss}" -f ([TimeSpan] $startTime)) -t $Segment -async 1 -y "$($Video.BaseName)$i$($Video.Extension)" }
                     $startTime+=$Segment
                 }
             }
@@ -43,11 +43,7 @@ function Split-Video{
             
         }
         else{
-            Invoke-Script{
-                $endtime=$startTime+$partTime
-                ffmpeg -i $Video.Name -ss $From -to $To -c copy output.mp4
-                $startTime+=$partTime
-            }
+            Invoke-Script{ffmpeg -i $Video.Name -ss $From -to $To -c copy output.mp4}
         }
         Pop-Location
     }
@@ -55,4 +51,3 @@ function Split-Video{
     end {
         
     }
-}
