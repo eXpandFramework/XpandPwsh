@@ -24,7 +24,7 @@ function ConvertTo-GifFromMp4 {
                 $OutputFile="$($Mp4Path.DirectoryName)\$($Mp4Path.BaseName).gif"
             }
             Remove-Item $OutputFile -ErrorAction SilentlyContinue
-            ffmpeg -i $Mp4Path -vf "fps=$frameRate,scale=$Width`:-1:flags=lanczos" $OutputFile
+            invoke-scrippt{ffmpeg -i $Mp4Path -vf "fps=$frameRate,scale=$Width`:-1:flags=lanczos" $OutputFile -v warning}
             Get-Item $OutputFile
         }
     }

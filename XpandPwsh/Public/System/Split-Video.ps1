@@ -33,7 +33,7 @@ function Split-Video{
                 $palette="$env:TEMP\palette.png"
                 Invoke-Script{ffmpeg -v warning -i $Video.FullName -vf "$filters,palettegen=stats_mode=diff" -y $palette}
                 for ($i = 0; $i -lt $Parts; $i++) {
-                    Invoke-Script{ffmpeg -i $Video.Name -i $palette -lavfi "$filters,paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle" -ss ("{0:hh\:mm\:ss}" -f ([TimeSpan] $startTime)) -t $Segment -async 1 -y "$($Video.BaseName)$i$($Video.Extension)" }
+                    Invoke-Script{ffmpeg -i $Video.Name -i $palette -lavfi "$filters,paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle" -ss ("{0:hh\:mm\:ss}" -f ([TimeSpan] $startTime)) -t $Segment -async 1 -v warning -y "$($Video.BaseName)$i$($Video.Extension)" }
                     $startTime+=$Segment
                 }
             }

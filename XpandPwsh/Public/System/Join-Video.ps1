@@ -30,7 +30,7 @@ function Join-Video {
         $format=[System.IO.Path]::GetExtension($outputFile).Substring(1)
         Remove-Item $outputFile -ErrorAction SilentlyContinue
         if ($format -eq "Gif" -and  ((Get-Item ($e|Select-Object -First 1)).extension -eq ".Gif")){
-            gifsicle --merge @e -o $outputFile --colors 256
+            Invoke-Script{gifsicle --merge @e -o $outputFile --colors 256}
         }
         else{
             $e+="-filter_complex `"concat=n=$($e.Length):v=1:a=0`""
