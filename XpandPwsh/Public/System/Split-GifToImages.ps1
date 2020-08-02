@@ -21,7 +21,8 @@ function Split-GifToImages{
             New-Item $GifPath.BaseName -ItemType Directory -ErrorAction SilentlyContinue
             Copy-Item $GifPath $GifPath.BaseName
             Push-Location $GifPath.BaseName
-            ffmpeg -i $GifPath.Name -vsync 0 "$($GifPath.BaseName)%d.png"
+            
+            Invoke-Script{ffmpeg -i $GifPath.Name -hide_banner -loglevel panic -vsync 0 "$($GifPath.BaseName)%d.png"}
             Get-ChildItem "$($GifPath.BaseName)*.png"
             Pop-Location
             Pop-Location

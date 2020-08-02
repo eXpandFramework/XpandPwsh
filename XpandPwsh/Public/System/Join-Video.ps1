@@ -37,14 +37,13 @@ function Join-Video {
             $e+="-f $format"
             $e+="-vn"
             $e+="-y"
-            
+            $e+="-hide_banner"
+            $e+="-loglevel panic"
             $e+=$outputFile
-            
             Start-Process ffmpeg.exe $e -WorkingDirectory (Get-Location) -NoNewWindow -Wait
         }
         
         Get-Item $OutputFile
         Pop-Location
-        
     }
 }

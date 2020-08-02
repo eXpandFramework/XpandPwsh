@@ -22,7 +22,8 @@ function ConvertTo-Mp4FromGif {
                 $OutputFile="$($GifPath.DirectoryName)\$($GifPath.BaseName).mp4"
             }
             Remove-Item $OutputFile -ErrorAction SilentlyContinue
-            ffmpeg -i $GifPath.FullName -movflags faststart -pix_fmt yuv420p $OutputFile
+             
+            Invoke-Script{ffmpeg -i $GifPath.FullName -movflags faststart -pix_fmt yuv420p -hide_banner -loglevel panic $OutputFile}
             Get-Item $OutputFile
         }
     }
