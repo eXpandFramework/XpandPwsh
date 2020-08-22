@@ -63,6 +63,9 @@ function InstallXpand {
         }
         Write-Host "$Version is a $repo version" -f Green
     }
+    if (([version]$Version) -gt "20.1.602.4"){
+        throw "The Nuget.org is the only ditribution channel starting from v20.1.602.4"
+    }
     if ($release.Revision -eq -1){
         $release=New-Object System.Version("$release.0")
     }

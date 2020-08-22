@@ -17,15 +17,13 @@ function ConvertTo-Mp4FromGif {
     }
     
     process {
-        Invoke-Script{
-            if (!$OutputFile){
-                $OutputFile="$($GifPath.DirectoryName)\$($GifPath.BaseName).mp4"
-            }
-            Remove-Item $OutputFile -ErrorAction SilentlyContinue
-             
-            Invoke-Script{ffmpeg -i $GifPath.FullName -movflags faststart -pix_fmt yuv420p -hide_banner -loglevel panic $OutputFile}
-            Get-Item $OutputFile
+        if (!$OutputFile){
+            $OutputFile="$($GifPath.DirectoryName)\$($GifPath.BaseName).mp4"
         }
+        Remove-Item $OutputFile -ErrorAction SilentlyContinue
+         
+        Invoke-Script{ffmpeg -f gif -loglevel panic -i $GifPath.FullName -y -hide_banner  $OutputFile}
+        Get-Item $OutputFile
     }
     
     end {
