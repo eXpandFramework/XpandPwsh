@@ -58,9 +58,10 @@ function InstallXpand {
         if ($systemVersion.Revision -gt 0){
             $repo="eXpand.lab"
         }
-        if ($systemVersion.Revision -eq -1 -or $systemVersion.Revision -eq 0){
+        if ($systemVersion.Revision -eq -1){
             $Version+=".0"
         }
+        $release=$Version
         Write-Host "$Version is a $repo version" -f Green
     }
     if (([version]$Version) -gt "20.1.602.4"){
