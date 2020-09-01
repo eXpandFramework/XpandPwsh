@@ -8,7 +8,8 @@ function Restore-ProjectReference {
         [string]$NameMatch,
         [System.IO.DirectoryInfo[]]$AssembliesPath,
         [switch]$KeepRestoreLockMode,
-        [switch]$SkipResolve
+        [switch]$SkipResolve,
+        [string]$Configuration="Debug"
     )
     
     begin {
@@ -24,13 +25,16 @@ function Restore-ProjectReference {
             }
             $allAssemblies=$assembliesDictionnary.Values|Get-Item
         }
+        $env:configuration=$Configuration
     }
     
     process {
         Get-Variable Project|Out-Variable
         Remove-PackageReference  $Project $NameMatch|Out-Null
         [xml]$csproj=Get-XmlContent $Project.FullName
-        $outputPath=[System.IO.Path]::GetFullPath("$($Project.DirectoryName)\$($csproj.Project.PropertyGroup.OutputPath|Select-Object -First 1)")
+        $msBuildProject= Read-MSBuildProject $Project.FullName
+        $outputPath=[System.IO.Path]::Combine($Project.DirectoryName,(($msBuildProject.AllEvaluatedProperties|Where-Object{$_.name -eq "outputpath"})|Select-Object -Last 1).EvaluatedValue)
+        
         Get-Variable outputPath|Out-Variable
         $extension=".dll"
         if ($csproj.Project.PropertyGroup.OutputType -like "*exe*"){
@@ -72,6 +76,7 @@ function Restore-ProjectReference {
             Write-Error "Cannot find $outputPath\$assemblyName"
         }
         $csproj|Save-Xml $Project.FullName|Out-Null
+        Clear-ProjectDirectories $Project.DirectoryName
         if (!$KeepRestoreLockMode){
             Set-ProjectRestoreLockedMode $Project $false
         }
