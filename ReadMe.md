@@ -4,7 +4,7 @@
 
 
 # About
-The module exports **275 Cmdlets** that can help you automate your every day tasks. The module is used in production from the eXpandFramework [build scripts](https://github.com/eXpandFramework/eXpand/blob/master/Support/Build/Build.ps1) and [Azure Tasks](https://github.com/eXpandFramework/Azure-Tasks).
+The module exports **286 Cmdlets** that can help you automate your every day tasks. The module is used in production from the eXpandFramework [build scripts](https://github.com/eXpandFramework/eXpand/blob/master/Support/Build/Build.ps1) and [Azure Tasks](https://github.com/eXpandFramework/Azure-Tasks).
 
 In this page you can see a list of all Cmdlets with a short description. For details and real world examples search the [Wiki](https://github.com/eXpandFramework/XpandPwsh/wiki).
 ## Installation
@@ -28,6 +28,7 @@ Get-XPwshHelp Get-XPwshHelp #alias gxh
 |[Add-AzBuildTag](https://github.com/eXpandFramework/XpandPwsh/wiki/Add-AzBuildTag)|Tag an AzureDevOps Build.|
 |[Add-GacAssembly](https://github.com/eXpandFramework/XpandPwsh/wiki/Add-GacAssembly)|Install assembly into the Global Assembly Cache.|
 |[Add-GitDiff](https://github.com/eXpandFramework/XpandPwsh/wiki/Add-GitDiff)|State git files using a filter.|
+|[Add-ImageAnnotation](https://github.com/eXpandFramework/XpandPwsh/wiki/Add-ImageAnnotation)|Annotate an image.|
 |[Add-NuspecDependency](https://github.com/eXpandFramework/XpandPwsh/wiki/Add-NuspecDependency)|Adds a dependency to a Nuspec file.|
 |[Add-PackageReference](https://github.com/eXpandFramework/XpandPwsh/wiki/Add-PackageReference)|Adds PackageReference to an MSBuild project.|
 |[Add-PackageReferenceNoWarning](https://github.com/eXpandFramework/XpandPwsh/wiki/Add-PackageReferenceNoWarning)|Filter out warnings for a PackageReference.|
@@ -35,7 +36,7 @@ Get-XPwshHelp Get-XPwshHelp #alias gxh
 |[Add-ProjectReference](https://github.com/eXpandFramework/XpandPwsh/wiki/Add-ProjectReference)|Add assembly reference to an MSBuild project.|
 |[Add-XmlElement](https://github.com/eXpandFramework/XpandPwsh/wiki/Add-XmlElement)|Add an XmlElement to an XmlDocument.|
 |[Approve-LastExitCode](https://github.com/eXpandFramework/XpandPwsh/wiki/Approve-LastExitCode)|Throws if $lastExitCode is not zero.|
-|[Checkpoint-GitHubIssue](https://github.com/eXpandFramework/XpandPwsh/wiki/Checkpoint-GitHubIssue)|Adds unique comments to a GitHub issue containing templated info from related commits.|
+|[Checkpoint-GitHubIssue](https://github.com/eXpandFramework/XpandPwsh/wiki/Checkpoint-GitHubIssue)|Adds unique comments to a GitHub issue containing template info from related commits.|
 |[Clear-AspNetTemp](https://github.com/eXpandFramework/XpandPwsh/wiki/Clear-AspNetTemp)|Clears ASP.Net temp folders.|
 |[Clear-AzStorageBlob](https://github.com/eXpandFramework/XpandPwsh/wiki/Clear-AzStorageBlob)|Clear an Azure Blob Container.|
 |[Clear-DotNetSdkFallBackFolder](https://github.com/eXpandFramework/XpandPwsh/wiki/Clear-DotNetSdkFallBackFolder)|Clears the NugetFallbackFolders|
@@ -49,9 +50,11 @@ Get-XPwshHelp Get-XPwshHelp #alias gxh
 |[ConvertTo-Dictionary](https://github.com/eXpandFramework/XpandPwsh/wiki/ConvertTo-Dictionary)|Converts a pipeline to a dictionary.|
 |[ConvertTo-Directory](https://github.com/eXpandFramework/XpandPwsh/wiki/ConvertTo-Directory)|Convert path to directory.|
 |[ConvertTo-FramedText](https://github.com/eXpandFramework/XpandPwsh/wiki/ConvertTo-FramedText)|Formats text with a customizable frame.|
+|[ConvertTo-GifFromMp4](https://github.com/eXpandFramework/XpandPwsh/wiki/ConvertTo-GifFromMp4)|Converts an mp4 to Gif.|
 |[ConvertTo-HttpQueryString](https://github.com/eXpandFramework/XpandPwsh/wiki/ConvertTo-HttpQueryString)|Converts a Hastable to an HttpQueryString.|
-|[ConvertTo-Image](https://github.com/eXpandFramework/XpandPwsh/wiki/ConvertTo-Image)|{{ Fill in the Synopsis }}|
+|[ConvertTo-Image](https://github.com/eXpandFramework/XpandPwsh/wiki/ConvertTo-Image)|Converts text to image with additional support for markdown.|
 |[ConvertTo-Indexed](https://github.com/eXpandFramework/XpandPwsh/wiki/ConvertTo-Indexed)|Index a pipeline output.|
+|[ConvertTo-Mp4FromGif](https://github.com/eXpandFramework/XpandPwsh/wiki/ConvertTo-Mp4FromGif)|Converts a gif to mp4|
 |[ConvertTo-Object](https://github.com/eXpandFramework/XpandPwsh/wiki/ConvertTo-Object)|{{ Fill in the Synopsis }}|
 |[ConvertTo-PackageObject](https://github.com/eXpandFramework/XpandPwsh/wiki/ConvertTo-PackageObject)|Converts nuget.exe commands output.|
 |[ConvertTo-PackageSourceLocation](https://github.com/eXpandFramework/XpandPwsh/wiki/ConvertTo-PackageSourceLocation)|Finds the location of a package source registered in global Nuget.config using its name.|
@@ -61,9 +64,11 @@ Get-XPwshHelp Get-XPwshHelp #alias gxh
 |[Find-NugetPackage](https://github.com/eXpandFramework/XpandPwsh/wiki/Find-NugetPackage)|Fast Nuget.org lookup.|
 |[Find-NugetPackageInstallationFolder](https://github.com/eXpandFramework/XpandPwsh/wiki/Find-NugetPackageInstallationFolder)|Finds the installation path of a nuget package out of a predefined set of directories.|
 |[Find-PaketRefs](https://github.com/eXpandFramework/XpandPwsh/wiki/Find-PaketRefs)|Paket references lookup.|
+|[Find-Tweet](https://github.com/eXpandFramework/XpandPwsh/wiki/Find-Tweet)|{{ Fill in the Synopsis }}|
+|[Find-TwitterUser](https://github.com/eXpandFramework/XpandPwsh/wiki/Find-TwitterUser)|{{ Fill in the Synopsis }}|
 |[Find-XpandNugetPackage](https://github.com/eXpandFramework/XpandPwsh/wiki/Find-XpandNugetPackage)|Finds only eXpandFramework packages.|
 |[Find-XpandPackage](https://github.com/eXpandFramework/XpandPwsh/wiki/Find-XpandPackage)|Find eXpandFrameoWork only packages.|
-|[Format-Text](https://github.com/eXpandFramework/XpandPwsh/wiki/Format-Text)|{{ Fill in the Synopsis }}|
+|[Format-Shuffle](https://github.com/eXpandFramework/XpandPwsh/wiki/Format-Shuffle)|Shuffle a list|
 |[Format-Xml](https://github.com/eXpandFramework/XpandPwsh/wiki/Format-Xml)|Pretty-print formatted XML source|
 |[Get-Assembly](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-Assembly)|Checks if ASsembly is loaded to the AppDomain.|
 |[Get-AssemblyInfoVersion](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-AssemblyInfoVersion)|Returns the version of an AssemblyInfo.cs|
@@ -71,6 +76,7 @@ Get-XPwshHelp Get-XPwshHelp #alias gxh
 |[Get-AssemblyPublicKey](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-AssemblyPublicKey)|Returns the PublicKey of an Assembly.|
 |[Get-AssemblyPublicKeyToken](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-AssemblyPublicKeyToken)|Returns the PublicKeyToken of an Assembly.|
 |[Get-AssemblyReference](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-AssemblyReference)|Lists Assembly references.|
+|[Get-AssemblyTargetFramework](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-AssemblyTargetFramework)|Returns the assembly target framework.|
 |[Get-AssemblyVersion](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-AssemblyVersion)|Returns the Assembly Version.|
 |[Get-AzArtifact](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-AzArtifact)|Download AzureDevOps Build artifacts.|
 |[Get-AzBuildChanges](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-AzBuildChanges)|Download AzureDevOps Build artifacts.|
@@ -92,6 +98,7 @@ Get-XPwshHelp Get-XPwshHelp #alias gxh
 |[Get-GacAssemblyFile](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-GacAssemblyFile)|{{ Fill in the Synopsis }}|
 |[Get-GacAssemblyInstallReference](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-GacAssemblyInstallReference)|{{ Fill in the Synopsis }}|
 |[Get-GitDiff](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-GitDiff)|{{ Fill in the Synopsis }}|
+|[Get-GitFile](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-GitFile)|Returns a git repository files respecting a filter.|
 |[Get-GitHubClient](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-GitHubClient)|{{ Fill in the Synopsis }}|
 |[Get-GitHubCommitIssue](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-GitHubCommitIssue)|Lists all GitHub issues that related to a commit.|
 |[Get-GitHubIssue](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-GitHubIssue)|List Github issues for a repository.|
@@ -126,8 +133,8 @@ Get-XPwshHelp Get-XPwshHelp #alias gxh
 |[Get-ReferenceConflict](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-ReferenceConflict)|List all reference conflicts for a list of assemblies.|
 |[Get-RelativePath](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-RelativePath)|Returns the relative path needed to move from one location to another.|
 |[Get-SymbolSources](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-SymbolSources)|List the sources of a symbol (*.pdb)|
-|[Get-TwitterUser](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-TwitterUser)|{{ Fill in the Synopsis }}|
 |[Get-VersionPart](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-VersionPart)|Version formatting|
+|[Get-VideoInfo](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-VideoInfo)|Returns video details.|
 |[Get-VSPath](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-VSPath)|Returns Visual Studio location.|
 |[Get-XAFLatestMinors](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-XAFLatestMinors)|List latest XAF minor versions.|
 |[Get-XAFModule](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-XAFModule)|List XAF module c# classes in all assemblies in a folder.|
@@ -149,11 +156,15 @@ Get-XPwshHelp Get-XPwshHelp #alias gxh
 |[Get-XpwshHelp](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-XpwshHelp)|Navigates to the online wiki page.|
 |[Import-Class](https://github.com/eXpandFramework/XpandPwsh/wiki/Import-Class)|Imports a Powershell class.|
 |[Install-Chocolatey](https://github.com/eXpandFramework/XpandPwsh/wiki/Install-Chocolatey)|{{ Fill in the Synopsis }}|
+|[Install-ChocoPackage](https://github.com/eXpandFramework/XpandPwsh/wiki/Install-ChocoPackage)|Installs chocolatey and the package if not already installed.|
 |[Install-DebugOptimizationHook](https://github.com/eXpandFramework/XpandPwsh/wiki/Install-DebugOptimizationHook)|Installs system wide hook for disabling debugging optimizations|
+|[Install-ImageMagic](https://github.com/eXpandFramework/XpandPwsh/wiki/Install-ImageMagic)|Installs the ImageMagic/Ghostscript libraries and returns the executable path.|
+|[Install-NpmPackage](https://github.com/eXpandFramework/XpandPwsh/wiki/Install-NpmPackage)|Installs nodejs and the package.|
 |[Install-NugetPackage](https://github.com/eXpandFramework/XpandPwsh/wiki/Install-NugetPackage)|Install a Nuget package along with its dependencies.|
 |[Install-SubModule](https://github.com/eXpandFramework/XpandPwsh/wiki/Install-SubModule)|{{ Fill in the Synopsis }}|
 |[Install-Xpand](https://github.com/eXpandFramework/XpandPwsh/wiki/Install-Xpand)|This is the eXpandFramework main installer.|
 |[Invoke-AzureRestMethod](https://github.com/eXpandFramework/XpandPwsh/wiki/Invoke-AzureRestMethod)|Invokes Azure DevOps REST API|
+|[Invoke-NugetPack](https://github.com/eXpandFramework/XpandPwsh/wiki/Invoke-NugetPack)|Packs a nuspec file.|
 |[Invoke-PaketAdd](https://github.com/eXpandFramework/XpandPwsh/wiki/Invoke-PaketAdd)|Adds a package with Paket.|
 |[Invoke-PaketClearCache](https://github.com/eXpandFramework/XpandPwsh/wiki/Invoke-PaketClearCache)|Clears all Paket caches for a repository.|
 |[Invoke-PaketConvertFromNuget](https://github.com/eXpandFramework/XpandPwsh/wiki/Invoke-PaketConvertFromNuget)|Converts all projects under a folder to Paket usage instead of Nuget.|
@@ -167,21 +178,26 @@ Get-XPwshHelp Get-XPwshHelp #alias gxh
 |[Invoke-PaketUpdate](https://github.com/eXpandFramework/XpandPwsh/wiki/Invoke-PaketUpdate)|Update Paket dependencies to their latest version.|
 |[Invoke-Parallel](https://github.com/eXpandFramework/XpandPwsh/wiki/Invoke-Parallel)|Invokes tasks in parallel.|
 |[Invoke-Script](https://github.com/eXpandFramework/XpandPwsh/wiki/Invoke-Script)|Invokes a Powershell script with retry options.|
+|[Join-Video](https://github.com/eXpandFramework/XpandPwsh/wiki/Join-Video)|Joins multiple video files.|
 |[Merge-HashTables](https://github.com/eXpandFramework/XpandPwsh/wiki/Merge-HashTables)|Merge HashTables.|
 |[Mount-Assembly](https://github.com/eXpandFramework/XpandPwsh/wiki/Mount-Assembly)|Loads a .NET/.NETCore assembly into the AppDomain.|
 |[Move-PaketSource](https://github.com/eXpandFramework/XpandPwsh/wiki/Move-PaketSource)|Replaces a Paket source in a paket.dependecy file.|
 |[New-Assembly](https://github.com/eXpandFramework/XpandPwsh/wiki/New-Assembly)|Creates a new assembly.|
 |[New-AssemblyResolver](https://github.com/eXpandFramework/XpandPwsh/wiki/New-AssemblyResolver)|Creates a Mono.Cecil Assembly Resolver.|
-|[New-Command](https://github.com/eXpandFramework/XpandPwsh/wiki/New-Command)|Uses an external processs to execute a command and captures the output.|
+|[New-Command](https://github.com/eXpandFramework/XpandPwsh/wiki/New-Command)|Uses an external process to execute a command and captures the output.|
 |[New-GacAssemblyInstallReference](https://github.com/eXpandFramework/XpandPwsh/wiki/New-GacAssemblyInstallReference)|{{ Fill in the Synopsis }}|
 |[New-GenericObject](https://github.com/eXpandFramework/XpandPwsh/wiki/New-GenericObject)|Create .Net Generic Objects.|
 |[New-GitHubComment](https://github.com/eXpandFramework/XpandPwsh/wiki/New-GitHubComment)|Post a comment to a GitHub issue|
 |[New-GithubReleaseNotes](https://github.com/eXpandFramework/XpandPwsh/wiki/New-GithubReleaseNotes)|Generates GitHub Release notes.|
 |[New-GithubReleaseNotesTemplate](https://github.com/eXpandFramework/XpandPwsh/wiki/New-GithubReleaseNotesTemplate)|{{ Fill in the Synopsis }}|
+|[New-Image](https://github.com/eXpandFramework/XpandPwsh/wiki/New-Image)|Creates a new image file.|
 |[New-MacAddress](https://github.com/eXpandFramework/XpandPwsh/wiki/New-MacAddress)|Generates a new MacAddress.|
-|[New-TwitterContext](https://github.com/eXpandFramework/XpandPwsh/wiki/New-TwitterContext)|{{ Fill in the Synopsis }}|
-|[New-TwitterFavorite](https://github.com/eXpandFramework/XpandPwsh/wiki/New-TwitterFavorite)|{{ Fill in the Synopsis }}|
+|[New-TwitterContext](https://github.com/eXpandFramework/XpandPwsh/wiki/New-TwitterContext)|Twitter authentication.|
+|[New-TwitterFavorite](https://github.com/eXpandFramework/XpandPwsh/wiki/New-TwitterFavorite)|Favorite a tweet.|
+|[New-Video](https://github.com/eXpandFramework/XpandPwsh/wiki/New-Video)|Creates a new video out of an image.|
 |[New-XAFProject](https://github.com/eXpandFramework/XpandPwsh/wiki/New-XAFProject)|Creates a new XAF MSBuild project/solution In SDK format.|
+|[New-XpandVersionConverter](https://github.com/eXpandFramework/XpandPwsh/wiki/New-XpandVersionConverter)|Generates the Xpand.VersionConverter nuget package that will make your packages version agnostic.|
+|[Optimize-Gif](https://github.com/eXpandFramework/XpandPwsh/wiki/Optimize-Gif)|Generates the Xpand.VersionConverter nuget package that will make your packages version agnostic.|
 |[Out-ConditionalColor](https://github.com/eXpandFramework/XpandPwsh/wiki/Out-ConditionalColor)|Display colorized pipelined output.|
 |[Out-Variable](https://github.com/eXpandFramework/XpandPwsh/wiki/Out-Variable)|Output a variable name and value into the verbose stream.|
 |[Out-Verbose](https://github.com/eXpandFramework/XpandPwsh/wiki/Out-Verbose)|Colored verbose stream output.|
@@ -207,17 +223,22 @@ Get-XPwshHelp Get-XPwshHelp #alias gxh
 |[Remove-ProjectInvalidItems](https://github.com/eXpandFramework/XpandPwsh/wiki/Remove-ProjectInvalidItems)|Evaluates the MSBuild using Microsoft.Build.Framework and removes invalid items (Imports, Analyzers etc).|
 |[Remove-ProjectLicenseFile](https://github.com/eXpandFramework/XpandPwsh/wiki/Remove-ProjectLicenseFile)|Removes licx files from a VS project.|
 |[Remove-ProjectReferences](https://github.com/eXpandFramework/XpandPwsh/wiki/Remove-ProjectReferences)|Removes MSBuild project references.|
+|[Remove-TwitterFavorite](https://github.com/eXpandFramework/XpandPwsh/wiki/Remove-TwitterFavorite)|{{ Fill in the Synopsis }}|
 |[Remove-VersionConverterFlags](https://github.com/eXpandFramework/XpandPwsh/wiki/Remove-VersionConverterFlags)|Removes Xpand.VersionConverter flags so to repatch the assemblies.|
+|[Remove-XmlElement](https://github.com/eXpandFramework/XpandPwsh/wiki/Remove-XmlElement)|{{ Fill in the Synopsis }}|
 |[Resolve-AssemblyDependencies](https://github.com/eXpandFramework/XpandPwsh/wiki/Resolve-AssemblyDependencies)|Resolve all referenced assemblies for a given assembly, reclusively.|
 |[Restore-GitFile](https://github.com/eXpandFramework/XpandPwsh/wiki/Restore-GitFile)|Resets git file changes.|
 |[Restore-ProjectReference](https://github.com/eXpandFramework/XpandPwsh/wiki/Restore-ProjectReference)|Replace Nuget packages with project references.|
 |[Save-Xml](https://github.com/eXpandFramework/XpandPwsh/wiki/Save-Xml)|Saves an Xml Document.|
-|[Send-Retweet](https://github.com/eXpandFramework/XpandPwsh/wiki/Send-Retweet)|{{ Fill in the Synopsis }}|
-|[Send-Tweet](https://github.com/eXpandFramework/XpandPwsh/wiki/Send-Tweet)|{{ Fill in the Synopsis }}|
-|[Send-TweetDirectMessage](https://github.com/eXpandFramework/XpandPwsh/wiki/Send-TweetDirectMessage)|{{ Fill in the Synopsis }}|
+|[Send-Retweet](https://github.com/eXpandFramework/XpandPwsh/wiki/Send-Retweet)|Retweets a tweet.|
+|[Send-Tweet](https://github.com/eXpandFramework/XpandPwsh/wiki/Send-Tweet)|Create a new tweet.|
+|[Send-TweetDirectMessage](https://github.com/eXpandFramework/XpandPwsh/wiki/Send-TweetDirectMessage)|Send a direct message to another user.|
+|[Set-AssemblySignature](https://github.com/eXpandFramework/XpandPwsh/wiki/Set-AssemblySignature)|Sign an assembly.|
 |[Set-NugetCentralizeManagement](https://github.com/eXpandFramework/XpandPwsh/wiki/Set-NugetCentralizeManagement)|{{ Fill in the Synopsis }}|
 |[Set-ProjectRestoreLockedMode](https://github.com/eXpandFramework/XpandPwsh/wiki/Set-ProjectRestoreLockedMode)|{{ Fill in the Synopsis }}|
 |[Set-VsoVariable](https://github.com/eXpandFramework/XpandPwsh/wiki/Set-VsoVariable)|Set an AzureDevOps variable.|
+|[Split-GifToImages](https://github.com/eXpandFramework/XpandPwsh/wiki/Split-GifToImages)|{{ Fill in the Synopsis }}|
+|[Split-Video](https://github.com/eXpandFramework/XpandPwsh/wiki/Split-Video)|Splits a video to multiple files.|
 |[Start-Build](https://github.com/eXpandFramework/XpandPwsh/wiki/Start-Build)|Builds solutions and projects.|
 |[Start-EasyTest](https://github.com/eXpandFramework/XpandPwsh/wiki/Start-EasyTest)|Execute DevExpress XAF EasyTests.|
 |[Start-NugetRestore](https://github.com/eXpandFramework/XpandPwsh/wiki/Start-NugetRestore)|Restores the Nuget packages.|
@@ -233,8 +254,10 @@ Get-XPwshHelp Get-XPwshHelp #alias gxh
 |[Test-AzDevops](https://github.com/eXpandFramework/XpandPwsh/wiki/Test-AzDevops)|Test if script is running on AzureDevOps environment.|
 |[Test-ChocoInstalled](https://github.com/eXpandFramework/XpandPwsh/wiki/Test-ChocoInstalled)|{{ Fill in the Synopsis }}|
 |[Test-GacAssemblyInstallReferenceCanBeUsed](https://github.com/eXpandFramework/XpandPwsh/wiki/Test-GacAssemblyInstallReferenceCanBeUsed)|{{ Fill in the Synopsis }}|
+|[Test-GitRepoIsValid](https://github.com/eXpandFramework/XpandPwsh/wiki/Test-GitRepoIsValid)|Test if folder is a valid git repository.|
 |[Test-ProjectSdk](https://github.com/eXpandFramework/XpandPwsh/wiki/Test-ProjectSdk)|Test is MSBuild project uses the SDK format.|
 |[Test-Symbol](https://github.com/eXpandFramework/XpandPwsh/wiki/Test-Symbol)|Checks if the symbol is valid for a given assembly.|
+|[Test-TwitterCredentials](https://github.com/eXpandFramework/XpandPwsh/wiki/Test-TwitterCredentials)|{{ Fill in the Synopsis }}|
 |[Test-Version](https://github.com/eXpandFramework/XpandPwsh/wiki/Test-Version)|Test a string if it is a valid System.Version.|
 |[Uninstall-AllModules](https://github.com/eXpandFramework/XpandPwsh/wiki/Uninstall-AllModules)|Uninstall all Powershell modules.|
 |[UnInstall-DotnetCoreSdk](https://github.com/eXpandFramework/XpandPwsh/wiki/UnInstall-DotnetCoreSdk)|UnInstall a DotnetCoreSdk.|
