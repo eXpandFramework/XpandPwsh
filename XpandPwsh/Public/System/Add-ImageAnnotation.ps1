@@ -1,6 +1,6 @@
 function Add-ImageAnnotation {
     [CmdletBinding()]
-    [CmdLetTag()]
+    [CmdLetTag("ImageMagick")]
     param (
         [parameter(Mandatory,ValueFromPipeline)]
         [System.IO.FileInfo]$Image,

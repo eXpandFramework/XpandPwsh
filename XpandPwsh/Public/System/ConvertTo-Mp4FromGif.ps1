@@ -1,6 +1,6 @@
 function ConvertTo-Mp4FromGif {
     [CmdletBinding()]
-    [CmdLetTag()]
+    [CmdLetTag("#ffmpeg")]
     param (
         [parameter(Mandatory,ValueFromPipeline)]
         [System.IO.FileInfo]$GifPath,

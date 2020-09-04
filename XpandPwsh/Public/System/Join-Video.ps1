@@ -1,6 +1,6 @@
 function Join-Video {
     [CmdletBinding()]
-    [CmdLetTag()]
+    [CmdLetTag("#ffpmeg")]
     param (
         [parameter(ValueFromPipeline)]
         [System.IO.FileInfo]$Video,

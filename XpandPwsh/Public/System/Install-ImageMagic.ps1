@@ -1,6 +1,6 @@
 function Install-ImageMagic {
     [CmdletBinding()]
-    [CmdLetTag()]
+    [CmdLetTag("#ImageMagic")]
     param (
         
     )

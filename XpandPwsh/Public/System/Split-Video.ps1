@@ -1,6 +1,6 @@
 function Split-Video{
     [CmdletBinding()]
-    [CmdLetTag()]
+    [CmdLetTag("#ffpmeg")]
 
     param (
         [parameter(Mandatory,ValueFromPipeline)]

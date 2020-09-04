@@ -1,6 +1,6 @@
 function Get-VideoInfo {
     [CmdletBinding()]
-    [CmdLetTag()]
+    [CmdLetTag("#ffpmeg")]
     param (
         [parameter(Mandatory,ValueFromPipeline)]
         [System.IO.FileInfo]$Video
