@@ -139,8 +139,8 @@ function InstallXpand {
         $client.DownloadFile("https://github.com/Microsoft/vsixbootstrapper/releases/download/1.0.37/VSIXBootstrapper.exe", "$InstallationPath\VSIXBootstrapper.exe")
         write-host "Installing VSIX" -f Green
         $sp=@{
-            FilePath="$InstallationPath\VSIXBootstrapper.exe"
-            ArgumentList=$vsix
+            FilePath="`"$InstallationPath\VSIXBootstrapper.exe`""
+            ArgumentList="`"$vsix`""
             WorkingDirectory="."
             Wait=$Quiet
         }
