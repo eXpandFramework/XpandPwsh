@@ -1,6 +1,6 @@
 function Optimize-Gif {
-    [CmdletBinding("#gifsicle")]
-    [CmdLetTag()]
+    [CmdletBinding()]
+    [CmdLetTag("#gifsicle")]
     param (
         [parameter(ValueFromPipeline,Mandatory)]
         [System.IO.FileInfo]$Gif,
