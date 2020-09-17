@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.202.41.0'
+ModuleVersion = '1.202.41.1'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -100,7 +100,6 @@ FunctionsToExport = @(
 "ConvertTo-FramedText",
 "ConvertTo-GifFromMp4",
 "ConvertTo-HttpQueryString",
-"Get-PSCmdletText",
 "ConvertTo-Image",
 "ConvertTo-Indexed",
 "ConvertTo-Mp4FromGif",
@@ -180,6 +179,7 @@ FunctionsToExport = @(
 "Get-PaketFiles",
 "Get-PaketPackageRequirement",
 "Get-ProjectTargetFramework",
+"Get-PSCmdletText",
 "Get-ReferenceConflict",
 "Get-RelativePath",
 "Get-SymbolSources",
