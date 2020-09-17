@@ -4,7 +4,7 @@
 
 
 # About
-The module exports **286 Cmdlets** that can help you automate your every day tasks. The module is used in production from the eXpandFramework [build scripts](https://github.com/eXpandFramework/eXpand/blob/master/Support/Build/Build.ps1) and [Azure Tasks](https://github.com/eXpandFramework/Azure-Tasks).
+The module exports **287 Cmdlets** that can help you automate your every day tasks. The module is used in production from the eXpandFramework [build scripts](https://github.com/eXpandFramework/eXpand/blob/master/Support/Build/Build.ps1) and [Azure Tasks](https://github.com/eXpandFramework/Azure-Tasks).
 
 In this page you can see a list of all Cmdlets with a short description. For details and real world examples search the [Wiki](https://github.com/eXpandFramework/XpandPwsh/wiki).
 ## Installation
@@ -69,6 +69,7 @@ Get-XPwshHelp Get-XPwshHelp #alias gxh
 |[Find-XpandNugetPackage](https://github.com/eXpandFramework/XpandPwsh/wiki/Find-XpandNugetPackage)|Finds only eXpandFramework packages.|
 |[Find-XpandPackage](https://github.com/eXpandFramework/XpandPwsh/wiki/Find-XpandPackage)|Find eXpandFrameoWork only packages.|
 |[Format-Shuffle](https://github.com/eXpandFramework/XpandPwsh/wiki/Format-Shuffle)|Shuffle a list|
+|[Format-Text](https://github.com/eXpandFramework/XpandPwsh/wiki/Format-Text)|Formats a text using markdown with bold support.|
 |[Format-Xml](https://github.com/eXpandFramework/XpandPwsh/wiki/Format-Xml)|Pretty-print formatted XML source|
 |[Get-Assembly](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-Assembly)|Checks if ASsembly is loaded to the AppDomain.|
 |[Get-AssemblyInfoVersion](https://github.com/eXpandFramework/XpandPwsh/wiki/Get-AssemblyInfoVersion)|Returns the version of an AssemblyInfo.cs|
@@ -197,7 +198,7 @@ Get-XPwshHelp Get-XPwshHelp #alias gxh
 |[New-Video](https://github.com/eXpandFramework/XpandPwsh/wiki/New-Video)|Creates a new video out of an image.|
 |[New-XAFProject](https://github.com/eXpandFramework/XpandPwsh/wiki/New-XAFProject)|Creates a new XAF MSBuild project/solution In SDK format.|
 |[New-XpandVersionConverter](https://github.com/eXpandFramework/XpandPwsh/wiki/New-XpandVersionConverter)|Generates the Xpand.VersionConverter nuget package that will make your packages version agnostic.|
-|[Optimize-Gif](https://github.com/eXpandFramework/XpandPwsh/wiki/Optimize-Gif)|Generates the Xpand.VersionConverter nuget package that will make your packages version agnostic.|
+|[Optimize-Gif](https://github.com/eXpandFramework/XpandPwsh/wiki/Optimize-Gif)|Optimize size and scales a gif file.|
 |[Out-ConditionalColor](https://github.com/eXpandFramework/XpandPwsh/wiki/Out-ConditionalColor)|Display colorized pipelined output.|
 |[Out-Variable](https://github.com/eXpandFramework/XpandPwsh/wiki/Out-Variable)|Output a variable name and value into the verbose stream.|
 |[Out-Verbose](https://github.com/eXpandFramework/XpandPwsh/wiki/Out-Verbose)|Colored verbose stream output.|
