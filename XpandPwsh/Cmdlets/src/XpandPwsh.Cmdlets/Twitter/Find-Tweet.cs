@@ -16,7 +16,7 @@ namespace XpandPwsh.Cmdlets.Twitter{
     public class FindTweet : XpandCmdlet{
         [Parameter(Mandatory = true,Position = 0)]
         public TwitterContext TwitterContext{ get; set; }
-        [Parameter(Mandatory = true,ValueFromPipeline = true,Position = 1)]
+        [Parameter(ValueFromPipeline = true,Position = 1)]
         public string ScreenName{ get; set; }
 
         [Parameter]
@@ -25,23 +25,26 @@ namespace XpandPwsh.Cmdlets.Twitter{
         [Parameter]
         public string MatchPattern{ get; set; } = ".*";
         [Parameter]
-        public bool ExcludeReplies{ get; set; } = true;
+        public SwitchParameter IncludeReplies{ get; set; } 
         [Parameter]
-        public bool IncludeRetweets{ get; set; } 
+        public SwitchParameter IncludeRetweets{ get; set; }
+        [Parameter]
+        public StatusType StatusType{ get; set; }=StatusType.User; 
+        [Parameter]
+        public TweetMode TweetMode{ get; set; }=TweetMode.Compat; 
 
-        protected override Task ProcessRecordAsync(){
-            
-            return TwitterContext.Status.Where(status => status.Type==StatusType.User&&status.ScreenName==ScreenName)
+        protected override Task ProcessRecordAsync() 
+            => TwitterContext.Status.Where(status => status.Type==StatusType&&status.ScreenName==ScreenName)
                 .Where(status => Count==0||Count==status.Count)
-                .Where(status => status.ExcludeReplies==ExcludeReplies)
+                .Where(status => status.ExcludeReplies==!IncludeReplies)
                 .Where(status => status.IncludeRetweets==IncludeRetweets)
+                .Where(status => status.IncludeRetweets==IncludeRetweets)
+                .Where(status => status.TweetMode==TweetMode)
                 .ToListAsync().ToObservable().SelectMany(list => list)
-                .Where(status => new Regex(MatchPattern).IsMatch(status.Text))
+                .Where(status => new Regex(MatchPattern).IsMatch(TweetMode==TweetMode.Compat? status.Text:status.FullText))
+                .Select(status => status)
                 .HandleErrors(this)
                 .WriteObject(this)
                 .ToTask();
-
-        }
-
     }
 }
