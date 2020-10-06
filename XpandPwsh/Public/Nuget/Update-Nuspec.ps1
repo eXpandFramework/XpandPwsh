@@ -49,11 +49,15 @@ function Update-Nuspec {
             throw "$ProjectFileName outputpath not set"
         }
         $outputPath = "$(Resolve-Path $outputPath)"
-        
+        $targetFrameworkVersion = Get-ProjectTargetFramework $csproj -FullName
+        if ($csproj.Project.PropertyGroup.AppendTargetFrameworkToOutputPath -and ($targetFrameworkVersion -notmatch "netstandard")){
+            $outputPath+="\$targetFrameworkVersion"
+        }
         $extension="dll"
         if ($csproj.Project.PropertyGroup.OutputType -eq "WinExe"){
             $extension="exe"
         }
+        
         $assemblyPath = "$outputPath\$id.$extension"
         "assemblyPath=$assemblyPath"
         $allDependencies=@()
@@ -97,22 +101,23 @@ function Update-Nuspec {
         
         $packageReference = Get-PackageReference $ProjectFileName 
         
-        $targetFrameworkVersion = ($csproj.Project.PropertyGroup.TargetFramework | Select-Object -First 1).Substring(3)
-        
         $packageReference | Where-Object { $_.Include -and $_.PrivateAssets -ne "all" } | ForEach-Object {
             if (!$ResolveNugetDependecies -or $_.Include -in $allDependencies) {
                 Add-NuspecDependency $_.Include $_.version $nuspec 
             }
         }
         $nuspec.Save($NuspecFilename)
-        
+        $sourcePath="$targetFrameworkVersion\"
+        if ($targetFrameworkVersion -match "netstandard"){
+            $sourcePath=$null
+        }
         $file = $nuspec.CreateElement("file", $nuspec.DocumentElement.NamespaceURI)
-        $file.SetAttribute("src", "$id.$extension")
-        $file.SetAttribute("target", "lib\net$targetFrameworkVersion\$id.$extension")
+        $file.SetAttribute("src", "$sourcePath$($id).$extension")
+        $file.SetAttribute("target", "lib\$targetFrameworkVersion\$id.$extension")
         $nuspec.SelectSingleNode("//ns:files", $ns).AppendChild($file) | Out-Null
         $file = $nuspec.CreateElement("file", $nuspec.DocumentElement.NamespaceURI)
-        $file.SetAttribute("src", "$id.pdb")
-        $file.SetAttribute("target", "lib\net$targetFrameworkVersion\$id.pdb")
+        $file.SetAttribute("src", "$sourcePath$($id).pdb")
+        $file.SetAttribute("target", "lib\$targetFrameworkVersion\$id.pdb")
         $nuspec.SelectSingleNode("//ns:files", $ns).AppendChild($file) | Out-Null
 
         $nuspec.Save($NuspecFilename)

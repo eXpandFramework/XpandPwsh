@@ -4,7 +4,7 @@ function Invoke-NugetPack {
     param(
         [parameter(Mandatory)]
         [string]$Nuspec,
-        [string]$OutputDirectory=(Get-Location),
+        [string]$OutputDirectory=$PSScriptRoot,
         [string]$Basepath=$OutputDirectory
     )
     
