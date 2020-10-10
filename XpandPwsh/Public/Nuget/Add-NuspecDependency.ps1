@@ -7,7 +7,8 @@ function Add-NuspecDependency {
         [parameter(Mandatory,ValueFromPipelineByPropertyName)]
         $Version,
         [parameter(Mandatory)]
-        $Nuspec
+        [xml]$Nuspec,
+        [string]$TargetFramework
 
     )
     
@@ -16,11 +17,19 @@ function Add-NuspecDependency {
     }
     
     process {
+        if ($TargetFramework){
+            $group=Add-XmlElement -Owner $Nuspec -ElementName "group" -Parent "dependencies" -Attributes ([ordered]@{targetFramework=$TargetFramework})
+        }
         $attributes = [ordered]@{
             id = $id
             version = $version
         }
-        Add-XmlElement -Owner $Nuspec -ElementName "dependency" -Parent "dependencies" -Attributes $attributes 
+        if (!$group){
+            Add-XmlElement -Owner $Nuspec -ElementName "dependency" -Parent "dependencies" -Attributes $attributes  
+        }
+        else{
+            Add-XmlElement -Owner $Nuspec -ElementName "dependency" -ParentNode $group -Attributes $attributes
+        }
     }
     
     end {
