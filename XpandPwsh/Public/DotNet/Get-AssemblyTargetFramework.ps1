@@ -12,7 +12,8 @@ function Get-AssemblyTargetFramework {
     
     process {
         Use-Object($a=Read-AssemblyDefinition $Assembly){
-            ($a.CustomAttributes|Where-Object{$_.AttributeType.FullName -eq "System.Runtime.Versioning.TargetFrameworkAttribute"}).Properties.argument.value
+            $attribute=($a.CustomAttributes|Where-Object{$_.AttributeType.FullName -eq "System.Runtime.Versioning.TargetFrameworkAttribute"})
+            ($attribute.ConstructorArguments|Select-Object -First 1).Value
         }
     }
     end {
