@@ -63,7 +63,9 @@ function Start-XpandProjectConverter {
                 Remove-Item "$($_.DirectoryName)\properties\licenses.licx" -ErrorAction SilentlyContinue
                 if (!(Test-Path "$($_.DirectoryName)\paket.references")) {
                     $change = Get-PackageReference $_.FullName | Where-Object { $_.include -like "DevExpress*" } | ForEach-Object {
-                        if ($_.Version -ne $version) {
+                        $regex = [regex] '(?is)\d*\.\d*\.\d*(\.\d*)?'
+                        $result = $regex.Match($_.Version).Value;
+                        if ($result -ne $version) {
                             Write-Verbose "Change PackageReference $($_.Include) $($_.Version) to $version"
                             $_.Version = $Version.ToString()
                             $element = [System.Xml.XmlElement]$_
@@ -113,7 +115,11 @@ function Start-XpandProjectConverter {
             Get-ChildItem $Path -Include "*.*proj" -Recurse -File | ForEach-Object {
                 [xml]$xml = Get-XmlContent $_.FullName 
                 $xml.project.itemgroup.PackageReference|Where-Object{$_.Include -like "DevExpress*"}|ForEach-Object{
-                    $_.Version="$version"
+                    $regex = [regex] '(?is)\d*\.\d*\.\d*(\.\d*)?'
+                    $result = $regex.Match($_.Version).Value;
+                    if ($result -ne $version){
+                        $_.Version="$version"
+                    }
                 }
                 $xml|Save-Xml $_.FullName|Out-Null
             }
