@@ -63,11 +63,13 @@ function Start-XpandProjectConverter {
                 Remove-Item "$($_.DirectoryName)\properties\licenses.licx" -ErrorAction SilentlyContinue
                 if (!(Test-Path "$($_.DirectoryName)\paket.references")) {
                     $change = Get-PackageReference $_.FullName | Where-Object { $_.include -like "DevExpress*" } | ForEach-Object {
-                        $regex = [regex] '(?is)\d*\.\d*\.\d*(\.\d*)?'
-                        $result = $regex.Match($_.Version).Value;
+                        $regex = [regex] '(?i)(?<version>\d*\.\d*\.\d*(\.\d*)?)(?<ctp>.*)'
+                        $m=$regex.Match($_.Version)
+                        $ctp=$m.Groups["ctp"].Value
+                        $result = $m.Value;
                         if ($result -ne $version) {
                             Write-Verbose "Change PackageReference $($_.Include) $($_.Version) to $version"
-                            $_.Version = $Version.ToString()
+                            $_.Version = "$($Version)$ctp"
                             $element = [System.Xml.XmlElement]$_
                             $element.OwnerDocument.Save($projectPath)
                         }
@@ -115,10 +117,12 @@ function Start-XpandProjectConverter {
             Get-ChildItem $Path -Include "*.*proj" -Recurse -File | ForEach-Object {
                 [xml]$xml = Get-XmlContent $_.FullName 
                 $xml.project.itemgroup.PackageReference|Where-Object{$_.Include -like "DevExpress*"}|ForEach-Object{
-                    $regex = [regex] '(?is)\d*\.\d*\.\d*(\.\d*)?'
-                    $result = $regex.Match($_.Version).Value;
+                    $regex = [regex] '(?i)(?<version>\d*\.\d*\.\d*(\.\d*)?)(?<ctp>.*)'
+                    $m=$regex.Match($_.Version)
+                    $ctp=$m.Groups["ctp"].Value
+                    $result = $m.Value;
                     if ($result -ne $version){
-                        $_.Version="$version"
+                        $_.Version = "$($Version)$ctp"
                     }
                 }
                 $xml|Save-Xml $_.FullName|Out-Null
