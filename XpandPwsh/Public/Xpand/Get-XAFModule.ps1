@@ -2,11 +2,13 @@ function Get-XAFModule {
     [CmdletBinding()]
     [CmdLetTag()]
     param (
-        [parameter(ValueFromPipeline)]
+        [parameter(ValueFromPipeline, ParameterSetName = "path")]
         [string]$Path = ".",
-        [System.IO.FileInfo[]]$AssemblyList=(Get-ChildItem $Path *.dll),
+        [parameter(ValueFromPipeline, ParameterSetName = "assemblies")]
+        [System.IO.FileInfo[]]$Assemblies ,
+        [System.IO.FileInfo[]]$AssemblyList = (Get-ChildItem $Path *.dll),
         [string[]]$Include = @("DevExpress.Express*.dll", "Xpand.XAF.Modules*.dll", "Xpand.ExpressApp*.dll"),
-        [string[]]$Exclude=@("*Tests*")
+        [string[]]$Exclude = @("*Tests*")
     )
     
     begin {
@@ -14,11 +16,11 @@ function Get-XAFModule {
         $Path = ConvertTo-Directory $Path
         Use-MonoCecil | Out-Null
         Use-NugetAssembly Xpand.Extensions.Mono.Cecil | Out-Null
-        $Include=$Include|ForEach-Object{
-            if ($_ -notlike "*.dll"){
+        $Include = $Include | ForEach-Object {
+            if ($_ -notlike "*.dll") {
                 "$_.dll"
             }
-            else{
+            else {
                 $_
             }
         }
@@ -26,18 +28,20 @@ function Get-XAFModule {
     
     process {
         
-        Push-Location $Path
-        $assemblies=Get-ChildItem -include $Include -Exclude $Exclude -recurse -file|Sort-Object BaseName -Unique
-        if ($assemblies.Name){
-            $assemblies.Name|Write-Verbose 
+        if ($PSCmdlet.ParameterSetName -eq "path") {
+            Push-Location $Path
+            $assemblies = Get-ChildItem -include $Include -Exclude $Exclude -recurse -file | Sort-Object BaseName -Unique
+            if ($assemblies.Name) {
+                $assemblies.Name | Write-Verbose 
+            }
         }
         
-        $assemblies| ForEach-Object {
+        $assemblies | ForEach-Object {
             $moduleBaseType = "DevExpress.ExpressApp.ModuleBase"
             $assemblyPath = $_.FullName
             Write-Verbose "Reading assembly $assemblyPath"
             Use-Object($ma = Read-AssemblyDefinition $assemblyPath $AssemblyList) {
-                if ($ma.MainModule.AssemblyReferences.Name -like "DevExpress*"){
+                if ($ma.MainModule.AssemblyReferences.Name -like "DevExpress*") {
                     $ma.MainModule.Types | Where-Object {
                         [Xpand.Extensions.Mono.Cecil.MonoCecilExtensions]::BaseClasses($_) | Where-Object { $_.FullName -eq $moduleBaseType }
                     } | Where-Object {
@@ -52,7 +56,7 @@ function Get-XAFModule {
                     }
                 }
             }
-        }|Where-Object{$_}|sort-object FullName
+        } | Where-Object { $_ } | Sort-Object FullName
         Pop-Location
     }
     
