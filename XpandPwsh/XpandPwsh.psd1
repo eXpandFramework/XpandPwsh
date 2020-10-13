@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.202.42.0'
+ModuleVersion = '1.202.42.1'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -80,7 +80,6 @@ FunctionsToExport = @(
 "Add-NuspecDependency",
 "Add-PackageReference",
 "Add-PackageReferenceNoWarning",
-"Get-ProjectAssemblyMetadata",
 "Add-ProjectBuildEvent",
 "Add-ProjectReference",
 "Add-XmlElement",
@@ -179,6 +178,7 @@ FunctionsToExport = @(
 "Get-PaketDependenciesPath",
 "Get-PaketFiles",
 "Get-PaketPackageRequirement",
+"Get-ProjectAssemblyMetadata",
 "Get-ProjectTargetFramework",
 "Get-PSCmdletText",
 "Get-ReferenceConflict",
