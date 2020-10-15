@@ -50,7 +50,8 @@ function Update-Nuspec {
         }
         $outputPath = "$(Resolve-Path $outputPath)"
         $targetFrameworkVersion = Get-ProjectTargetFramework $csproj -FullName
-        if ($csproj.Project.PropertyGroup.AppendTargetFrameworkToOutputPath -and ($targetFrameworkVersion -notmatch "netstandard")){
+        $appendTargetFrameworkToOutputPath=$csproj.Project.PropertyGroup.AppendTargetFrameworkToOutputPath -eq "true"
+        if ($appendTargetFrameworkToOutputPath -and ($targetFrameworkVersion -notmatch "netstandard")){
             $outputPath+="\$targetFrameworkVersion"
         }
         $extension="dll"
@@ -107,9 +108,10 @@ function Update-Nuspec {
             }
         }
         $nuspec.Save($NuspecFilename)
-        $sourcePath="$targetFrameworkVersion\"
-        if ($targetFrameworkVersion -match "netstandard"){
-            $sourcePath=$null
+        $sourcePath=$null
+        
+        if ($targetFrameworkVersion -notmatch "netstandard" -and $appendTargetFrameworkToOutputPath){
+            $sourcePath="$targetFrameworkVersion\"    
         }
         $file = $nuspec.CreateElement("file", $nuspec.DocumentElement.NamespaceURI)
         $file.SetAttribute("src", "$sourcePath$($id).$extension")
