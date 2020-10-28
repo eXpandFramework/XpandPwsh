@@ -32,6 +32,10 @@ function Start-XpandProjectConverter {
                 }
                 $paketInstalls | Select-Object -ExpandProperty Parent | ForEach-Object {
                     Push-Location $_.FullName
+                    $depsContent=Get-Content ((Get-PaketDependenciesPath).FullName) -Raw
+                    $regex = [regex] 'nuget DevExpress(.*)== (\d*\.\d*.\d*)(.*)'
+                    $depsContent = $regex.Replace($depsContent, "nuget DevExpress`$1== $version`$3")                
+                    Set-Content ((Get-PaketDependenciesPath).FullName) $depsContent
                     Invoke-PaketShowInstalled -OnlyDirect | Where-Object { $_.Id -like "DevExpress*" } | ForEach-Object {
                         $v = New-Object System.Version
                         if ([version]::TryParse($_.version, [ref]$v)) {
@@ -68,7 +72,7 @@ function Start-XpandProjectConverter {
                         $ctp=$m.Groups["ctp"].Value
                         $result = $m.Value;
                         if ($result -ne $version) {
-                            Write-Verbose "Change PackageReference $($_.Include) $($_.Version) to $version"
+                            Write-Host "Change PackageReference $($_.Include) $($_.Version) to $($version)$ctp" -f Green
                             $_.Version = "$($Version)$ctp"
                             $element = [System.Xml.XmlElement]$_
                             $element.OwnerDocument.Save($projectPath)
