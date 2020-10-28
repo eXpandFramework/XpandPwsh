@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.202.42.2'
+ModuleVersion = '1.202.43.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -266,6 +266,7 @@ FunctionsToExport = @(
 "Remove-AzBuild",
 "Remove-AzBuildInProgress",
 "Remove-BlankLines",
+"Remove-ContentLine",
 "Remove-DefaultValueKeys",
 "Remove-GacAssembly",
 "Remove-GitHubRelease",
