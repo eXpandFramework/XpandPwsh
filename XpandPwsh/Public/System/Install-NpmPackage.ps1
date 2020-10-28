@@ -8,7 +8,13 @@ function Install-NpmPackage {
     
     begin {
         $PSCmdlet|Write-PSCmdLetBegin
-        if (!(node -v)){
+        try {
+            $nodeExist=!(node -v)
+        }
+        catch {
+            
+        }
+        if (!$nodeExist){
             Install-ChocoPackage nodejs
         }
         # Invoke-Script{((npm init -y) -join "`r`n")|Write-Verbose}
