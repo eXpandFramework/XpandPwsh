@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Octokit;
+using static System.Int32;
 
 namespace XpandPwsh.Cmdlets.GitHub.CloseGitHubIssue{
     [CmdletBinding(SupportsShouldProcess = true)]
@@ -22,7 +23,8 @@ namespace XpandPwsh.Cmdlets.GitHub.CloseGitHubIssue{
         public int DaysUntilClose{ get; set; } = 60;
         [Parameter]
         public SwitchParameter KeepWhenAssignees{ get; set; }
-
+        [Parameter]
+        public int Top { get; set; } = MaxValue;
         protected override Task ProcessRecordAsync(){
             var repository = GitHubClient.Repository.GetAllForOrg(Organization).ToObservable()
                 .Select(list => list.First(_ => _.Name == Repository1));
@@ -35,6 +37,7 @@ namespace XpandPwsh.Cmdlets.GitHub.CloseGitHubIssue{
             var issuesToClose = repository.SelectMany(_ => GitHubClient.Issue.GetAllForRepository(_.Id, filter))
                 .SelectMany(list => list)
                 .ObserveOn(context)
+                .Take(Top)
                 .Where(issue => {
                     var needsClosing = NeedsClosing(issue, DaysUntilClose);
                     WriteVerbose($"Issue {issue.Number} needclose={needsClosing}");
