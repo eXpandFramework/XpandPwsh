@@ -49,7 +49,7 @@ namespace XpandPwsh.Cmdlets.Reactive.InvokeParallel
         [Parameter]
         public int First{ get; set; } = -1;
 
-        [Parameter] public int Timeout { get; set; } = int.MaxValue;
+        [Parameter] public int Timeout { get; set; } = 2^32-3;
 
         protected override Task BeginProcessingAsync(){
             _values = new ConcurrentBag<object>();
