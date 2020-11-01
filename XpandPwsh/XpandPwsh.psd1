@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.202.45.0'
+ModuleVersion = '1.202.45.1'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -79,7 +79,6 @@ FunctionsToExport = @(
 "Add-GitDiff",
 "Add-ImageAnnotation",
 "Add-NuspecDependency",
-"Test-SqlConnection",
 "Add-PackageReference",
 "Add-PackageReferenceNoWarning",
 "Add-PaketReference",
@@ -311,6 +310,7 @@ FunctionsToExport = @(
 "Test-GacAssemblyInstallReferenceCanBeUsed",
 "Test-GitRepoIsValid",
 "Test-ProjectSdk",
+"Test-SqlConnection",
 "Test-Symbol",
 "Test-TwitterCredentials",
 "Test-Version",
