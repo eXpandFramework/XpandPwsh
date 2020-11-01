@@ -49,8 +49,6 @@ namespace XpandPwsh.Cmdlets.Reactive.InvokeParallel
         [Parameter]
         public int First{ get; set; } = -1;
 
-        [Parameter] public int Timeout { get; set; } = 2^32-3;
-
         protected override Task BeginProcessingAsync(){
             _values = new ConcurrentBag<object>();
             _psVariables = this.Invoke<PSVariable>("Get-Variable")
@@ -87,32 +85,35 @@ namespace XpandPwsh.Cmdlets.Reactive.InvokeParallel
                 .ToTask();
         }
 
-        private IObservable<Collection<PSObject>> InvokeWithLimit(IObservable<object> values,IObservable<int> retrySignal) 
-            => values.Select((o, i) => Start(o,retrySignal)).Merge(LimitConcurrency);
+        private IObservable<Collection<PSObject>> InvokeWithLimit(IObservable<object> values,IObservable<int> retrySignal){
+            return values.Select((o, i) => Start(o,retrySignal))
+                .Merge(LimitConcurrency);
+        }
 
-        private IObservable<Collection<PSObject>> Start(object o, IObservable<int> retrySignal) 
-            => Observable.Defer(() => Observable.Start(() => {
-                        using var runSpace = RunspaceFactory.CreateRunspace();
-                        runSpace.Open();
-                        runSpace.SetVariable(new PSVariable("_", o));
-                        runSpace.SetVariable(_psVariables);
-                        var psObjects = runSpace.Invoke($"[CmdletBinding()]\r\nParam()\r\n{Script}").Cast<PSObject>();
-                        var lastExitCode = runSpace.Invoke("$LastExitCode").Any(_ => _?.BaseObject is int code&& code>0);
-                        var errors = runSpace.Invoke("$Error").Where(_ => _?.BaseObject is ErrorRecord)
-                            .GroupBy(exception => ((ErrorRecord) exception.BaseObject).Exception.Message)
-                            .SelectMany(objects => objects);
-                        var collection = new Collection<PSObject>();
-                        foreach (var psObject in psObjects.Concat(errors)){
-                            if (lastExitCode){
-                                var targetObject = PSSerializer.Serialize(psObject, 3);
-                                collection.Add(PSObject.AsPSObject(new ErrorRecord(new Exception(psObject.ToString()), ErrorCategory.FromStdErr.ToString(),
-                                    ErrorCategory.FromStdErr, targetObject)));
+        private IObservable<Collection<PSObject>> Start(object o, IObservable<int> retrySignal){
+            return Observable.Defer(() => Observable.Start(() => {
+                        using (var runspace = RunspaceFactory.CreateRunspace()){
+                            runspace.Open();
+                            runspace.SetVariable(new PSVariable("_", o));
+                            runspace.SetVariable(_psVariables);
+                            var psObjects = runspace.Invoke($"[CmdletBinding()]\r\nParam()\r\n{Script}").Cast<PSObject>();
+                            var lastExitCode = runspace.Invoke($"$LastExitCode").Any(_ => _?.BaseObject is int code&& code>0);
+                            var errors = runspace.Invoke("$Error").Where(_ => _?.BaseObject is ErrorRecord)
+                                .GroupBy(exception => ((ErrorRecord) exception.BaseObject).Exception.Message)
+                                .SelectMany(objects => objects);
+                            var collection = new Collection<PSObject>();
+                            foreach (var psObject in psObjects.Concat(errors)){
+                                if (lastExitCode){
+                                    var targetObject = PSSerializer.Serialize(psObject, 3);
+                                    collection.Add(PSObject.AsPSObject(new ErrorRecord(new Exception(psObject.ToString()), ErrorCategory.FromStdErr.ToString(),
+                                        ErrorCategory.FromStdErr, targetObject)));
+                                }
+                                else{
+                                    collection.Add(psObject);
+                                }
                             }
-                            else{
-                                collection.Add(psObject);
-                            }
+                            return Observable.Return(collection);
                         }
-                        return Observable.Return(collection);
                     }).Merge()
                     .RetryWhen(_ => _.SelectMany(exception => {
                         return retrySignal
@@ -120,6 +121,7 @@ namespace XpandPwsh.Cmdlets.Reactive.InvokeParallel
                             .Concat(Observable.Throw<int>(exception));
                     }))
                 )
-                .Timeout(TimeSpan.FromSeconds(Timeout));
+                ;
+        }
     }
 }
