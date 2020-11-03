@@ -25,6 +25,7 @@ function Invoke-AzureRestMethod {
         if ($Project -eq "AzDevOpsProjectRestApi"){
             $Project=$null
         }
+        . $XpandPwshPath\Private\InstallAz.ps1
     }
     
     process {
