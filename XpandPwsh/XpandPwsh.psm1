@@ -8,5 +8,9 @@ if ($PSVersionTable.Psedition -eq "Core"){
 }
 $global:XpandPwshPath=$PSScriptRoot
 . $PSScriptRoot\private\Completers\RegisterCompleter.ps1
-
+$global:PathToScript = Switch ($Host.name){
+    'Visual Studio Code Host' { split-path $psEditor.GetEditorContext().CurrentFile.Path }
+    'Windows PowerShell ISE Host' {  Split-Path -Path $psISE.CurrentFile.FullPath }
+    'ConsoleHost' { $PSScriptRoot }
+}
 
