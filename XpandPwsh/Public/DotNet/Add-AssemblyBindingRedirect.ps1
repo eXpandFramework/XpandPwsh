@@ -21,7 +21,7 @@ function Add-AssemblyBindingRedirect {
         [parameter(Mandatory)]
         [System.IO.FileInfo]$ConfigFile ,
         [string]$Culture = "neutral",
-        [parameter(Mandatory,ParameterSetName="Id")]
+        [parameter(Mandatory)]
         [string]$PublicToken,
         [parameter(ValueFromPipeline,Mandatory,ParameterSetName="File")]
         [System.IO.FileInfo]$Assembly
@@ -34,6 +34,9 @@ function Add-AssemblyBindingRedirect {
         if (!$config.SelectSingleNode("//runtime")){
             Add-XmlElement -Owner $config -elementName "runtime" -parent "configuration" 
             $Config|Save-Xml $ConfigFile
+        }
+        if ($PSCmdlet.ParameterSetName -eq "File" -and !$Version){
+            $version=Get-AssemblyVersion $Assembly
         }
     }
     
