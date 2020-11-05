@@ -6,8 +6,8 @@ function Read-AssemblyDefinition {
         [parameter(ValueFromPipeline)]
         [string]$Path,
         [System.IO.FileInfo[]]$AssemblyList=@(),
-        [switch]$ReadOnly,
-        [switch]$SkipSymbols
+        [switch]$ReadWrite,
+        [switch]$ReadSymbols
     )
     
     begin {
@@ -17,8 +17,8 @@ function Read-AssemblyDefinition {
     process {
         
         $p=[Mono.Cecil.ReaderParameters]::new()
-        $p.ReadWrite=!$ReadOnly
-        $p.ReadSymbols=!$SkipSymbols
+        $p.ReadWrite=$ReadWrite
+        $p.ReadSymbols=$SkipSymbols
         $p.AssemblyResolver=New-AssemblyResolver -AssemblyList $AssemblyList -Path $Path
         [Mono.Cecil.AssemblyDefinition]::ReadAssembly($Path,$p)
     }
