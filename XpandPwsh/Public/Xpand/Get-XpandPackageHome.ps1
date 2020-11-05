@@ -3,7 +3,8 @@ function Get-XpandPackageHome {
     param (
         [parameter(ValueFromPipeline,ValueFromPipelineByPropertyName,Mandatory)]
         [string]$Id,
-        [version]$Version
+        [version]$Version,
+        [switch]$Html
     )
     
     begin {
@@ -31,7 +32,13 @@ function Get-XpandPackageHome {
             throw $Id
         }
         if ($Version){
-            $homePage="[$Id v.$Version]($homePage)"
+            if (!$Html){
+                $homePage="[$Id v.$Version]($homePage)"
+            }
+            else{
+                $homePage="<a href='$homePage'>$id v.$Version</a>"
+            }
+            
         }
         $homePage
     }
