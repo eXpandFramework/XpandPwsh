@@ -37,7 +37,7 @@ function Get-XpandPackages {
         Invoke-Script -Maximum 3 -RetryInterval 3 -Script {
             try {
                 $c=New-Object System.Net.WebClient
-                ($c.DownloadString("https://xpandnugetstats.azurewebsites.net/api/totals/packages?packagesource=xpand")|ConvertFrom-Json|ForEach-Object{
+                $xpandSource=$c.DownloadString("https://xpandnugetstats.azurewebsites.net/api/totals/packages?packagesource=xpand")|ConvertFrom-Json|ForEach-Object{
                     $_|ForEach-Object{
                         [PSCustomObject]@{
                             Id = $_.Id
@@ -45,7 +45,8 @@ function Get-XpandPackages {
                             Source="Lab"
                         }
                     }
-                })+($c.DownloadString("https://xpandnugetstats.azurewebsites.net/api/totals/packages?packagesource=Nuget")|ConvertFrom-Json|ForEach-Object{
+                }
+                $nugetSource=$c.DownloadString("https://xpandnugetstats.azurewebsites.net/api/totals/packages?packagesource=Nuget")|ConvertFrom-Json|ForEach-Object{
                     $_|ForEach-Object{
                         [PSCustomObject]@{
                             Id = $_.Id
@@ -53,7 +54,8 @@ function Get-XpandPackages {
                             Source="Release"
                         }
                     }
-                })|Where-Object{
+                }
+                ($xpandSource)+($nugetSOurce)|Where-Object{
                     (& $Filter) -and $_.Source -eq $Source
                 }
                 $c.Dispose()

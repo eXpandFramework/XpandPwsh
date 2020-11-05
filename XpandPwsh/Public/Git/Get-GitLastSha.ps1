@@ -2,7 +2,7 @@ function Get-GitLastSha {
     [CmdletBinding()]
     [CmdLetTag("#git")]
     param (
-        [parameter(ValueFromPipeline,Mandatory)]
+        [parameter(ValueFromPipeline, Mandatory)]
         [string]$repoGitUrl,
         [string]$Branch
     )
@@ -11,21 +11,27 @@ function Get-GitLastSha {
     }
     
     process {
-        Invoke-Script{git ls-remote $repoGitUrl}|ForEach-Object{
-            $regex = [regex] '(\w*) *(.*)'
-            $sha = $regex.Match($_).Groups[1].Value
-            $ref=$regex.Match($_).Groups[2].Value.Trim()
-            if (!$Branch){
-                if ($ref -eq "HEAD"){
-                    $sha
+        $ls=Invoke-Script { git ls-remote $repoGitUrl } 
+        $ls| ForEach-Object {
+            try {
+                $regex = [regex] '(\w*) *(.*)'
+                $sha = $regex.Match($_).Groups[1].Value
+                $ref = $regex.Match($_).Groups[2].Value.Trim()
+                if (!$Branch) {
+                    if ($ref -eq "HEAD") {
+                        $sha
+                    }
+                }
+                else {
+                    if ($ref.Replace("refs/heads/", "") -eq $Branch) {
+                        $sha
+                    }
                 }
             }
-            else{
-                if ($ref.Replace("refs/heads/","") -eq $Branch){
-                    $sha
-                }
+            catch {
+                
             }
-        }|Select-Object -First 1
+        } | Select-Object -First 1
     }
     
     end {
