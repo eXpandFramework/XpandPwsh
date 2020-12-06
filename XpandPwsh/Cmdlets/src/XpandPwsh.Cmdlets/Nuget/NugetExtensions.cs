@@ -63,7 +63,7 @@ namespace XpandPwsh.Cmdlets.Nuget{
                     resource.ListAsync(searchTerm, includePrerelease, allVersions, includeDelisted, NullLogger.Instance, CancellationToken.None)
                         .ToObservable()).Concat()
                 .Select(async => async.GetEnumeratorAsync().ToObservable()).Concat()
-                .Where(metadata => metadata != null);
+                .Where(metadata => metadata != null&&metadata.IsListed==!includeDelisted);
         }
     }
 }
