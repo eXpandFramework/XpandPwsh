@@ -10,7 +10,9 @@ function Invoke-PaketUpdate {
         [parameter(ParameterSetName="id")]
         [string]$ID,
         [parameter(ParameterSetName="id")]
-        [string]$Version
+        [string]$Version,
+        [switch]$AllDependecies,
+        [string]$LockMatch
     )
     
     begin {
@@ -29,20 +31,35 @@ function Invoke-PaketUpdate {
             Push-Location $_.DirectoryName
             $installed=Invoke-PaketShowInstalled |Where-Object{$_.Id -eq $ID}
             if ($installed -and $Version){
-                if (([version]$installed.Version) -ne ([version]$Version)){
-                    "$ID $($installed.Version) found, updating to $Version"
-                    $regex = [regex] "(?n)nuget (?<id>$ID)(?<op> [^\d]*)(?<version>\d*\.\d*\.\d*[^ \r\n]*)"
-                    $depsContent=Get-Content $_ -Raw
-                    $result = $regex.Replace($depsContent, "nuget `${id}`${op}$Version")
-                    if (!$regex.IsMatch($depsContent)){
-                        $regex = [regex] "(?n)nuget (?<id>$ID)"
-                        $result = $regex.Replace($depsContent, "nuget `${id} $Version")
+                "$ID $($installed.Version) found, updating to $Version"
+                $regex = [regex] "nuget (?<id>[^ ]*)(?<op> [^\d]*)(?<version>[^ \n]*)"
+                $content=Get-Content $_ |ForEach-Object{
+                    $match=$regex.Match($_)
+                    if ($match.Success -and $match.Groups["id"].Value -eq $ID){
+                        $regex.Replace($_, "nuget `${id}`${op}$Version")
                     }
-                    Set-Content $_ $result.Trim()
+                    else {
+                        $_
+                    }
                 }
-                
+                $content|Set-Content $_
             }
             elseif (!$ID){
+                if ($AllDependecies){
+                    $needUpdate=Invoke-PaketShowInstalled -OnlyDirect|Where-Object{$_.id -and $_.id -notmatch $LockMatch -and $_.id -match "."} |ForEach-Object{
+                        [PSCustomObject]@{
+                            Id = $_.Id
+                            Version=$_.Version
+                            PublishedVersion=(Get-NugetPackageSearchMetadata $_.Id -Source (Get-PackageFeed -Nuget)).Identity.Version.OriginalVersion
+                        }
+                    }|Where-Object{
+                        $_.PublishedVersion -and $_.Version -ne $_.PublishedVersion
+                    }
+                    $needUpdate|ForEach-Object{
+                        Invoke-PaketUpdate -id $_.Id -Version $_.PublishedVersion
+                    }
+                    
+                }
                 Invoke-Script {dotnet paket update @xtraArgs}
             }
             Pop-Location

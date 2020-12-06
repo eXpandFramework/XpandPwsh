@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.202.46.4'
+ModuleVersion = '1.202.47.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -265,6 +265,7 @@ FunctionsToExport = @(
 "Push-TwitterMedia",
 "Read-AssemblyDefinition",
 "Read-MSBuildProject",
+"Read-MSBuildSolutionFile",
 "Remove-AzBuild",
 "Remove-AzBuildInProgress",
 "Remove-BlankLines",
@@ -330,7 +331,6 @@ FunctionsToExport = @(
 "Update-HintPath",
 "Update-NugetPackage",
 "Update-NugetProjectVersion",
-"Update-Nuspec",
 "Update-OutputPath",
 "Update-ProjectAutoGenerateBindingRedirects",
 "Update-ProjectCopyRight",
