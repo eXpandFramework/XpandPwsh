@@ -4,7 +4,8 @@ function Get-PackageReference {
     param (
         [parameter(Mandatory,ValueFromPipeline)]
         [System.IO.FileInfo]$Path,
-        [switch]$PrivateAssets
+        [switch]$PrivateAssets,
+        [switch]$AllowBoth
     )
     
     
@@ -43,7 +44,12 @@ function Get-PackageReference {
             $packageReferences
         }
         if ($paketRefs -and $packageReferences) {
-            throw "$Path has packageReferences and paketreferences"
+            if (!$AllowBoth){
+                if (!$Proj.Project.PropertyGroup.AllowPackageReference -or $Proj.Project.PropertyGroup.AllowPackageReference -eq "False"){
+                    throw "$Path has packageReferences and paketreferences"
+                }
+            }
+            $packageReferences
         }        
     }
     
