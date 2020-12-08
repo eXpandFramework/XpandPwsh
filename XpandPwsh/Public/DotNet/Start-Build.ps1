@@ -12,7 +12,8 @@ function Start-Build {
         [string]$BinaryLogPath,
         [switch]$NoRestore,
         [int]$MaxCpuCount=([System.Environment]::ProcessorCount),
-        [System.IO.FileInfo]$PublishProfile
+        [System.IO.FileInfo]$PublishProfile,
+        [string[]]$PropertyValue
     )
     
     begin {
@@ -43,7 +44,7 @@ function Start-Build {
                     $p+="/p:Configuration=$Configuration"
                 }
                 if ($PublishProfile){
-                    $p+="/p:DeployOnBuild=true","/p:PublishProfile=$($PublishProfile.Name)"
+                    $p+="/p:DeployOnBuild=true","/p:PublishProfile=$($PublishProfile.Name)",$PropertyValue|ForEach-Object{"/p:$_"}
                 }
                 & (Get-MsBuildPath) @p
             }
