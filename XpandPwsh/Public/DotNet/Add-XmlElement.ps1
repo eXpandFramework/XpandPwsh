@@ -9,7 +9,7 @@ function Add-XmlElement {
         [parameter(Mandatory, ParameterSetName = "Parent", Position = 2)]
         [string]$Parent,
         [parameter(Position = 3)]
-        [System.Collections.Specialized.OrderedDictionary]$Attributes,
+        [System.Collections.IDictionary]$Attributes,
         [parameter(Position = 4)]
         [string]$InnerText,
         [parameter(Mandatory, ParameterSetName = "ParentNode", Position = 5)]
