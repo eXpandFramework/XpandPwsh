@@ -4,7 +4,7 @@ function Invoke-AzureRestMethod {
     param (
         [parameter(Mandatory)]
         [string]$Resource,
-        [parameter()][string]$Token=$env:AzDevopsToken,
+        [parameter()][string]$Token=$env:AzureToken,
         [parameter()][string]$Organization=$env:AzOrganization,
         [parameter()][string]$Project=$env:AzProject,
         [parameter()][string]$Version = "5.1",

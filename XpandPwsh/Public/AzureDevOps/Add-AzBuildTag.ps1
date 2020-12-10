@@ -9,7 +9,7 @@ function Add-AzBuildTag {
         [string]$Id=$env:Build_BuildId,
         [parameter()][string]$Organization = $env:AzOrganization,
         [parameter()][string]$Project = $env:AzProject,
-        [parameter()][string]$Token = $env:AzDevopsToken
+        [parameter()][string]$Token = $env:AzureToken
     )
     
     begin {

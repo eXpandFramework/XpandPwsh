@@ -7,7 +7,7 @@ function Get-AzProjects {
         [string]$StateFilter,
         [parameter()][string]$Project=$env:AzProject,
         [parameter()][string]$Organization=$env:AzOrganization,
-        [parameter()][string]$Token=$env:AzDevopsToken
+        [parameter()][string]$Token=$env:AzureToken
     )
     
     begin {

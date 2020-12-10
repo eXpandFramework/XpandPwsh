@@ -12,7 +12,7 @@ function Read-MSBuildSolutionFile {
     }
     
     process {
-        [Microsoft.Build.Construction.SolutionFile]::Parse($Path)
+        [Microsoft.Build.Construction.SolutionFile]::Parse([System.IO.Path]::GetFullPath($Path))
     }
     
     end {

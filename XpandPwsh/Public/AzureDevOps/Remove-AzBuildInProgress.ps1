@@ -6,7 +6,7 @@ function Remove-AzBuildInProgress {
         [int]$Id,
         [parameter()][string]$Project=$env:AzProject,
         [parameter()][string]$Organization=$env:AzOrganization,
-        [parameter()][string]$Token=$env:AzDevopsToken
+        [parameter()][string]$Token=$env:AzureToken
     )
     
     begin {

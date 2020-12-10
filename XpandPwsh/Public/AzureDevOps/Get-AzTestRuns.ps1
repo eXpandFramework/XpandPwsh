@@ -20,7 +20,7 @@ function Get-AzTestRuns {
         [parameter()][string]$branchName,
         [parameter()][string]$Project = $env:AzProject,
         [parameter()][string]$Organization = $env:AzOrganization,
-        [parameter()][string]$Token = $env:AzDevopsToken
+        [parameter()][string]$Token = $env:AzureToken
     )
     
     begin {
