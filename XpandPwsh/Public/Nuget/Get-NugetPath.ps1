@@ -11,7 +11,7 @@ function Get-NugetPath {
     process {
         $nuget = "$env:TEMP\nuget.exe"
         if (!(Test-Path $nuget)) {
-            $c = New-Object WebClient
+            $c = [System.Net.WebClient]::new()
             $c.DownloadFile("https://dist.nuget.org/win-x86-commandline/latest/nuget.exe", $nuget)
             $c.dispose()
         }
