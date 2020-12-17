@@ -8,7 +8,7 @@ function Get-AzArtifact {
                 (Get-AzDefinition | Where-Object { $_.name -like "$wordToComplete*" }).Name
             })]
         [string[]]$Definition,
-        [parameter(Mandatory,ParameterSetName="BuildId")]
+        [parameter(Mandatory,ParameterSetName="BuildId",ValueFromPipeline)]
         [int]$BuildId,
         [parameter()]
         [string]$ArtifactName,
