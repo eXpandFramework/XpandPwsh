@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.202.47.9'
+ModuleVersion = '1.202.48.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -303,6 +303,7 @@ FunctionsToExport = @(
 "Start-SqlLocalDB",
 "Start-XpandProjectConverter",
 "Submit-GitStage",
+"Switch-AssemblyDependencyVersion",
 "Switch-DevExpress",
 "Switch-ToPackageReference",
 "Test-AssemblyNameFullyQualified",
