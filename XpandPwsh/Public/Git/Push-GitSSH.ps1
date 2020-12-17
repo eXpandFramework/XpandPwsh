@@ -7,6 +7,8 @@ function Push-GitSSH {
         [parameter(ParameterSetName = "AddAll")]
         [string]$Message,
         [switch]$Force,
+        [string]$Branch,
+        [string]$Remote,
         [string]$PagentPath = $env:PagentPath,
         [string]$PPKPath = $env:PPKPath,
         [string]$PLinkPath = $env:PLinkPath
@@ -39,6 +41,12 @@ function Push-GitSSH {
         $a=@()
         if ($Force){
             $a+="-f"
+        }
+        if ($Remote){
+            $a+=$Remote
+        }
+        if ($Branch){
+            $a+=$Branch
         }
         git push @a
     }
