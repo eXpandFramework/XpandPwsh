@@ -7,7 +7,7 @@ function Start-Build {
         [string]$Path=".",
         [ArgumentCompleter( {
             param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameter)
-            ((Read-MSBuildSolutionFile $fakeBoundParameter.Path).SolutionConfigurations|sort-object ConfigurationName -Unique).ConfigurationName|Select-string $wordToComplete
+            ((Read-MSBuildSolutionFile $fakeBoundParameter.Path).SolutionConfigurations|sort-object ConfigurationName -Unique).ConfigurationName
         })]
         [string]$Configuration="Debug",
         [ValidateSet("quiet","minimal","normal","detailed","diagnostic")]
