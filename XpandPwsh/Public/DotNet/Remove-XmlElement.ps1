@@ -3,24 +3,18 @@ function Remove-XmlElement {
     [CmdLetTag("#dotnet")]
     param (
         [parameter(Mandatory,ValueFromPipeline,Position=0)]
-        [System.Xml.XmlElement]$Parent,
-        [parameter(Mandatory,Position=1)]
-        [string[]]$ElementName
+        [System.Xml.XmlElement]$Element
     )
     
     begin {
         $PSCmdlet|Write-PSCmdLetBegin
-        $childNodes=@()
     }
     
     process {
-        $childNodes+=$Parent.ChildNodes|Where-Object{$_.name -in $ElementName}
-        
+        $Element.ParentNode.RemoveChild($Element)
     }
     
     end {
-        $childNodes|ForEach-Object{
-            $_.ParentNode.RemoveChild($_)
-        }
+        
     }
 }
