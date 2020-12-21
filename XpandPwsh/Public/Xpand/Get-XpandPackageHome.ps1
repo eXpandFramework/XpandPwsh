@@ -28,6 +28,9 @@ function Get-XpandPackageHome {
         elseif ($Id -like "*ModelEditor*"){
             $homePage="https://github.com/eXpandFramework/DevExpress.XAF/tree/master/tools/Xpand.XAF.ModelEditor"
         }
+        elseif ($Id -like "*Tests*"){
+            $homePage="https://github.com/eXpandFramework/DevExpress.XAF/tree/master/src/tests"
+        }
         else {
             throw $Id
         }
