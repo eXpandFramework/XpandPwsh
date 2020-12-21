@@ -4,10 +4,15 @@ function Start-Build {
     [alias("sxb")]
     param (
         [parameter(ValueFromPipeline)]
-        [string]$Path=".",
+        [string]$Path=(@(Get-ChildItem "*.sln" )+@(Get-ChildItem "*.*proj" )|select-object -first 1).FullName,
         [ArgumentCompleter( {
             param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameter)
-            ((Read-MSBuildSolutionFile $fakeBoundParameter.Path).SolutionConfigurations|sort-object ConfigurationName -Unique).ConfigurationName
+            $p=$fakeBoundParameter.Path
+            if (!$p){
+                $p=(@(Get-ChildItem "*.sln" )+@(Get-ChildItem "*.*proj" )|select-object -first 1).FullName
+            }
+            
+            ((Read-MSBuildSolutionFile $p).SolutionConfigurations|sort-object ConfigurationName -Unique).ConfigurationName|where-object {$_ -like "*$wordToComplete*"}
         })]
         [string]$Configuration="Debug",
         [ValidateSet("quiet","minimal","normal","detailed","diagnostic")]
