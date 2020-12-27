@@ -30,6 +30,9 @@ function Add-PackageReference {
     process {
         if ($PSCmdlet.ParameterSetName -eq "Project") {
             "package","version"|Get-Variable|Out-Variable
+            if (!$Project.Project.ItemGroup){
+                Add-XmlElement $Project ItemGroup Project  |Out-Null
+            }
             $existingPackage=$Project.Project.ItemGroup.PackageReference|Where-Object{$_.Include -eq $package}
             if ($existingPackage){
                 $existingPackage.version=$Version
