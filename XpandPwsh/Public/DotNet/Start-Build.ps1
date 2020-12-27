@@ -53,7 +53,10 @@ function Start-Build {
                     $p+="/p:Configuration=$Configuration"
                 }
                 if ($PublishProfile){
-                    $p+="/p:DeployOnBuild=true","/p:PublishProfile=$($PublishProfile.Name)",$PropertyValue|ForEach-Object{"/p:$_"}
+                    $p+="/p:DeployOnBuild=true","/p:PublishProfile=$($PublishProfile.Name)"
+                }
+                if ($PropertyValue){
+                    $p+=$PropertyValue|ForEach-Object{"/p:$_"}
                 }
                 & (Get-MsBuildPath) @p
             }
