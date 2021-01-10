@@ -19,7 +19,7 @@ function Get-AzBuilds {
         [parameter()][string[]]$Tag,
         [parameter(ParameterSetName = "Id")]
         [int]$Id,
-        [parameter()][string]$BranchName,
+        [parameter()][string]$BranchName=$env:Build_SourceBranchName,
         [parameter()][string]$Project = $env:AzProject,
         [parameter()][string]$Organization = $env:AzOrganization,
         [parameter()][string]$Token = $env:AzureToken
