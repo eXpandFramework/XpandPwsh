@@ -14,22 +14,22 @@ function Get-XpandPackageHome {
     process {
         $homePage=$null
         if ($Id -like "Xpand.Extensions*"){
-            $homePage="https://github.com/eXpandFramework/DevExpress.XAF/tree/master/src/Extensions/$Id"
+            $homePage="https://github.com/eXpandFramework/Reactive.XAF/tree/master/src/Extensions/$Id"
         }
         elseif ($Id -like "Xpand.XAF.Modules*"){
-            $homePage="https://github.com/eXpandFramework/DevExpress.XAF/tree/master/src/Modules/$($id.Replace('Xpand.XAF.Modules.',''))"
+            $homePage="https://github.com/eXpandFramework/Reactive.XAF/tree/master/src/Modules/$($id.Replace('Xpand.XAF.Modules.',''))"
         }
         elseif ($Id -like "*.All"){
-            $homePage="https://github.com/eXpandFramework/DevExpress.XAF/tree/master/src/Modules"
+            $homePage="https://github.com/eXpandFramework/Reactive.XAF/tree/master/src/Modules"
         }
         elseif ($Id -like "*VersionConverter*"){
-            $homePage="https://github.com/eXpandFramework/DevExpress.XAF/tree/master/tools/Xpand.VersionConverter"
+            $homePage="https://github.com/eXpandFramework/Reactive.XAF/tree/master/tools/Xpand.VersionConverter"
         }
         elseif ($Id -like "*ModelEditor*"){
-            $homePage="https://github.com/eXpandFramework/DevExpress.XAF/tree/master/tools/Xpand.XAF.ModelEditor"
+            $homePage="https://github.com/eXpandFramework/Reactive.XAF/tree/master/tools/Xpand.XAF.ModelEditor"
         }
         elseif ($Id -like "*Tests*"){
-            $homePage="https://github.com/eXpandFramework/DevExpress.XAF/tree/master/src/tests"
+            $homePage="https://github.com/eXpandFramework/Reactive.XAF/tree/master/src/tests"
         }
         else {
             throw $Id

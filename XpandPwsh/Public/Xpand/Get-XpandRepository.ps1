@@ -3,7 +3,7 @@ function Get-XpandRepository {
     [CmdLetTag()]
     param (
         [parameter(ValueFromPipeline, Mandatory)]
-        [ValidateSet("eXpand","eXpand.lab","DevExpress.XAF","XpandPwsh")]
+        [ValidateSet("eXpand","eXpand.lab","Reactive.XAF","XpandPwsh")]
         [string]$Name,
         [parameter()]
         [string]$GitHubUserName,

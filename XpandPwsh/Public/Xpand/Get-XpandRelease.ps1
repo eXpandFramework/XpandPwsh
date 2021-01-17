@@ -2,7 +2,7 @@ function Get-XpandRelease {
     [CmdletBinding()]
     [CmdLetTag()]
     param (
-        [ValidateSet("All","All.Lab","eXpand","eXpand.lab","DevExpress.XAF")]
+        [ValidateSet("All","All.Lab","eXpand","eXpand.lab","Reactive.XAF")]
         [string]$Type,
         [parameter(ValueFromPipeline)]
         [string]$NameMatch=".*"        
