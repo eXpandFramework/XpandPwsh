@@ -6,7 +6,7 @@ function Add-AzBuild {
         [parameter(Mandatory, ValueFromPipeline)]
         [ArgumentCompleter( {
                 param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameter)
-                (Get-AzDefinition | Where-Object { $_.name -like "$wordToComplete*" }).Name
+                (Get-AzDefinition | Where-Object { $_.name -like "*$wordToComplete*" }).Name
             })]
         [string[]]$Definition,
         [parameter()][string[]]$Tag,
