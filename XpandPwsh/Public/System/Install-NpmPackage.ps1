@@ -9,7 +9,7 @@ function Install-NpmPackage {
     begin {
         $PSCmdlet|Write-PSCmdLetBegin
         try {
-            $nodeExist=!(node -v)
+            $nodeExist=node -v
         }
         catch {
             
@@ -22,7 +22,7 @@ function Install-NpmPackage {
     
     process {
         if (!(npm list -g|select-string $Package)){
-            Invoke-Script{((npm install -g $Package) -join "`r`n")|Write-Verbose}
+            Invoke-Script{((npm install -g $Package) -join "`r`n")}
         }
     }
     
