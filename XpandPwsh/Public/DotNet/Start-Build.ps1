@@ -22,7 +22,8 @@ function Start-Build {
         [switch]$NoRestore,
         [int]$MaxCpuCount=([System.Environment]::ProcessorCount),
         [System.IO.FileInfo]$PublishProfile,
-        [string[]]$PropertyValue
+        [string[]]$PropertyValue,
+        [string[]]$PackageSource
     )
     
     begin {
@@ -58,7 +59,15 @@ function Start-Build {
                 if ($PropertyValue){
                     $p+=$PropertyValue|ForEach-Object{"/p:$_"}
                 }
-                & (Get-MsBuildPath) @p
+                if ($PackageSource){
+                    Use-NugetConfig -Sources $PackageSource -ScriptBlock {
+                        & (Get-MsBuildPath) @p
+                    }
+                }
+                else{
+                    & (Get-MsBuildPath) @p
+                }
+                
             }
         }
     }
