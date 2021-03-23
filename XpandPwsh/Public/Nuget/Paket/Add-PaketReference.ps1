@@ -5,7 +5,8 @@ function Add-PaketReference {
         [parameter(Mandatory,ValueFromPipeline)]
         [System.IO.DirectoryInfo]$Directory,
         [parameter(Mandatory)]
-        [string]$Package
+        [string]$Package,
+        [switch]$Recurse
     )
     
     begin {
@@ -13,7 +14,7 @@ function Add-PaketReference {
     }
     
     process {
-        Get-ChildItem $Directory.FullName paket.references|Add-ContentLine -Line $Package 
+        Get-ChildItem $Directory.FullName paket.references -Recurse:$Recurse|Add-ContentLine -Line $Package 
     }
     
     end {
