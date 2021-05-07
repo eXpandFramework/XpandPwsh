@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.202.48.14'
+ModuleVersion = '1.202.48.15'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
