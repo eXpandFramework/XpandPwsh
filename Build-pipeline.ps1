@@ -14,7 +14,7 @@ if ($manifest.ModuleVersion -ne $onlineVersion) {
         New-Item $binFolder -ItemType Directory
     }
     
-    $publish=dotnet build "$PSScriptRoot\XpandPwsh\Cmdlets\src\XpandPwsh.CmdLets.sln"
+    $publish=dotnet build "$PSScriptRoot\XpandPwsh\Cmdlets\src\XpandPwsh.CmdLets.sln" --source https://api.nuget.org/v3/index.json
     if ($LASTEXITCODE){
         throw   "Fail to publish $assemblyName`r`n`r`n$publish"
     }
