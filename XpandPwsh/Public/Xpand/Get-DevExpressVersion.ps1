@@ -28,7 +28,7 @@ function Get-DevExpressVersion {
             }
         }
         else{
-            Get-XAFLatestMinors|Select-Object -First 1
+            Get-XAFLatestMinors -Source $env:DxFeed |Select-Object -First 1
         }
         
     }
