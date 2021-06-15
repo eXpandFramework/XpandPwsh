@@ -293,6 +293,7 @@ FunctionsToExport = @(
 "Set-NugetCentralizeManagement",
 "Set-ProjectRestoreLockedMode",
 "Set-VsoVariable",
+"Invoke-Git",
 "Split-GifToImages",
 "Split-Video",
 "Start-Build",
