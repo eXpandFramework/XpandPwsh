@@ -12,27 +12,20 @@ function Invoke-Git {
     
     process {
         try {
-
-            $exit = 0
-            $path = [System.IO.Path]::GetTempFileName()
+            $old_env = $env:GIT_REDIRECT_STDERR
+            $env:GIT_REDIRECT_STDERR = '2>&1'
     
-            Invoke-Expression "git $Command 2> $path"
-            $exit = $LASTEXITCODE
-            if ( $exit -gt 0 ) {
-                Write-Error (Get-Content $path).ToString()
+            Write-Host -ForegroundColor Green "`nExecuting: git $Command "
+            $output = Invoke-Expression "git $Command "
+            if ( $LASTEXITCODE -gt 0 ) {
+                Throw "Error Encountered executing: 'git $Command '"
             }
             else {
-                Get-Content $path | Select-Object -First 1
+                $output | Write-Host 
             }
-            $exit
-        }
-        catch {
-            Write-Host "Error: $_`n$($_.ScriptStackTrace)"
         }
         finally {
-            if ( Test-Path $path ) {
-                Remove-Item $path
-            }
+            $env:GIT_REDIRECT_STDERR = $old_env
         }
     }
     
