@@ -23,6 +23,7 @@ function Get-AssemblyVersion {
                 }
             }
             catch {
+                $LASTEXITCODE=0
                 [System.Diagnostics.FileVersionInfo]::GetVersionInfo($Assembly.FullName).FileVersion
             }
         }
