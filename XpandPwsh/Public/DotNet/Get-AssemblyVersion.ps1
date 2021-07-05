@@ -17,8 +17,13 @@ function Get-AssemblyVersion {
     
     process {
         if ($PSCmdlet.ParameterSetName -eq "File"){
-            Use-Object($asm=Read-AssemblyDefinition $Assembly.FullName){
-                Get-AssemblyVersion -AssemblyDefinition $asm
+            try {
+                Use-Object($asm=Read-AssemblyDefinition $Assembly.FullName){
+                    Get-AssemblyVersion -AssemblyDefinition $asm
+                }
+            }
+            catch {
+                [System.Diagnostics.FileVersionInfo]::GetVersionInfo($Assembly.FullName).FileVersion
             }
         }
         else{
