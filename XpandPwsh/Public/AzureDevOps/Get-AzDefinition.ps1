@@ -11,6 +11,7 @@ function Get-AzDefinition {
     )
     
     begin {
+        $PSCmdlet|Write-PSCmdLetBegin
         $cred=@{
             Project=$Project
             Organization=$Organization

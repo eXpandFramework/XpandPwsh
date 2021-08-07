@@ -12,7 +12,7 @@ function Get-AssemblyMetadata{
     }
     
     process {
-        [Mono.Cecil.AssemblyDefinition]$assembly=[Mono.Cecil.AssemblyDefinition]::ReadAssembly($AssemblyPath)
+        [Mono.Cecil.AssemblyDefinition]$assembly=[Mono.Cecil.AssemblyDefinition]::ReadAssembly($AssemblyPath.FullName)
         
         $metadata=$assembly.CustomAttributes | 
             Where-Object { $_.AttributeType -like "System.Reflection.AssemblyMetadataAttribute" } | ForEach-Object { 

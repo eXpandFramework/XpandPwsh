@@ -34,6 +34,7 @@ function Get-AzBuilds {
         if ($BranchName -and $BranchName -notlike "refs/heads/*"){
             $BranchName="refs/heads/$BranchName"
         }
+        $PSCmdlet|Write-PSCmdLetBegin
     }
     
     process {
