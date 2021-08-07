@@ -17,7 +17,7 @@ function Use-MonoCecil {
         }
         $mono = Get-Assembly "Mono.Cecil"
         if (!$mono) {
-            $mono = Use-NugetAssembly Mono.Cecil NETFramework $OutputFolder | Select-Object -First $assemblies
+            $mono = Use-NugetAssembly Mono.Cecil NETStandard $OutputFolder | Select-Object -First $assemblies
         }
         $mono
         
