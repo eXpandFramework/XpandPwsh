@@ -22,6 +22,9 @@ function Get-ProjectTargetFramework {
                 $TargetFramework = $TargetFramework.Replace("v", "").Replace(".","")
             }
         }
+        if (!$TargetFramework){
+            $targetFramework = ($project.Project.PropertyGroup.TargetFrameworks | Where-Object { $_ } | Select-Object -First 1).Split(';')
+        }
         if (!$targetFramework){
             throw "TargetFramework not found"
         }
