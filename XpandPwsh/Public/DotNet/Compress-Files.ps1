@@ -2,7 +2,7 @@ function Compress-Files {
     [CmdletBinding()]
     [CmdLetTag("#dotnet")]
     param (
-        [string]$path =".",
+        [string]$path =(Get-Location),
         [parameter(Mandatory)]
         [string]$zipfileName,
         [System.IO.Compression.CompressionLevel]$compressionLevel = [System.IO.Compression.CompressionLevel]::Optimal,
