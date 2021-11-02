@@ -10,6 +10,12 @@ namespace XpandPwsh.Cmdlets.Nuget{
     [CmdletBinding]
     [CmdLetTag(CmdLetTag.Nuget,CmdLetTag.Reactive,CmdLetTag.RX)][PublicAPI]
     public class GetXAFLatestMinors : NugetCmdlet{
+        private readonly string _lastVersionVar;
+
+        public GetXAFLatestMinors() {
+            _lastVersionVar = Environment.GetEnvironmentVariable("LastXAFVersion");
+        }
+
         [Parameter]
         public string Source{ get; set; } = Environment.GetEnvironmentVariable("DXFeed");
 
@@ -22,7 +28,6 @@ namespace XpandPwsh.Cmdlets.Nuget{
         public SwitchParameter IncludePrerelease{ get; set; }
 
         protected override Task BeginProcessingAsync(){
-            
             if (Source == null){
                 throw new ValidationException("Parameter Source cannot be empty");
             }
@@ -30,7 +35,10 @@ namespace XpandPwsh.Cmdlets.Nuget{
         }
 
         protected override  Task ProcessRecordAsync(){
-            return Providers.GetLatestMinors(Source, "DevExpress.ExpressApp", Top,IncludePrerelease,IncludeDelisted).ToObservable().ToTask().WriteObject(this);
+            return _lastVersionVar == null
+                ? Providers.GetLatestMinors(Source, "DevExpress.ExpressApp", Top, IncludePrerelease, IncludeDelisted)
+                    .ToObservable().ToTask().WriteObject(this)
+                : Task.FromResult(_lastVersionVar).WriteObject(this);
         }
 
 
