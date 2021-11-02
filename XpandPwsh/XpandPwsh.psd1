@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.211.0.10'
+ModuleVersion = '1.212.0.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -190,6 +190,7 @@ FunctionsToExport = @(
 "Get-VideoInfo",
 "Get-VSPath",
 "Get-XAFLatestMinors",
+"Get-SemanticVersion",
 "Get-XAFModule",
 "Get-XafPackageNames",
 "Get-XmlContent",
@@ -333,6 +334,7 @@ FunctionsToExport = @(
 "Update-HintPath",
 "Update-NugetPackage",
 "Update-NugetProjectVersion",
+"Resolve-PortUsage",
 "Update-OutputPath",
 "Update-ProjectAutoGenerateBindingRedirects",
 "Update-ProjectCopyRight",
