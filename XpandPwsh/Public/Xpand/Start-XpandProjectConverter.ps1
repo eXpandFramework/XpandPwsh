@@ -17,10 +17,10 @@ function Start-XpandProjectConverter {
     
     process {
         Invoke-Script{
-            [version]$version = Get-DevExpressVersion $version -Build
+            # $version = Get-VersionPart $version Build
             "version"|Get-Variable|Out-Variable
             $paketInstalls = Get-ChildItem $Path ".paket"  -Recurse
-            $shortVersion = Get-DevExpressVersion $version 
+            $shortVersion = Get-VersionPart $version Minor 
             if ($paketInstalls) { 
                 Get-ChildItem $Path "packages.config"  -Recurse | ForEach-Object {
                     "Update DX version in $($_.FullName)"
@@ -108,16 +108,17 @@ function Start-XpandProjectConverter {
                 }
                 
             }
-            $shortDxVersion = Get-DevExpressVersion $Version
+            $shortDxVersion = Get-VersionPart $version Minor
             $newVersion = $version.ToString()
             if (($newVersion.ToCharArray() | Where-Object { $_ -eq "." }).Count -eq 2) {
                 $newVersion += ".0"
             }
             Write-Verbose "Replace DevExpress existing version with $newVersion to *.aspx, *.config"
             Get-ChildItem $Path -Include "*.aspx", "*.config","config.xml" -Recurse -File | ForEach-Object {
-                $xml = Get-Content $_.FullName -Raw
+                # Write-Verbose $_.FullName -Verbose
+                $xmlcontent = Get-Content $_.FullName -Raw
                 $regex = [regex] '(?<name>DevExpress.*)v\d{2}\.\d{1,2}(.*)Version=([.\d]*)'
-                $result = $regex.Replace($xml, "`${name}v$shortDxVersion`$1Version=$newVersion")
+                $result = $regex.Replace($xmlcontent, "`${name}v$shortDxVersion`$1Version=$newVersion")
                 Set-Content $_.FullName $result.Trim()
             }        
             Write-Verbose "Replace DevExpress existing packageReference version with $version"
