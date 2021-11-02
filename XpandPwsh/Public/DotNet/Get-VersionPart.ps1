@@ -3,7 +3,7 @@ function Get-VersionPart {
     [CmdLetTag(("#dotnet","#dotnetcore"))]
     param (
         [parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
-        [version]$Version,
+        $Version,
         [ValidateSet("Build","Minor")]
         [string]$Part="Build"
     )
@@ -13,12 +13,25 @@ function Get-VersionPart {
     }
     
     process {
+        $semVersion=Get-SemanticVersion $version
+        if ($semVersion){
+            $Version=$semVersion
+        }
+        else{
+            $Version=[version]::new($Version)
+        }
         $v=$Version.Major.ToString()        
         $v+="."
         $v+=$Version.Minor
         if ($Part -eq "Build"){
             $v+="."
-            $v+=$Version.Build
+            if (!$Version.Build){
+                $v+=$Version.Patch
+            }
+            else{
+                $v+=$Version.Build
+            }
+            
         }
         $v
     }
