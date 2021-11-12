@@ -17,7 +17,7 @@ function Start-XpandProjectConverter {
     
     process {
         Invoke-Script{
-            # $version = Get-VersionPart $version Build
+            $version = Get-VersionPart $version Build
             "version"|Get-Variable|Out-Variable
             $paketInstalls = Get-ChildItem $Path ".paket"  -Recurse
             $shortVersion = Get-VersionPart $version Minor 
@@ -72,7 +72,7 @@ function Start-XpandProjectConverter {
                     $change = Get-PackageReference $_.FullName | Where-Object { $_.include -like "DevExpress*" } | ForEach-Object {
                         $regex = [regex] '(?i)(?<version>\d*\.\d*\.\d*(\.\d*)?)(?<ctp>.*)'
                         $m=$regex.Match($_.Version)
-                        $ctp=$m.Groups["ctp"].Value
+                        # $ctp=$m.Groups["ctp"].Value
                         $result = $m.Value;
                         if ($result -ne $version) {
                             Write-Host "Change PackageReference $($_.Include) $($_.Version) to $($version)$ctp" -f Green
