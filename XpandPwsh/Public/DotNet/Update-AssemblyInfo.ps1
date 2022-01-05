@@ -7,13 +7,14 @@ function Update-AssemblyInfo {
         $path,
         [switch]$Build,
         [switch]$Minor,
-        [switch]$Revision
+        [switch]$Revision,
+        [string]$AssemblyInfoName="AssemblyInfo"
 
     )
     if (!$path) {
         $path = get-location
     }
-    Get-ChildItem -path $path -filter "*AssemblyInfo.cs" -Recurse|ForEach-Object {
+    Get-ChildItem -path $path -filter "*$AssemblyInfoName.cs" -Recurse|ForEach-Object {
         $c = Get-Content $_.FullName
         $value = [System.text.RegularExpressions.Regex]::Match($c, "[\d]*\.[\d]*\.[\d]*(\.[\d]*)?").Value
         $version = New-Object System.Version ($value)
