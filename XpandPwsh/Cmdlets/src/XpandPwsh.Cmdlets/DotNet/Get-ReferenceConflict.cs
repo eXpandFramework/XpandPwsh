@@ -6,7 +6,7 @@ using System.Management.Automation;
 using System.Reflection;
 using JetBrains.Annotations;
 
-namespace XpandPwsh.Cmdlets{
+namespace XpandPwsh.Cmdlets.DotNet{
     [Cmdlet(VerbsCommon.Get, "ReferenceConflict")]
     [CmdletBinding]
     [CmdLetTag(CmdLetTag.DotNet)][PublicAPI]
