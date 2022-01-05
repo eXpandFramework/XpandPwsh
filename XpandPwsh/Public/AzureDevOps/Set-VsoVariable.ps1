@@ -20,6 +20,8 @@ function Set-VsoVariable {
         $messgae="##vso[task.setvariable variable=$Name]$Value"
         if ($Name -eq "build.updatebuildnumber"){
             $messgae="##vso[$Name]$Value"
+            Write-Host "##vso[build.updatebuildnumber]$Value"
+            return
         }
         Write-Verbose -Verbose $messgae
     }
