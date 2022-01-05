@@ -4,11 +4,12 @@ function Install-NugetPackage {
     param (
         [parameter(Mandatory,ValueFromPipelineByPropertyName)]
         [string]$Id,
-        [parameter(Mandatory,ValueFromPipelineByPropertyName)]
+        # [parameter(Mandatory,ValueFromPipelineByPropertyName)]
         [string]$Version,
         [parameter()][string]$OutputDirectory=(Get-NugetInstallationFolder),
         [parameter()]
-        [string[]]$Source=(Get-PackageSource).Name
+        [string[]]$Source=(Get-PackageSource).Name,
+        [switch]$Prerelease
 
     )
     
@@ -20,7 +21,14 @@ function Install-NugetPackage {
     process {
         Push-Location $env:TEMP
         Use-NugetConfig -Sources $Source -ScriptBlock {
-            & (Get-NugetPath) install $Id -OutputDirectory $OutputDirectory -Version $Version
+            $p=@($Id, "-OutputDirectory",$OutputDirectory )
+            if ($Version){
+                $p+=@("-Version", $Version)
+            }
+            if ($Prerelease){
+                $p+="-Prerelease"
+            }
+            & (Get-NugetPath) install @p
         }
         Pop-Location
     }

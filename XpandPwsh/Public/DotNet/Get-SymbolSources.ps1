@@ -15,7 +15,7 @@ function Get-SymbolSources {
     }
     
     process {
-        & "$dbgToolsPath\srctool.exe" $pdb
+        & "$dbgToolsPath\srctool.exe" -r $pdb
     }
     
     end {            
