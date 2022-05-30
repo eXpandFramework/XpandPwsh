@@ -3,7 +3,7 @@ function Use-MSBuildFramework {
     [CmdLetTag(("#dotnet","#dotnetcore","#msbuild"))]
     param (
         [string]$OutputFolder = "$env:TEMP\microsoft.build",
-        [version]$version=16.4.0
+        [version]$version="17.0.0"
     )
     
     begin {
