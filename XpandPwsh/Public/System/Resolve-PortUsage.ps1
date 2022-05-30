@@ -10,7 +10,9 @@ function Resolve-PortUsage {
         })]
         [parameter(ValueFromPipeline,ParameterSetName="process",Mandatory)]
         [string]$Processname,
-        [switch]$Kill
+        [switch]$Kill,
+        [parameter(ParameterSetName="SystemReserved",Mandatory)]
+        [switch]$SystemReserved
     )
     
     begin {
@@ -18,6 +20,9 @@ function Resolve-PortUsage {
     }
     
     process {
+        if ($systemReserved){
+            netsh int ipv4 show excludedportrange protocol=tcp
+        }
         if ($Processname){
             $id=(Get-Process -Name DXApplication2.Win).Id
             netstat /a /n /o | find " $id"
