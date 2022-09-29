@@ -6,7 +6,8 @@ function Set-AssemblySignature {
         [System.IO.FileInfo]$Assembly,
         [parameter(Mandatory)]
         [System.IO.FileInfo]$SnkFile,
-        [string[]]$AssemblyReference
+        [string]$AssemblyReference,
+        [string]$ResolverPath
     )
     
     begin {
@@ -15,26 +16,24 @@ function Set-AssemblySignature {
     }
     
     process {
+        $token=$null
         if ($AssemblyReference){
-            $token=Get-AssemblyPublicKeyToken $Assembly
+            $asm=Read-AssemblyDefinition $Assembly.FullName
+            $token=$asm.Name.publicKeyToken
+            $asm.Dispose()
         }
         $readerParams = New-Object Mono.Cecil.ReaderParameters
+        $readerParams.AssemblyResolver=New-AssemblyResolver  -Path $ResolverPath
         $readerParams.ReadWrite = $true
         Use-Object([Mono.Cecil.AssemblyDefinition]$asm=[Mono.Cecil.AssemblyDefinition]::ReadAssembly($Assembly,$readerParams)){
             $writeParams = New-Object Mono.Cecil.WriterParameters
             $key = [System.IO.File]::ReadAllBytes($snkFile)
             $writeParams.StrongNameKeyPair = [System.Reflection.StrongNameKeyPair]($key)
             if ($token){
-                $moduleReferences.Name = $asm.MainModule.AssemblyReferences
+                $moduleReferences= $asm.MainModule.AssemblyReferences
                 $moduleReferences.ToArray()|Where-Object{$_.Name -in $AssemblyReference }|ForEach-Object{
                     $AsemblyNameReference=$_
-                    $moduleReferences.Remove($_) | Out-Null   
-                    $culture=$AsemblyNameReference.Culture
-                    if (!$culture){
-                        $culture="null"
-                    }
-                    $newRef.FullName=[AssemblyNameReference]::Parse("$($AsemblyNameReference.Name), Version=$($AsemblyNameReference.Version), Culture=$culture, PublicKeyToken=$token")
-                    $moduleReferences.Add($newRef)
+                    $AsemblyNameReference.PublicKeyToken=$token
                 }
             }
             $asm.Write($writeParams)
