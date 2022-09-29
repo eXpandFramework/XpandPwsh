@@ -1,5 +1,6 @@
 function Format-Text {
     [CmdletBinding()]
+    [alias("fxt")]
     [CmdLetTag()]
     param (
         [parameter(Mandatory,ValueFromPipeline,Position=0)]

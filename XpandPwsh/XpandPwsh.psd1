@@ -12,7 +12,7 @@
 RootModule = 'XpandPwsh.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.212.0.4'
+ModuleVersion = '1.221.0.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -355,6 +355,7 @@ FunctionsToExport = @(
 "Wait-Task",
 "Write-HostFormatted",
 "Write-PSCmdLetBegin",
+"Start-Speak",
 "Write-Verbose"
 )
 
@@ -365,7 +366,7 @@ FunctionsToExport = @(
 VariablesToExport = '*'
 
 # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-AliasesToExport = @("sxb","axab","PsText","sxnr","fxh","gxh","gxcm")
+AliasesToExport = @("sxb","axab","PsText","sxnr","fxh","gxh","gxcm","fxt")
 
 # DSC resources to export from this module
 # DscResourcesToExport = @()
