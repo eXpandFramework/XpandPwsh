@@ -16,7 +16,10 @@ function Get-AssemblyPublicKeyToken {
     process {
         if ($PSCmdlet.ParameterSetName -eq "File"){
             Use-Object($asm=Read-AssemblyDefinition $Assembly.FullName){
-                Get-AssemblyPublicKeyToken -bytes $asm.Name.publicKeyToken
+                if ($asm.Name.publicKeyToken){
+                    Get-AssemblyPublicKeyToken -bytes $asm.Name.publicKeyToken
+                }
+                
             }
         }
         else{

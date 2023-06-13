@@ -79,6 +79,7 @@ FunctionsToExport = @(
 "Add-GitDiff",
 "Add-ImageAnnotation",
 "Add-NuspecDependency",
+"Pop-GitHubReleaseAsset",
 "Add-PackageReference",
 "Add-PackageReferenceNoWarning",
 "Add-PaketReference",

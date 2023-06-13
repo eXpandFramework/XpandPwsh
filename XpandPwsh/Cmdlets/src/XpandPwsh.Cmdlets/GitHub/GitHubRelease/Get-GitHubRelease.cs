@@ -16,13 +16,12 @@ namespace XpandPwsh.Cmdlets.GitHub.GitHubRelease{
         public string Repository{ get; set; }
         [Parameter]
         public SwitchParameter Latest{ get; set; }
-        protected override  Task ProcessRecordAsync(){
-            return GitHubClient.Repository.GetForOrg(Organization, Repository)
+        protected override  Task ProcessRecordAsync() 
+            => GitHubClient.Repository.GetForOrg(Organization, Repository)
                 .SelectMany(repository => Latest ? GitHubClient.Repository.Release.GetLatest(repository.Id).ToObservable()
-                        : GitHubClient.Repository.Release.GetAll(repository.Id).ToObservable().SelectMany(list => list))
+                    : GitHubClient.Repository.Release.GetAll(repository.Id).ToObservable().SelectMany(list => list))
                 .HandleErrors(this,Repository)
                 .WriteObject(this)
-                .ToTask();            
-        }
+                .ToTask();
     }
 }
