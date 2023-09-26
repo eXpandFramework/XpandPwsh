@@ -35,10 +35,12 @@ function Add-AzBuild {
         $builds = ($Definition | Get-AzDefinition).id | ForEach-Object {
             $body = @{
                 definition   = @{id = $_ }
-                parameters   = $Parameters | ConvertTo-Json
                 keepForEver  = $KeepForEver.IsPresent
                 sourceBranch = $Branch
             } | Remove-DefaultValueKeys 
+            if ($Parameters){
+                $body.Add("parameters", ($Parameters | ConvertTo-Json))
+            }
             (Invoke-AzureRestMethod "build/builds" -Method Post -Body ($body | ConvertTo-Json) @cred)|ForEach-Object{
                 $id=$_.id
                 if ($Tag){
