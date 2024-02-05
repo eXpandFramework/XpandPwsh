@@ -17,7 +17,7 @@ function Write-PSCmdLetBegin {
         if ($Cmdlet.MyInvocation.MyCommand.Parameters){
             $commandParameters=$Cmdlet.MyInvocation.MyCommand.Parameters.Keys|Where-Object{$_ -notin $defaultParameters}
             
-            $unboundParameters=@($commandParameters|Where-Object{$_ -notin $CmdLet.MyInvocation.BoundParameters.Keys}|Get-Variable|ForEach-Object{
+            $unboundParameters=@($commandParameters|Where-Object{$_ -notin $CmdLet.MyInvocation.BoundParameters.Keys}|Get-Variable -ErrorAction SilentlyContinue|ForEach-Object{
                 [PSCustomObject]@{
                     Name = $_.Name
                     Value=$_.Value
