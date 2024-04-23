@@ -23,11 +23,11 @@ namespace XpandPwsh.Cmdlets.GitHub.GetGitHubIssue{
         [Parameter]
         public int IssueNumber{ get; set; }
         [Parameter]
-        public string[] Labels{ get; set; }=new string[0];
+        public string[] Labels{ get; set; }=[];
         [Parameter]
         public string Assignee{ get; set; }
-        protected override Task ProcessRecordAsync(){
-            return GitHubClient.Repository.GetForOrg(Organization, Repository)
+        protected override Task ProcessRecordAsync() 
+            => GitHubClient.Repository.GetForOrg(Organization, Repository)
                 .SelectMany(repository => {
                     var repositoryIssueRequest = new RepositoryIssueRequest(){
                         Since = Since, Filter = IssueFilter, State = State,Assignee = Assignee
@@ -39,9 +39,8 @@ namespace XpandPwsh.Cmdlets.GitHub.GetGitHubIssue{
                         ? GitHubClient.Issue.Get(repository.Id, IssueNumber).ToObservable()
                         : GitHubClient.Issue.GetAllForRepository(repository.Id,
                             repositoryIssueRequest).ToObservable().SelectMany(list => list);
-                })
-                .WriteObject(this)
-                .ToTask();
-        }
+            })
+            .WriteObject(this)
+            .ToTask();
     }
 }

@@ -34,7 +34,7 @@ function Get-XpandPackages {
                 $_.Id -notlike "eXpand*"
             }
         }
-        Invoke-Script -Maximum 3 -RetryInterval 3 -Script {
+        Invoke-Script -Maximum 3 -RetryInterval 10 -Script {
             try {
                 $c=New-Object System.Net.WebClient
                 $xpandSource=$c.DownloadString("https://xpandnugetstats.azurewebsites.net/api/totals/packages?packagesource=xpand")|ConvertFrom-Json|ForEach-Object{
