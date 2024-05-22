@@ -3,7 +3,8 @@ function ConvertTo-PackageObject {
     [CmdLetTag("#nuget")]
     param (
         [parameter(ValueFromPipeline)]
-        $item
+        $item,
+        [switch]$NewFormat
     )
     
     begin {
@@ -12,6 +13,19 @@ function ConvertTo-PackageObject {
     
     process {
         if ($item -eq "No packages found." -or !$item) {
+            return
+        }
+        if ($NewFormat){
+            $pattern = '> (\S+) \| (\d+\.\d+\.\d+) \|'
+            $matches = [regex]::Matches($item, $pattern)
+
+            foreach ($match in $matches) {
+                [PSCustomObject]@{
+                    Id = $match.Groups[1].Value
+                    Version     = $match.Groups[2].Value
+                }
+            
+            }
             return
         }
         $strings = "$item".Split(" ")
