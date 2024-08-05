@@ -16,9 +16,9 @@
     <PackageReference Include="linqtotwitter" Version="5.1.2" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="morelinq" Version="3.2.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="NuGet.Protocol" Version="5.4.0" />
-    <PackageReference Include="Octokit" Version="11.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NuGet.Protocol" Version="6.10.1" />
+    <PackageReference Include="Octokit" Version="13.0.1" />
     <PackageReference Include="PowerShellStandard.Library" Version="5.1.0" />
     <PackageReference Include="SmartFormat.NET" Version="2.5.0" />
     <PackageReference Include="System.Reactive" Version="4.4.1" />
