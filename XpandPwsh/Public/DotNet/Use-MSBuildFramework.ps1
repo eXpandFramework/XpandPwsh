@@ -11,7 +11,7 @@ function Use-MSBuildFramework {
     }
     
     process {
-        Use-NugetAssembly Microsoft.build ".NETFramework,Version=v6.0" -OutputFolder $OutputFolder -version $version
+        Use-NugetAssembly Microsoft.build ".NETFramework,Version=v4.7.2" -OutputFolder $OutputFolder -version $version
         Use-NugetAssembly Microsoft.build.framework NETStandard -OutputFolder $OutputFolder -version $version
         Use-NugetAssembly Microsoft.Build.Utilities.Core NETStandard -OutputFolder $OutputFolder -version $version
         
