@@ -95,6 +95,7 @@ FunctionsToExport = @(
 "Clear-ProjectDirectories",
 "Clear-TempFolders",
 "Close-GithubIssue",
+"Get-AppConfigConnectionString",
 "Compress-Files",
 "Compress-Project",
 "Connect-Az",

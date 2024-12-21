@@ -21,10 +21,10 @@ function Update-AssemblyInfoVersion {
             Set-Content $_.FullName $result
         }        
         Get-ChildItem -path $path -filter "*AssemblyInfoVersion.cs" -Recurse|ForEach-Object {
-            $c = Get-Content $_.FullName
+            $c = Get-Content $_.FullName -raw
             $regex = [regex] '(?s)Version = "([^"]*)'
             $result = $regex.Replace($c, "Version = `"$version")
-            Set-Content $_.FullName $result
+            Set-Content $_.FullName $result -Force
         }        
     }
     

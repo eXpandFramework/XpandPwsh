@@ -9,7 +9,7 @@ function Get-PaketFiles {
         $nugetFolder=Get-NugetInstallationFolder GlobalPackagesFolder
         "FSharp.Core.dll","Paket.Core.dll","Chessie.dll"|ForEach-Object{
             $paketFolder=(Get-ChildItem "$nugetFolder\paket" |Select-Object -Last 1).FullName
-            "$paketFolder\tools\netcoreapp2.1\any\$_"
+            "$paketFolder\tools\netcoreapp3.1\any\$_"
         }|Mount-Assembly|Out-Null
         
     }
