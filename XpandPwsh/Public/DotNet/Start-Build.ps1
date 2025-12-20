@@ -40,34 +40,50 @@ function Start-Build {
         }
         Invoke-Script{
             $project|ForEach-Object{
-                $p=@($_.FullName,"-verbosity:$Verbosity","-maxCpuCount:$MaxCpuCount")
-                if (!$NoRestore){
-                    $p+="-Restore"
+# MODIFICATION: START
+                # Transition to dotnet CLI syntax
+                $p = @("build", $_.FullName)
+                
+                # Standard dotnet flags
+                $p += "-v", $Verbosity
+                
+                if ($Configuration){
+                    $p += "-c", $Configuration
+                }
+
+                # dotnet restores by default; only explicitly disable it
+                if ($NoRestore){
+                    $p += "--no-restore"
+                }
+
+                # MSBuild pass-throughs
+                if ($MaxCpuCount){
+                    $p += "-m:$MaxCpuCount"
                 }
                 if ($WarnAsError){
-                    $p+="-warnAsError"
+                    $p += "-warnaserror"
                 }
                 if ($BinaryLogPath){
-                    $p+="/bl:$BinaryLogPath"
+                    $p += "/bl:$BinaryLogPath"
                 }
-                if ($Configuration){
-                    $p+="/p:Configuration=$Configuration"
-                }
+                
+                # Publish properties (Legacy WebDeploy support via build)
                 if ($PublishProfile){
-                    $p+="/p:DeployOnBuild=true","/p:PublishProfile=$($PublishProfile.Name)"
+                    $p += "/p:DeployOnBuild=true", "/p:PublishProfile=$($PublishProfile.Name)"
                 }
                 if ($PropertyValue){
-                    $p+=$PropertyValue|ForEach-Object{"/p:$_"}
+                    $p += $PropertyValue | ForEach-Object { "/p:$_" }
                 }
+
+                # Execution
                 if ($PackageSource){
                     Use-NugetConfig -Sources $PackageSource -ScriptBlock {
-                        & (Get-MsBuildPath) @p
+                        & dotnet @p
                     }
                 }
                 else{
-                    & (Get-MsBuildPath) @p
+                    & dotnet @p
                 }
-                
             }
         }
     }
