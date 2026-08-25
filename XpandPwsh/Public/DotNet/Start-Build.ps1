@@ -40,49 +40,71 @@ function Start-Build {
         }
         Invoke-Script{
             $project|ForEach-Object{
-# MODIFICATION: START
-                # Transition to dotnet CLI syntax
-                $p = @("build", $_.FullName)
+                $currentProject = $_.FullName
                 
-                # Standard dotnet flags
-                $p += "-v", $Verbosity
+                # Determine build engine
+                $cliSupported = Test-ProjectSdk -InputObject $currentProject
                 
-                if ($Configuration){
-                    $p += "-c", $Configuration
+                $cmd = $null
+                $p = @()
+
+                if ($cliSupported) {
+                    # --- DOTNET CLI ARGUMENTS ---
+                    $cmd = "dotnet"
+                    $p += "build", $currentProject
+                    
+                    # CLI specific flags
+                    $p += "-v", $Verbosity
+                    if ($Configuration) { $p += "-c", $Configuration }
+                    if ($NoRestore)     { $p += "--no-restore" }
+                    
+                    # Pass-through MSBuild switches (dotnet accepts /p: /m: etc)
+                    if ($MaxCpuCount)   { $p += "/m:$MaxCpuCount" }
+                    if ($WarnAsError)   { $p += "/warnaserror" }
+                }
+                else {
+                    # --- MSBUILD.EXE ARGUMENTS ---
+                    $cmd = (Get-MsBuildPath)
+                    $p += $currentProject
+                    $p += "/t:Build"
+                    
+                    # MSBuild specific flags
+                    $p += "/v:$Verbosity"
+                    if ($Configuration) { $p += "/p:Configuration=$Configuration" }
+                    
+                    # MSBuild does not restore by default in older versions. 
+                    # We add /restore unless NoRestore is requested.
+                    if (-not $NoRestore){ $p += "/restore" }
+                    
+                    if ($MaxCpuCount)   { $p += "/m:$MaxCpuCount" }
+                    if ($WarnAsError)   { $p += "/warnaserror" }
                 }
 
-                # dotnet restores by default; only explicitly disable it
-                if ($NoRestore){
-                    $p += "--no-restore"
-                }
-
-                # MSBuild pass-throughs
-                if ($MaxCpuCount){
-                    $p += "-m:$MaxCpuCount"
-                }
-                if ($WarnAsError){
-                    $p += "-warnaserror"
-                }
-                if ($BinaryLogPath){
-                    $p += "/bl:$BinaryLogPath"
+                # --- COMMON ARGUMENTS (Properties & Logs) ---
+                if ($BinaryLogPath) { 
+                    $p += "/bl:$BinaryLogPath" 
                 }
                 
-                # Publish properties (Legacy WebDeploy support via build)
+                # Publish properties
                 if ($PublishProfile){
                     $p += "/p:DeployOnBuild=true", "/p:PublishProfile=$($PublishProfile.Name)"
                 }
+                
+                # Custom Properties
                 if ($PropertyValue){
                     $p += $PropertyValue | ForEach-Object { "/p:$_" }
                 }
 
-                # Execution
+                # --- EXECUTION ---
+                Write-Verbose "Building with: $cmd"
+                
                 if ($PackageSource){
                     Use-NugetConfig -Sources $PackageSource -ScriptBlock {
-                        & dotnet @p
+                        & $cmd @p
                     }
                 }
                 else{
-                    & dotnet @p
+                    & $cmd @p
                 }
             }
         }

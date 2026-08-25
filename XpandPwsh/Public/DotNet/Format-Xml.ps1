@@ -9,7 +9,7 @@ function Format-Xml {
     #.Example
     # get-content Data.xml | Format-Xml
     #.Example
-    # Format-Xml C:\PS\Data.xml -indent 1 -char `t
+    # Format-Xml C:\Users\Tolis\psRootData.xml -indent 1 -char `t
     # Shows how to convert the indentation to tabs (which can save bytes dramatically, while preserving readability)
     #.Example
     # ls *.xml | Format-Xml
