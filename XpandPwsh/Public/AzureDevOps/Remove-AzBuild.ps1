@@ -25,7 +25,13 @@ function Remove-AzBuild {
         }
         else{
             if ($Id){
-                Invoke-AzureRestMethod "build/builds/$Id" @cred -Method Delete
+                $build = Invoke-AzureRestMethod "build/builds/$Id" @cred
+                if ($build.status -in @("inProgress","notStarted","postponed","cancelling")) {
+                    Invoke-AzureRestMethod "build/builds/$Id" -Method Patch -Body '{"status":"cancelling"}' @cred
+                }
+                else{
+                    Invoke-AzureRestMethod "build/builds/$Id" -Method Delete @cred
+                }
             }
         }
     }
